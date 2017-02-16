@@ -30,9 +30,39 @@ function showLinks() {
 /* Login form */
 
 function login(){
-
+    // todo
 }
 
-function cancel(){
+function showLoginForm() {
+    $('#login-form').show();
+}
+
+function closeLoginForm(){
     $('#login-form').hide();
 }
+
+/* Sign Up form */
+
+function signup(){
+    // todo
+}
+
+function showSignUpForm(){
+    $('#register-form').show();
+}
+
+function closeSignUpForm(){
+    $('#register-form').hide();
+}
+
+function checkPasswordMatch() {
+    var password = $("#pwd").val();
+    var confirmPassword = $("#repeated-pwd").val();
+
+    if (password != confirmPassword)
+        document.getElementById('repeated-pwd').title = 'Password does not match';
+}
+
+$(document).ready(function () {
+    $("#repeated-pwd").keyup(checkPasswordMatch);
+});
