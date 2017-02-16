@@ -1,8 +1,11 @@
+body {
+    padding-top: 60px;
+}
+
 .site_name {
     position: fixed;
     color: white;
-    width: 100%;
-    text-align: center;
+    margin-left: calc(50% - 65px); /* Avoid overlapping nav buttons when being full width */
     padding-top: 10px;
     font-size: 18px;
 }
