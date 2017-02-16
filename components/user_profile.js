@@ -1,28 +1,23 @@
-/* JS functions used to control navbar */
-$(function() {
-
-    // hide menu items on start
-    $('.menu_item_left').hide();
-    // hide right menu items on start too in small screen
-    showHideRightMenuItems();
-    $(window).on('resize', function () {
-        showHideRightMenuItems();
-        showHideSiteName();
-    });
-
-});
-
-function showHideRightMenuItems() {
-    $('.menu_item_right').toggle($(window).width() > 600 || ($(window).width() <= 600 && $('.menu_item_left').is(':visible')));
+// Accordion  will change later!!!!!!!!!!!!
+function openList(listId) {
+    var x = document.getElementById(listId);
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else {
+        x.className = x.className.replace(" w3-show", "");
+    }
 }
 
-function showHideSiteName() {
-    $('.site_name').toggle($(window).width() <= 600 || ($(window).width() > 600 && !$('.menu_item_left').is(':visible')));
+function displayAndHidPage(id){
+    document.getElementById(id).style.display='block';
+    document.getElementById(id).siblings.style.display='none';
 }
 
-function showLinks() {
-    $('.menu_item_left').toggle();
-    showHideRightMenuItems();
-    // Hide site name when showing menu items in large and medium screen size
-    showHideSiteName();
+// delete later
+function hide(id){
+  document.getElementById(id).style.display='none';
+}
+
+function show(id){
+  document.getElementById(id).style.display='block';
 }
