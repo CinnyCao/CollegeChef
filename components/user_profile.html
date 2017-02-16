@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+<link rel="stylesheet" href="user_profile.css">
+<script type="text/javascript" src="user_profile.js"></script>
+
+<body>
+
+<div id="recipe-card" class="w3-card-2 w3-hover-shadow w3-margin w3-tooltip">
+    <!-- need to size the image before display -->
+  <img class="full-width" src="http://img10.3lian.com/c1/newpic/10/24/21.jpg" alt="food image" onclick="viewRecipes()"> 
+  <div class="w3-display-topright w3-padding-large">
+    <input type="checkbox" id="heart" class="css-checkbox" />
+    <label for="heart" class="css-label" onclick="likeRecipe()"></label>
+  </div>
+  <div class="w3-container w3-center">
+    <h4>Delicious Noodles</h4> 
+    <p>This a very delicious noodles.</p> 
+  </div>
+</div>
+
+</body>
+</html> 
