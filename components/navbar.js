@@ -26,3 +26,13 @@ function showLinks() {
     // Hide site name when showing menu items in large and medium screen size
     showHideSiteName();
 }
+
+/* Login form */
+
+function login(){
+
+}
+
+function cancel(){
+    $('#login-form').hide();
+}
