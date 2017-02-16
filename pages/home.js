@@ -11,3 +11,7 @@ function filterIngredients() {
         $(ingredients[i]).toggle(ingredients[i].title.toLowerCase().startsWith(search_text));
     }
 }
+
+function showRecipeList(id) {
+    var list_container = $('#' + id).toggleClass('w3-show');
+}
