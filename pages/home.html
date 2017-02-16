@@ -9,8 +9,6 @@
         <!--CSS Framework-->
         <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-        <link rel="stylesheet" type="text/css" href="/pages/project_common.css" media="screen" />
     </head>
     <body>
         <!--Navbar-->
@@ -20,7 +18,7 @@
         <div class="content">
             <section class="w3-row-padding w3-row">
                 <!--search by ingredient section-->
-                <section class="w3-quarter">
+                <section id="left_col" class="w3-quarter">
                     <div class="section_card w3-white w3-card-2">
                         <p class="ingredient_search_hint">Search recipes by ingredients you have:</p>
                         <div class="ingredient_search_wrapper">
@@ -61,7 +59,7 @@
                     </div>
                 </section>
                 <!--dashboard-->
-                <section class="w3-threequarter">
+                <section id="right_col" class="w3-threequarter">
                     <div class="section_card w3-white w3-card-2">
                         <div class="recipe_list w3-accordion w3-light-grey">
                             <button class="recipe_list_header" onclick="showRecipeList('hot_recipes')"><i class="fa fa-fire"></i>  Hot Recipes</button>
@@ -86,13 +84,15 @@
             </section>
 
             <!--footer-->
-            <div class="w3-row">
-                <footer></footer>
+            <div class="w3-row" id="footer_holder">
             </div>
         </div>
 
         <!--Custom JS and CSS-->
         <script src="/pages/home.js" type="text/javascript"></script>
         <link rel="stylesheet" type="text/css" href="/pages/home.css" media="screen" />
+        <!--Project Common Custom JS and CSS-->
+        <link rel="stylesheet" type="text/css" href="/pages/project_common.css" media="screen" />
+        <script src="/pages/project_common.js" type="text/javascript"></script>
     </body>
 </html>

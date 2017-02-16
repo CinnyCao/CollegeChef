@@ -1,0 +1,47 @@
+body {
+    padding-bottom: 50px;
+}
+
+footer {
+    padding: 10px 20px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+    display: inline-block;
+}
+
+footer a {
+    display: inline-block;
+    float: right;
+    margin: 0 16px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+footer a:hover {
+    background: radial-gradient(#CCCCCC 10%, white 90%);
+    background: -webkit-radial-gradient(#CCCCCC 10%, white 90%);
+}
+
+@media screen and (max-width: 600px) {
+
+    body {
+        padding-bottom: 60px;
+    }
+
+    footer {
+        text-align: center;
+    }
+
+    footer p {
+        display: block;
+    }
+
+    footer a {
+        float: none;
+    }
+}
