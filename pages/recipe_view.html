@@ -31,7 +31,7 @@
                             <!-- Blog entries -->
                             <div class="w3-col l8 s12">
                                 <!-- Blog entry -->
-                                <div class="w3-card-4 w3-margin w3-white">
+                                <section class="w3-card-4 w3-margin w3-white">
                                     <img src="/img//ingredients/meatloaf.jpg" alt="meatloaf" style="width:100%">
                                     <div class="w3-container w3-padding-8">
                                         <h3><b>Meat Loaf</b></h3>
@@ -47,7 +47,7 @@
                                     <div class="w3-container">
                                         <p>This recipe is anything but regular old meatloaf! Everyone will love this moist version made in the slow cooker, with milk, mushrooms, and a little sage for extra flavor.</p>
                                     </div>
-                                </div>
+                                </section>
                                 <hr>
                                 <!-- Blog entry -->
                                 <section class="w3-card-4 w3-margin w3-white">
@@ -62,14 +62,39 @@
                                         
                                     </div>
                                 </section>
-                                <div class="w3-card-4 w3-margin w3-white">
+                                <section class="w3-card-4 w3-margin w3-white">
                                     <div class="w3-container w3-padding-8">
                                         <h3><b>Comments</b></h3>
                                     </div>
                                     <div class="w3-container">
-                                        <div id="my-comment"></div>    
+                                        <section class="feed" id="feed">
+                                            <h1>Nyan's Diary</h1>
+                                            <section class="post_feed test--post_feed">
+                                                <p id="empty_feed_msg">No comments!</p>
+                                            </section>
+                                            <section class="posting_forms">
+                                                <!--test posts form-->
+                                                <section class="posting_section">
+                                                    <h2>Write a thought</h2>
+                                                    <div class="post_form_wrapper">
+                                                        <input class="posting_input input_text test--input_text" type="text" placeholder="Say something here.">
+                                                        <button type="submit" class="posting_button input_button test--input_button">Post</button>
+                                                    </div>
+                                                </section>
+                                                <!--photo posts form-->
+                                                <section class="posting_section">
+                                                    <h2>Leave a photo</h2>
+                                                    <div class="post_form_wrapper">
+                                                        <input class="posting_input photo_url test--photo_url" type="url" placeholder="Put image url here.">
+                                                        <button type="submit" class="posting_button photo_button test--photo_button">Post</button>
+                                                    </div>
+                                                </section>
+                                            </section>
+                                        </section>   
+                                        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"> </script> 
+                                        <script src="recipe_view.js"></script>
                                     </div>
-                                </div>
+                                </section>
                                 <!-- END BLOG ENTRIES -->
                             </div>
                             <!-- Introduction menu -->
