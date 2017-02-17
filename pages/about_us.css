@@ -2,16 +2,25 @@
     letter-spacing: 10px;
     border-radius: 5px;
 }
-.faleft1, .faright1 {
+.faleft1 {
     padding-right: 40px;
 }
 .faleft2 {
-    padding-right: 15px;
+    padding-right: 10px;
+}
+.faright1 {
+    padding-left: 40px;
 }
 .faright2 {
-    padding-right: 5px;
+    padding-left: 10px;
 }
-
-@media screen and (max-width: 730px) {
-
+.about {
+    margin-top: 20px;
+    padding-left: 35px;
+    padding-bottom: 5px;
+    font-size: 20px;
+}
+#about_img {
+    padding-top: 35px;
+    padding-left: 35px;
 }
