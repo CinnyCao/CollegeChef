@@ -30,9 +30,9 @@ function changeColumnPercentage() {
 }
 
 function hide(id){
-    $('#id').hide();
+    $('#' + id).hide();
 }
 
 function show(id){
-    $('#id').show();
+    $('#' + id).show();
 }
