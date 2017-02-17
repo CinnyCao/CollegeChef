@@ -1,3 +1,10 @@
+$(function() {
+    //load navbar
+    $('#navbar_holder').load('/components/navbar.html');
+
+    // make ingredient search bar wider on medium screen
+});
+
 $(function(){
     /* Show page content if Javascript is enabled */
     $('.my_content').css('display', 'block');
