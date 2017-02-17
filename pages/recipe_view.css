@@ -1,0 +1,149 @@
+.recipe_browser_content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.site_name {
+    margin-left: calc(50% - 112px);
+}
+
+@media screen and (max-width: 600px) {
+
+    .site_name {
+        margin-left: calc(50% - 90px);
+    }
+}
+
+/*alphabet search*/
+
+.alphabet {
+    margin-top: 20px;
+    width: 100%;
+    flex-grow: 1;
+    text-align: center;
+}
+.abc {
+    margin: 4px 5px;
+}
+
+.search_input {
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 2px solid #CCCCCC;
+    border-radius: 5px;
+    margin-bottom: 12px;
+}
+.search {
+    position: relative;
+    font-size: 18px;
+    padding-top: 20px;
+    flex-grow: 1;
+}
+.search label {
+    position: absolute;
+    left: 17px;
+    top: 32px
+}
+/* For search by username
+.b1 {
+    width: 220px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: center;
+}*/
+.recipe_cards_wrapper {
+    padding: 4px 10px;
+    border: 2px solid #CCCCCC;
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 70px;
+    flex-grow: 3;
+}
+.recipe_card {
+    margin: 5px auto;
+    padding-bottom: 30px;
+    text-decoration: none;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    height: 150px;
+    width: 150px;
+    display: inline-block;
+}
+.recipe_card:hover {
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+}
+.recipe_card img {
+    height: 100%;
+    margin-bottom: 5px;
+}
+.recipe_card p {
+    width: 100%;
+    margin: 0;
+    font-size: 10px;
+    font-weight: bold;
+    text-overflow: ellipsis;
+}
+.ingredient-list-img{
+    height: 50px;
+    width: 50px;
+}
+
+.profile-pic{
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+@media screen and (max-width: 600px), (max-height: 500px) {
+
+    .alphabet {
+        display: none;
+    }
+}
+
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+fieldset, label { margin: 0; padding: 0; }
+body{ margin: 20px; }
+h1 { font-size: 1.5em; margin: 10px; }
+
+/****** Style Star Rating Widget *****/
+/* https://codepen.io/jamesbarnett/pen/vlpkh?editors=1000 */
+.rating {
+  border: none;
+  float: left;
+}
+
+.rating > input { display: none; } 
+.rating > label:before { 
+  margin: 5px;
+  font-size: 1.25em;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f005";
+}
+
+.rating > .half:before { 
+  content: "\f089";
+  position: absolute;
+}
+
+.rating > label { 
+  color: #ddd; 
+ float: right; 
+}
+
+/***** CSS Magic to Highlight Stars on Hover *****/
+
+.rating > input:checked ~ label, /* show gold star when clicked */
+.rating:not(:checked) > label:hover, /* hover current star */
+.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+.rating > input:checked + label:hover, /* hover current star when changing rating */
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating > input:checked ~ label:hover ~ label { color: #FFED85;  }

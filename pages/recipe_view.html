@@ -9,6 +9,7 @@
         <!--CSS Framework-->
         <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="recipe_view.css" media="screen" />
         <style>
             body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         </style>
@@ -23,10 +24,6 @@
                     <!-- w3-content defines a container for fixed size centered content, 
                         and is wrapped around the whole page content, except for the footer in this example -->
                     <div class="w3-content" style="max-width:1400px">
-                        <!-- Header -->
-                        <header class="w3-container w3-center w3-padding-32">
-                            <h1><b>Meat Loaf</b></h1>
-                        </header>
                         <!-- Grid -->
                         <div class="w3-row">
                             <!-- Blog entries -->
@@ -36,7 +33,13 @@
                                     <img src="/img//ingredients/meatloaf.jpg" alt="meatloaf" style="width:100%">
                                     <div class="w3-container w3-padding-8">
                                         <h3><b>Meat Loaf</b></h3>
-                                        <h5>Upload Date, <span class="w3-opacity">April 7, 2014</span></h5>
+                                        <fieldset class="rating">
+                                            <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+                                            <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+                                            <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                                            <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+                                            <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                                        </fieldset>
                                         <!--gotta make dynamic-->
                                     </div>
                                     <div class="w3-container">
@@ -54,14 +57,7 @@
 
                                         <p>Whisk ketchup, brown sugar, mustard, and Worcestershire sauce in a small bowl; spoon sauce over meat loaf. Return to slow cooker and cook on Low until heated through, about 15 minutes. Let stand 10 minutes before cutting.
                                         </p>
-                                        <div class="w3-row">
-                                            <div class="w3-col m8 s12">
-                                                <p><button class="w3-btn w3-padding-large w3-white w3-border w3-hover-border-black"><b>READ MORE »</b></button></p>
-                                            </div>
-                                            <div class="w3-col m4 w3-hide-small">
-                                                <p><span class="w3-padding-large w3-right"><b>Comments  </b> <span class="w3-badge">2</span></span></p>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <!-- END BLOG ENTRIES -->
@@ -71,8 +67,9 @@
                                 <!-- About Card -->
                                 <div class="w3-card-2 w3-margin w3-margin-top">
                                     <div class="w3-container w3-white">
-                                        <img src="/img/profile_picture.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                                        <img src="/img/profile_picture.jpg" alt="Image" class="w3-left w3-margin-right profile-pic" style="width:50px">
                                         <span class="w3-large">User Name</span><br>
+                                        <h5>Upload Date, <span class="w3-opacity">April 7, 2014</span></h5>
                                     </div>
                                 </div>
                                 <hr>
@@ -83,24 +80,54 @@
                                     </div>
                                     <ul class="w3-ul w3-hoverable w3-white">
                                         <li class="w3-padding-16">
-                                            <img src="/img/ingredients/groundbeef_ing.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                                            <img src="/img/ingredients/groundbeef_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
                                             <span class="w3-large">Ground Beef</span><br>
-                                            <span>1.5 Pounds of ground beef</span>
+                                            <span>1.5 pounds of ground beef</span>
                                         </li>
                                         <li class="w3-padding-16">
-                                            <img src="/img/ingredients/egg_ing.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                                            <img src="/img/ingredients/egg_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
                                             <span class="w3-large">Egg</span><br>
                                             <span>2 eggs</span>
                                         </li>
                                         <li class="w3-padding-16">
-                                            <img src="/img/ingredients/milk_ing.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                                            <img src="/img/ingredients/milk_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
                                             <span class="w3-large">Milk</span><br>
                                             <span>3/4 cups of milk</span>
                                         </li>
                                         <li class="w3-padding-16 w3-hide-medium w3-hide-small">
-                                            <img src="/w3images/rock.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-                                            <span class="w3-large">Mingsum</span><br>
-                                            <span>Lorem ipsum dipsum</span>
+                                            <img src="/img/ingredients/seasoned_bread_crumbs_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
+                                            <span class="w3-large">Seasoned Bread Crumbs</span><br>
+                                            <span>2/3 cup seasoned bread crumbs</span>
+                                        </li>
+                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
+                                            <img src="/img/ingredients/dried_minced_onions_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
+                                            <span class="w3-large">Dried Minced Onions</span><br>
+                                            <span>2 teaspoons of dried minced onions</span>
+                                        </li>
+                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
+                                            <img src="/img/ingredients/salt_ing.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                                            <span class="w3-large">Salt</span><br>
+                                            <span>1 teaspoon of salt</span>
+                                        </li>
+                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
+                                            <img src="/img/ingredients/rubbed_sage_ing.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                                            <span class="w3-large">Rubbed Sage</span><br>
+                                            <span>1/2 teaspoons of rubbed sage</span>
+                                        </li>
+                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
+                                            <img src="/img/ingredients/mushroom_ing.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                                            <span class="w3-large">Mushrooms</span><br>
+                                            <span>1/2 cups of sliced fresh mushrooms</span>
+                                        </li>
+                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
+                                            <img src="/img/ingredients/ketchup_ing.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                                            <span class="w3-large">Ketchup</span><br>
+                                            <span>1/4 cups of ketchup</span>
+                                        </li>
+                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
+                                            <img src="/img/ingredients/brown_sugar_ing.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+                                            <span class="w3-large">Brown Sugar</span><br>
+                                            <span>2 tablespoons of brown sugar</span>
                                         </li>
                                     </ul>
                                 </div>
