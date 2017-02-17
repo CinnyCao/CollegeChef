@@ -83,6 +83,52 @@
                     </div>
                 </div>
             </div>
+            <!-- add a recipe form -->
+            <div id="add-recipe" class="w3-modal">
+                <div class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
+                    <div class="w3-center">
+                        <br>
+                        <span onclick="hide('add-recipe')" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
+                        <h1 class="form_title">Add a Recipe</h1>
+                    </div>
+                    <!-- add action, pass records to server  -->
+                    <form class="w3-container" action="">
+                        <div class="w3-section">
+                            <label><b>Recipe Name</b>
+                            </label>
+                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name of recipe" name="recipename" required>
+                            <label><b>Category</b>
+                            </label>
+                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter the recipe type" name="category" required>
+                            <label><b>Recipe Photo</b>
+                            </label>
+                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter a url for a photo of the recipe" name="photo" required>
+                            <label><b>Short Description</b>
+                            </label>
+                            <textarea rows="2" name="shortdescription" placeholder="Enter your description" required></textarea>
+                            <label><b>Ingredient List</b>
+                            </label>
+                            <textarea class="w3-input w3-border w3-margin-bottom" rows="5" name="servingnumber" placeholder="Enter your list of ingredients and their quantities" required></textarea>
+                            <label><b>Number of Servings</b>
+                            </label>
+                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name number of servings" name="servings" required>
+                            <label><b>Cooking Instructions</b>
+                            </label>
+                            <textarea class="w3-input w3-border w3-margin-bottom" rows="5" name="instructions" placeholder="Enter your cooking instructions" required></textarea>
+                            <label><b>Additional Tips or Suggestions (optional)</b>
+                            </label>
+                            <textarea class="w3-input w3-border w3-margin-bottom" rows="2" name="tips" placeholder="Enter any additional suggestions you have"></textarea>
+                            <label><b>Long Description (optional)</b>
+                            </label>
+                            <textarea class="w3-input w3-border w3-margin-bottom" rows="2" name="longdescription" placeholder="Enter your description"></textarea>
+                        </div>
+                    </form>
+                    <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                        <button onclick="hide('add-recipe')" type="button" class="w3-btn w3-red">Cancel</button>
+                        <button onclick="addRecipe()" type="button" class="w3-btn w3-right w3-green">Submit</button>
+                    </div>
+                </div>
+            </div>
             <!-- edit profile form -->
             <div id="edit-profile" class="w3-modal">
                 <div class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
@@ -134,7 +180,7 @@
                     </div>
 
                     <section id="uploaded-list" class="w3-container set-tab" style="display:none">
-
+                        <button class="add_recipe w3-btn w3-grey w3-padding-large w3-small" onclick="addRecipe">Add a Recipe</button>
                     </section>
 
                     <section id="notification-list" class="w3-container set-tab" style="display:none">
