@@ -27,6 +27,14 @@ footer a:hover {
     background: -webkit-radial-gradient(#CCCCCC 10%, white 90%);
 }
 
+.form_dialog {
+    max-width: 800px;
+}
+
+textarea {
+    resize: none;
+}
+
 @media screen and (max-width: 600px) {
 
     body {
