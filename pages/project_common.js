@@ -17,10 +17,6 @@ $(function() {
     }).trigger('resize');
 });
 
-$(function() {
-    
-});
-
 function changeColumnPercentage() {
     if ($(window).width() <= 992 && $(window).width() >= 601) {
         $('.left_col').removeClass('w3-quarter');
