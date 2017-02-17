@@ -3,29 +3,36 @@
 
 Please note that our website will display a static image if screen resolution is smaller than 270x370 (either width is smaller than 270 **or** height is smaller than 370), we found that this size is on the border of usability. It didnt make sense to adapt to a smaller size because it would be near impossible to use.
 
-Here is a list of what ui components is functional (checked), and what we haven't finished but will do in the following phases:
+Here is a list of what **ui components** are functional (checked) are what are just 'place-holders' and will be implemented later:
 * Navigation bar and Footer
-  - [x] Includes Navigation and Footer in all pages
-  - [x] Make all links in Navigation and Footer working.
-  - [ ] Hide options that are only for logged in users in navigation bar.
-  - [x] Login and Sign up buttons give the corresponding forms.
+  - [x] Home Page link
+  - [x] Recipe Browser link
+  - [x] My Profile link
+  - [ ] Sign Out link
+  - [x] Sign Up link
+  - [x] Login link
+  - [x] About Us link
+  - [ ] Feedback link
+  - [x] Responsive Navigation and Footer
 * Home Page
-  - [x] Search bar can filter ingredients.
-  - [ ] Ingredients buttons can be selected and pinned.
-  - [ ] Search button can search recipes based on ingredients selected.
-  - [x] Recipe lists are expandable and collapsible
-  - [x] Recipe card in recipe lists redirects to the Recipe View Page.
+  - [x] Ingredient search bar - can filter ingredients by name
+  - [x] Ingredients buttons - can be selected and pinned
+  - [ ] Search button - can show recipe search result list based on ingredients selected.
+  - [x] Recipe lists - are expandable and collapsible
+  - [x] Recipe card - redirects to the Recipe View Page.
 * Recipe View Page
   - [x] All detailed info about a recipe is shown.
-  - [x] Can rate a recipe.
-  - [ ] Able to post a comment.
-  - [ ] Able to view currently comments for that recipe.
+  - [x] Rating star widget 
+  - [ ] Comment form - can post new comment
+  - [ ] Comments - get list of existing comments
 * Recipe Browser Page
-  - [x] Alphabet sorting buttons is working.
-  - [ ] Sort recipes by name using the search bar
+
+  **Note we placed ingredients buttons here for demo, will be replaced by recipe cards later**
+  - [x] Alphabet sorting buttons - can filter recipes
+  - [ ] Recipe search bar - can filter recipes by name
+  - [x] Responsice - alphabet buttons will be hidden in small screens
 * User Profile Page
-  - [x] Display different content for different kinds of users (for demo only).
-  - [x] Open Reset Password form
-  - [x] Open Edit Profile form
-  - [x] Open Notification Settings form
-* About Us Page
+  - [x] Display different content for different account type (user vs admin)
+  - [x] Reset Password link
+  - [x] Edit Profile link
+  - [x] Notification Settings link
