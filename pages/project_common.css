@@ -44,33 +44,6 @@ body {
     text-overflow: ellipsis;
 }
 
-/* Recipe Card Styles */
-.recipe_card {
-    display: inline-block;
-    cursor: pointer;
-    width: 250px;
-    height: 260px;
-}
-
-.recipe_card_title {
-    margin: 12px 0;
-}
-
-.recipe_card_des {
-    margin: 0;
-    font-size: 12px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: -webkit-inline-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    width: 100%;
-}
-
-.recipe_card img {
-    width: 100%;
-}
-
 @media screen and (max-width: 270px), (max-height: 370px) {
 
     /* Screen size too small, hide everything */

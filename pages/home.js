@@ -1,6 +1,9 @@
 $(function () {
     // onpen the first recipe list on start
     showRecipeList('hot_recipes');
+
+    // load recipe_card
+    $('#hot_recipes').load('/components/recipe_card.html');
 });
 
 function filterIngredients() {

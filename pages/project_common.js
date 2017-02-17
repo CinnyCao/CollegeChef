@@ -31,11 +31,10 @@ function changeColumnPercentage() {
     }
 }
 
-
 function hide(id){
-  document.getElementById(id).style.display='none';
+    $('#id').hide();
 }
 
 function show(id){
-  document.getElementById(id).style.display='block';
+    $('#id').show();
 }
