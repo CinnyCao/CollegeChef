@@ -1,12 +1,21 @@
 .header {
+    margin-top: 60px;
     letter-spacing: 10px;
     border-radius: 5px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 4;
+}
+.content {
+    margin-top: 80px;
 }
 .alphabet {
     margin-top: 20px;
-    display:flex;
+    display: flex;
     justify-content: space-between;
-    width:100%;
+    width: 100%;
+    z-index: 100;
 }
 .faleft1, .faright1 {
     padding-right: 40px;
@@ -28,13 +37,12 @@
 .search {
     position: relative;
     font-size: 18px;
-    padding-top: 40px;
-    margin:-20px auto 0
+    padding-top: 20px;
 }
 .search label {
     position: absolute;
     left: 17px;
-    top: 51px
+    top: 32px
 }
 /* For search by username
 .b1 {
@@ -78,8 +86,25 @@
     text-overflow: ellipsis;
 }
 
+@media screen and (min-width: 993px) {
+
+    .content {
+        margin-top: 125px;
+    }
+}
+
+@media screen and (max-width: 403px) {
+
+    .cutlery {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 730px) {
 
+    .content {
+        margin-top: 80px;
+    }
     .alphabet {
         display: none;
     }
