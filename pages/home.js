@@ -1,3 +1,8 @@
+$(function () {
+    // onpen the first recipe list on start
+    showRecipeList('hot_recipes');
+});
+
 function filterIngredients() {
     var search_text = $('#ingredient_search_input').val().toLowerCase();
     var ingredients = $(".ingredient_button");

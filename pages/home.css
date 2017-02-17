@@ -52,4 +52,36 @@
 .recipe_list_content {
     height: calc(100vh - 200px);
     max-height: 300px;
+    border: 1px solid #CCCCCC;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    overflow-y: auto;
+}
+
+/* Recipe Card Styles */
+
+.recipe_card {
+    display: inline-block;
+    cursor: pointer;
+    width: 250px;
+    height: 260px;
+}
+
+.recipe_card_title {
+    margin: 12px 0;
+}
+
+.recipe_card_des {
+    margin: 0;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-inline-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    width: 100%;
+}
+
+.recipe_card img {
+    width: 100%;
 }

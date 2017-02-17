@@ -61,19 +61,25 @@
                 <!--dashboard-->
                 <section class="right_col w3-threequarter">
                     <div class="section_card w3-white w3-card-2">
-                        <div class="recipe_list w3-accordion w3-light-grey">
+                        <div class="recipe_list w3-accordion">
                             <button class="recipe_list_header" onclick="showRecipeList('hot_recipes')"><i class="fa fa-fire"></i>  Hot Recipes</button>
                             <div  id="hot_recipes" class="recipe_list_content w3-accordion-content w3-animate-zoom">
-                                empty
+                                <div class="recipe_card w3-card-2 w3-hover-shadow w3-margin w3-tooltip" onclick="location.href='/pages/recipe_view.html'">
+                                    <img src="/img/ingredients/meatloaf.jpg" alt="food image"> 
+                                    <div class="w3-container w3-center">
+                                        <p class="recipe_card_title">Meat Loaf</p> 
+                                        <p class="recipe_card_des">This recipe is anything but regular old meatloaf! Everyone will love this moist version made in the slow cooker, with milk, mushrooms, and a little sage for extra flavor.</p> 
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="recipe_list w3-accordion w3-light-grey">
+                        <div class="recipe_list w3-accordion">
                             <button class="recipe_list_header" onclick="showRecipeList('remarkable_recipes')"><i class="fa fa-star-o"></i>  Remarkable Recipes</button>
                             <div  id="remarkable_recipes" class="recipe_list_content w3-accordion-content w3-animate-zoom">
                                 empty
                             </div>
                         </div>
-                        <div class="recipe_list w3-accordion w3-light-grey">
+                        <div class="recipe_list w3-accordion">
                             <button class="recipe_list_header" onclick="showRecipeList('new_recipes')"><i class="fa fa-certificate"></i>  New Recipes</button>
                             <div id="new_recipes" class="recipe_list_content w3-accordion-content w3-animate-zoom">
                                 empty
