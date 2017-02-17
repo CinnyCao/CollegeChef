@@ -38,7 +38,7 @@
 	height:150px;
 }
 
-.add_recipe {
+.add_recipe, .edit_recipe {
 	font-weight: bold;
 }
 

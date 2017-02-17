@@ -68,6 +68,31 @@ function deleteRecipe(){
   // todo
 }
 
+function editRecipe() {
+    // Sample data
+    document.getElementById("add_title").innerHTML="Edit Recipe";
+    document.getElementById("recipename").value="Scrambled Eggs";
+    document.getElementById("category").value="Breakfast";
+    document.getElementById("photo").value="https://upload.wikimedia.org/wikipedia/commons/1/1e/Brinner.jpg";
+    document.getElementById("shortdescription").value="Luscious, fluffy, and buttery scrambled eggs.";
+    document.getElementById("ingredientlist").value="1. 2 eggs; 2. 6 tbsp whole milk; 3. 2 tbsp butter; 4. pinch of salt";
+    document.getElementById("servings").value="1";
+    document.getElementById("instructions").value="1. Whisk eggs, milk, salt together until consistent; 2. Heat butter in pan; 3. Pour egg mixture into pan; 4. Let it sit for 15 seconds then stir; 5. Repeat until eggs are softly set";
+    document.getElementById("tips").value="Serve with black coffee.";
+    document.getElementById("longdescription").value="";
+    show('add-recipe');
+}
+
 function addRecipe() {
-  // todo
+    document.getElementById("add_title").innerHTML="Add a Recipe";
+    document.getElementById("recipename").value="";
+    document.getElementById("category").value="";
+    document.getElementById("photo").value="";
+    document.getElementById("shortdescription").value="";
+    document.getElementById("ingredientlist").value="";
+    document.getElementById("servings").value="";
+    document.getElementById("instructions").value="";
+    document.getElementById("tips").value="";
+    document.getElementById("longdescription").value="";
+    show('add-recipe');
 }

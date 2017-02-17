@@ -3,6 +3,8 @@ $(function () {
     $('#navbar_holder').load('/components/navbar.html', function () {
         $('.site_name').html('<i class="fa fa-cutlery w3-hide-small"></i> Recipe Browser <i class="fa fa-cutlery fa-flip-horizontal w3-hide-small"></i>');
     });
+    // load recipe_card
+    // $('#main_wrapper').load('/components/recipe_card.html');
 });
 
 
@@ -24,7 +26,6 @@ function letter(a) {
 		reset();
 		document.getElementById("recipe_browser_input").value = "";
 		document.getElementById(str).style.color = "red";
-	    document.getElementById(str).style.fontWeight = "bold";
 
 	    var letter = $('#'+str).val().toLowerCase();
 		var recipes = $(".recipe_card");
@@ -40,7 +41,6 @@ function reset() {
 	for (var i = 1; i < 27; i++) {
 		str = [i];
   		document.getElementById(str).style.color = "white";
-  		document.getElementById(str).style.fontWeight = "normal";
   	}
   	$('.recipe_card').show();
   	/*var recipes = $(".recipe_card");
