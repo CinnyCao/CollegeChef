@@ -4,10 +4,11 @@
     height: 100%;
 }
 
+/*site name style*/
+
 .site_name {
     margin-left: calc(50% - 112px);
 }
-
 @media screen and (max-width: 600px) {
 
     .site_name {
@@ -18,14 +19,15 @@
 /*alphabet search*/
 
 .alphabet {
-    margin-top: 20px;
+    margin-top: 10px;
     width: 100%;
-    flex-grow: 1;
     text-align: center;
 }
 .abc {
     margin: 4px 5px;
 }
+
+/*search bar*/
 
 .search_input {
     width: 100%;
@@ -39,7 +41,6 @@
     position: relative;
     font-size: 18px;
     padding-top: 20px;
-    flex-grow: 1;
 }
 .search label {
     position: absolute;
@@ -61,7 +62,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     min-height: 70px;
-    flex-grow: 3;
+    flex-grow: 1;
 }
 .recipe_card {
     margin: 5px auto;
