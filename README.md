@@ -12,7 +12,7 @@ Here is a list of what **ui components** are functional (checked) are what are j
   - [x] Sign Up link
   - [x] Login link
   - [x] About Us link
-  - [ ] Feedback link
+  - [x] Feedback link
   - [x] Responsive Navigation and Footer
 * Home Page
   - [x] Ingredient search bar - can filter ingredients by name
