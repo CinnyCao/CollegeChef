@@ -98,7 +98,7 @@ function createPost(content) {
             '<div class="post_content test--post_content">' + content + '</div>' +
             '<div class="post_second_row">' +
                 '<p class="post_time">' + time + '</p>' +
-                '<img class="post_like" src="img/like_button.png" alt="Like" onclick="doLike('+ id +')">' +
+                '<img class="post_like" src="img/like_button.jpg" alt="Like" onclick="doLike('+ id +')">' +
                 '<p class="post_count">x<span id="count_' + id + '" class="test--like_count">0</span></p>' +
         '</div></div>';
 }

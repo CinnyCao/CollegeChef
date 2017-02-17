@@ -144,6 +144,84 @@ body,h1,h2,h3,h4,h5 {
 .see-what{ /* to make elements visible for developing purposes*/
     background: blue;
 }
+
+/* Post feed styling */
+
+#empty_feed_msg {
+    text-align: center;
+}
+
+.posting_section {
+}
+
+.posting_input {
+
+}
+
+.posting_button {
+}
+
+.post_form_wrapper {
+    text-align: center;
+}
+
+.post_feed {
+    text-align: center;
+}
+
+.post {
+    border-style: solid;
+    text-align: center;
+}
+
+.post_content {
+    /*width: 90%;*/
+    word-wrap: break-word;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.post_content img {
+    width: 100%;
+}
+
+.post_second_row {
+    text-align: right;
+
+}
+
+.post_time {
+    margin: 0;
+    display: inline-block;
+    vertical-align: super;
+}
+
+.post_like {
+}
+
+.post_count {
+    margin: 0;
+    display: inline-block;
+    vertical-align: super;
+}
+
+.post_name_tag {
+    width: 50px;
+    position: absolute;
+    margin-top: -2%;
+    margin-left: -2%;
+}
+
+.post_name_tag img {
+    width: 100%;
+    border-radius: 50%;
+}
+
+.post_name_tag p {
+    margin: 0;
+    font-size: 50%;
+}
+
 /***** CSS Magic to Highlight Stars on Hover *****/
 
 .rating > input:checked ~ label, /* show gold star when clicked */
