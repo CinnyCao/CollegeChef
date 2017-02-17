@@ -1,3 +1,10 @@
+$(function() {
+    //load navbar
+    $('#navbar_holder').load('/components/navbar.html');
+    //load footer
+    $('#footer_holder').load('/components/footer.html');
+});
+
 // Accordion  will change later!!!!!!!!!!!!
 function openList(listId) {
     var x = document.getElementById(listId);
