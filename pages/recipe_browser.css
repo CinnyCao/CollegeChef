@@ -1,21 +1,13 @@
-.header {
-    margin-top: 60px;
-    letter-spacing: 10px;
-    border-radius: 5px;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 4;
-}
-.content {
-    margin-top: 80px;
-}
-.alphabet {
-    margin-top: 20px;
+.recipe_browser_content {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
-    z-index: 100;
+    flex-direction: column;
+    height: 100%;
+}
+
+/*title*/
+
+.recipe_browser_title {
+    flex-grow: 1.5;
 }
 .faleft1, .faright1 {
     padding-right: 40px;
@@ -26,11 +18,24 @@
 .faright2 {
     padding-right: 5px;
 }
+
+/*alphabet search*/
+
+.alphabet {
+    margin-top: 20px;
+    width: 100%;
+    flex-grow: 1;
+    text-align: center;
+}
+.abc {
+    margin: 4px 5px;
+}
+
 .search_input {
     width: 100%;
-    font-size: 16px; 
-    padding: 12px 20px 12px 40px; 
-    border: 2px solid #CCCCCC; 
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 2px solid #CCCCCC;
     border-radius: 5px;
     margin-bottom: 12px;
 }
@@ -38,6 +43,7 @@
     position: relative;
     font-size: 18px;
     padding-top: 20px;
+    flex-grow: 1;
 }
 .search label {
     position: absolute;
@@ -53,13 +59,13 @@
     margin-top: 20px;
     text-align: center;
 }*/
-#card_wrapper {
+.recipe_cards_wrapper {
     padding: 4px 10px;
     border: 2px solid #CCCCCC;
     overflow-x: hidden;
     overflow-y: auto;
-    height: calc(100vh - 300px);
     min-height: 70px;
+    flex-grow: 3;
 }
 .recipe_card {
     margin: 5px auto;
@@ -86,26 +92,16 @@
     text-overflow: ellipsis;
 }
 
-@media screen and (min-width: 993px) {
+@media screen and (max-width: 600px), (max-height: 400px) {
 
-    .content {
-        margin-top: 125px;
-    }
-}
-
-@media screen and (max-width: 403px) {
-
-    .cutlery {
+    .alphabet {
         display: none;
     }
 }
 
-@media screen and (max-width: 730px) {
+@media screen and (max-width: 600px), (max-height: 600px) {
 
-    .content {
-        margin-top: 80px;
-    }
-    .alphabet {
+    .recipe_browser_title {
         display: none;
     }
 }

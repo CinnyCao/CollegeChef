@@ -18,12 +18,14 @@
         <div id="navbar_holder"></div>
 
         <div class="content">
-            <div class="header w3-padding-xlarge w3-border w3-wide w3-text-white w3-center w3-dark-grey">
-                        <h1 class="w3-hide-medium w3-hide-small w3-xxxlarge"><i class="cutlery fa fa-cutlery faleft1"></i>Recipe Browser<i class="cutlery fa fa-cutlery faright1 fa-flip-horizontal"></i></h1>
+            <section class="section_card">
+                <section class="recipe_browser_content w3-row-padding w3-row">
+                    <div class="recipe_browser_title w3-padding-xlarge w3-border w3-wide w3-text-white w3-center w3-dark-grey">
+                        <h1 class="w3-hide-medium w3-hide-small w3-xlarge"><i class="cutlery fa fa-cutlery faleft1"></i>Recipe Browser<i class="cutlery fa fa-cutlery faright1 fa-flip-horizontal"></i></h1>
                         <h5 class="w3-hide-large"><i class="cutlery fa fa-cutlery faleft2"></i>Recipe Browser<i class="cutlery fa fa-cutlery faright2 fa-flip-horizontal"></i></h5>
-            </div>
-            <section class="w3-row-padding w3-row main">
-                    <div class="alphabet">
+                    </div>
+
+                    <section class="alphabet">
                         <button class="abc w3-btn w3-padding-small" id="1" value="a" onclick="letter(this)">A</button>
                         <button class="abc w3-btn w3-padding-small" id="2" value="b" onclick="letter(this)">B</button>
                         <button class="abc w3-btn w3-padding-small" id="3" value="c" onclick="letter(this)">C</button>
@@ -49,46 +51,45 @@
                         <button class="abc w3-btn w3-padding-small" id="23" value="w" onclick="letter(this)">W</button>
                         <button class="abc w3-btn w3-padding-small" id="24" value="x" onclick="letter(this)">X</button>
                         <button class="abc w3-btn w3-padding-small" id="25" value="y" onclick="letter(this)">Y</button>
-                        <button class="abc w3-btn w3-padding-small" id="26" value="z" onclick="letter(this)">Z</button>  
-                    </div>
-                    <!--< for search by username
-                    button class="b1 w3-btn w3-red">Search by username</button>-->
-                    <div class="search">
+                        <button class="abc w3-btn w3-padding-small" id="26" value="z" onclick="letter(this)">Z</button>
+                    </section>
+                    <section class="search">
+                        <!--< for search by username
+                        button class="b1 w3-btn w3-red">Search by username</button>-->
                         <label for="search_input"><i class="fa fa-search"></i></label>
                         <input type="text" class="search_input w3-card-2" id="recipe_browser_input" onkeyup="filterRecipes()" placeholder="Search for recipes..">
-                    </div>
-                    <section class="w3-white w3-card-2">
-                        <div class="recipe_cards_wrapper" id="card_wrapper">
-                            <!--Change these to recipe cards & actual recipes (from recipe card component?).
-                            Also, maybe spread evenly throughout page (with a table?)-->
-                            <a class="recipe_card w3-center" href="#" title="Egg" onclick="location.href='/pages/recipe_view.html'">
-                                <img src="/img/egg.png"><p>Egg</p>
-                            </a>
-                            <a class="recipe_card w3-center" href="#" title="Cheese" onclick="location.href='/pages/recipe_view.html'">
-                                <img src="/img/cheese.png"><p>Cheese</p>
-                            </a>
-                            <a class="recipe_card w3-center" href="#" title="Eggplant" onclick="location.href='/pages/recipe_view.html'">
-                                <img src="/img/eggplant.png"><p>Eggplant</p>
-                            </a>
-                            <a class="recipe_card w3-center" href="#" title="Egg" onclick="location.href='/pages/recipe_view.html'">
-                                <img src="/img/egg.png"><p>Egg</p>
-                            </a>
-                            <a class="recipe_card w3-center" href="#" title="Cheese" onclick="location.href='/pages/recipe_view.html'">
-                                <img src="/img/cheese.png"><p>Cheese</p>
-                            </a>
-                            <a class="recipe_card w3-center" href="#" title="Eggplant" onclick="location.href='/pages/recipe_view.html'">
-                                <img src="/img/eggplant.png"><p>Eggplant</p>
-                            </a>
-                            <a class="recipe_card w3-center" href="#" title="Egg" onclick="location.href='/pages/recipe_view.html'">
-                                <img src="/img/egg.png"><p>Egg</p>
-                            </a>
-                            <a class="recipe_card w3-center" href="#" title="Cheese" onclick="location.href='/pages/recipe_view.html'">
-                                <img src="/img/cheese.png"><p>Cheese</p>
-                            </a>
-                            <a class="recipe_card w3-center" href="#" title="Eggplant" onclick="location.href='/pages/recipe_view.html'">
-                                <img src="/img/eggplant.png"><p>Eggplant</p>
-                            </a>
-                        </div>
+                    </section>
+                    <section class="recipe_cards_wrapper w3-white w3-card-2">
+                        <!--Change these to recipe cards & actual recipes (from recipe card component?).
+                        Also, maybe spread evenly throughout page (with a table?)-->
+                        <a class="recipe_card w3-center" href="#" title="Egg" onclick="location.href='/pages/recipe_view.html'">
+                            <img src="/img/egg.png"><p>Egg</p>
+                        </a>
+                        <a class="recipe_card w3-center" href="#" title="Cheese" onclick="location.href='/pages/recipe_view.html'">
+                            <img src="/img/cheese.png"><p>Cheese</p>
+                        </a>
+                        <a class="recipe_card w3-center" href="#" title="Eggplant" onclick="location.href='/pages/recipe_view.html'">
+                            <img src="/img/eggplant.png"><p>Eggplant</p>
+                        </a>
+                        <a class="recipe_card w3-center" href="#" title="Egg" onclick="location.href='/pages/recipe_view.html'">
+                            <img src="/img/egg.png"><p>Egg</p>
+                        </a>
+                        <a class="recipe_card w3-center" href="#" title="Cheese" onclick="location.href='/pages/recipe_view.html'">
+                            <img src="/img/cheese.png"><p>Cheese</p>
+                        </a>
+                        <a class="recipe_card w3-center" href="#" title="Eggplant" onclick="location.href='/pages/recipe_view.html'">
+                            <img src="/img/eggplant.png"><p>Eggplant</p>
+                        </a>
+                        <a class="recipe_card w3-center" href="#" title="Egg" onclick="location.href='/pages/recipe_view.html'">
+                            <img src="/img/egg.png"><p>Egg</p>
+                        </a>
+                        <a class="recipe_card w3-center" href="#" title="Cheese" onclick="location.href='/pages/recipe_view.html'">
+                            <img src="/img/cheese.png"><p>Cheese</p>
+                        </a>
+                        <a class="recipe_card w3-center" href="#" title="Eggplant" onclick="location.href='/pages/recipe_view.html'">
+                            <img src="/img/eggplant.png"><p>Eggplant</p>
+                        </a>
+                    </section>
                 </section>
             </section>
             <!--footer-->
