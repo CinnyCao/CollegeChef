@@ -4,19 +4,15 @@
     height: 100%;
 }
 
-/*title*/
+.site_name {
+    margin-left: calc(50% - 112px);
+}
 
-.recipe_browser_title {
-    flex-grow: 1.5;
-}
-.faleft1, .faright1 {
-    padding-right: 40px;
-}
-.faleft2 {
-    padding-right: 15px;
-}
-.faright2 {
-    padding-right: 5px;
+@media screen and (max-width: 600px) {
+
+    .site_name {
+        margin-left: calc(50% - 90px);
+    }
 }
 
 /*alphabet search*/
@@ -92,16 +88,9 @@
     text-overflow: ellipsis;
 }
 
-@media screen and (max-width: 600px), (max-height: 400px) {
+@media screen and (max-width: 600px), (max-height: 500px) {
 
     .alphabet {
-        display: none;
-    }
-}
-
-@media screen and (max-width: 600px), (max-height: 600px) {
-
-    .recipe_browser_title {
         display: none;
     }
 }
