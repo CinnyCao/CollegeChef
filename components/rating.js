@@ -1,9 +1,6 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script src="jquery.barrating.min.js"></script>
-<script type="text/javascript">
-   $(function() {
-      $('#example').barrating({
-        theme: 'fontawesome-stars'
-      });
-   });
-</script>
+$(function() {
+    //load navbar
+    $('#navbar_holder').load('/components/navbar.html');
+    //load footer
+    $('#footer_holder').load('/components/footer.html');
+});
