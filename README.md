@@ -1,7 +1,7 @@
 # Team 2 CollegeChef
 **Please use a server to open our site** or else some style will not load and will be .
 
-Please note that our website will display a static image after 270x370, we found that this size is on the border or usability. It didnt make sense to adapt to a smaller size because it would be near impossible to use.
+Please note that our website will display a static image if screen resolution is smaller than 270x370 (either width is smaller than 270 **or** height is smaller than 370), we found that this size is on the border of usability. It didnt make sense to adapt to a smaller size because it would be near impossible to use.
 
 Here is a list of what ui components is functional (checked), and what we haven't finished but will do in the following phases:
 * Navigation bar and Footer
