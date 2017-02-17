@@ -1,194 +1,223 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>CollegeChef</title>
-        <!--JS Library-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <!--CSS Framework-->
-        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    </head>
-    <body>
-        <!--Navbar-->
-        <div id="navbar_holder"></div>
-        
-        <!--Page Content-->
-        <div class="content">
-            <section class="w3-row-padding w3-row">
-                <!-- Sidenav/menu -->
-                <div class="left_col w3-quarter">
-                    <section id="user-profile-menu" class="section_card w3-white w3-card-2 profile-photo">
-                        <div class="w3-center">
-                            <img id="profile-photo" src="http://img.qq745.com/uploads/allimg/160916/7-1609161F211-51.jpg" class="w3-circle">
-                        </div>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CollegeChef</title>
+    <!--JS Library-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!--CSS Framework-->
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <!--Navbar-->
+    <div id="navbar_holder"></div>
+    <!--Page Content-->
+    <div class="content">
+        <section class="w3-row-padding w3-row">
+            <!-- Sidenav/menu -->
+            <div class="left_col w3-quarter">
+                <div class="section_card w3-card-2 w3-round w3-white">
+                    <div class="w3-container">
+                        <h4 class="w3-center">My Profile</h4>
+                        <p class="w3-center"><img src="http://img.qq745.com/uploads/allimg/160916/7-1609161F211-51.jpg" class="w3-circle photo-style" alt="Avatar">
+                        </p>
+                        <!-- This section will be deleted later-->
+                        <section class="w3-blue w3-center">
+                            <p>this section will be removed later</p>
+                            <p class="w3-hover-text-grey"><a href="javascript: twoTab();">User</a>
+                            </p>
+                            <p class="w3-hover-text-grey"><a href="javascript: threeTab();">Admin</a>
+                            </p>
+                        </section>
+
                         <hr>
-                        <div class="w3-container">
-                            <h5><b>User Profile</b></h5>
-                            <div class="w3-accordion">
-                                <a onclick="openList('information-list')" class="w3-text-black" id="open-button">User Information <i class="fa fa-caret-down"></i></a>
-                                <div id="information-list" class="w3-accordion-content w3-padding-large w3-medium">
-                                    <a href="#basic-info">Basic Information</a>
-                                    <a href="#reset-pwd">Reset Password</a>
-                                </div>
-                            </div>
-                            <a href="#uploaded-recipes">Uploaded Recipes</a>
-                            <a onclick="openList('notification-list')" class="w3-text-black" id="open-button">Email Notification <i class="fa fa-caret-down"></i></a>
-                            <div id="notification-list" class="w3-accordion-content w3-padding-large w3-medium">
-                                <a href="#notification-setting">Notification Setting</a>
-                                <a href="#email-list">Email List</a>
-                            </div>
-                            <div id="admin-page">
-                                <hr>
-                                <h5><b>Admin Page</b></h5>
-                                <!-- search user functionality -->
-                                <a href="#user-list">User List</a>
-                                <!-- search recipe functionality -->
-                                <a href="#recipes-list">Recipes Lists</a>
+                        <p><i class="fa fa-user-o fa-fw w3-margin-right w3-text-theme"></i><b>User Name</b>
+                        </p>
+                        <p class="padding-left1" id="name">Monkey.D.Luffy</p>
+                        <p><i class="fa fa-envelope-o fa-fw w3-margin-right w3-text-theme"></i><b>Email</b>
+                        </p>
+                        <p class="padding-left1" id="email"> team02@gmail.com </p>
+                        <p><i class="fa fa-id-card-o fa-fw w3-margin-right w3-text-theme"></i><b>Description</b>
+                        </p>
+                        <article id="description" class="w3-border">
+                            Description says: "Don't forget me!"
+                        </article>
+                        <hr>
+                        <p class="w3-left w3-hover-text-blue"><a href="javascript: show('reset-pwd');">Reset Password</a>
+                        </p>
+                        <p class="w3-right w3-hover-text-blue"><a href="javascript: show('edit-profile');">Edit Profile</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- rest password form -->
+            <div id="reset-pwd" class="w3-modal">
+                <div class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
+                    <div class="w3-center">
+                        <br>
+                        <span onclick="hide('reset-pwd')" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
+                        <p class="form_title">Rest Password</p>
+                    </div>
+                    <!-- add action, pass records to server  -->
+                    <form class="w3-container" action="">
+                        <div class="w3-section">
+                            <label><b>Old Password*</b>
+                            </label>
+                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Old Password" name="old-pwd" required>
+                            <label><b>New Password*</b>
+                            </label>
+                            <!-- password pattern can be changed later -->
+                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter New Password" name="new-pwd" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                            <label><b>Repeat New Password*</b>
+                            </label>
+                            <input id="repeated-pwd" class="w3-input w3-border" type="password" placeholder="Please Repeat New Password" name="repeat--new-pwd" onChange="checkPasswordMatch()" required>
+                        </div>
+                    </form>
+                    <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                        <button onclick="hide('reset-pwd')" type="button" class="w3-btn w3-red">Cancel</button>
+                        <button onclick="savePwd()" type="button" class="w3-btn w3-right w3-green">Save</button>
+                    </div>
+                </div>
+            </div>
+            <!-- edit profile form -->
+            <div id="edit-profile" class="w3-modal">
+                <div class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
+                    <div class="w3-center">
+                        <br>
+                        <span onclick="hide('edit-profile')" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
+                        <p class="form_title">Edit Profile</p>
+                    </div>
+                    <!-- add action, pass records to server  -->
+                    <form class="w3-container" action="">
+                        <div class="w3-section">
+                            <p class="w3-center"><img src="http://img.qq745.com/uploads/allimg/160916/7-1609161F211-51.jpg" class="w3-circle photo-style" alt="Avatar">
+                            </p>
+                            <p class="w3-center w3-hover-text-blue" action=""><a href="#">Upload Photo Profile</a>
+                            </p>
+                            <label><b>UserName*</b>
+                            </label>
+                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Username" name="usrname" required>
+                            <label><b>Email (Optional)</b>
+                            </label>
+                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Email" name="email">
+                            <label><b>Description*</b>
+                            </label>
+                            <input class="w3-input w3-border mod-description-box" type="text" placeholder="Enter your description" name="description">
+                        </div>
+                    </form>
+                    <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                        <button onclick="hide('edit-profile')" type="button" class="w3-btn w3-red">Cancel</button>
+                        <button onclick="savePwd()" type="button" class="w3-btn w3-right w3-green">Save</button>
+                    </div>
+                </div>
+            </div>
+            <!-- dashboard -->
+            <section class="right_col w3-threequarter">
+                <div class="section_card">
+                    <div class="w3-row">
+                        <a href="javascript:void(0)" onclick="openTab(event, 'uploaded-list');">
+                            <div id="uploaded-recipes-tab" class="half-or-third tablink w3-bottombar w3-hover-light-grey w3-padding">Uploaded Recipes</div>
+                        </a>
+                        <a href="javascript:void(0)" onclick="openTab(event, 'notification-list');">
+                            <div id="notification-tab" class="half-or-third tablink w3-bottombar w3-hover-light-grey w3-padding">Email Notification</div>
+                        </a>
+                        <a href="javascript:void(0)" onclick="openTab(event, 'user-list');">
+                            <div id="users-tab" class="half-or-third tablink w3-bottombar w3-hover-light-grey w3-padding">All Users</div>
+                        </a>
+                    </div>
+
+                    <section id="uploaded-list" class="w3-container set-tab" style="display:none">
+                        <div class="recipe_card w3-card-2 w3-hover-shadow w3-margin w3-tooltip" onclick="location.href='/pages/recipe_view.html'">
+                            <img src="/img/ingredients/meatloaf.jpg" alt="food image">
+                            <div class="w3-container w3-center">
+                                <p class="recipe_card_title">Meat Loaf</p>
+                                <p class="recipe_card_des">This recipe is anything but regular old meatloaf! Everyone will love this moist version made in the slow cooker, with milk, mushrooms, and a little sage for extra flavor.</p>
                             </div>
                         </div>
-                        <!-- modified later, test only for now -->
-                        <div class="w3-blue w3-margin-top">Test Admin page and User page</div>
-                        <div onclick="show('admin-page')" class="w3-hover-blue">admin</div>
-                        <div onclick="hide('admin-page')" class="w3-hover-blue">user</div>
+
+                    </section>
+
+                    <section id="notification-list" class="w3-container set-tab" style="display:none">
+                        <p class="w3-center w3-hover-text-blue"><a href="javascript: show('set-notification-form');">Notification Settings</a>
+                        </p>
+
+
+                        <div id="rate-card" class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow">
+                            <p><i class="fa fa-star fa-fw w3-margin-right w3-text-theme"></i>Your Recipe is rated by Becky!</p>
+                        </div>
+                        <div id="comment-card" class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow">
+                            <p><i class="fa fa-commenting-o fa-fw w3-margin-right w3-text-theme"></i>Your Recipe is commented by Cinny!</p>
+                        </div>
+                        <div id="favorite-edited-card" class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow">
+                            <p><i class="fa fa-book fa-fw w3-margin-right w3-text-theme"></i>Your Favorite Recipe has been modified by Tanay!</p>
+                        </div>
+                        <div id="uploaded-edited-card" class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow">
+                            <p><i class="fa fa-pencil-square fa-fw w3-margin-right w3-text-theme"></i>Your Uploaded Recipe has been modified by Morgan!</p>
+                        </div>
+
+
+                        <div id="set-notification-form" class="w3-modal">
+                            <div class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
+                                <div class="w3-center">
+                                    <br>
+                                    <span onclick="hide('set-notification-form')" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
+                                    <p class="form_title">Notification Settings</p>
+                                    <hr>
+                                </div>
+                                <form class="w3-container">
+                                    <div class="w3-section w3-padding">
+                                        <input class="w3-margin-bottom" type="checkbox" name="set-comment-notification" checked> Receive notification about comments.
+                                        <br>
+                                        <hr>
+                                        <input class="w3-margin-bottom" type="checkbox" name="set-rate-notification" checked> Receive notification about rates.
+                                        <br>
+                                        <hr>
+                                        <input class="w3-margin-bottom" type="checkbox" name="set-uploaded-notification" checked> Receive notification about my uploaded recipes.
+                                        <br>
+                                        <hr>
+                                        <input class="w3-margin-bottom" type="checkbox" name="set-favorite-notification" checked> Receive notification about my favorite recipes.
+                                        <br>
+                                        <hr>
+                                    </div>
+                                    <button onclick="saveNotificationSetting()" type="button" class="w3-btn w3-right w3-green w3-margin-bottom">Save</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <section id="user-list" class="w3-container" style="display:none">
+                        <div class="recipe_card w3-card-2 w3-white w3-hover-shadow w3-margin w3-padding">
+                            <img src="http://img.qq745.com/uploads/allimg/160916/7-1609161F211-51.jpg" class="user-card-img" alt="Profile Photo">
+                            <div class="w3-container w3-center">
+                                <h4 id="user-card-username" class="w3-center">Monkey.D.Luffy</h4>
+                            </div>
+
+
+                            <button onclick="deleteUser()" type="button" class="w3-btn w3-red">Delete</button>
+                            <button onclick="show('edit-profile')" type="button" class="w3-btn w3-right w3-green">Edit</button>
+                        </div>
                     </section>
                 </div>
-                
-                <section class="right_col w3-threequarter">
-                    <section id="user-profile-content" class="section_card w3-white w3-card-2">
-                        <section id="basic-info">
-                            <div id="Jane" class="w3-container person w3-card-2 w3-margin">
-                                <br>
-                                <img class="w3-round w3-animate-top profile-photo" src="http://img.qq745.com/uploads/allimg/160916/7-1609161F211-51.jpg">
-                                <h5>Basic Information</h5>
-                                <h5><b>User Name</b></h5>
-                                <div>Team02</div>
-                                <h5><b>Email</b></h5>
-                                <div>Team02@gmail.com</div>
-                                <i class="w3-left fa fa-pencil"></i>
-                                <hr>
-                                <h5><b>Description</b></h5>
-                                <p id="description">DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription</p>
-                                <i class="w3-left fa fa-pencil "></i>
-                            </div>
-                        </section>
-                        <section id="reset-pwd">
-                            <h2><b>Rest Password Page</b></h2>
-                            <form class="w3-container w3-card-2 w3-margin">
-                                <div class="w3-section">
-                                    <label><b>Old Password</b></label>
-                                    <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Old Password" name="old-pwd" required>
-                                    <label><b>New Password</b></label>
-                                    <!-- password pattern can be changed later -->
-                                    <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter New Password" name="new-pwd" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-                                    <label><b>Repeat New Password*</b></label>
-                                    <input id="repeated-pwd" class="w3-input w3-border" type="password" placeholder="Please Repeat New Password" name="repeat--new-pwd" onChange="checkPasswordMatch()" required>
-                                </div>
-                            </form>
-                        </section>
-                        <section id="user-profile-content" class="w3-main">
-                            <section id="basic-info">
-                                <div id="Jane" class="w3-container person w3-card-2 w3-margin">
-                                    <br>
-                                    <img class="w3-round w3-animate-top profile-photo" src="http://img.qq745.com/uploads/allimg/160916/7-1609161F211-51.jpg">
-                                    <h5>Basic Information</h5>
-                                    <h5><b>User Name</b></h5>
-                                    <div>Team02</div>
-                                    <h5><b>Email</b></h5>
-                                    <div>Team02@gmail.com</div>
-                                    <i class="w3-left fa fa-pencil"></i>
-                                    <hr>
-                                    <h5><b>Description</b></h5>
-                                    <p id="description">DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription DescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescriptionDescription</p>
-                                    <i class="w3-left fa fa-pencil "></i>
-                                </div>
-                            </section>
-                            <section id="reset-pwd">
-                                <h2><b>Rest Password Page</b></h2>
-                                <form class="w3-container w3-card-2 w3-margin">
-                                    <div class="w3-section">
-                                        <label><b>Old Password</b></label>
-                                        <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Old Password" name="old-pwd" required>
-                                        <label><b>New Password</b></label>
-                                        <!-- password pattern can be changed later -->
-                                        <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter New Password" name="new-pwd" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-                                        <label><b>Repeat New Password*</b></label>
-                                        <input id="repeated-pwd" class="w3-input w3-border" type="password" placeholder="Please Repeat New Password" name="repeat--new-pwd" onChange="checkPasswordMatch()" required>
-                                    </div>
-                                </form>
-                            </section>
-                            <section id="uploaded-recipes">
-                                <h2><b>Uploaded Recipes</b></h2>
-                                <!-- need to modify later -->
-                                <div class="w3-container"></div>
-                                <div class="w3-row-padding w3-margin-top">
-                                    <div class="w3-third">
-                                        <div class="w3-card-2">
-                                            <img src="http://img10.3lian.com/c1/newpic/10/24/21.jpg" style="width:100%">
-                                            <div class="w3-container">
-                                                <h4>5 Terre</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="w3-third">
-                                        <div class="w3-card-2">
-                                            <img src="http://img10.3lian.com/c1/newpic/10/24/21.jpg" style="width:100%">
-                                            <div class="w3-container">
-                                                <h4>Monterosso</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="w3-third">
-                                        <div class="w3-card-2">
-                                            <img src="http://img10.3lian.com/c1/newpic/10/24/21.jpg" style="width:100%">
-                                            <div class="w3-container">
-                                                <h4>Vernazza</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                            <section id="notification-setting"></section>
-                            <h2><b>Notifications Settings</b></h2>
-                            <section id="email-list">
-                                <h2><b>All Notifications</b></h2>
-                                <div id="rate-card" class="w3-padding-large w3-card-2 w3-white w3-round w3-margin">
-                                    <br>
-                                    <!-- need to be modifed and designed -->
-                                    <p>Your Recipe is rated by Becky!</p>
-                                </div>
-                                <div id="comment-card" class="w3-padding-large w3-card-2 w3-white w3-round w3-margin">
-                                    <br>
-                                    <!-- need to be modifed and designed -->
-                                    <p>Your Recipe is commented by Cinny!</p>
-                                </div>
-                                <div id="modify-card" class="w3-padding-large w3-card-2 w3-white w3-round w3-margin">
-                                    <br>
-                                    <!-- need to be modifed and designed -->
-                                    <p>Your Recipe is modified by Tenay!</p>
-                                </div>
-                                <div id="favorite-modify-card" class="w3-padding-large w3-card-2 w3-white w3-round w3-margin">
-                                    <br>
-                                    <!-- need to be modifed and designed -->
-                                    <p>Your Favorite Recipe is modified by Morgan!</p>
-                                </div>
-                            </section>
-                        </section>
-                    </section>
-                </section>
             </section>
-        </div>
-        
-        <!--footer-->
-        <div class="w3-row" id="footer_holder">
-        </div>
-        
-        <!--Custom JS and CSS-->
-        <script src="/pages/user_profile.js" type="text/javascript"></script>
-        <link rel="stylesheet" type="text/css" href="/pages/user_proifle.css" media="screen" />
-        <!--Project Common Custom JS and CSS-->
-        <link rel="stylesheet" type="text/css" href="/pages/project_common.css" media="screen" />
-        <script src="/pages/project_common.js" type="text/javascript"></script>
-    </body>
+        </section>
+
+    </div>
+
+    <!--footer-->
+    <div class="w3-row" id="footer_holder">
+    </div>
+    <!--Custom JS and CSS-->
+    <script src="/pages/user_profile.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="/pages/user_proifle.css" media="screen" />
+    <!--Project Common Custom JS and CSS-->
+    <link rel="stylesheet" type="text/css" href="/pages/project_common.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/pages/user_profile.css" media="screen" />
+    <script src="/pages/project_common.js" type="text/javascript"></script>
+</body>
+
 </html>

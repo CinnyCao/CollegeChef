@@ -1,20 +1,39 @@
-
-.profile-photo{
-  width:300px;  
-}
-
-#profile-photo{
-    width:100px;
-}
-
-#admin-page{
-    display: none;
-}
-
-#user-profile-content{
-margin-left:340px;margin-right:40px;
-}
-
 #description{
     word-wrap: break-word;
+    width: 100%;
+    height: 200px;
+}
+
+.photo-style{
+	height:106px;width:106px;
+}
+
+.padding-left1{
+	padding-left:30px;
+}
+
+.mod-description-box{
+	word-wrap: break-word;
+	width: 100%;
+    height: 200px;
+}
+
+.recipe_card {
+    display: inline-block;
+    cursor: pointer;
+    width: 250px;
+    height: 260px;
+}
+
+.right-sections{
+	height: 350px; width: 100%;
+}
+
+.set-form{
+	width: 100px;
+}
+
+.user-card-img{
+	width: 80%;
+	height:150px;
 }

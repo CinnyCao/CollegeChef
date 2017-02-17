@@ -33,26 +33,15 @@ function login(){
     // todo
 }
 
-function showLoginForm() {
-    $('#login-form').show();
-}
-
-function closeLoginForm(){
-    $('#login-form').hide();
-}
-
 /* Sign Up form */
 
 function signup(){
     // todo
 }
 
-function showSignUpForm(){
-    $('#register-form').show();
-}
-
-function closeSignUpForm(){
-    $('#register-form').hide();
+/* Save Reset Password */
+function savePwd(){
+    // todo
 }
 
 function checkPasswordMatch() {
