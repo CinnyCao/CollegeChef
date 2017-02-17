@@ -1,4 +1,7 @@
 $(function () {
+    //load navbar
+    $('#navbar_holder').load('/components/navbar.html');
+
     // onpen the first recipe list on start
     showRecipeList('hot_recipes');
 

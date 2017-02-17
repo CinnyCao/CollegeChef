@@ -1,4 +1,9 @@
 $(function() {
+    //load navbar
+    $('#navbar_holder').load('/components/navbar.html', function () {
+        $('.site_name').html('My Profile');
+    });
+
     // load recipe_card
     $('#uploaded-list').load('/components/recipe_card.html');
 
