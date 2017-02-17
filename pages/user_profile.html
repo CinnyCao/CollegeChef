@@ -30,7 +30,7 @@
                             <p>this section will be removed later</p>
                             <p class="w3-hover-text-grey"><a href="javascript: twoTab();">User</a>
                             </p>
-                            <p class="w3-hover-text-grey"><a href="javascript: threeTab();">Admin</a>
+                            <p class="w3-hover-text-grey"><a href="javascript: fourTab();">Admin</a>
                             </p>
                         </section>
 
@@ -118,15 +118,18 @@
             <!-- dashboard -->
             <section class="right_col w3-threequarter">
                 <div class="section_card">
-                    <div class="w3-row">
+                   <div class="w3-row">
                         <a href="javascript:void(0)" onclick="openTab(event, 'uploaded-list');">
-                            <div id="uploaded-recipes-tab" class="half-or-third tablink w3-bottombar w3-hover-light-grey w3-padding">Uploaded Recipes</div>
+                            <div id="uploaded-recipes-tab" class="half-or-forth tablink w3-bottombar w3-hover-light-grey w3-padding">Uploaded Recipes</div>
                         </a>
                         <a href="javascript:void(0)" onclick="openTab(event, 'notification-list');">
-                            <div id="notification-tab" class="half-or-third tablink w3-bottombar w3-hover-light-grey w3-padding">Email Notification</div>
+                            <div id="notification-tab" class="half-or-forth tablink w3-bottombar w3-hover-light-grey w3-padding">Email Notification</div>
                         </a>
                         <a href="javascript:void(0)" onclick="openTab(event, 'user-list');">
-                            <div id="users-tab" class="half-or-third tablink w3-bottombar w3-hover-light-grey w3-padding">All Users</div>
+                            <div id="users-tab" class="half-or-forth tablink w3-bottombar w3-hover-light-grey w3-padding">All Users</div>
+                        </a>
+                        <a href="javascript:void(0)" onclick="openTab(event, 'recipes-list');">
+                            <div id="recipes-tab" class="half-or-forth tablink w3-bottombar w3-hover-light-grey w3-padding">All Recipies</div>
                         </a>
                     </div>
 
@@ -194,6 +197,9 @@
                             <button onclick="deleteUser()" type="button" class="w3-btn w3-red">Delete</button>
                             <button onclick="show('edit-profile')" type="button" class="w3-btn w3-right w3-green">Edit</button>
                         </div>
+                    </section>
+                    <section id="recipes-list" class="w3-container set-tab" style="display:none">
+
                     </section>
                 </div>
             </section>

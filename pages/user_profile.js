@@ -35,17 +35,19 @@ function openTab(evt, tabName) {
 
 // These two methods will be modified when able to get the status of user(Admin or User)
 function twoTab() {
-    $('.half-or-third').removeClass('w3-third');
-    $('.half-or-third').addClass('w3-half');
-    // Hide users list section for users
+    $('.half-or-forth').removeClass('w3-quarter');
+    $('.half-or-forth').addClass('w3-half');
+    // Hide users list and all recipes list section for users
     $('#users-tab').hide();
+    $('#recipes-tab').hide();
 }
 
-function threeTab() {
-    $('.half-or-third').removeClass('w3-half');
-    $('.half-or-third').addClass('w3-third');
-    // Show users list section for Admin
+function fourTab() {
+    $('.half-or-forth').removeClass('w3-half');
+    $('.half-or-forth').addClass('w3-quarter');
+    // Show users list and all recipes list section for Admin
     $('#users-tab').show();
+    $('#recipes-tab').show();
 }
 
 // save the result of notification settings
@@ -55,4 +57,8 @@ function saveNotificationSetting(){
 
 function deleteUser(){
     // todo
+}
+
+function deleteRecipe(){
+  // todo
 }
