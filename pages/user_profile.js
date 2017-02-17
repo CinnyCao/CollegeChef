@@ -67,3 +67,7 @@ function deleteUser(){
 function deleteRecipe(){
   // todo
 }
+
+function addRecipe() {
+  // todo
+}

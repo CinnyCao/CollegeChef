@@ -50,6 +50,9 @@ body {
 
     body {
         display: none;
+    }
+
+    html {
         background-image: url(/img/closedbackground.jpg);
     }
 }

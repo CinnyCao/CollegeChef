@@ -13,6 +13,7 @@
 </head>
 
 <body>
+    <button class="add_recipe w3-btn w3-grey w3-padding-large w3-small" onclick="javascript: show('add-recipe')">Add a Recipe</button>
     <!--Navbar-->
     <div id="navbar_holder"></div>
     <!--Page Content-->
@@ -47,9 +48,9 @@
                             Description says: "Don't forget me!"
                         </article>
                         <hr>
-                        <p class="w3-left w3-hover-text-blue"><a href="javascript: $('#reset-pwd').show();">Reset Password</a>
+                        <p class="w3-left w3-hover-text-blue"><a href="javascript: show('reset-pwd');">Reset Password</a>
                         </p>
-                        <p class="w3-right w3-hover-text-blue"><a href="javascript: $('#edit-profile').show();">Edit Profile</a>
+                        <p class="w3-right w3-hover-text-blue"><a href="javascript: show('edit-profile');">Edit Profile</a>
                         </p>
                     </div>
                 </div>
@@ -59,7 +60,7 @@
                 <div class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
                     <div class="w3-center">
                         <br>
-                        <span onclick="$('#reset-pwd').hide()" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
+                        <span onclick="hide('reset-pwd')" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
                         <p class="form_title">Rest Password</p>
                     </div>
                     <!-- add action, pass records to server  -->
@@ -78,8 +79,54 @@
                         </div>
                     </form>
                     <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-                        <button onclick="$('#reset-pwd').hide()" type="button" class="w3-btn w3-red">Cancel</button>
+                        <button onclick="hide('reset-pwd')" type="button" class="w3-btn w3-red">Cancel</button>
                         <button onclick="savePwd()" type="button" class="w3-btn w3-right w3-green">Save</button>
+                    </div>
+                </div>
+            </div>
+            <!-- add a recipe form -->
+            <div id="add-recipe" class="w3-modal">
+                <div class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
+                    <div class="w3-center">
+                        <br>
+                        <span onclick="hide('add-recipe')" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
+                        <h1 class="form_title">Add a Recipe</h1>
+                    </div>
+                    <!-- add action, pass records to server  -->
+                    <form class="w3-container" action="">
+                        <div class="w3-section">
+                            <label><b>Recipe Name</b>
+                            </label>
+                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name of recipe" name="recipename" required>
+                            <label><b>Category</b>
+                            </label>
+                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter the recipe type" name="category" required>
+                            <label><b>Recipe Photo</b>
+                            </label>
+                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter a url for a photo of the recipe" name="photo" required>
+                            <label><b>Short Description</b>
+                            </label>
+                            <textarea rows="2" name="shortdescription" placeholder="Enter your description" required></textarea>
+                            <label><b>Ingredient List</b>
+                            </label>
+                            <textarea class="w3-input w3-border w3-margin-bottom" rows="5" name="servingnumber" placeholder="Enter your list of ingredients and their quantities" required></textarea>
+                            <label><b>Number of Servings</b>
+                            </label>
+                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name number of servings" name="servings" required>
+                            <label><b>Cooking Instructions</b>
+                            </label>
+                            <textarea class="w3-input w3-border w3-margin-bottom" rows="5" name="instructions" placeholder="Enter your cooking instructions" required></textarea>
+                            <label><b>Additional Tips or Suggestions (optional)</b>
+                            </label>
+                            <textarea class="w3-input w3-border w3-margin-bottom" rows="2" name="tips" placeholder="Enter any additional suggestions you have"></textarea>
+                            <label><b>Long Description (optional)</b>
+                            </label>
+                            <textarea class="w3-input w3-border w3-margin-bottom" rows="2" name="longdescription" placeholder="Enter your description"></textarea>
+                        </div>
+                    </form>
+                    <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                        <button onclick="hide('add-recipe')" type="button" class="w3-btn w3-red">Cancel</button>
+                        <button onclick="addRecipe()" type="button" class="w3-btn w3-right w3-green">Submit</button>
                     </div>
                 </div>
             </div>
@@ -88,7 +135,7 @@
                 <div class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
                     <div class="w3-center">
                         <br>
-                        <span onclick="$('#edit-profile').hide()" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
+                        <span onclick="hide('edit-profile')" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
                         <p class="form_title">Edit Profile</p>
                     </div>
                     <!-- add action, pass records to server  -->
@@ -110,7 +157,7 @@
                         </div>
                     </form>
                     <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-                        <button onclick="$('#edit-profile').hide()" type="button" class="w3-btn w3-red">Cancel</button>
+                        <button onclick="hide('edit-profile')" type="button" class="w3-btn w3-red">Cancel</button>
                         <button onclick="savePwd()" type="button" class="w3-btn w3-right w3-green">Save</button>
                     </div>
                 </div>
@@ -134,11 +181,11 @@
                     </div>
 
                     <section id="uploaded-list" class="w3-container set-tab" style="display:none">
-
+                        
                     </section>
 
                     <section id="notification-list" class="w3-container set-tab" style="display:none">
-                        <p class="w3-center w3-hover-text-blue"><a href="javascript: $('#set-notification-form').show();">Notification Settings</a>
+                        <p class="w3-center w3-hover-text-blue"><a href="javascript: show('set-notification-form');">Notification Settings</a>
                         </p>
 
 
@@ -160,7 +207,7 @@
                             <div class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
                                 <div class="w3-center">
                                     <br>
-                                    <span onclick="$('#set-notification-form').hide()" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
+                                    <span onclick="hide('set-notification-form')" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
                                     <p class="form_title">Notification Settings</p>
                                     <hr>
                                 </div>
@@ -195,7 +242,7 @@
 
 
                             <button onclick="deleteUser()" type="button" class="w3-btn w3-red">Delete</button>
-                            <button onclick="$('#edit-profile').show()" type="button" class="w3-btn w3-right w3-green">Edit</button>
+                            <button onclick="show('edit-profile')" type="button" class="w3-btn w3-right w3-green">Edit</button>
                         </div>
                     </section>
                     <section id="recipes-list" class="w3-container set-tab" style="display:none">
@@ -215,7 +262,6 @@
     <link rel="stylesheet" type="text/css" href="/pages/user_profile.css" media="screen" />
     <!--Project Common Custom JS and CSS-->
     <link rel="stylesheet" type="text/css" href="/pages/project_common.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="/pages/user_profile.css" media="screen" />
     <script src="/pages/project_common.js" type="text/javascript"></script>
 </body>
 
