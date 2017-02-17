@@ -1,0 +1,17 @@
+.header {
+    letter-spacing: 10px;
+    border-radius: 5px;
+}
+.faleft1, .faright1 {
+    padding-right: 40px;
+}
+.faleft2 {
+    padding-right: 15px;
+}
+.faright2 {
+    padding-right: 5px;
+}
+
+@media screen and (max-width: 730px) {
+
+}
