@@ -68,6 +68,7 @@ function deleteRecipe(){
   // todo
 }
 
+
 function editRecipe() {
     // Sample data
     document.getElementById("add_title").innerHTML="Edit Recipe";
@@ -95,4 +96,11 @@ function addRecipe() {
     document.getElementById("tips").value="";
     document.getElementById("longdescription").value="";
     show('add-recipe');
+}
+
+// will be modified later and pass the real user information
+function editProfile(){
+    document.getElementById("name-input").value="Monkey.D.Luffy";
+    document.getElementById("email-input").value="team02@gmail.com";
+    document.getElementById("description-input").value="We are team02. Our team members are Becky, Cinny, Morgan, Tanay.";
 }

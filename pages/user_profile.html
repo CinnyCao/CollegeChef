@@ -46,12 +46,12 @@
                         <p><i class="fa fa-id-card-o fa-fw w3-margin-right w3-text-theme"></i><b>Description</b>
                         </p>
                         <article id="description" class="w3-border">
-                            Description says: "Don't forget me!"
+                            We are team02. Our team members are Becky, Cinny, Morgan, Tanay.
                         </article>
                         <hr>
                         <p class="w3-left w3-hover-text-blue"><a href="javascript: show('reset-pwd');">Reset Password</a>
                         </p>
-                        <p class="w3-right w3-hover-text-blue"><a href="javascript: show('edit-profile');">Edit Profile</a>
+                        <p class="w3-right w3-hover-text-blue"><a href="javascript: show('edit-profile'); editProfile()">Edit Profile</a>
                         </p>
                     </div>
                 </div>
@@ -146,15 +146,15 @@
                             </p>
                             <p class="w3-center w3-hover-text-blue" action=""><a href="#">Upload Photo Profile</a>
                             </p>
-                            <label><b>UserName*</b>
+                            <label><b>UserName</b>
                             </label>
-                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Username" name="usrname" required>
+                            <input id="name-input" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Username" name="usrname" required>
                             <label><b>Email (Optional)</b>
                             </label>
-                            <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Email" name="email">
-                            <label><b>Description*</b>
+                            <input id="email-input" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Email" name="email">
+                            <label><b>Description</b>
                             </label>
-                            <input class="w3-input w3-border mod-description-box" type="text" placeholder="Enter your description" name="description">
+                            <textarea id="description-input" class="ar w3-input w3-border w3-margin-bottom" rows="5" name="description" placeholder="Enter your description" required></textarea>
                         </div>
                     </form>
                     <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
