@@ -5,7 +5,7 @@ $(function() {
     });
 
     // load recipe_card
-    $('#uploaded-list').load('/components/recipe_card.html');
+    $('#uploaded-card').load('/components/recipe_card.html');
 
     // uploaded recipes is the default tab
     $('#uploaded-list').show();
@@ -68,34 +68,23 @@ function deleteRecipe(){
   // todo
 }
 
-
-function editRecipe() {
-    // Sample data
-    document.getElementById("add_title").innerHTML="Edit Recipe";
-    document.getElementById("recipename").value="Scrambled Eggs";
-    document.getElementById("category").value="Breakfast";
-    document.getElementById("photo").value="https://upload.wikimedia.org/wikipedia/commons/1/1e/Brinner.jpg";
-    document.getElementById("shortdescription").value="Luscious, fluffy, and buttery scrambled eggs.";
-    document.getElementById("ingredientlist").value="1. 2 eggs; 2. 6 tbsp whole milk; 3. 2 tbsp butter; 4. pinch of salt";
-    document.getElementById("servings").value="1";
-    document.getElementById("instructions").value="1. Whisk eggs, milk, salt together until consistent; 2. Heat butter in pan; 3. Pour egg mixture into pan; 4. Let it sit for 15 seconds then stir; 5. Repeat until eggs are softly set";
-    document.getElementById("tips").value="Serve with black coffee.";
-    document.getElementById("longdescription").value="";
-    show('add-recipe');
+function saveRecipe(){
+  // todo
 }
 
-function addRecipe() {
-    document.getElementById("add_title").innerHTML="Add a Recipe";
-    document.getElementById("recipename").value="";
-    document.getElementById("category").value="";
-    document.getElementById("photo").value="";
-    document.getElementById("shortdescription").value="";
-    document.getElementById("ingredientlist").value="";
-    document.getElementById("servings").value="";
-    document.getElementById("instructions").value="";
-    document.getElementById("tips").value="";
-    document.getElementById("longdescription").value="";
-    show('add-recipe');
+// value will be got from database and reset
+function addEditRecipe(id) {
+    document.getElementById("add_title").innerHTML= (id == 'addRecipe') ? "Add a Recipe" : "Edit Recipe";
+    document.getElementById("recipename").value= (id == 'addRecipe') ? "" : "Scrambled Eggs";
+    document.getElementById("category").value=(id == 'addRecipe') ? "" : "Breakfast";
+    document.getElementById("photo").value=(id == 'addRecipe') ? "" : "https://upload.wikimedia.org/wikipedia/commons/1/1e/Brinner.jpg";
+    document.getElementById("shortdescription").value=(id == 'addRecipe') ? "" : "Luscious, fluffy, and buttery scrambled eggs.";
+    document.getElementById("ingredientlist").value=(id == 'addRecipe') ? "" : "1. 2 eggs; 2. 6 tbsp whole milk; 3. 2 tbsp butter; 4. pinch of salt";
+    document.getElementById("servings").value=(id == 'addRecipe') ? "" : "1";
+    document.getElementById("instructions").value=(id == 'addRecipe') ? "" : "1. Whisk eggs, milk, salt together until consistent; 2. Heat butter in pan; 3. Pour egg mixture into pan; 4. Let it sit for 15 seconds then stir; 5. Repeat until eggs are softly set";
+    document.getElementById("tips").value=(id == 'addRecipe') ? "" : "Serve with black coffee.";
+    document.getElementById("longdescription").value=(id == 'addRecipe') ? "" : "";
+    show('add-edit-recipe');
 }
 
 // will be modified later and pass the real user information

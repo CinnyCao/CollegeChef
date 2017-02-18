@@ -13,8 +13,7 @@
 </head>
 
 <body>
-    <button class="add_recipe w3-btn w3-grey w3-padding-large w3-small" onclick="addRecipe()">Add a Recipe</button>
-    <button class="edit_recipe w3-btn w3-grey w3-padding-large w3-small" onclick="editRecipe()">Edit Recipe</button>
+    <button id="editRecipe" class="edit_recipe w3-btn w3-grey w3-padding-large w3-small" onclick="addEditRecipe('editRecipe')">Edit Recipe</button>
     <!--Navbar-->
     <div id="navbar_holder"></div>
     <!--Page Content-->
@@ -86,11 +85,11 @@
                 </div>
             </div>
             <!-- add a recipe form -->
-            <div id="add-recipe" class="w3-modal">
+            <div id="add-edit-recipe" class="w3-modal">
                 <div class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
                     <div class="w3-center">
                         <br>
-                        <span onclick="hide('add-recipe')" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
+                        <span onclick="hide('add-edit-recipe')" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
                         <h1 id="add_title" class="form_title">Add a Recipe</h1>
                     </div>
                     <!-- add action, pass records to server  -->
@@ -126,8 +125,8 @@
                         </div>
                     </form>
                     <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-                        <button onclick="hide('add-recipe')" type="button" class="w3-btn w3-red">Cancel</button>
-                        <button onclick="addRecipe()" type="button" class="w3-btn w3-right w3-green">Submit</button>
+                        <button onclick="hide('add-edit-recipe')" type="button" class="w3-btn w3-red">Cancel</button>
+                        <button onclick="saveRecipe()" type="button" class="w3-btn w3-right w3-green">Submit</button>
                     </div>
                 </div>
             </div>
@@ -182,6 +181,9 @@
                     </div>
 
                     <section id="uploaded-list" class="w3-container set-tab" style="display:none">
+                        <p id="addRecipe" class="w3-center w3-hover-text-blue"><a href="javascript: addEditRecipe('addRecipe');">Add a Recipe</a>
+                        </p>
+                        <section id="uploaded-card">
                     </section>
 
                     <section id="notification-list" class="w3-container set-tab" style="display:none">
