@@ -47,15 +47,9 @@
     left: 17px;
     top: 32px
 }
-/* For search by username
-.b1 {
-    width: 220px;
-    border-radius: 5px;
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 20px;
-    text-align: center;
-}*/
+
+/*recipe list*/
+
 .recipe_cards_wrapper {
     padding: 4px 10px;
     border: 2px solid #CCCCCC;
