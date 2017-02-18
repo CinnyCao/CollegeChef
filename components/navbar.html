@@ -1,6 +1,6 @@
 <!--Navigation Bar-->
 <nav class="w3-top">
-    <div class="site_name w3-wide">CollegeChef</div>
+    <div class="site_name w3-wide"><img src="/img/icon.png" alt="Icon"> CollegeChef</div>
     <ul id="navbar" class="w3-navbar w3-black w3-card-4 w3-left-align">
         <li class="w3-opennav"><a class="w3-padding-large" href="javascript: showLinks();"><i class="fa fa-bars"></i></a></li>
         <li class="menu_item_left"><a href="/index.html" class="w3-padding-large" title="Home"><i class="fa fa-home"></i><p class="menu_item_name w3-hide-medium">Home</p></a></li>
@@ -29,7 +29,7 @@
                 <label><b>Password</b></label>
                 <!-- password pattern can be changed later -->
                 <input class="w3-input w3-border" type="password" placeholder="Enter Password" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-                <!-- <input class="w3-check w3-margin-top" type="checkbox" checked="checked"> Remember me -->
+                <input class="w3-check w3-margin-top" type="checkbox" checked="checked"> Remember me
             </div>
         </form>
 
@@ -60,7 +60,6 @@
                 <input id="pwd" class="w3-input w3-border w3-margin-bottom" type="password" placeholder="Enter Password" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
                 <label><b>Repeat Password*</b></label>
                 <input id="repeated-pwd" class="w3-input w3-border" type="password" placeholder="Please Repeat Password" name="repeat-pwd" onChange="checkPasswordMatch()" required>
-                <input class="w3-check w3-margin-top" type="checkbox" checked="checked"> Remember me
             </div>
         </form>
 
