@@ -5,9 +5,13 @@ body {
 .site_name {
     position: fixed;
     color: white;
-    margin-left: calc(50% - 65px); /* Avoid overlapping nav buttons when being full width */
+    margin-left: calc(50% - 75px); /* Avoid overlapping nav buttons when being full width */
     padding-top: 10px;
     font-size: 18px;
+}
+
+.site_name img {
+    width: 24px;
 }
 
 .menu_item_name {
