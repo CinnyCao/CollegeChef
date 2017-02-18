@@ -3,10 +3,7 @@ $(function () {
     $('#navbar_holder').load('/components/navbar.html', function () {
         $('.site_name').html('<i class="fa fa-cutlery w3-hide-small"></i> Recipe Browser <i class="fa fa-cutlery fa-flip-horizontal w3-hide-small"></i>');
     });
-    // load recipe_card
-    // $('#main_wrapper').load('/components/recipe_card.html');
 });
-
 
 function filterRecipes() {
 	reset();
@@ -14,7 +11,7 @@ function filterRecipes() {
     var recipes = $(".recipe_card");
 
     for (i = 0; i < recipes.length; i++) {
-        $(recipes[i]).toggle(recipes[i].title.toLowerCase().contains(search_text));
+        $(recipes[i]).toggle(recipes[i].title.toLowerCase().indexOf(search_text) >= 0);
     }
 }
 
@@ -43,25 +40,4 @@ function reset() {
   		document.getElementById(str).style.color = "white";
   	}
   	$('.recipe_card').show();
-  	/*var recipes = $(".recipe_card");
-  	for (i = 0; i < recipes.length; i++) {
-	    $(recipes[i]).toggle();
-	}*/
-  	/*$(".abc").each(function(i, obj) {
-		i.style.color = "white";
-    	i.style.fontWeight = "normal";
-	});*/
-	/*var abc = document.querySelectorAll('.abc');
-	for (var i = 0; i < abc.length; i++) {
-  		abc[i].style.color = "green";
-	}*/
-	/*
-	Array.prototype.forEach.call(abc, function(obj, i) {
-    	i.style.color = "white";
-    	i.style.fontWeight = "normal";
-	});*/
-	/*for (var i = 0; i < abc.length; i++) {   
-   		[i].style.color = "white";
-    	[i].style.fontWeight = "normal";
-	}*/
 }

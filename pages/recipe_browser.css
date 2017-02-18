@@ -80,7 +80,10 @@
 .recipe_card img {
     height: 100%;
     margin-bottom: 5px;
+    width:148px;
+    height:110px;
 }
+
 .recipe_card p {
     width: 100%;
     margin: 0;
