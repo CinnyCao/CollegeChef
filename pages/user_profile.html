@@ -13,7 +13,6 @@
 </head>
 
 <body>
-    <button id="editRecipe" class="edit_recipe w3-btn w3-grey w3-padding-large w3-small" onclick="addEditRecipe('editRecipe')">Edit Recipe</button>
     <!--Navbar-->
     <div id="navbar_holder"></div>
     <!--Page Content-->
@@ -165,7 +164,7 @@
             <!-- dashboard -->
             <section class="right_col w3-threequarter">
                 <div class="section_card">
-                   <div class="w3-row">
+                    <div class="w3-row">
                         <a href="javascript:void(0)" onclick="openTab(event, 'uploaded-list');">
                             <div id="uploaded-recipes-tab" class="half-or-forth tablink w3-bottombar w3-hover-light-grey w3-padding">Uploaded Recipes</div>
                         </a>
@@ -180,13 +179,13 @@
                         </a>
                     </div>
 
-                    <section id="uploaded-list" class="w3-container set-tab" style="display:none">
+                    <section id="uploaded-list" class="w3-container set-tab hide-section">
                         <p id="addRecipe" class="w3-center w3-hover-text-blue"><a href="javascript: addEditRecipe('addRecipe');">Add a Recipe</a>
                         </p>
                         <section id="uploaded-card"></section>
                     </section>
 
-                    <section id="notification-list" class="w3-container set-tab" style="display:none">
+                    <section id="notification-list" class="w3-container set-tab hide-section">
                         <p class="w3-center w3-hover-text-blue"><a href="javascript: show('set-notification-form');">Notification Settings</a>
                         </p>
 
@@ -235,23 +234,35 @@
 
                     </section>
 
-                    <section id="user-list" class="w3-container set-tab" style="display:none">
-                        <div class="recipe_card w3-card-2 w3-white w3-hover-shadow w3-margin w3-padding">
+                    <section id="user-list" class="w3-container set-tab hide-section">
+                        <section id="user-card" class="recipe_card w3-white w3-card-2 w3-hover-shadow w3-margin w3-tooltip">
                             <img src="http://img.qq745.com/uploads/allimg/160916/7-1609161F211-51.jpg" class="user-card-img" alt="Profile Photo">
                             <div class="w3-container w3-center">
-                                <h4 id="user-card-username" class="w3-center">Monkey.D.Luffy</h4>
+                                <h4 class="w3-center">Monkey.D.Luffy</h4>
                             </div>
-
-
-                            <button onclick="deleteUser()" type="button" class="w3-btn w3-red">Delete</button>
-                            <button onclick="show('edit-profile')" type="button" class="w3-btn w3-right w3-green">Edit</button>
-                        </div>
+                            <section class="display-bottom">
+                                <div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="deleteUser()">Delete</div>
+                                <div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="show('edit-profile'); editProfile()">Edit</div>
+                            </section>
+                        </section>
                     </section>
-                    <section id="recipes-list" class="w3-container set-tab" style="display:none">
-
+                    <section id="recipes-list" class="w3-container set-tab hide-section">
+                        <section id="user-card" class="recipe_card w3-white w3-card-2 w3-hover-shadow w3-margin w3-tooltip">
+                            <section onclick="location.href='/pages/recipe_view.html'">
+                                <img src="/img/ingredients/meatloaf.jpg" class="user-card-img" alt="food image">
+                                <div class="w3-container w3-center">
+                                    <h4 class="w3-center">Meat Loaf</h4>
+                                </div>
+                            </section>
+                            <section class="display-bottom">
+                                <div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="deleteRecipe()">Delete</div>
+                                <div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="addEditRecipe('editRecipe')">Edit</div>
+                            </section>
+                        </section>
                     </section>
-                </div>
             </section>
+            </div>
+        </section>
         </section>
 
     </div>
