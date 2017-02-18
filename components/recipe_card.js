@@ -11,7 +11,3 @@ function ellipsisRecipeCardDescription() {
         }
     }
 }
-
-function likeRecipe(){
-	// like this recipe
-}
