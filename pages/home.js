@@ -1,8 +1,21 @@
+/** dummy data **/
+var ingredients = [
+    ["Egg", "/img/egg.png"],
+    ["Cheese", "/img/cheese.png"],
+    ["Eggplant", "/img/eggplant.png"],
+    ["Apple", "/img/icon.png"],
+    ["Pineapple", "/img/icon.png"],
+    ["Chicken", "/img/icon.png"]
+];
+
 $(function () {
     //load navbar
     $('#navbar_holder').load('/components/navbar.html');
 
-    // onpen the first recipe list on start
+    // populate ingredients list
+    populateIngredients();
+
+    // open the first recipe list on start
     showRecipeList('hot_recipes');
 
     // load recipe_card
@@ -11,16 +24,14 @@ $(function () {
     // pin and unpin ingredient buttons
     $('.ingredient_button').on('click', function () {
         $(this).toggleClass('selected_ingredient_button');
-        $(this).parent().prepend($('.selected_ingredient_button').after());
+        $(this).parent().prepend($('.selected_ingredient_button'));
     });
 });
 
-function filterIngredients() {
-    var search_text = $('#ingredient_search_input').val().toLowerCase();
-    var ingredients = $(".ingredient_button:not(.selected_ingredient_button)");
-
-    for (i = 0; i < ingredients.length; i++) {
-        $(ingredients[i]).toggle(ingredients[i].title.toLowerCase().startsWith(search_text));
+function populateIngredients() {
+    var data = ingredients; // todo: load ingredients data from database
+    for (var i = 0; i < ingredients.length; i++) {
+        $(".ingredient_buttons_wrapper").append($(getIngredientButton(data[i][0], data[i][1])));
     }
 }
 

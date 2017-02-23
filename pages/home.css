@@ -30,12 +30,6 @@
     cursor: pointer;
 }
 
-.selected_ingredient_button {
-    background: lightgray;
-    background: -webkit-radial-gradient(lightgray, grey);
-    background: radial-gradient(lightgray, grey);
-}
-
 /* Recipe lists styles */
 
 .recipe_list {
