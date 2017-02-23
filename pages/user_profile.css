@@ -74,3 +74,29 @@ textarea {
 .form_title {
 	margin-bottom: 20px;
 }
+
+.card-set{
+	position: relative;
+	margin: 16px;
+}
+
+.card-margin{
+	margin-right: 30px;
+}
+
+.delete-pos{
+	top: 0;
+}
+
+.edit-pos{
+	top: 35px;
+}
+
+.modify-set{
+	position: absolute;
+	right: 0;
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	background-color:#fff;
+}

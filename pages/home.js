@@ -6,7 +6,7 @@ $(function () {
     showRecipeList('hot_recipes');
 
     // load recipe_card
-    $('#hot_recipes').load('/components/recipe_card.html');
+    $('.hot_recipes').load('/components/recipe_card.html');
 
     // pin and unpin ingredient buttons
     $('.ingredient_button').on('click', function () {

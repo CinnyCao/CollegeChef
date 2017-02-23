@@ -36,12 +36,12 @@
                         </div>
 
                         <hr>
-                        <div><i class="fa fa-user-o fa-fw w3-margin-right w3-margin-bottom w3-text-theme"></i><b>User Name</b>
+                        <div><i class="fa fa-user-o fa-fw w3-margin-right w3-margin-bottom"></i><b>User Name</b>
                         </div>
                         <div class="padding-left1 w3-margin-bottom" id="name">Monkey.D.Luffy</div>
-                        <div><i class="fa fa-envelope-o fa-fw w3-margin-right w3-margin-bottom w3-text-theme"></i><b>Email</b></div>
+                        <div><i class="fa fa-envelope-o fa-fw w3-margin-right w3-margin-bottom"></i><b>Email</b></div>
                         <div class="padding-left1 w3-margin-bottom" id="email"> team02@gmail.com </div>
-                        <div><i class="fa fa-id-card-o fa-fw w3-margin-right w3-margin-bottom w3-text-theme"></i><b>Description</b></div>
+                        <div><i class="fa fa-id-card-o fa-fw w3-margin-right w3-margin-bottom"></i><b>Description</b></div>
                         <div id="description" class="w3-border">
                             We are team02. Our team members are Becky, Cinny, Morgan, Tanay.
                         </div>
@@ -181,7 +181,11 @@
                     <section id="uploaded-list" class="w3-container set-tab hide-section">
                         <p id="addRecipe" class="w3-center w3-hover-text-blue"><a href="javascript: addEditRecipe('addRecipe');">Add a Recipe</a>
                         </p>
-                        <section id="uploaded-card"></section>
+                        <section class="card-set w3-left">
+                            <section class="uploaded-card w3-left card-margin"></section>
+                            <i class="fa fa-trash fa-fw modify-set delete-pos w3-hover-grey" onclick="deleteRecipe()"></i>
+                            <i class="fa fa-pencil-square-o fa-fw modify-set edit-pos w3-hover-grey" onclick="addEditRecipe('editRecipe')"></i>
+                        </section>
                     </section>
                     <!-- Email Notifications -->
                     <section id="notification-list" class="w3-container set-tab hide-section">
@@ -190,16 +194,16 @@
 
 
                         <div id="rate-card" class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow">
-                            <p><i class="fa fa-star fa-fw w3-margin-right w3-text-theme"></i>Your Recipe is rated by Becky!</p>
+                            <p><i class="fa fa-star fa-fw w3-margin-right"></i>Your Recipe is rated by Becky!</p>
                         </div>
                         <div id="comment-card" class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow">
-                            <p><i class="fa fa-commenting-o fa-fw w3-margin-right w3-text-theme"></i>Your Recipe is commented by Cinny!</p>
+                            <p><i class="fa fa-commenting-o fa-fw w3-margin-right"></i>Your Recipe is commented by Cinny!</p>
                         </div>
                         <div id="favorite-edited-card" class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow">
-                            <p><i class="fa fa-book fa-fw w3-margin-right w3-text-theme"></i>Your Favorite Recipe has been modified by Tanay!</p>
+                            <p><i class="fa fa-book fa-fw w3-margin-right"></i>Your Favorite Recipe has been modified by Tanay!</p>
                         </div>
                         <div id="uploaded-edited-card" class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow">
-                            <p><i class="fa fa-pencil-square fa-fw w3-margin-right w3-text-theme"></i>Your Uploaded Recipe has been modified by Morgan!</p>
+                            <p><i class="fa fa-pencil-square fa-fw w3-margin-right"></i>Your Uploaded Recipe has been modified by Morgan!</p>
                         </div>
 
 
@@ -245,15 +249,10 @@
                     </section>
                     <!-- All Recipes -->
                     <section id="recipes-list" class="w3-container set-tab hide-section">
-                        <section id="user-card" class="recipe_card w3-white w3-card-2 w3-hover-shadow w3-margin w3-tooltip">
-                            <section onclick="location.href='/pages/recipe_view.html'">
-                                <img src="/img/ingredients/meatloaf.jpg" class="user-card-img" alt="food image">
-                                <h4 class="w3-container w3-center">Meat Loaf</h4>
-                            </section>
-                            <section class="display-bottom">
-                                <div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="deleteRecipe()">Delete</div>
-                                <div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="addEditRecipe('editRecipe')">Edit</div>
-                            </section>
+                        <section class="card-set w3-left">
+                            <section class="uploaded-card w3-left card-margin"></section>
+                            <i class="fa fa-trash fa-fw modify-set delete-pos w3-hover-grey" onclick="deleteRecipe()"></i>
+                            <i class="fa fa-pencil-square-o fa-fw modify-set edit-pos w3-hover-grey" onclick="addEditRecipe('editRecipe')"></i>
                         </section>
                     </section>
             </section>

@@ -5,7 +5,7 @@ $(function() {
     });
 
     // load recipe_card
-    $('#uploaded-card').load('/components/recipe_card.html');
+    $('.uploaded-card').load('/components/recipe_card.html');
 
     // uploaded recipes is the default tab
     $('#uploaded-list').show();
