@@ -1,7 +1,7 @@
 $(function() {
     //load navbar
     $('#navbar_holder').load('/components/navbar.html', function () {
-        $('.site_name').html('My Profile');
+        $('.site_name').html('<i class="fa fa-user-o"></i> My Profile');
     });
 
     // load recipe_card

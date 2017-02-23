@@ -10,6 +10,7 @@
         <!--CSS Framework-->
         <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pretty-checkbox/2.1.0/pretty.min.css">
     </head>
     <body>
         <!--Navbar-->
@@ -27,7 +28,14 @@
                             <div class="w3-col l8 s12">
                                 <!-- Blog entry -->
                                 <section class="w3-card-4 w3-margin w3-white">
-                                    <img src="/img//ingredients/meatloaf.jpg" alt="meatloaf" style="width:100%">
+                                    <div id="image-part">
+                                        <img id="image-set" src="/img//ingredients/meatloaf.jpg" alt="meatloaf">
+                                        <div id="favorite-button" class="pretty plain smooth toggle">
+                                            <input type="checkbox"> 
+                                            <label><i class="fa fa-heart-o"></i></label>
+                                            <label><i class="fa fa-heart info"></i></label>
+                                        </div>
+                                    </div>
                                     <div class="w3-container w3-padding-8">
                                         <h3><b>Meat Loaf</b></h3>
                                         <fieldset class="rating">
