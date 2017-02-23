@@ -61,15 +61,22 @@ function saveNotificationSetting(){
 }
 
 function deleteUser(){
-    // todo
+  deleteConfirm("user");
+  // todo
 }
 
 function deleteRecipe(){
+  deleteConfirm("recipe");
   // todo
 }
 
 function saveRecipe(){
   // todo
+}
+
+function deleteConfirm(action){
+  var msg = "Are you sure you want to delete this " + action + "?";
+  confirm(msg);
 }
 
 // value will be got from database and reset
@@ -89,7 +96,7 @@ function addEditRecipe(id) {
 
 // will be modified later and pass the real user information
 function editProfile(){
-    document.getElementById("name-input").value="Monkey.D.Luffy";
+    document.getElementById("name-input").value="Team02";
     document.getElementById("email-input").value="team02@gmail.com";
     document.getElementById("description-input").value="We are team02. Our team members are Becky, Cinny, Morgan, Tanay.";
 }
