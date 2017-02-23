@@ -33,5 +33,11 @@ Here is a list of what **ui components** are functional (checked) and what are j
   - [x] Display different content for different account type (user vs admin)
   - [x] Reset Password link
   - [x] Edit Profile link
+  - [x] Edit Uploaded Recipes
+  - [x] Delete Uploaded Recipes - confirm window
   - [x] Add New Recipe link
   - [x] Notification Settings link
+  - [x] Edit other user's recipes (Admin only)
+  - [x] Delete other user's recipes (Admin only) - confirm window
+  - [x] Edit other user's profiles (Admin only)
+  - [x] Delete other user's profiles (Admin only) - confirm window
