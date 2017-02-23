@@ -33,4 +33,5 @@ Here is a list of what **ui components** are functional (checked) and what are j
   - [x] Display different content for different account type (user vs admin)
   - [x] Reset Password link
   - [x] Edit Profile link
+  - [x] Add New Recipe link
   - [x] Notification Settings link
