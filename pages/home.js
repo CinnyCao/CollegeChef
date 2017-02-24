@@ -34,7 +34,9 @@ var hot_recipes = [
 
 $(function () {
     //load navbar
-    $('#navbar_holder').load('/components/navbar.html');
+    $('#navbar_holder').load('/components/navbar.html', function () {
+        onNavBarLoaded();
+    });
 
     // populate ingredients list
     populateIngredients();

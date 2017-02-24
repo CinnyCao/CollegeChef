@@ -53,3 +53,28 @@ textarea {
         float: none;
     }
 }
+
+/* User Type Controller for Demo - Removed later */
+#user_options{
+    position: fixed;
+    bottom: 0px;
+    left: 40vw;
+    padding:10px;
+    background-color: rgba(255, 255, 190, .6);
+    text-align: center;
+    border-radius: 15px;
+}
+
+#user_options p {
+    display: block;
+    font-size: 12px;;
+}
+
+#user_options input {
+    margin-right: 2px;
+}
+
+.user_text {
+    display: inline-block;
+    margin-right: 10px;
+}

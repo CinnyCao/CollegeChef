@@ -1,6 +1,22 @@
+/**
+ * Global Variables
+ */
+
+var user_type = "none";
+
+
+/**
+ * Start-up Setup
+ */
 $(function() {
     //load footer
-    $('#footer_holder').load('/components/footer.html');
+    $('#footer_holder').load('/components/footer.html', function () {
+        $(".user_radio").on('click', function () {
+            user_type = $('input[name=user_type]:checked').val();
+            // update links' visibility in nav bar
+            updateNavMenuItems();
+        });
+    });
 
     $(window).on('resize', function () {
         // make left side bar wider on medium screen
@@ -29,6 +45,11 @@ function changeColumnPercentage() {
     }
 }
 
+
+/**
+ * Global Functions
+ */
+
 function hide(id){
     $('#' + id).hide();
 }
@@ -37,9 +58,84 @@ function show(id){
     $('#' + id).show();
 }
 
+
+/**
+ * Navigation Bar
+ */
+
+// Function that must be called when nav bar is loaded
+function onNavBarLoaded() {
+    // hide menu items on start
+    $('.menu_item_left:not(.user_only)').hide();
+    updateNavMenuItems();
+    $(window).on('resize', function () {
+        updateNavMenuItems();
+    });
+}
+
+function showHideRightMenuItems() {
+    $('.menu_item_right').toggle(user_type == "none" && ($(window).width() > 600 || ($(window).width() <= 600 && $('.menu_item_left').is(':visible'))));
+}
+
+function showHideSiteName() {
+    $('.site_name').toggle($(window).width() <= 600 || ($(window).width() > 600 && !$('.menu_item_left').is(':visible')));
+}
+
+function showLinks() {
+    // show hide links that are always present
+    $('.menu_item_left:not(.user_only)').toggle();
+    updateNavMenuItems();
+}
+
+function updateNavMenuItems() {
+    // show hide user only links iff logged in and other left menu items is visible
+    $('.user_only').toggle($('.menu_item_left:not(.user_only)').is(':visible') && (user_type == "user" || user_type == "admin"));
+    showHideRightMenuItems();
+    // Hide site name when showing menu items in large and medium screen size
+    showHideSiteName();
+}
+
+/* Login form */
+function login(){
+    // todo
+    // close the form after saving
+    hide('login-form');
+}
+
+/* Sign Up form */
+function signUp(){
+    // todo
+    // close the form after saving
+    hide('register-form');
+}
+
+/* Save Reset Password */
+function savePwd(){
+    // todo
+    // close the form after saving
+    hide('reset-pwd');
+}
+
+/* Save User Profile */
+function saveProfile(){
+    // todo
+    // close the form after saving
+    hide('edit-profile');
+}
+
+
+/**
+ * Footer
+ */
+
+function sendFeedback() {
+    // todo
+}
+
+
 /**
  * Ingredient Button
- **/
+ */
 
 function getIngredientButton(title, src) {
     return '' +
@@ -57,9 +153,10 @@ function filterIngredients() {
     }
 }
 
+
 /**
  * Recipe Card
- **/
+ */
 
 function getRecipeCard(name, description, src) {
     var href = "/pages/recipe_view.html"; // todo: generate different href to revipe_view page for different recipe

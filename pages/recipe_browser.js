@@ -26,6 +26,7 @@ var recipes = [
 $(function () {
     //load navbar
     $('#navbar_holder').load('/components/navbar.html', function () {
+        onNavBarLoaded();
         $('.site_name').html('<i class="fa fa-cutlery w3-hide-small"></i> Recipe Browser <i class="fa fa-cutlery fa-flip-horizontal w3-hide-small"></i>');
     });
 

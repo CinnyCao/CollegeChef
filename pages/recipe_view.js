@@ -1,6 +1,8 @@
 $(function() {
     //load navbar
-    $('#navbar_holder').load('/components/navbar.html');
+    $('#navbar_holder').load('/components/navbar.html', function () {
+        onNavBarLoaded();
+    });
 
     /* Button listener for text post */
     $('.input_button').on('click', function(){

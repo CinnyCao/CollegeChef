@@ -42,6 +42,7 @@ var users = [
 $(function () {
     //load navbar
     $('#navbar_holder').load('/components/navbar.html', function () {
+        onNavBarLoaded();
         $('.site_name').html('<i class="fa fa-user-o"></i> My Profile');
     });
 
