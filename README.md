@@ -45,5 +45,4 @@ Here is a list of what **ui components** are functional (checked) and what are j
   - [x] Delete other user's profiles (Admin only) - confirm window
 
 Note:
-1. Currently navigation bar shows all links regardless login condition. Will show/hide proper links for different user types in future phases.
-2. Currently all recipe cards in home page, recipe browser and user profile rediret to the same recipe view page. Will render different content for different recipes in future phases.
+1. Currently all recipe cards in home page, recipe browser and user profile rediret to the same recipe view page. Will render different content for different recipes in future phases.
