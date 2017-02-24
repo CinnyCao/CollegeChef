@@ -151,23 +151,6 @@ function openTab(evt, tabName) {
     evt.currentTarget.firstElementChild.className += " w3-border-red";
 }
 
-// These two methods will be modified when able to get the status of user(Admin or User)
-function twoTab() {
-    $('.half-or-forth').removeClass('w3-quarter');
-    $('.half-or-forth').addClass('w3-half');
-    // Hide users list and all recipes list section for users
-    $('#users-tab').hide();
-    $('#recipes-tab').hide();
-}
-
-function fourTab() {
-    $('.half-or-forth').removeClass('w3-half');
-    $('.half-or-forth').addClass('w3-quarter');
-    // Show users list and all recipes list section for Admin
-    $('#users-tab').show();
-    $('#recipes-tab').show();
-}
-
 // save the result of notification settings
 function saveNotificationSetting() {
     // todo

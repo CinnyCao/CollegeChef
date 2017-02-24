@@ -59,6 +59,26 @@ function show(id){
     $('#' + id).show();
 }
 
+/**
+ * User profile
+ */
+
+// These two methods will be modified when able to get the status of user(Admin or User)
+function twoTab() {
+    $('.half-or-forth').removeClass('w3-quarter');
+    $('.half-or-forth').addClass('w3-half');
+    // Hide users list and all recipes list section for users
+    $('#users-tab').hide();
+    $('#recipes-tab').hide();
+}
+
+function fourTab() {
+    $('.half-or-forth').removeClass('w3-half');
+    $('.half-or-forth').addClass('w3-quarter');
+    // Show users list and all recipes list section for Admin
+    $('#users-tab').show();
+    $('#recipes-tab').show();
+}
 
 /**
  * Navigation Bar
@@ -94,6 +114,17 @@ function updateNavMenuItems() {
     showHideRightMenuItems();
     // Hide site name when showing menu items in large and medium screen size
     showHideSiteName();
+    // display the corresponding user profile page for user/admin
+    displayUserProfilePageContent();
+}
+
+function displayUserProfilePageContent() {
+    if(user_type == "user"){
+        twoTab();
+    }
+    if(user_type == "admin"){
+        fourTab();
+    }
 }
 
 /* Login form */
