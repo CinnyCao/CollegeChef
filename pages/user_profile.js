@@ -14,15 +14,26 @@ var recipes = [
         "/img/recipes/chickennuggets.jpg"]
 ];
 
-$(function() {
+var msgs = [
+    [1, "Becky", "Meat Loaf"],
+    [2, "Cinny", "Scrambled Eggs"],
+    [3, "Morgan", "Ramen"],
+    [4, "Tanay", "Chicken Nuggets"]
+];
+
+
+$(function () {
     //load navbar
-    $('#navbar_holder').load('/components/navbar.html', function() {
+    $('#navbar_holder').load('/components/navbar.html', function () {
         $('.site_name').html('<i class="fa fa-user-o"></i> My Profile');
     });
 
     // load recipe_card
     populateRecipeCards();
     ellipsisRecipeCardDescription();
+    
+    //load notification messages
+    populateNotifications();
 
     // uploaded recipes is the default tab
     $('#uploaded-list').show();
@@ -38,6 +49,45 @@ function populateRecipeCards() {
         $(".uploaded-card").append($(getRecipeCard(data[i][0], data[i][1], data[i][2])));
     }
     addEditorToolsToRecipeCard();
+}
+
+function populateNotifications() {
+    var dataSet = msgs;
+    dataSet.forEach(function (msg) {
+        $(".msg-card").append($(getNotificationMsgs(msg[0], msg[1], msg[2])));
+    });
+}
+
+//4 notification types: rated(1), commented(2), favorite(3), uploaded(4)
+function getNotificationMsgs(type, name, recipeName) {
+    var href = "/pages/recipe_view.html";
+    var msg = "";
+    var label = "";
+    var href = "/pages/recipe_view.html";
+    if(type == 1){
+        msg = "Your Recipe <b>" + recipeName + "</b> is rated by " + name + "!";
+        label = "fa-star";
+    }
+    else if(type == 2){
+        msg = "Your Recipe <b>" + recipeName + "</b> is commented by " + name + "!";
+        label = "fa-commenting-o";
+    }
+    else if(type == 3){
+        msg = "Your Favorite Recipe <b>" + recipeName + "</b> has been modified by " + name + "!";
+        label = "fa-heart";
+    }
+    else if(type == 4){
+        msg = "Your Uploaded Recipe <b>" + recipeName + "</b> has been modified by " + name + "!";
+        label = "fa-book";
+    }
+    else{
+                //invalid notification type        
+    }
+    return '<div class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow"' +
+            '" onclick="location.href=\'' + href + '\'">' +
+            '<p><i class="fa ' + label + ' fa-fw w3-margin-right">' +
+            '</i>' + msg + '</p>' +
+            '</div>';
 }
 
 // open tab

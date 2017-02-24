@@ -38,6 +38,7 @@ Here is a list of what **ui components** are functional (checked) and what are j
   - [x] Delete Uploaded Recipes - confirm window
   - [x] Add New Recipe link
   - [x] Notification Settings link
+  - [x] Click notification message will refer to Recipe View.
   - [x] Edit other user's recipes (Admin only)
   - [x] Delete other user's recipes (Admin only) - confirm window
   - [x] Edit other user's profiles (Admin only)
