@@ -30,7 +30,7 @@ body {
 
 /* Login form & Sign up form*/
 
-#logo-img {
+.logo-img {
     width: 200px;
     height: auto;
 }
