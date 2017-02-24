@@ -52,15 +52,3 @@ function saveProfile(){
     // close the form after saving
     hide('edit-profile');
 }
-
-function checkPasswordMatch() {
-    var password = $("#pwd").val();
-    var confirmPassword = $("#repeated-pwd").val();
-
-    if (password != confirmPassword)
-        document.getElementById('repeated-pwd').title = 'Password does not match';
-}
-
-$(document).ready(function () {
-    $("#repeated-pwd").keyup(checkPasswordMatch);
-});

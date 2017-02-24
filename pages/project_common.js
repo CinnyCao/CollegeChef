@@ -91,3 +91,15 @@ function addEditorToolsToRecipeCard() {
         '</div>';
     $('.recipe_card').append($(tools));
 }
+
+// check whether password matches
+function checkPasswordMatch(newPwd, repeatPwd) {
+    var newPwdValue = $('#' + newPwd).val();
+    var repeatPwdValue = $('#' + repeatPwd).val();
+    if(newPwdValue != repeatPwdValue){
+        $('.repeated-pwd').addClass('w3-red');
+    }
+    else{
+        $('.repeated-pwd').removeClass('w3-red');
+    }
+}

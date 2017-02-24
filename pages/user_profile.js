@@ -180,6 +180,8 @@ function deleteRecipe() {
 
 function saveRecipe() {
     // todo
+    // close the form after saving
+    hide('add-edit-recipe');
 }
 
 // value will be got from database and reset

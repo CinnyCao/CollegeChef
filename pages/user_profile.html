@@ -69,14 +69,14 @@
                             <label><b>Old Password*</b>
                             </label>
                             <input class="w3-input w3-border w3-margin-bottom" type="password" placeholder="Enter Old Password" name="old-pwd" required>
-                            <label><b>New Password*</b>
+                            <label for="newPwd"><b>New Password*</b>
                             </label>
                             <!-- password pattern can be changed later -->
-                            <input class="w3-input w3-border" type="password" placeholder="Enter New Password" name="new-pwd" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                            <input id="newPwd2" class="new-pwd w3-input w3-border" type="password" placeholder="Enter New Password" name="newPwd" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
                             <p class="w3-text-grey w3-margin-bottom">Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters</p>
-                            <label><b>Repeat New Password*</b>
+                            <label for="repeatPwd"><b>Repeat New Password*</b>
                             </label>
-                            <input id="repeated-pwd" class="w3-input w3-border" type="password" placeholder="Please Repeat New Password" name="repeat--new-pwd" onChange="checkPasswordMatch()" required>
+                            <input id="repeatPwd2" class="repeated-pwd w3-input w3-border" type="password" placeholder="Please Repeat New Password" name="repeatPwd" onkeyup="checkPasswordMatch('newPwd2', 'repeatPwd2')" required>
                         </div>
                     </form>
                     <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
