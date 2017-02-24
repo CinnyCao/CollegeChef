@@ -23,6 +23,7 @@ Here is a list of what **ui components** are functional (checked) and what are j
 * Recipe View Page
   - [x] All detailed info about a recipe is shown.
   - [x] Rating star widget 
+  - [x] Favorite the recipe by clicking heart on the right-top corner of the image
   - [x] Comment form - can post new comment
   - [ ] Comments - get list of existing comments
 * Recipe Browser Page
