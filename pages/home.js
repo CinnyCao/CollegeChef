@@ -23,7 +23,7 @@ var hot_recipes = [
         "/img/recipes/chickennuggets.jpg"],
     ["Steak",
         "This is the description",
-        "/img/recipes/steak.jpg"],
+        "/img/recipes/steak.JPG"],
     ["BLT Sandwhich",
         "This is the description",
         "/img/recipes/bltsandwich.jpg"],
