@@ -17,8 +17,17 @@ var recipes = [
 var msgs = [
     [1, "Becky", "Meat Loaf"],
     [2, "Cinny", "Scrambled Eggs"],
-    [3, "Morgan", "Ramen"],
+    [3, "Sean", "Ramen"],
     [4, "Tanay", "Chicken Nuggets"]
+];
+
+var ingredients = [
+    ["Brown Sugar"],
+    ["Cheese"],
+    ["Egg"],
+    ["Eggplant"],
+    ["Milk"],
+    ["Mushroom"]
 ];
 
 
@@ -137,7 +146,7 @@ function editProfile() {
     document.getElementById("profile-photo").value = "http://pre06.deviantart.net/7bfd/th/pre/i/2011/287/a/e/luffy_chibi_head_by_fuwafuwapanda-d4crymp.jpg";
     document.getElementById("name-input").value = "Team02";
     document.getElementById("email-input").value = "team02@gmail.com";
-    document.getElementById("description-input").value = "We are team02. Our team members are Becky, Cinny, Morgan, Tanay.";
+    document.getElementById("description-input").value = "We are team02. Our team members are Becky, Cinny, Sean, Tanay.";
 }
 
 function deleteRecipe() {
@@ -152,16 +161,41 @@ function saveRecipe() {
 // value will be got from database and reset
 function addEditRecipe(id) {
     document.getElementById("recipe_form_title").innerHTML = (id == 'addRecipe') ? "Add a Recipe" : "Edit Recipe";
-    document.getElementById("recipename").value = (id == 'addRecipe') ? "" : "Scrambled Eggs";
-    document.getElementById("category").value = (id == 'addRecipe') ? "" : "Breakfast";
+    document.getElementById("recipe_name").value = (id == 'addRecipe') ? "" : "Scrambled Eggs";
+    document.getElementById("category").value = (id == 'addRecipe') ? "Select a food category" : "Breakfast";
     document.getElementById("photo").value = (id == 'addRecipe') ? "" : "https://upload.wikimedia.org/wikipedia/commons/1/1e/Brinner.jpg";
-    document.getElementById("shortdescription").value = (id == 'addRecipe') ? "" : "Luscious, fluffy, and buttery scrambled eggs.";
-    document.getElementById("ingredientlist").value = (id == 'addRecipe') ? "" : "1. 2 eggs; 2. 6 tbsp whole milk; 3. 2 tbsp butter; 4. pinch of salt";
+    document.getElementById("main_description").value = (id == 'addRecipe') ? "" : "Luscious, fluffy, and buttery scrambled eggs.";
     document.getElementById("servings").value = (id == 'addRecipe') ? "" : "1";
     document.getElementById("instructions").value = (id == 'addRecipe') ? "" : "1. Whisk eggs, milk, salt together until consistent; 2. Heat butter in pan; 3. Pour egg mixture into pan; 4. Let it sit for 15 seconds then stir; 5. Repeat until eggs are softly set";
     document.getElementById("tips").value = (id == 'addRecipe') ? "" : "Serve with black coffee.";
-    document.getElementById("longdescription").value = (id == 'addRecipe') ? "" : "";
+    buildIngredientList(1);
     show('add-edit-recipe');
+}
+
+var count = 2;
+
+function addIngredient(ingredient_list) {
+    var item = document.createElement('div');
+    item.id = "item" + count;
+    item.innerHTML = "<select id='ingredient" + count + "' class='ar w3-input w3-border w3-margin-bottom' name='category'" 
+                    + " required> <option selected id='drop_default'>Select an ingredient</option>"
+                    + "</select> <input id='quantity" + count + "' class='ar w3-input w3-border w3-margin-bottom'"
+                    + "name='quantity' placeholder='Enter amount of ingredient required' required></input>";
+    document.getElementById(ingredient_list).appendChild(item);
+    buildIngredientList(count);
+    count++;
+}
+
+function buildIngredientList(item_num) {
+    var ingredient_id = "ingredient" + item_num;
+
+    for (var i = 0; i < ingredients.length; i++) {
+        var ingredient = document.createElement('option');
+        ingredient.innerHTML = ingredients[i];
+        document.getElementById(ingredient_id).appendChild(ingredient);
+    }
+    //document.getElementById("ingredient1").value = (id == 'addRecipe') ? "" : "1. 2 eggs; 2. 6 tbsp whole milk; 3. 2 tbsp butter; 4. pinch of salt";
+    //document.getElementById("quantity1").value = (id == 'addRecipe') ? "" : "";
 }
 
 function deleteConfirm(action) {

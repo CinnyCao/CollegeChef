@@ -45,7 +45,7 @@
                         <div><i class="fa fa-id-card-o fa-fw w3-margin-right w3-margin-bottom"></i><b>Description</b>
                         </div>
                         <div id="description" class="w3-border">
-                            We are team02. Our team members are Becky, Cinny, Morgan, Tanay.
+                            We are team02. Our team members are Becky, Cinny, Sean, Tanay.
                         </div>
                         <hr>
                         <div class="w3-left w3-hover-text-blue"><a href="javascript: show('reset-pwd');">Reset Password</a>
@@ -97,31 +97,41 @@
                         <div class="w3-section">
                             <label><b>Recipe Name*</b>
                             </label>
-                            <input id="recipename" class="ar w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name of recipe" name="recipename" required>
+                            <input id="recipe_name" class="ar w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name of recipe" name="recipename" required>
                             <label><b>Category*</b>
                             </label>
-                            <input id="category" class="ar w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter the recipe type" name="category" required>
+                            <select id="category" class="ar w3-input w3-border w3-margin-bottom" name="category" required>
+                                <option selected id="catdefault">Select a food category</option>
+                                <option>Breakfast</option>
+                                <option>Snack</option>
+                                <option>Main Dish</option>
+                            </select>
                             <label><b>Recipe Photo*</b>
                             </label>
                             <input id="photo" class="ar w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter a url for a photo of the recipe" name="photo" required>
-                            <label><b>Short Description*</b>
+                            <label><b>Description*</b>
                             </label>
-                            <textarea id="shortdescription" class="ar w3-input w3-border w3-margin-bottom" rows="2" name="shortdescription" placeholder="Enter your description" required></textarea>
+                            <textarea id="main_description" class="ar w3-input w3-border w3-margin-bottom" rows="2" name="description" placeholder="Enter your description" required></textarea>
                             <label><b>Ingredient List*</b>
                             </label>
-                            <textarea id="ingredientlist" class="ar w3-input w3-border w3-margin-bottom" rows="5" name="ingredientlist" placeholder="Enter your list of ingredients and their quantities" required></textarea>
+                            <div id="ingredient_list">
+                                <div id="item1">
+                                    <select id="ingredient1" class="ar w3-input w3-border w3-margin-bottom" name="category" required>
+                                        <option selected id="drop_default">Select an ingredient</option>
+                                    </select>
+                                    <input id="quantity1" class="ar w3-input w3-border w3-margin-bottom" name="quantity" placeholder="Enter amount of ingredient required" required></input>
+                                </div>
+                            </div>
+                            <button id="add_ingredient" onClick="addIngredient('ingredient_list');">Add Ingredient</button><br>
                             <label><b>Number of Servings*</b>
                             </label>
                             <input id="servings" class="ar w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name number of servings" name="servings" required>
-                            <label><b>Cooking Instruction*s</b>
+                            <label><b>Cooking Instructions*</b>
                             </label>
                             <textarea id="instructions" class="ar w3-input w3-border w3-margin-bottom" rows="5" name="instructions" placeholder="Enter your cooking instructions" required></textarea>
                             <label><b>Additional Tips or Suggestions (optional)</b>
                             </label>
                             <textarea id="tips" class="ar w3-input w3-border w3-margin-bottom" rows="2" name="tips" placeholder="Enter any additional suggestions you have"></textarea>
-                            <label><b>Long Description (optional)</b>
-                            </label>
-                            <textarea id="longdescription" class="ar w3-input w3-border w3-margin-bottom" rows="2" name="longdescription" placeholder="Enter your description"></textarea>
                         </div>
                     </form>
                     <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
