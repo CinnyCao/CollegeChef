@@ -1,6 +1,6 @@
 $(function() {
     //load navbar
-    $('#navbar_holder').load('/components/navbar.html', function () {
+    $('#navbar_holder').load('/components/navbar.html', function() {
         $('.site_name').html('<i class="fa fa-user-o"></i> My Profile');
     });
 
@@ -15,27 +15,19 @@ $(function() {
     twoTab();
 });
 
-function openAccordions(id) {
-    var x = document.getElementById(id);
-    if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-    } else { 
-        x.className = x.className.replace(" w3-show", "");
-    }
-}
-
+// open tab
 function openTab(evt, tabName) {
     var i, x, tablinks;
-  x = document.getElementsByClassName("set-tab");
-  for (i = 0; i < x.length; i++) {
-     x[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("tablink");
-  for (i = 0; i < x.length; i++) {
-     tablinks[i].className = tablinks[i].className.replace(" w3-border-red", "");
-  }
-  document.getElementById(tabName).style.display = "block";
-  evt.currentTarget.firstElementChild.className += " w3-border-red";
+    x = document.getElementsByClassName("set-tab");
+    for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < x.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" w3-border-red", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.firstElementChild.className += " w3-border-red";
 }
 
 // These two methods will be modified when able to get the status of user(Admin or User)
@@ -56,47 +48,48 @@ function fourTab() {
 }
 
 // save the result of notification settings
-function saveNotificationSetting(){
+function saveNotificationSetting() {
     // todo
 }
 
-function deleteUser(){
-  deleteConfirm("user");
-  // todo
+function deleteUser() {
+    deleteConfirm("user");
+    // todo
 }
 
-function deleteRecipe(){
-  deleteConfirm("recipe");
-  // todo
+// will be modified later and pass the real user information
+function editProfile() {
+    document.getElementById("profile-photo").value = "http://pre06.deviantart.net/7bfd/th/pre/i/2011/287/a/e/luffy_chibi_head_by_fuwafuwapanda-d4crymp.jpg";
+    document.getElementById("name-input").value = "Team02";
+    document.getElementById("email-input").value = "team02@gmail.com";
+    document.getElementById("description-input").value = "We are team02. Our team members are Becky, Cinny, Morgan, Tanay.";
 }
 
-function saveRecipe(){
-  // todo
+function deleteRecipe() {
+    deleteConfirm("recipe");
+    // todo
 }
 
-function deleteConfirm(action){
-  var msg = "Are you sure you want to delete this " + action + "?";
-  confirm(msg);
+function saveRecipe() {
+    // todo
 }
 
 // value will be got from database and reset
 function addEditRecipe(id) {
-    document.getElementById("add_title").innerHTML= (id == 'addRecipe') ? "Add a Recipe" : "Edit Recipe";
-    document.getElementById("recipename").value= (id == 'addRecipe') ? "" : "Scrambled Eggs";
-    document.getElementById("category").value=(id == 'addRecipe') ? "" : "Breakfast";
-    document.getElementById("photo").value=(id == 'addRecipe') ? "" : "https://upload.wikimedia.org/wikipedia/commons/1/1e/Brinner.jpg";
-    document.getElementById("shortdescription").value=(id == 'addRecipe') ? "" : "Luscious, fluffy, and buttery scrambled eggs.";
-    document.getElementById("ingredientlist").value=(id == 'addRecipe') ? "" : "1. 2 eggs; 2. 6 tbsp whole milk; 3. 2 tbsp butter; 4. pinch of salt";
-    document.getElementById("servings").value=(id == 'addRecipe') ? "" : "1";
-    document.getElementById("instructions").value=(id == 'addRecipe') ? "" : "1. Whisk eggs, milk, salt together until consistent; 2. Heat butter in pan; 3. Pour egg mixture into pan; 4. Let it sit for 15 seconds then stir; 5. Repeat until eggs are softly set";
-    document.getElementById("tips").value=(id == 'addRecipe') ? "" : "Serve with black coffee.";
-    document.getElementById("longdescription").value=(id == 'addRecipe') ? "" : "";
+    document.getElementById("recipe_form_title").innerHTML = (id == 'addRecipe') ? "Add a Recipe" : "Edit Recipe";
+    document.getElementById("recipename").value = (id == 'addRecipe') ? "" : "Scrambled Eggs";
+    document.getElementById("category").value = (id == 'addRecipe') ? "" : "Breakfast";
+    document.getElementById("photo").value = (id == 'addRecipe') ? "" : "https://upload.wikimedia.org/wikipedia/commons/1/1e/Brinner.jpg";
+    document.getElementById("shortdescription").value = (id == 'addRecipe') ? "" : "Luscious, fluffy, and buttery scrambled eggs.";
+    document.getElementById("ingredientlist").value = (id == 'addRecipe') ? "" : "1. 2 eggs; 2. 6 tbsp whole milk; 3. 2 tbsp butter; 4. pinch of salt";
+    document.getElementById("servings").value = (id == 'addRecipe') ? "" : "1";
+    document.getElementById("instructions").value = (id == 'addRecipe') ? "" : "1. Whisk eggs, milk, salt together until consistent; 2. Heat butter in pan; 3. Pour egg mixture into pan; 4. Let it sit for 15 seconds then stir; 5. Repeat until eggs are softly set";
+    document.getElementById("tips").value = (id == 'addRecipe') ? "" : "Serve with black coffee.";
+    document.getElementById("longdescription").value = (id == 'addRecipe') ? "" : "";
     show('add-edit-recipe');
 }
 
-// will be modified later and pass the real user information
-function editProfile(){
-    document.getElementById("name-input").value="Team02";
-    document.getElementById("email-input").value="team02@gmail.com";
-    document.getElementById("description-input").value="We are team02. Our team members are Becky, Cinny, Morgan, Tanay.";
+function deleteConfirm(action) {
+    var msg = "Are you sure you want to delete this " + action + "?";
+    confirm(msg);
 }

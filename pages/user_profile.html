@@ -18,10 +18,10 @@
     <div id="navbar_holder"></div>
     <!--Page Content-->
     <div class="content">
-        <section class="w3-row-padding w3-row">
+        <div class="w3-row-padding w3-row">
             <!-- user profile -->
-            <section class="left_col w3-quarter">
-                <section class="section_card w3-card-2 w3-round w3-white">
+            <div class="left_col w3-quarter">
+                <div class="section_card w3-card-2 w3-round w3-white">
                     <section class="w3-container">
                         <h4 class="w3-center">My Profile</h4>
                         <div class="w3-center"><img src="/img/profile_picture.jpg" class="w3-circle photo-style" alt="Avatar">
@@ -39,9 +39,11 @@
                         <div><i class="fa fa-user-o fa-fw w3-margin-right w3-margin-bottom"></i><b>User Name</b>
                         </div>
                         <div class="padding-left1 w3-margin-bottom" id="name">Team02</div>
-                        <div><i class="fa fa-envelope-o fa-fw w3-margin-right w3-margin-bottom"></i><b>Email</b></div>
+                        <div><i class="fa fa-envelope-o fa-fw w3-margin-right w3-margin-bottom"></i><b>Email</b>
+                        </div>
                         <div class="padding-left1 w3-margin-bottom" id="email"> team02@gmail.com </div>
-                        <div><i class="fa fa-id-card-o fa-fw w3-margin-right w3-margin-bottom"></i><b>Description</b></div>
+                        <div><i class="fa fa-id-card-o fa-fw w3-margin-right w3-margin-bottom"></i><b>Description</b>
+                        </div>
                         <div id="description" class="w3-border">
                             We are team02. Our team members are Becky, Cinny, Morgan, Tanay.
                         </div>
@@ -51,18 +53,18 @@
                         <div class="w3-right w3-hover-text-blue"><a href="javascript: show('edit-profile'); editProfile()">Edit Profile</a>
                         </div>
                     </section>
-                </section>
-            </section>
+                </div>
+            </div>
             <!-- rest password form -->
             <section id="reset-pwd" class="w3-modal">
-                <section class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
-                    <section class="w3-center">
+                <div class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
+                    <div class="w3-center">
                         <br>
                         <span onclick="hide('reset-pwd')" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
-                        <p class="form_title">Rest Password</p>
-                    </section>
+                        <h2 class="form_title">Rest Password</h2>
+                    </div>
                     <!-- add action, pass records to server  -->
-                    <form class="w3-container" action="">
+                    <form class="w3-container">
                         <div class="w3-section">
                             <label><b>Old Password*</b>
                             </label>
@@ -76,22 +78,22 @@
                             <input id="repeated-pwd" class="w3-input w3-border" type="password" placeholder="Please Repeat New Password" name="repeat--new-pwd" onChange="checkPasswordMatch()" required>
                         </div>
                     </form>
-                    <section class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                    <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
                         <button onclick="hide('reset-pwd')" type="button" class="w3-btn w3-red">Cancel</button>
                         <button onclick="savePwd()" type="button" class="w3-btn w3-right w3-green">Save</button>
-                    </section>
-                </section>
+                    </div>
+                </div>
             </section>
             <!-- add a recipe form -->
             <section id="add-edit-recipe" class="w3-modal">
-                <section class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
+                <div class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
                     <div class="w3-center">
                         <br>
                         <span onclick="hide('add-edit-recipe')" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
-                        <h1 id="add_title" class="form_title">Add a Recipe</h1>
+                        <h2 id="recipe_form_title" class="form_title">Edit Recipe</h2>
                     </div>
                     <!-- add action, pass records to server  -->
-                    <form class="w3-container" action="">
+                    <form class="w3-container">
                         <div class="w3-section">
                             <label><b>Recipe Name*</b>
                             </label>
@@ -126,43 +128,45 @@
                         <button onclick="hide('add-edit-recipe')" type="button" class="w3-btn w3-red">Cancel</button>
                         <button onclick="saveRecipe()" type="button" class="w3-btn w3-right w3-green">Submit</button>
                     </div>
-                </section>
+                </div>
             </section>
             <!-- edit profile form -->
             <section id="edit-profile" class="w3-modal">
-                <section class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
+                <div class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
                     <div class="w3-center">
                         <br>
                         <span onclick="hide('edit-profile')" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
-                        <p class="form_title">Edit Profile</p>
+                        <h2 class="form_title">Edit Profile</h2>
                     </div>
                     <!-- add action, pass records to server  -->
-                    <form class="w3-container" action="">
+                    <form class="w3-container">
                         <div class="w3-section">
                             <p class="w3-center"><img src="/img/profile_picture.jpg" class="w3-circle photo-style" alt="Avatar">
                             </p>
-                            <p class="w3-center w3-hover-text-blue" action=""><a href="#">Upload Photo Profile</a>
-                            </p>
-                            <label><b>UserName</b>
+                            <label><b>Upload Profile Photo</b>
+                            </label>
+                            <input id="profile-photo" class="ar w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter a url for a photo of the profile" name="profile photo">
+                            <label><b>UserName*</b>
                             </label>
                             <input id="name-input" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Username" name="usrname" required>
-                            <label><b>Email (Optional)</b>
+                            <label><b>Email</b>
                             </label>
                             <input id="email-input" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Email" name="email">
                             <label><b>Description</b>
                             </label>
-                            <textarea id="description-input" class="ar w3-input w3-border w3-margin-bottom" rows="5" name="description" placeholder="Enter your description" required></textarea>
+                            <textarea id="description-input" class="ar w3-input w3-border w3-margin-bottom" rows="5" name="description" placeholder="Enter your description."></textarea>
                         </div>
                     </form>
                     <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
                         <button onclick="hide('edit-profile')" type="button" class="w3-btn w3-red">Cancel</button>
                         <button onclick="savePwd()" type="button" class="w3-btn w3-right w3-green">Save</button>
                     </div>
-                </section>
+                </div>
             </section>
-            <!-- Left Part -->
-            <section class="right_col w3-threequarter">
+            <!-- Right Part -->
+            <div class="right_col w3-threequarter">
                 <div class="section_card">
+                    <!-- control tabs -->
                     <div class="w3-row">
                         <a href="javascript:void(0)" onclick="openTab(event, 'uploaded-list');">
                             <div id="uploaded-recipes-tab" class="half-or-forth tablink w3-bottombar w3-hover-light-grey w3-padding">Uploaded Recipes</div>
@@ -178,21 +182,21 @@
                         </a>
                     </div>
                     <!-- Uploaded recipes -->
-                    <section id="uploaded-list" class="w3-container set-tab hide-section">
+                    <div id="uploaded-list" class="w3-container set-tab hide-section">
                         <p id="addRecipe" class="w3-center w3-hover-text-blue"><a href="javascript: addEditRecipe('addRecipe');">Add a Recipe</a>
                         </p>
-                        <section class="card-set w3-left">
-                            <section class="uploaded-card w3-left card-margin"></section>
+                        <div class="card-set w3-left">
+                            <div class="uploaded-card w3-left card-margin"></div>
                             <i class="fa fa-trash fa-fw modify-set delete-pos w3-hover-grey" onclick="deleteRecipe()"></i>
                             <i class="fa fa-pencil-square-o fa-fw modify-set edit-pos w3-hover-grey" onclick="addEditRecipe('editRecipe')"></i>
-                        </section>
-                    </section>
+                        </div>
+                    </div>
                     <!-- Email Notifications -->
-                    <section id="notification-list" class="w3-container set-tab hide-section">
+                    <div id="notification-list" class="w3-container set-tab hide-section">
                         <p class="w3-center w3-hover-text-blue"><a href="javascript: show('set-notification-form');">Notification Settings</a>
                         </p>
 
-
+                        <!-- all messages, there are four default types: rate, comment, favorite edit and uploaded edit -->
                         <div id="rate-card" class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow">
                             <p><i class="fa fa-star fa-fw w3-margin-right"></i>Your Recipe is rated by Becky!</p>
                         </div>
@@ -206,13 +210,13 @@
                             <p><i class="fa fa-pencil-square fa-fw w3-margin-right"></i>Your Uploaded Recipe has been modified by Morgan!</p>
                         </div>
 
-
-                        <div id="set-notification-form" class="w3-modal">
+                        <!-- set notification form -->
+                        <section id="set-notification-form" class="w3-modal">
                             <div class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
                                 <div class="w3-center">
                                     <br>
                                     <span onclick="hide('set-notification-form')" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
-                                    <p class="form_title">Notification Settings</p>
+                                    <h2 class="form_title">Notification Settings</h2>
                                     <hr>
                                 </div>
                                 <form class="w3-container">
@@ -233,33 +237,30 @@
                                     <button onclick="saveNotificationSetting()" type="button" class="w3-btn w3-right w3-green w3-margin-bottom">Save</button>
                                 </form>
                             </div>
-                        </div>
-
-                    </section>
+                        </section>
+                    </div>
                     <!-- All Users -->
-                    <section id="user-list" class="w3-container set-tab hide-section">
-                        <section id="user-card" class="recipe_card w3-white w3-card-2 w3-hover-shadow w3-margin w3-tooltip">
-                            <img src="/img/profile_picture.jpg" class="user-card-img" alt="Profile Photo">
+                    <div id="user-list" class="w3-container set-tab hide-section">
+                        <section id="user-card" class="w3-white w3-card-2 w3-hover-shadow w3-margin w3-tooltip">
+                            <img id="user-card-photo" src="/img/profile_picture.jpg" alt="Profile Photo">
                             <h4 class="w3-container w3-center">Team02</h4>
-                            <section class="display-bottom">
+                            <div class="display-bottom">
                                 <div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="deleteUser()">Delete</div>
                                 <div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="show('edit-profile'); editProfile()">Edit</div>
-                            </section>
+                            </div>
                         </section>
-                    </section>
+                    </div>
                     <!-- All Recipes -->
-                    <section id="recipes-list" class="w3-container set-tab hide-section">
-                        <section class="card-set w3-left">
-                            <section class="uploaded-card w3-left card-margin"></section>
+                    <div id="recipes-list" class="w3-container set-tab hide-section">
+                        <div class="card-set w3-left">
+                            <div class="uploaded-card w3-left card-margin"></div>
                             <i class="fa fa-trash fa-fw modify-set delete-pos w3-hover-grey" onclick="deleteRecipe()"></i>
                             <i class="fa fa-pencil-square-o fa-fw modify-set edit-pos w3-hover-grey" onclick="addEditRecipe('editRecipe')"></i>
-                        </section>
-                    </section>
-            </section>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
-        </section>
-
+        </div>
     </div>
 
     <!--footer-->
