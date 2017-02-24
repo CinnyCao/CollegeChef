@@ -37,7 +37,7 @@ function login(){
 
 /* Sign Up form */
 
-function signup(){
+function signUp(){
     // todo
     // close the form after saving
     hide('register-form');
