@@ -30,6 +30,12 @@ var ingredients = [
     ["Mushroom"]
 ];
 
+var users = [
+    ["Team02", "/img/profile_picture.jpg"],
+    ["team002", "/img/profile_picture.jpg"],
+    ["team0002", "/img/profile_picture.jpg"]
+]
+
 
 $(function () {
     //load navbar
@@ -40,9 +46,12 @@ $(function () {
     // load recipe_card
     populateRecipeCards();
     ellipsisRecipeCardDescription();
-    
+
     //load notification messages
     populateNotifications();
+    
+    //load user cards
+    populateUserCards();
 
     // uploaded recipes is the default tab
     $('#uploaded-list').show();
@@ -67,30 +76,45 @@ function populateNotifications() {
     });
 }
 
+function populateUserCards() {
+    var usersDsta = users;
+    usersDsta.forEach(function (user) {
+        $(".user-card").append($(getUserCard(user[0], user[1])));
+    });
+}
+
+function getUserCard(name, photo) {
+    return '<section id="user-card-set" class="w3-white w3-card-2 w3-hover-shadow w3-margin w3-tooltip">' +
+            '<img id="user-card-photo" src=' + photo + ' alt="Profile Photo">' +
+            '<h4 class="w3-container w3-center">' + name + '</h4>' +
+            '<div class="display-bottom">' +
+            '<div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="deleteUser()">Delete</div>' +
+            '<div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="show(\'edit-profile\'); editProfile()">Edit</div>' +
+            '</div>' +
+            '</section>';
+}
+
+
 //4 notification types: rated(1), commented(2), favorite(3), uploaded(4)
 function getNotificationMsgs(type, name, recipeName) {
     var href = "/pages/recipe_view.html";
     var msg = "";
     var label = "";
     var href = "/pages/recipe_view.html";
-    if(type == 1){
+    if (type == 1) {
         msg = "Your Recipe <b>" + recipeName + "</b> is rated by " + name + "!";
         label = "fa-star";
-    }
-    else if(type == 2){
+    } else if (type == 2) {
         msg = "Your Recipe <b>" + recipeName + "</b> is commented by " + name + "!";
         label = "fa-commenting-o";
-    }
-    else if(type == 3){
+    } else if (type == 3) {
         msg = "Your Favorite Recipe <b>" + recipeName + "</b> has been modified by " + name + "!";
         label = "fa-heart";
-    }
-    else if(type == 4){
+    } else if (type == 4) {
         msg = "Your Uploaded Recipe <b>" + recipeName + "</b> has been modified by " + name + "!";
         label = "fa-book";
-    }
-    else{
-                //invalid notification type        
+    } else {
+        //invalid notification type        
     }
     return '<div class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow"' +
             '" onclick="location.href=\'' + href + '\'">' +
