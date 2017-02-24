@@ -42,7 +42,6 @@ function show(id){
  **/
 
 function getIngredientButton(title, src) {
-    title = title.substr(0, 1).toUpperCase() + title.substr(1, title.length - 1).toLowerCase();
     return '' +
         '<a class="ingredient_button w3-center" href="#" title="' + title + '">' +
             '<img src="' + src + '" alt="' + title + '"><p>' + title + '</p>' +

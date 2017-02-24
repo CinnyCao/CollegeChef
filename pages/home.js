@@ -3,9 +3,9 @@ var ingredients = [
     ["Egg", "/img/ingredients/egg.png"],
     ["Cheese", "/img/ingredients/cheese.png"],
     ["Eggplant", "/img/ingredients/eggplant.png"],
-    ["Apple", "/img/icon.png"],
-    ["Pineapple", "/img/icon.png"],
-    ["Chicken", "/img/icon.png"]
+    ["Brown Sugar", "/img/ingredients/brown_sugar_ing.jpg"],
+    ["Milk", "/img/ingredients/milk_ing.jpg"],
+    ["Mushroom", "/img/ingredients/mushroom_ing.jpg"]
 ];
 
 var hot_recipes = [
