@@ -31,12 +31,16 @@ function showLinks() {
 
 function login(){
     // todo
+    // close the form after saving
+    hide('login-form');
 }
 
 /* Sign Up form */
 
 function signup(){
     // todo
+    // close the form after saving
+    hide('register-form');
 }
 
 /* Save Reset Password */

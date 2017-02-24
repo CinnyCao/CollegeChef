@@ -111,7 +111,7 @@ function getNotificationMsgs(type, name, recipeName) {
         msg = "Your Favorite Recipe <b>" + recipeName + "</b> has been modified by " + name + "!";
         label = "fa-heart";
     } else if (type == 4) {
-        msg = "Your Uploaded Recipe <b>" + recipeName + "</b> has been modified by " + name + "!";
+        msg = "Your Recipe <b>" + recipeName + "</b> has been modified by " + name + "!";
         label = "fa-book";
     } else {
         //invalid notification type        
