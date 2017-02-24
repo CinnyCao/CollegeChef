@@ -51,12 +51,15 @@
         <form class="w3-container" action="">
             <div class="w3-section">
                 <label><b>UserName*</b></label>
-                <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Username" name="usrname" required>
+                <input class="w3-input w3-border" type="text" placeholder="Enter Username" name="usrname" required>
+                <p class="w3-text-grey w3-margin-bottom">You will use your username to login.</p>
                 <label><b>Email (Optional)</b></label>
-                <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Email" name="email">
+                <input class="w3-input w3-border" type="text" placeholder="Enter Email" name="email">
+                <p class="w3-text-grey w3-margin-bottom">You will occasionally receive account related emails. We promise not to share your email with anyone.</p>
                 <label><b>Password*</b></label>
                 <!-- password pattern can be changed later -->
-                <input id="pwd" class="w3-input w3-border w3-margin-bottom" type="password" placeholder="Enter Password" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                <input id="pwd" class="w3-input w3-border" type="password" placeholder="Enter Password" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                <p class="w3-text-grey w3-margin-bottom">Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters</p>
                 <label><b>Repeat Password*</b></label>
                 <input id="repeated-pwd" class="w3-input w3-border" type="password" placeholder="Please Repeat Password" name="repeat-pwd" onChange="checkPasswordMatch()" required>
             </div>
