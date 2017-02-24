@@ -42,6 +42,15 @@ function signup(){
 /* Save Reset Password */
 function savePwd(){
     // todo
+    // close the form after saving
+    hide('reset-pwd');
+}
+
+/* Save User Profile */
+function saveProfile(){
+    // todo
+    // close the form after saving
+    hide('edit-profile');
 }
 
 function checkPasswordMatch() {
