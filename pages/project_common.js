@@ -16,6 +16,7 @@ $(function() {
             // update links' visibility in nav bar
             updateNavMenuItems();
         });
+        $('#footer_holder').trigger('footerLoaded');
     });
 
     $(window).on('resize', function () {
