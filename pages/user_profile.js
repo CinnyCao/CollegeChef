@@ -201,15 +201,20 @@ function addEditRecipe(id) {
 var count = 2;
 
 function addIngredient(ingredient_list) {
-    var item = document.createElement('div');
-    item.id = "item" + count;
-    item.innerHTML = "<select id='ingredient" + count + "' class='ar w3-input w3-border w3-margin-bottom' name='category'" 
-                    + " required> <option selected id='drop_default'>Select an ingredient</option>"
-                    + "</select> <input id='quantity" + count + "' class='ar w3-input w3-border w3-margin-bottom'"
-                    + "name='quantity' placeholder='Enter amount of ingredient required' required></input>";
-    document.getElementById(ingredient_list).appendChild(item);
-    buildIngredientList(count);
-    count++;
+    var countPrev = count - 1;
+    var ingredientPrev = document.getElementById("ingredient" + countPrev);
+    var quantityPrev = document.getElementById("quantity" + countPrev);
+    if (ingredientPrev.value != "Select an ingredient" && quantityPrev.value != "") {
+         var item = document.createElement('div');
+        item.id = "item" + count;
+        item.innerHTML = "<select id='ingredient" + count + "' class='ar w3-input w3-border w3-margin-bottom' name='category'" 
+                        + " required> <option selected id='drop_default'>Select an ingredient</option>"
+                        + "</select> <input id='quantity" + count + "' class='ar w3-input w3-border w3-margin-bottom'"
+                        + "name='quantity' placeholder='Enter amount of ingredient required' required></input>";
+        document.getElementById(ingredient_list).appendChild(item);
+        buildIngredientList(count);
+        count++;
+    }
 }
 
 function buildIngredientList(item_num) {
