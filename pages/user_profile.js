@@ -196,7 +196,7 @@ function addEditRecipe(id) {
     count = 2;
     document.getElementById("recipe_form_title").innerHTML = (id == 'addRecipe') ? "Add a Recipe" : "Edit Recipe";
     document.getElementById("recipe_name").value = (id == 'addRecipe') ? "" : "Scrambled Eggs";
-    document.getElementById("category").value = (id == 'addRecipe') ? "Select a food category" : "Breakfast";
+    document.getElementById("category").value = (id == 'addRecipe') ? "" : "Breakfast";
     document.getElementById("photo").value = (id == 'addRecipe') ? "" : "https://upload.wikimedia.org/wikipedia/commons/1/1e/Brinner.jpg";
     document.getElementById("main_description").value = (id == 'addRecipe') ? "" : "Luscious, fluffy, and buttery scrambled eggs.";
     document.getElementById("servings").value = (id == 'addRecipe') ? "" : "1";
