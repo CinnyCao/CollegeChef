@@ -38,6 +38,8 @@ var users = [
     ["team0002", "/img/profile_picture.jpg"]
 ]
 
+var count = 2;
+
 
 $(function () {
     //load navbar
@@ -187,8 +189,11 @@ function saveRecipe() {
     hide('add-edit-recipe');
 }
 
-// value will be got from database and reset
+var count = 2;
+
+// values will be gotten from database and reset
 function addEditRecipe(id) {
+    count = 2;
     document.getElementById("recipe_form_title").innerHTML = (id == 'addRecipe') ? "Add a Recipe" : "Edit Recipe";
     document.getElementById("recipe_name").value = (id == 'addRecipe') ? "" : "Scrambled Eggs";
     document.getElementById("category").value = (id == 'addRecipe') ? "Select a food category" : "Breakfast";
@@ -197,14 +202,12 @@ function addEditRecipe(id) {
     document.getElementById("servings").value = (id == 'addRecipe') ? "" : "1";
     document.getElementById("instructions").value = (id == 'addRecipe') ? "" : "1. Whisk eggs, milk, salt together until consistent; 2. Heat butter in pan; 3. Pour egg mixture into pan; 4. Let it sit for 15 seconds then stir; 5. Repeat until eggs are softly set";
     document.getElementById("tips").value = (id == 'addRecipe') ? "" : "Serve with black coffee.";
-    if (id == 'addRecipe') {
-        document.getElementById("ingredient_list").innerHTML = "<div id='item1'><select id='ingredient1'" 
-            + "class='ing w3-input w3-border w3-margin-bottom' name='ingredient' required><option selected id='drop_default'>"
+    document.getElementById("ingredient_list").innerHTML = "<div class='item' id='item1'><select id='ingredient1'" 
+            + "class='ing w3-input w3-border w3-margin-bottom' name='ingredient' required><option value='' disabled selected>"
             + "Select an ingredient</option></select><input id='quantity1' class='w3-input w3-border w3-margin-bottom'" 
-            + "name='quantity' placeholder='Enter amount of ingredient required' required></div>";
-        buildIngredientList(1);
-    } else {
-        buildIngredientList(1);
+            + "name='quantity' placeholder='Enter ingredient quantity' required></div>";
+    buildIngredientList(1);
+    if (id == 'editRecipe') {
         document.getElementById("ingredient1").value = "Egg";
         document.getElementById("quantity1").value = "2";
         addIngredient();
@@ -220,23 +223,19 @@ function addEditRecipe(id) {
     show('add-edit-recipe');
 }
 
-var count = 2;
-
 // Adds two fields for an additional ingredient and quantity to be inputted
 function addIngredient() {
     var countPrev = count - 1;
     var ingredientPrev = document.getElementById("ingredient" + countPrev);
     var quantityPrev = document.getElementById("quantity" + countPrev);
-    console.log(ingredientPrev.value + " sands " + quantityPrev.value + " sands2 ");
     if (ingredientPrev.value != "Select an ingredient" && quantityPrev.value != "") {
         var item = document.createElement('div');
         item.id = "item" + count;
         item.innerHTML = "<select id='ingredient" + count + "' class='added_ings w3-input w3-border w3-margin-bottom' name='ingredient'" 
-                        + " required> <option selected id='drop_default'>Select an ingredient</option>"
+                        + " required> <option value='' disabled selected>Select an ingredient</option>"
                         + "</select> <input id='quantity" + count + "' class='w3-input w3-border w3-margin-bottom'"
-                        + "name='quantity' placeholder='Enter amount of ingredient required' required>";
-        console.log(ingredient_list.outerHTML);
-        document.getElementById(ingredient_list).appendChild(item);
+                        + "name='quantity' placeholder='Enter ingredient quantity' required>";
+        document.getElementById("ingredient_list").appendChild(item);
         buildIngredientList(count);
         count++;
     } else {

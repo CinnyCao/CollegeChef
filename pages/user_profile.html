@@ -132,41 +132,41 @@
                         <div class="w3-section">
                             <label><b>Recipe Name*</b>
                             </label>
-                            <input id="recipe_name" class="ar w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name of recipe" name="recipename" required>
+                            <input id="recipe_name" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name of recipe" name="recipename" required>
                             <label><b>Category*</b>
                             </label>
-                            <select id="category" class="ar w3-input w3-border w3-margin-bottom" name="category" required>
-                                <option selected id="catdefault">Select a food category</option>
+                            <select id="category" class="w3-input w3-border w3-margin-bottom" name="category" required>
+                                <option value="" disabled selected>Select a food category</option>
                                 <option>Breakfast</option>
                                 <option>Snack</option>
                                 <option>Main Dish</option>
                             </select>
                             <label><b>Recipe Photo*</b>
                             </label>
-                            <input id="photo" class="ar w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter a url for a photo of the recipe" name="photo" required>
+                            <input id="photo" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter a url for a photo of the recipe" name="photo" required>
                             <label><b>Description*</b>
                             </label>
-                            <textarea id="main_description" class="ar w3-input w3-border w3-margin-bottom" rows="2" name="description" placeholder="Enter your description" required></textarea>
+                            <textarea id="main_description" class="w3-input w3-border w3-margin-bottom" rows="2" name="description" placeholder="Enter your description" required></textarea>
                             <label><b>Ingredient List*</b>
                             </label>
                             <div id="ingredient_list">
-                                <div id="item1">
+                                <div class="item" id="item1">
                                     <select id="ingredient1" class="added_ings w3-input w3-border w3-margin-bottom" name="ingredient" required>
-                                        <option selected id="drop_default">Select an ingredient</option>
+                                        <option value="" selected>Select an ingredient</option>
                                     </select>
-                                    <input id="quantity1" class="w3-input w3-border w3-margin-bottom" name="quantity" placeholder="Enter amount of ingredient required" required>
+                                    <input id="quantity1" class="w3-input w3-border w3-margin-bottom" name="quantity" placeholder="Enter ingredient quantity" required>
                                 </div>
                             </div>
                             <button id="add_ingredient" type="button" class="w3-btn w3-blue" onClick="addIngredient();">Add additional ingredient</button><br>
                             <label><b>Number of Servings*</b>
                             </label>
-                            <input id="servings" class="ar w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name number of servings" name="servings" required>
+                            <input id="servings" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name number of servings" name="servings" required>
                             <label><b>Cooking Instructions*</b>
                             </label>
-                            <textarea id="instructions" class="ar w3-input w3-border w3-margin-bottom" rows="5" name="instructions" placeholder="Enter your cooking instructions" required></textarea>
+                            <textarea id="instructions" class="w3-input w3-border w3-margin-bottom" rows="5" name="instructions" placeholder="Enter your cooking instructions" required></textarea>
                             <label><b>Additional Tips or Suggestions (optional)</b>
                             </label>
-                            <textarea id="tips" class="ar w3-input w3-border w3-margin-bottom" rows="2" name="tips" placeholder="Enter any additional suggestions you have"></textarea>
+                            <textarea id="tips" class="w3-input w3-border w3-margin-bottom" rows="2" name="tips" placeholder="Enter any additional suggestions you have"></textarea>
                         </div>
                     </form>
                     <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
