@@ -23,11 +23,13 @@ var msgs = [
 
 var ingredients = [
     ["Brown Sugar"],
+    ["Butter"],
     ["Cheese"],
     ["Egg"],
     ["Eggplant"],
     ["Milk"],
-    ["Mushroom"]
+    ["Mushroom"],
+    ["Salt"]
 ];
 
 var users = [
@@ -194,26 +196,50 @@ function addEditRecipe(id) {
     document.getElementById("servings").value = (id == 'addRecipe') ? "" : "1";
     document.getElementById("instructions").value = (id == 'addRecipe') ? "" : "1. Whisk eggs, milk, salt together until consistent; 2. Heat butter in pan; 3. Pour egg mixture into pan; 4. Let it sit for 15 seconds then stir; 5. Repeat until eggs are softly set";
     document.getElementById("tips").value = (id == 'addRecipe') ? "" : "Serve with black coffee.";
-    buildIngredientList(1);
+    if (id == 'addRecipe') {
+        document.getElementById("ingredient_list").innerHTML = "<div id='item1'><select id='ingredient1'" 
+            + "class='ing w3-input w3-border w3-margin-bottom' name='ingredient' required><option selected id='drop_default'>"
+            + "Select an ingredient</option></select><input id='quantity1' class='w3-input w3-border w3-margin-bottom'" 
+            + "name='quantity' placeholder='Enter amount of ingredient required' required></div>";
+        buildIngredientList(1);
+    } else {
+        buildIngredientList(1);
+        document.getElementById("ingredient1").value = "Egg";
+        document.getElementById("quantity1").value = "2";
+        addIngredient();
+        document.getElementById("ingredient2").value = "Milk";
+        document.getElementById("quantity2").value = "6 tablespoons";
+        addIngredient();
+        document.getElementById("ingredient3").value = "Butter";
+        document.getElementById("quantity3").value = "2 tablespoons";
+        addIngredient();
+        document.getElementById("ingredient4").value = "Salt";
+        document.getElementById("quantity4").value = "1 teaspoon";
+    }
     show('add-edit-recipe');
 }
 
 var count = 2;
 
-function addIngredient(ingredient_list) {
+// Adds two fields for an additional ingredient and quantity to be inputted
+function addIngredient() {
     var countPrev = count - 1;
     var ingredientPrev = document.getElementById("ingredient" + countPrev);
     var quantityPrev = document.getElementById("quantity" + countPrev);
+    console.log(ingredientPrev.value + " sands " + quantityPrev.value + " sands2 ");
     if (ingredientPrev.value != "Select an ingredient" && quantityPrev.value != "") {
-         var item = document.createElement('div');
+        var item = document.createElement('div');
         item.id = "item" + count;
-        item.innerHTML = "<select id='ingredient" + count + "' class='ar w3-input w3-border w3-margin-bottom' name='category'" 
+        item.innerHTML = "<select id='ingredient" + count + "' class='added_ings w3-input w3-border w3-margin-bottom' name='ingredient'" 
                         + " required> <option selected id='drop_default'>Select an ingredient</option>"
-                        + "</select> <input id='quantity" + count + "' class='ar w3-input w3-border w3-margin-bottom'"
-                        + "name='quantity' placeholder='Enter amount of ingredient required' required></input>";
+                        + "</select> <input id='quantity" + count + "' class='w3-input w3-border w3-margin-bottom'"
+                        + "name='quantity' placeholder='Enter amount of ingredient required' required>";
+        console.log(ingredient_list.outerHTML);
         document.getElementById(ingredient_list).appendChild(item);
         buildIngredientList(count);
         count++;
+    } else {
+        confirm("Please select an ingredient and quantity before adding additional ingredient fields.")
     }
 }
 
@@ -225,8 +251,6 @@ function buildIngredientList(item_num) {
         ingredient.innerHTML = ingredients[i];
         document.getElementById(ingredient_id).appendChild(ingredient);
     }
-    //document.getElementById("ingredient1").value = (id == 'addRecipe') ? "" : "1. 2 eggs; 2. 6 tbsp whole milk; 3. 2 tbsp butter; 4. pinch of salt";
-    //document.getElementById("quantity1").value = (id == 'addRecipe') ? "" : "";
 }
 
 function deleteConfirm(action) {
