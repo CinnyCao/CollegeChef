@@ -1,3 +1,19 @@
+/** dummy data **/
+var recipes = [
+    ["Meat Loaf",
+        "This recipe is anything but regular old meatloaf! Everyone will love this moist version made in the slow cooker, with milk, mushrooms, and a little sage for extra flavor.",
+        "/img/recipes/meatloaf.jpg"],
+    ["Scrambled Eggs",
+        "This is the description",
+        "/img/recipes/scrambledeggs.jpg"],
+    ["Ramen",
+        "This is the description",
+        "/img/recipes/ramen.jpg"],
+    ["Chicken Nuggets",
+        "This is the description",
+        "/img/recipes/chickennuggets.jpg"]
+];
+
 $(function() {
     //load navbar
     $('#navbar_holder').load('/components/navbar.html', function() {
@@ -5,7 +21,8 @@ $(function() {
     });
 
     // load recipe_card
-    $('.uploaded-card').load('/components/recipe_card.html');
+    populateRecipeCards();
+    ellipsisRecipeCardDescription();
 
     // uploaded recipes is the default tab
     $('#uploaded-list').show();
@@ -14,6 +31,14 @@ $(function() {
     // this part will be modified later, decided by status of user(Admin or User)
     twoTab();
 });
+
+function populateRecipeCards() {
+    var data = recipes; // todo: load recipes data from database
+    for (var i = 0; i < data.length; i++) {
+        $(".uploaded-card").append($(getRecipeCard(data[i][0], data[i][1], data[i][2])));
+    }
+    addEditorToolsToRecipeCard();
+}
 
 // open tab
 function openTab(evt, tabName) {
