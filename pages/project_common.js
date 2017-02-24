@@ -87,8 +87,8 @@ function ellipsisRecipeCardDescription() {
 function addEditorToolsToRecipeCard() {
     var tools = '' +
         '<div class="recipe_card_tools_wrapper">' +
-            '<i class="recipe_card_tools fa fa-trash fa-fw w3-hover-grey" onclick="deleteRecipe()"></i>' +
-            '<i class="recipe_card_tools fa fa-pencil-square-o fa-fw w3-hover-grey" onclick="addEditRecipe(\'editRecipe\')"></i>' +
+            '<i class="recipe_card_tools fa fa-trash fa-fw w3-hover-grey" onclick="event.stopPropagation(); deleteRecipe()"></i>' +
+            '<i class="recipe_card_tools fa fa-pencil-square-o fa-fw w3-hover-grey" onclick="event.stopPropagation(); addEditRecipe(\'editRecipe\')"></i>' +
         '</div>';
     $('.recipe_card').append($(tools));
 }
