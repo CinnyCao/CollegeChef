@@ -51,7 +51,7 @@
 
 .recipe_list_content {
     height: calc(100vh - 200px);
-    max-height: 300px;
+    max-height: 500px;
     border: 1px solid #CCCCCC;
     border-top: none;
     border-radius: 0 0 10px 10px;
