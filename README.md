@@ -45,5 +45,7 @@ Here is a list of what **UI components** are functional (checked) and what are j
   - [x] Delete other user's profiles (Admin only) - confirm window
 
 Note:
+
 1. Currently all recipe cards in home page, recipe browser and user profile redirect to the same recipe view page. We will render different content for different recipes in future phases.
+
 2. HTML files in components folder are components and are not their own HTML pages.  We load them into our pages using JS, so they are missing some tags e.g. body tags.  That said, they still satisfy the W3 validator.
