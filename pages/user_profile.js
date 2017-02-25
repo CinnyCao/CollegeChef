@@ -1,19 +1,4 @@
 /** dummy data **/
-var recipes = [
-    ["Meat Loaf",
-        "This recipe is anything but regular old meatloaf! Everyone will love this moist version made in the slow cooker, with milk, mushrooms, and a little sage for extra flavor.",
-        "/img/recipes/meatloaf.jpg"],
-    ["Scrambled Eggs",
-        "This is the description",
-        "/img/recipes/scrambledeggs.jpg"],
-    ["Ramen",
-        "This is the description",
-        "/img/recipes/ramen.jpg"],
-    ["Chicken Nuggets",
-        "This is the description",
-        "/img/recipes/chickennuggets.jpg"]
-];
-
 var msgs = [
     [1, "Becky", "Meat Loaf"],
     [2, "Cinny", "Scrambled Eggs"],
@@ -21,25 +6,11 @@ var msgs = [
     [4, "Tanay", "Chicken Nuggets"]
 ];
 
-var ingredients = [
-    ["Brown Sugar"],
-    ["Butter"],
-    ["Cheese"],
-    ["Egg"],
-    ["Eggplant"],
-    ["Milk"],
-    ["Mushroom"],
-    ["Salt"]
-];
-
 var users = [
     ["Team02", "/img/profile_picture.jpg"],
     ["team002", "/img/profile_picture.jpg"],
     ["team0002", "/img/profile_picture.jpg"]
 ]
-
-var count = 2;
-
 
 $(function () {
     //load navbar
@@ -54,6 +25,11 @@ $(function () {
         $("input[name=user_type][value=user]").prop("checked",true);
         $("input[name=user_type][value=none]").next().hide();
         $("input[name=user_type][value=none]").hide();
+
+        $(".user_radio").on('click', function () {
+            // display the corresponding user profile page for user/admin
+            displayUserProfilePageContent();
+        });
     });
 
     // load recipe_card
@@ -74,8 +50,34 @@ $(function () {
     twoTab();
 });
 
+function displayUserProfilePageContent() {
+    if(user_type == "user"){
+        twoTab();
+    }
+    if(user_type == "admin"){
+        fourTab();
+    }
+}
+
+// These two methods will be modified when able to get the status of user(Admin or User)
+function twoTab() {
+    $('.half-or-forth').removeClass('w3-quarter');
+    $('.half-or-forth').addClass('w3-half');
+    // Hide users list and all recipes list section for users
+    $('#users-tab').hide();
+    $('#recipes-tab').hide();
+}
+
+function fourTab() {
+    $('.half-or-forth').removeClass('w3-half');
+    $('.half-or-forth').addClass('w3-quarter');
+    // Show users list and all recipes list section for Admin
+    $('#users-tab').show();
+    $('#recipes-tab').show();
+}
+
 function populateRecipeCards() {
-    var data = recipes; // todo: load recipes data from database
+    var data = recipesData; // todo: load recipes data from database
     for (var i = 0; i < data.length; i++) {
         $(".uploaded-card").append($(getRecipeCard(data[i][0], data[i][1], data[i][2])));
     }
@@ -169,82 +171,5 @@ function editProfile() {
     document.getElementById("description-input").value = "We are team02. Our team members are Becky, Cinny, Sean, Tanay.";
 }
 
-function deleteRecipe() {
-    deleteConfirm("recipe");
-    // todo
-}
 
-function saveRecipe() {
-    // todo
-    // close the form after saving
-    hide('add-edit-recipe');
-}
 
-var count = 2;
-
-// values will be gotten from database and reset
-function addEditRecipe(id) {
-    count = 2;
-    document.getElementById("recipe_form_title").innerHTML = (id == 'addRecipe') ? "Add a Recipe" : "Edit Recipe";
-    document.getElementById("recipe_name").value = (id == 'addRecipe') ? "" : "Scrambled Eggs";
-    document.getElementById("category").value = (id == 'addRecipe') ? "" : "Breakfast";
-    document.getElementById("photo").value = (id == 'addRecipe') ? "" : "https://upload.wikimedia.org/wikipedia/commons/1/1e/Brinner.jpg";
-    document.getElementById("main_description").value = (id == 'addRecipe') ? "" : "Luscious, fluffy, and buttery scrambled eggs.";
-    document.getElementById("servings").value = (id == 'addRecipe') ? "" : "1";
-    document.getElementById("instructions").value = (id == 'addRecipe') ? "" : "1. Whisk eggs, milk, salt together until consistent; 2. Heat butter in pan; 3. Pour egg mixture into pan; 4. Let it sit for 15 seconds then stir; 5. Repeat until eggs are softly set";
-    document.getElementById("tips").value = (id == 'addRecipe') ? "" : "Serve with black coffee.";
-    document.getElementById("ingredient_list").innerHTML = "<div class='item' id='item1'><select id='ingredient1'" 
-            + "class='ing w3-input w3-border w3-margin-bottom' name='ingredient' required><option value='' disabled selected>"
-            + "Select an ingredient</option></select><input id='quantity1' class='w3-input w3-border w3-margin-bottom'" 
-            + "name='quantity' placeholder='Enter ingredient quantity' required></div>";
-    buildIngredientList(1);
-    if (id == 'editRecipe') {
-        document.getElementById("ingredient1").value = "Egg";
-        document.getElementById("quantity1").value = "2";
-        addIngredient();
-        document.getElementById("ingredient2").value = "Milk";
-        document.getElementById("quantity2").value = "6 tablespoons";
-        addIngredient();
-        document.getElementById("ingredient3").value = "Butter";
-        document.getElementById("quantity3").value = "2 tablespoons";
-        addIngredient();
-        document.getElementById("ingredient4").value = "Salt";
-        document.getElementById("quantity4").value = "1 teaspoon";
-    }
-    show('add-edit-recipe');
-}
-
-// Adds two fields for an additional ingredient and quantity to be inputted
-function addIngredient() {
-    var countPrev = count - 1;
-    var ingredientPrev = document.getElementById("ingredient" + countPrev);
-    var quantityPrev = document.getElementById("quantity" + countPrev);
-    if (ingredientPrev.value != "Select an ingredient" && quantityPrev.value != "") {
-        var item = document.createElement('div');
-        item.id = "item" + count;
-        item.innerHTML = "<select id='ingredient" + count + "' class='added_ings w3-input w3-border w3-margin-bottom' name='ingredient'" 
-                        + " required> <option value='' disabled selected>Select an ingredient</option>"
-                        + "</select> <input id='quantity" + count + "' class='w3-input w3-border w3-margin-bottom'"
-                        + "name='quantity' placeholder='Enter ingredient quantity' required>";
-        document.getElementById("ingredient_list").appendChild(item);
-        buildIngredientList(count);
-        count++;
-    } else {
-        confirm("Please select an ingredient and quantity before adding additional ingredient fields.")
-    }
-}
-
-function buildIngredientList(item_num) {
-    var ingredient_id = "ingredient" + item_num;
-
-    for (var i = 0; i < ingredients.length; i++) {
-        var ingredient = document.createElement('option');
-        ingredient.innerHTML = ingredients[i];
-        document.getElementById(ingredient_id).appendChild(ingredient);
-    }
-}
-
-function deleteConfirm(action) {
-    var msg = "Are you sure you want to delete this " + action + "?";
-    confirm(msg);
-}

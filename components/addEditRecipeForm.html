@@ -1,0 +1,57 @@
+<section id="add-edit-recipe" class="w3-modal">
+    <div class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
+        <div class="w3-center">
+            <br>
+            <span onclick="hide('add-edit-recipe')" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
+            <h2 id="recipe_form_title" class="form_title">Edit Recipe</h2>
+        </div>
+        <!-- add action, pass records to server  -->
+        <form class="w3-container">
+            <div class="w3-section">
+                <label><b>Recipe Name*</b>
+                </label>
+                <input id="recipe_name" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name of recipe" name="recipename" required>
+                <label><b>Category*</b>
+                </label>
+                <select id="category" class="w3-input w3-border w3-margin-bottom" name="category" required>
+                    <option value="" disabled selected>Select a food category</option>
+                    <option>Breakfast</option>
+                    <option>Snack</option>
+                    <option>Main Dish</option>
+                </select>
+                <label><b>Recipe Photo*</b>
+                </label>
+                <input id="photo" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter a url for a photo of the recipe" name="photo" required>
+                <label><b>Description*</b>
+                </label>
+                <textarea id="main_description" class="w3-input w3-border w3-margin-bottom" rows="2" name="description" placeholder="Enter your description" required></textarea>
+                <label><b>Ingredient List*</b>
+                </label>
+                <div id="ingredient_list">
+                    <div class="item" id="item1">
+                        <select id="ingredient1" class="added_ings w3-input w3-border w3-margin-bottom" name="ingredient" required>
+                            <option value="" selected>Select an ingredient</option>
+                        </select>
+                        <input id="quantity1" class="w3-input w3-border w3-margin-bottom" name="quantity" placeholder="Enter ingredient quantity" required>
+                    </div>
+                </div>
+                <button id="add_ingredient" type="button" class="w3-btn w3-blue" onClick="addIngredient();">Add additional ingredient</button><br>
+                <label><b>Number of Servings*</b>
+                </label>
+                <input id="servings" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name number of servings" name="servings" required>
+                <label><b>Cooking Instructions*</b>
+                </label>
+                <textarea id="instructions" class="w3-input w3-border w3-margin-bottom" rows="5" name="instructions" placeholder="Enter your cooking instructions" required></textarea>
+                <label><b>Additional Tips or Suggestions (optional)</b>
+                </label>
+                <textarea id="tips" class="w3-input w3-border w3-margin-bottom" rows="2" name="tips" placeholder="Enter any additional suggestions you have"></textarea>
+            </div>
+        </form>
+        <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+            <button onclick="hide('add-edit-recipe')" type="button" class="w3-btn w3-red">Cancel</button>
+            <button onclick="saveRecipe()" type="button" class="w3-btn w3-right w3-green">Submit</button>
+        </div>
+    </div>
+</section>
+
+<link rel="stylesheet" type="text/css" href="/components/addEditRecipeForm.css" media="screen" />
