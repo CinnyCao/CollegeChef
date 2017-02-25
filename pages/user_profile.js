@@ -110,7 +110,6 @@ function getUserCard(name, photo) {
             '</section>';
 }
 
-
 //4 notification types: rated(1), commented(2), favorite(3), uploaded(4)
 function getNotificationMsgs(type, name, recipeName) {
     var href = "/pages/recipe_view.html";
@@ -170,6 +169,3 @@ function editProfile() {
     document.getElementById("email-input").value = "team02@gmail.com";
     document.getElementById("description-input").value = "We are team02. Our team members are Becky, Cinny, Sean, Tanay.";
 }
-
-
-

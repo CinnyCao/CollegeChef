@@ -47,7 +47,6 @@ var recipesData = [
 
 var user_type = "none";
 
-
 /**
  * Start-up Setup
  */
@@ -90,7 +89,6 @@ function changeColumnPercentage() {
         $('.right_col').addClass('w3-threequarter');
     }
 }
-
 
 /**
  * Global Functions
@@ -174,7 +172,6 @@ function saveProfile() {
     hide('edit-profile');
 }
 
-
 /**
  * Footer
  */
@@ -182,7 +179,6 @@ function saveProfile() {
 function sendFeedback() {
     // todo
 }
-
 
 /**
  * Ingredient Button
@@ -305,7 +301,7 @@ function addIngredient() {
     var countPrev = count - 1;
     var ingredientPrev = document.getElementById("ingredient" + countPrev);
     var quantityPrev = document.getElementById("quantity" + countPrev);
-    if (ingredientPrev.value != "Select an ingredient" && quantityPrev.value != "") {
+    if (ingredientPrev.value != "" && quantityPrev.value != "") {
         var item = document.createElement('div');
         item.id = "item" + count;
         item.innerHTML = "<select id='ingredient" + count + "' class='added_ings w3-input w3-border w3-margin-bottom' name='ingredient'" +

@@ -10,19 +10,16 @@
         <!--CSS Framework-->
         <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <style>
-            body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
-        </style>
     </head>
     <body>
         <!--Navbar-->
         <div id="navbar_holder"></div>
 
         <div class="content">
-            <section class="section_card">
-                <section class="recipe_browser_content w3-row-padding w3-row">
+            <div class="section_card">
+                <div class="recipe_browser_content w3-row-padding w3-row">
                     <!-- Browse recipes by first letter -->
-                    <section class="alphabet">
+                    <div class="alphabet">
                         <button class="abc w3-btn w3-padding-small" id="1" value="a" onclick="letter(this)">A</button>
                         <button class="abc w3-btn w3-padding-small" id="2" value="b" onclick="letter(this)">B</button>
                         <button class="abc w3-btn w3-padding-small" id="3" value="c" onclick="letter(this)">C</button>
@@ -49,16 +46,16 @@
                         <button class="abc w3-btn w3-padding-small" id="24" value="x" onclick="letter(this)">X</button>
                         <button class="abc w3-btn w3-padding-small" id="25" value="y" onclick="letter(this)">Y</button>
                         <button class="abc w3-btn w3-padding-small" id="26" value="z" onclick="letter(this)">Z</button>
-                    </section>
+                    </div>
                     <!-- Recipe Search -->
-                    <section class="search">
+                    <div class="search">
                         <label for="recipe_browser_input"><i class="fa fa-search"></i></label>
                         <input type="text" class="search_input w3-card-2" id="recipe_browser_input" onkeyup="filterRecipes()" placeholder="Search for recipes..">
-                    </section>
-                    <section class="recipe_cards_wrapper w3-white w3-card-2" id="main_wrapper">
-                    </section>
-                </section>
-            </section>
+                    </div>
+                    <div class="recipe_cards_wrapper w3-white w3-card-2" id="main_wrapper">
+                    </div>
+                </div>
+            </div>
             <!--footer-->
             <div class="w3-row" id="footer_holder">
             </div>

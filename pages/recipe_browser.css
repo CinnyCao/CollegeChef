@@ -3,6 +3,9 @@
     flex-direction: column;
     height: 100%;
 }
+body,h1,h2,h3,h4,h5 {
+    font-family: "Raleway", sans-serif;
+}
 
 /*site name style*/
 
@@ -58,7 +61,6 @@
     min-height: 70px;
     flex-grow: 1;
 }
-
 @media screen and (max-width: 600px), (max-height: 500px) {
 
     .alphabet {
