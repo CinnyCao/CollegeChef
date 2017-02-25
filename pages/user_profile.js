@@ -167,7 +167,6 @@ function deleteUser() {
 // will be modified later and pass the real user information
 function editProfile() {
     document.getElementById("profile-photo").value = "http://pre06.deviantart.net/7bfd/th/pre/i/2011/287/a/e/luffy_chibi_head_by_fuwafuwapanda-d4crymp.jpg";
-    document.getElementById("name-input").value = "Team02";
     document.getElementById("email-input").value = "team02@gmail.com";
     document.getElementById("description-input").value = "We are team02. Our team members are Becky, Cinny, Sean, Tanay.";
 }
