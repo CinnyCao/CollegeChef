@@ -54,8 +54,6 @@ $(function () {
 function displayUserProfilePageContent() {
     if(user_type == "user"){
         twoTab();
-        $('#uploaded-recipes-tab').addClass('w3-border-red');
-        $('#uploaded-list').show();
     }
     if(user_type == "admin"){
         fourTab();
