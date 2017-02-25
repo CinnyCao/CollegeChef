@@ -1,7 +1,9 @@
 # Team 2 CollegeChef
-**Please use a server to open our site** or else some style will not load.
+**Please use a server to open our site** or else some styles will not be loaded.
 
-Please note that our website will display a static image if screen resolution is smaller than 270x370 (either width is smaller than 270 **or** height is smaller than 370), we found that this size is on the border of usability. It didnt make sense to adapt to a smaller size because it would be near impossible to use.
+**Please don't run html validator for html files inside components folder.** These files are not independent html and will never be loaded on its own. We load them into our pages using JS so that we cannot add any head or body tags for it.
+
+**Please note that the smallest width and height our website support is 270 and 370**. We found that this size is on the border of usability. It's not worthy to adapt it to a smaller size because it would be near impossible to use. For any screen size that has width **or** height that is smaller than our limit will only receive a static img. 
 
 Here is a list of what **ui components** are functional (checked) and what are just 'place-holders' and will be implemented later:
 * Navigation bar and Footer
