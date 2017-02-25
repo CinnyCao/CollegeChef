@@ -25,6 +25,7 @@ $(function () {
         $("input[name=user_type][value=user]").prop("checked",true);
         $("input[name=user_type][value=none]").next().hide();
         $("input[name=user_type][value=none]").hide();
+        updateNavMenuItems();
 
         $(".user_radio").on('click', function () {
             // display the corresponding user profile page for user/admin

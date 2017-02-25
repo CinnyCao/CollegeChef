@@ -68,8 +68,6 @@ $(function() {
         }
         $('.section_card').innerHeight($(window).height() - paddingTotal - 3);
     }).trigger('resize');
-
-    $( ".pwd-check" ).append( $(getEnteredNewPwdPart()) );
 });
 
 function changeColumnPercentage() {
@@ -116,6 +114,7 @@ function onNavBarLoaded() {
     $(window).on('resize', function () {
         updateNavMenuItems();
     });
+    $(".pwd-check").append($(getEnteredNewPwdPart()));
 }
 
 function showHideRightMenuItems() {
