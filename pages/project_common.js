@@ -147,29 +147,21 @@ function updateNavMenuItems() {
 /* Login form */
 function login() {
     // todo
-    // close the form after saving
-    hide('login-form');
 }
 
 /* Sign Up form */
 function signUp() {
     // todo
-    // close the form after saving
-    hide('register-form');
 }
 
 /* Save Reset Password */
 function savePwd() {
     // todo
-    // close the form after saving
-    hide('reset-pwd');
 }
 
 /* Save User Profile */
 function saveProfile() {
     // todo
-    // close the form after saving
-    hide('edit-profile');
 }
 
 /**
@@ -258,8 +250,6 @@ function deleteRecipe() {
 
 function saveRecipe() {
     // todo
-    // close the form after saving
-    hide('add-edit-recipe');
 }
 
 var count = 2;

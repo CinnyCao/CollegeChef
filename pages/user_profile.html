@@ -55,7 +55,7 @@
                             <h2 class="form_title">Rest Password</h2>
                         </div>
                         <!-- add action, pass records to server  -->
-                        <form class="w3-container">
+                        <form id="resetPwd-content" class="w3-container">
                             <div class="w3-section">
                                 <label><b>Old Password*</b>
                                 </label>
@@ -65,7 +65,7 @@
                         </form>
                         <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
                             <button onclick="hide('reset-pwd')" type="button" class="w3-btn w3-red">Cancel</button>
-                            <button onclick="savePwd()" type="button" class="w3-btn w3-right w3-green">Save</button>
+                            <button onclick="savePwd()" form="resetPwd-content" class="w3-btn w3-right w3-green">Save</button>
                         </div>
                     </div>
                 </section>
@@ -78,7 +78,7 @@
                             <h2 class="form_title">Edit Profile</h2>
                         </div>
                         <!-- add action, pass records to server  -->
-                        <form class="w3-container">
+                        <form id="editProfile-content" class="w3-container">
                             <div class="w3-section">
                                 <p class="w3-center"><img src="/img/profile_picture.jpg" class="w3-circle photo-style" alt="Avatar">
                                 </p>
@@ -96,7 +96,7 @@
                         </form>
                         <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
                             <button onclick="hide('edit-profile')" type="button" class="w3-btn w3-red">Cancel</button>
-                            <button onclick="saveProfile()" type="button" class="w3-btn w3-right w3-green">Save</button>
+                            <button onclick="saveProfile()" form="editProfile-content" class="w3-btn w3-right w3-green">Save</button>
                         </div>
                     </div>
                 </section>
@@ -145,7 +145,7 @@
                                         <h2 class="form_title">Notification Settings</h2>
                                         <hr>
                                     </div>
-                                    <form class="w3-container">
+                                    <form id="setNotification-content" class="w3-container">
                                         <div class="w3-section w3-padding">
                                             <input class="w3-margin-bottom" type="checkbox" name="set-comment-notification" checked> Receive notification about comments.
                                             <br>
@@ -160,7 +160,7 @@
                                             <br>
                                             <hr>
                                         </div>
-                                        <button onclick="saveNotificationSetting()" type="button" class="w3-btn w3-right w3-green w3-margin-bottom">Save</button>
+                                        <button onclick="saveNotificationSetting()" form="setNotification-content" class="w3-btn w3-right w3-green w3-margin-bottom">Save</button>
                                     </form>
                                 </div>
                             </section>

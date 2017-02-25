@@ -10,7 +10,7 @@
             <h2 id="recipe_form_title" class="form_title">Edit Recipe</h2>
         </div>
         <!-- add action, pass records to server  -->
-        <form class="w3-container">
+        <form id="saveRecipe-content" class="w3-container">
             <div class="w3-section">
                 <label><b>Recipe Name*</b>
                 </label>
@@ -53,7 +53,7 @@
         </form>
         <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
             <button onclick="hide('add-edit-recipe')" type="button" class="w3-btn w3-red">Cancel</button>
-            <button onclick="saveRecipe()" type="button" class="w3-btn w3-right w3-green">Submit</button>
+            <button onclick="saveRecipe()" form="saveRecipe-content" class="w3-btn w3-right w3-green">Submit</button>
         </div>
     </div>
 </section>

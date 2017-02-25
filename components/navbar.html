@@ -24,7 +24,7 @@
         <div class="w3-center w3-padding-32"><img alt="logo" class="logo-img w3-center" src="/img/logo.png"></div>
 
         <!-- add action, pass records to server  -->
-        <form class="w3-container">
+        <form id="login-content" class="w3-container">
             <div class="w3-section">
                 <label><b>Username</b></label>
                 <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Username" name="usrname" required>
@@ -37,7 +37,7 @@
 
         <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
             <button onclick="hide('login-form')" type="button" class="w3-btn w3-red">Cancel</button>
-            <button onclick="login()" type="button" class="w3-btn w3-right w3-green">Login</button>
+            <button onclick="login()" form="login-content" class="w3-btn w3-right w3-green">Login</button>
             <span class="w3-right w3-padding w3-hide-small"><a href="#">Forgot password?</a></span>
         </div>
 
@@ -52,7 +52,7 @@
         <div class="w3-center w3-padding-32"><img alt="logo" class="logo-img w3-center" src="/img/logo.png"></div>
         
         <!-- add action, pass records to server  -->
-        <form class="w3-container">
+        <form id="signup-content" class="w3-container">
             <div class="w3-section">
                 <label><b>UserName*</b></label>
                 <input class="w3-input w3-border" type="text" placeholder="Enter Username" name="usrname" required>
@@ -66,7 +66,7 @@
 
         <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
             <button onclick="hide('register-form')" type="button" class="w3-btn w3-red">Cancel</button>
-            <button onclick="signUp()" type="button" class="w3-btn w3-right w3-green">Sign Up</button>
+            <button onclick="signUp()" form="signup-content" class="w3-btn w3-right w3-green">Sign Up</button>
         </div>
 
     </div>
