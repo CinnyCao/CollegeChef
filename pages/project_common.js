@@ -68,6 +68,8 @@ $(function() {
         }
         $('.section_card').innerHeight($(window).height() - paddingTotal - 3);
     }).trigger('resize');
+
+    $( ".pwd-check" ).append( $(getEnteredNewPwdPart()) );
 });
 
 function changeColumnPercentage() {
@@ -196,6 +198,20 @@ function filterIngredients() {
     }
 }
 
+/**
+ *  entered new password part
+ */
+
+ function getEnteredNewPwdPart(){
+    return '<label><b>New Password*</b></label>' +
+    '<input id="newPwd" class="new-pwd w3-input w3-border" type="password"' + 
+' placeholder="Enter New Password" name="newPwd" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"' +
+' title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>' +
+'<p class="w3-text-grey w3-margin-bottom">Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters</p>' +
+'<label><b>Repeat New Password*</b></label>' +
+'<input id="repeatPwd" class="repeated-pwd w3-input w3-border" type="password"' +
+' placeholder="Please Repeat New Password" name="repeatPwd" onkeyup="checkPasswordMatch()" required>';
+ }
 
 /**
  * Recipe Card
@@ -309,9 +325,9 @@ function buildIngredientList(item_num) {
 }
 
 // check whether password matches
-function checkPasswordMatch(newPwd, repeatPwd) {
-    var newPwdValue = $('#' + newPwd).val();
-    var repeatPwdValue = $('#' + repeatPwd).val();
+function checkPasswordMatch() {
+    var newPwdValue = $(newPwd).val();
+    var repeatPwdValue = $(repeatPwd).val();
     if(newPwdValue != repeatPwdValue){
         $('.repeated-pwd').addClass('w3-red');
     }
