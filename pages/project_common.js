@@ -205,13 +205,14 @@ function filterIngredients() {
  */
 
 function getEnteredNewPwdPart() {
-    return '<label><b>New Password*</b></label>' +
-        '<input id="newPwd" class="new-pwd w3-input w3-border" type="password"' +
+    return '' +
+        '<label><b>New Password*</b></label>' +
+        '<input class="new-pwd w3-input w3-border" type="password"' +
         ' placeholder="Enter New Password" name="newPwd" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"' +
         ' title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>' +
         '<p class="w3-text-grey w3-margin-bottom">Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters</p>' +
         '<label><b>Repeat New Password*</b></label>' +
-        '<input id="repeatPwd" class="repeated-pwd w3-input w3-border" type="password"' +
+        '<input class="repeated-pwd w3-input w3-border" type="password"' +
         ' placeholder="Please Repeat New Password" title="Passwords Do Not Match." name="repeatPwd" onkeyup="checkPasswordMatch()" required>';
 }
 
@@ -328,8 +329,8 @@ function buildIngredientList(item_num) {
 
 // check whether password matches
 function checkPasswordMatch() {
-    var newPwdValue = $(newPwd).val();
-    var repeatPwdValue = $(repeatPwd).val();
+    var newPwdValue = $('.new-pwd:visible').val();
+    var repeatPwdValue = $('.repeated-pwd:visible').val();
     if (newPwdValue != repeatPwdValue) {
         $('.repeated-pwd').addClass('w3-red');
     } else {
