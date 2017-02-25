@@ -1,8 +1,6 @@
 # Team 2 CollegeChef
 **Please use a server to open our site** or else some styles will not be loaded.
 
-**Please don't run html validator for html files inside components folder.** These files are not independent html and will never be loaded on its own. We load them into our pages using JS so that we cannot add any head or body tags for it.
-
 **Please note that the smallest width and height our website support is 270 and 370**. We found that this size is on the border of usability. It's not worthy to adapt it to a smaller size because it would be near impossible to use. For any screen size that has width **or** height that is smaller than our limit will only receive a static image. 
 
 Here is a list of what **UI components** are functional (checked) and what are just 'place-holders' and will be implemented later:
@@ -48,3 +46,4 @@ Here is a list of what **UI components** are functional (checked) and what are j
 
 Note:
 1. Currently all recipe cards in home page, recipe browser and user profile redirect to the same recipe view page. We will render different content for different recipes in future phases.
+2. HTML files in components folder are components and are not their own HTML pages.  We load them into our pages using JS, so they are missing some tags e.g. body tags.  That said, they still satisfy the W3 validator.
