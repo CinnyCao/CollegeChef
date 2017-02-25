@@ -55,7 +55,7 @@ textarea {
 }
 
 /* User Type Controller for Demo - Removed later */
-#user_options{
+#user_options {
     position: fixed;
     bottom: 0px;
     left: 40vw;
@@ -77,4 +77,12 @@ textarea {
 .user_text {
     display: inline-block;
     margin-right: 10px;
+}
+
+@media screen and (max-width: 600px) {
+
+    #user_options {
+        left: 0px;
+        background-color: rgb(255, 255, 190);
+    }
 }
