@@ -1,0 +1,96 @@
+/* Website background styles */
+body {
+    height: 100vh;
+    background: linear-gradient(180deg, rgba(255,255,255,0.9) 40%, #fff), url(/img/food.jpeg) repeat 0 0;
+    background: -webkit-linear-gradient(270deg, rgba(255,255,255,0.9) 40%, #fff), url(/img/food.jpeg) repeat 0 0;
+}
+@media screen and (max-width: 270px), (max-height: 370px) {
+
+    /* Screen size too small, hide everything */
+    body {
+        display: none;
+    }
+    html {
+        background-image: url(/img/closedbackground.jpg);
+    }
+}
+
+/* Layout styles */
+.content {
+    height: 100%;
+    overflow-y: auto;
+}
+.section_card {
+    padding: 12px 16px;
+    overflow-y: auto;
+}
+
+/* Ingredient Button */
+.ingredient_button {
+    margin: 5px 5px;
+    text-decoration: none;
+    display: inline-block;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    width: 52px;
+    height: 52px;
+}
+.ingredient_button:hover {
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+}
+.ingredient_button img {
+    width: 32px;
+    height: 32px;
+}
+.ingredient_button p {
+    width: 100%;
+    margin: 0;
+    font-size: 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.selected_ingredient_button {
+    background: lightgray;
+    background: -webkit-radial-gradient(lightgray, grey);
+    background: radial-gradient(lightgray, grey);
+}
+
+/* Recipe Card */
+.recipe_card {
+    float: left;
+    display: block;
+    cursor: pointer;
+    width: 200px;
+    height: 250px;
+    margin: 7px;
+    position: relative;
+}
+.recipe_card_title {
+    margin: 12px 0;
+}
+.recipe_card_des {
+    margin: 0;
+    font-size: 12px;
+    overflow: hidden;
+    width: 100%;
+}
+.recipe_card img {
+    width: 100%;
+    max-height: 55%;
+}
+.recipe_card_tools_wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.recipe_card_tools {
+    display: block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    margin-top: 4px;
+    margin-right: 4px;
+}

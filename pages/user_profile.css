@@ -1,0 +1,61 @@
+/*user profile*/
+
+#description {
+    word-wrap: break-word;
+    width: 100%;
+    height: 200px;
+}
+.padding-left1 {
+    padding-left: 30px;
+}
+/*tab background set*/
+.tab-set{
+    height: 55px;
+}
+/*user card*/
+
+#user-card-set {
+    position: relative;
+    width: 250px;
+    height: 260px;
+    float: left;
+}
+#user-card-photo {
+    width: 100%;
+    height: 170px;
+}
+.edit_delete {
+    float: left;
+    width: 50%;
+    height: 30px;
+    vertical-align: middle;
+    background-color: #f1f1f1;
+}
+.display-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+/*recipe card*/
+
+.card-set {
+    position: relative;
+    margin: 16px;
+}
+.card-margin {
+    margin-right: 30px;
+}
+
+/*common used*/
+
+.photo-style {
+    height: 106px;
+    width: 106px;
+}
+.hide-section {
+    display: none;
+}
+textarea {
+    resize: none;
+    width: 100%;
+}

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CollegeChef</title>
+        <link rel="icon" type="image/png" href="/img/icon.png">
+        <!--JS Library-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <!--CSS Framework-->
+        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pretty-checkbox/2.1.0/pretty.min.css">
+    </head>
+    <body>
+        <!--Navbar-->
+        <div id="navbar_holder"></div>
+
+        <div class="content">
+            <div class="w3-row-padding w3-row">
+                <div class="section_card">
+                    <!-- w3-content defines a container for fixed size centered content, 
+                        and is wrapped around the whole page content, except for the footer in this example -->
+                    <div class="w3-content" style="max-width:1400px">
+                        <!-- Grid -->
+                        <div class="w3-row">
+                            <!-- Blog entries -->
+                            <div class="w3-col l8 s12">
+                                <!-- Blog entry -->
+                                <section class="w3-card-4 w3-margin w3-white">
+                                    <div id="image-part">
+                                        <img id="image-set" src="/img/recipes/meatloaf.jpg" alt="meatloaf">
+                                        <div id="favourite-button" class="pretty plain smooth toggle">
+                                            <input type="checkbox">
+                                            <label><i class="fa fa-heart-o"></i></label>
+                                            <label><i class="fa fa-heart info"></i></label>
+                                        </div>
+                                    </div>
+                                    <div class="w3-container w3-padding-8">
+                                        <h3 ><b>Meat Loaf</b></h3>
+                                        <p><b>Main Dish</b></p>
+                                        <p>6 servings</p>
+                                        <fieldset class="rating">
+                                            <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+                                            <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+                                            <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                                            <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+                                            <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                                        </fieldset>
+                                        <!--gotta make dynamic-->
+                                    </div>
+                                    <div class="w3-container">
+                                        <p>This recipe is anything but regular old meatloaf! Everyone will love this moist version made in the slow cooker, with milk, mushrooms, and a little sage for extra flavour.</p>
+                                    </div>
+                                </section>
+                                <hr>
+                                <!-- Blog entry -->
+                                <section class="w3-card-4 w3-margin w3-white">
+                                    <div class="w3-container w3-padding-8">
+                                        <h3><b>Instructions</b></h3>
+                                    </div>
+                                    <div class="w3-container">
+                                        <p> Combine eggs, milk, bread crumbs, onion, salt, sage, and mushrooms in a large bowl. Crumble ground beef over mixture and stir well to combine. Shape into a round loaf; place in a 5-quart slow cooker. Cover and cook on Low until a meat thermometer reads 160 degrees F (71 degrees C), 5 to 6 hours. </p>
+
+                                        <p>Whisk ketchup, brown sugar, mustard, and Worcestershire sauce in a small bowl; spoon sauce over meat loaf. Return to slow cooker and cook on Low until heated through, about 15 minutes. Let stand 10 minutes before cutting.
+                                        </p>
+                                        
+                                    </div>
+                                </section>
+                                <section class="w3-card-4 w3-margin w3-white">
+                                    <div class="w3-container w3-padding-8">
+                                        <h3><b>Tips and Suggestions</b></h3>
+                                    </div>
+                                    <div class="w3-container">
+                                        <p> Add a touch of sriracha hot sauce if you want to give it that extra kick. </p>
+
+                                    </div>
+                                </section>
+                                <section class="w3-card-4 w3-margin w3-white">
+                                    <div class="w3-container w3-padding-8">
+                                        <h3><b>Comments</b></h3>
+                                    </div>
+                                    <div class="w3-container">
+                                        <div class="post_feed">
+                                            <p id="empty_feed_msg">No comments!</p>
+                                        </div>
+                                        <div class="posting_forms w3-row">
+                                            <!--test posts form-->
+                                            <div class="posting_section w3-half">
+                                                <p>Write a thought</p>
+                                                <div class="post_form_wrapper">
+                                                    <input class="input_text" type="text" placeholder="Say something here.">
+                                                    <button type="submit" class="input_button">Post</button>
+                                                </div>
+                                            </div>
+                                            <!--photo posts form-->
+                                            <div class="posting_section w3-half">
+                                                <p>Leave a photo</p>
+                                                <div class="post_form_wrapper">
+                                                    <input class="photo_url" type="url" placeholder="Put image url here.">
+                                                    <button type="submit" class="photo_button">Post</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- END BLOG ENTRIES -->
+                            </div>
+                            <!-- Introduction menu -->
+                            <div class="w3-col l4">
+                                <!-- About Card -->
+                                <div class="w3-card-2 w3-margin w3-margin-top">
+                                    <div class="w3-container w3-white">
+                                        <img src="/img/profile_picture.jpg" alt="Image" class="w3-left w3-margin-right profile-pic">
+                                        <span class="w3-large">User Name</span><br>
+                                        <h5>Upload Date, <span class="w3-opacity">April 7, 2014</span></h5>
+                                    </div>
+                                </div>
+                                <hr>
+                                <!-- Posts -->
+                                <section class="w3-card-2 w3-margin">
+                                    <div class="w3-container w3-padding">
+                                        <h4>Ingredients</h4>
+                                    </div>
+                                    <ul class="w3-ul w3-hoverable w3-white">
+                                        <li class="w3-padding-16">
+                                            <img src="/img/ingredients/groundbeef_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
+                                            <span class="w3-large">Ground Beef</span><br>
+                                            <span>1.5 pounds of ground beef</span>
+                                        </li>
+                                        <li class="w3-padding-16">
+                                            <img src="/img/ingredients/egg_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
+                                            <span class="w3-large">Egg</span><br>
+                                            <span>2 eggs</span>
+                                        </li>
+                                        <li class="w3-padding-16">
+                                            <img src="/img/ingredients/milk_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
+                                            <span class="w3-large">Milk</span><br>
+                                            <span>3/4 cups of milk</span>
+                                        </li>
+                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
+                                            <img src="/img/ingredients/seasoned_bread_crumbs_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
+                                            <span class="w3-large">Seasoned Bread Crumbs</span><br>
+                                            <span>2/3 cups of seasoned bread crumbs</span>
+                                        </li>
+                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
+                                            <img src="/img/ingredients/dried_minced_onions_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
+                                            <span class="w3-large">Dried Minced Onions</span><br>
+                                            <span>2 teaspoons of dried minced onions</span>
+                                        </li>
+                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
+                                            <img src="/img/ingredients/salt_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
+                                            <span class="w3-large">Salt</span><br>
+                                            <span>1 teaspoon of salt</span>
+                                        </li>
+                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
+                                            <img src="/img/ingredients/rubbed_sage_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
+                                            <span class="w3-large">Rubbed Sage</span><br>
+                                            <span>1/2 teaspoons of rubbed sage</span>
+                                        </li>
+                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
+                                            <img src="/img/ingredients/mushroom_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
+                                            <span class="w3-large">Mushrooms</span><br>
+                                            <span>1/2 cups of sliced fresh mushrooms</span>
+                                        </li>
+                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
+                                            <img src="/img/ingredients/ketchup_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
+                                            <span class="w3-large">Ketchup</span><br>
+                                            <span>1/4 cups of ketchup</span>
+                                        </li>
+                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
+                                            <img src="/img/ingredients/brown_sugar_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
+                                            <span class="w3-large">Brown Sugar</span><br>
+                                            <span>2 tablespoons of brown sugar</span>
+                                        </li>
+                                    </ul>
+                                </section>
+                                <hr>
+                                <!-- END Introduction Menu -->
+                            </div>
+                            <!-- END GRID -->
+                        </div>
+                        <br>
+                        <!-- END w3-content -->
+                    </div>
+                </div>
+            </div>
+            <!--footer-->
+            <div class="w3-row" id="footer_holder">
+            </div>
+        </div>
+
+        <!--Project Common Custom JS and CSS-->
+        <link rel="stylesheet" type="text/css" href="project_common.css" media="screen" />
+        <script src="project_common.js" type="text/javascript"></script>
+        <!--Custom JS and CSS-->
+        <script src="recipe_view.js" type="text/javascript"></script>
+        <link rel="stylesheet" type="text/css" href="recipe_view.css" media="screen" />
+    </body>
+</html>
