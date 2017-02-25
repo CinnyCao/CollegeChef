@@ -29,6 +29,7 @@ function showHideRecipeEditorTools() {
     $('.recipe_card_tools_wrapper').toggle(user_type == "admin");
 }
 
+// Display recipes with recipe names that contain the entered input
 function filterRecipes() {
 	reset();
     var search_text = $('#recipe_browser_input').val().toLowerCase();
@@ -39,6 +40,7 @@ function filterRecipes() {
     }
 }
 
+// Displays recipes that start with the selected letter
 function letter(a) {
 	var str = a.id;
 	if (document.getElementById(str).style.color == "red") {
@@ -57,6 +59,7 @@ function letter(a) {
 	}
 }
 
+// Resets letter button colors to an unselected white
 function reset() {
 	var str = 0;
 	for (var i = 1; i < 27; i++) {
