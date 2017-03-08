@@ -2,34 +2,32 @@ var express = require('express');
 var app = express();
 
 
-
 // Secure Hash Algorithm 1
 var sha1 = require('sha1');
 
 
-// MongoDB
-var mongo = require('./database/dbconnection.js');
-mongo.connectToServer(function(err) {
-    // Database is ready; listen on port 3000
-    app.listen(3000, function () {
-        console.log('App listening on port 3000');
-    });
-});
+// Mongoose
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+// Mongoose auto-increment
+// Usage: https://www.npmjs.com/package/mongoose-auto-increment
+var autoIncrement = require("mongoose-auto-increment");
 
-// MongoDB auto-increment
-var autoIncrement = require("mongodb-autoincrement");
+var connection = mongoose.createConnection("mongodb://localhost:27017/database");
+autoIncrement.initialize(connection);
 
-// DB Schema and Models
-var Users = require('./database/users.js');
+// DB Models
+var User = require('./database/users.js')(connection, Schema, autoIncrement);
 
 // for testing: add admin account
-autoIncrement.getNextSequence(mongo.getDB(), 'Users', function (err, autoIndex) {
-    var admin = new User({
-        id: autoIndex,
-        userName: "admin",
-        password: sha1("admin"),
-        isAdmin: true
-    });
+var admin = new User({
+    userName: "admin",
+    password: sha1("admin"),
+    isAdmin: true
+});
+admin.save(function (err, admin) {
+    if (err) return console.error(err);
+    admin.test();
 });
 
 
@@ -58,3 +56,6 @@ app.post('*', jsonParser, function (req, res, next) {
 // User Profile endpoints
 
 
+app.listen(3000, function () {
+    console.log('App listening on port 3000');
+});
