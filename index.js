@@ -56,7 +56,7 @@ require('./apis/shared_endpoints.js')(app);
 require('./apis/forms_endpoints.js')(app);
 
 // Home Page endpoints
-require('./apis/home_endpoints.js')(app);
+require('./apis/home_endpoints.js')(app, Recipe, Ingredient);
 
 // Recipe View endpoints
 require('./apis/recipe_view_endpoints.js')(app);
