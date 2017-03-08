@@ -17,7 +17,16 @@ var connection = mongoose.createConnection("mongodb://localhost:27017/database")
 autoIncrement.initialize(connection);
 
 // DB Models
-var User = require('./database/users.js')(connection, Schema, autoIncrement);
+var User = require('./models/users.js')(connection, Schema, autoIncrement);
+var Recipe = require('./models/recipes.js')(connection, Schema, autoIncrement);
+var Category = require('./models/categories.js')(connection, Schema, autoIncrement);
+var Ingredient = require('./models/ingredients.js')(connection, Schema, autoIncrement);
+var IngredientToRecipe = require('./models/ingredient_to_recipe.js')(connection, Schema, autoIncrement);
+var Comment = require('./models/comments.js')(connection, Schema, autoIncrement);
+var RateHistory = require('./models/rate_history.js')(connection, Schema, autoIncrement);
+var FavoriteHistory = require('./models/favorite_history.js')(connection, Schema, autoIncrement);
+var NotificationSetting = require('./models/notification_settings.js')(connection, Schema, autoIncrement);
+var NotificationHistory = require('./models/notification_history.js')(connection, Schema, autoIncrement);
 
 // for testing: add admin account
 var admin = new User({
@@ -40,20 +49,23 @@ app.post('*', jsonParser, function (req, res, next) {
 });
 
 
+// Share endpoints
+require('./apis/shared_endpoints.js')(app);
 
 // Endpoints that process forms
-
+require('./apis/forms_endpoints.js')(app);
 
 // Home Page endpoints
-
+require('./apis/home_endpoints.js')(app);
 
 // Recipe View endpoints
-
+require('./apis/recipe_view_endpoints.js')(app);
 
 // Recipe Browser endpoints
-
+require('./apis/recipe_browser_endpoints.js')(app);
 
 // User Profile endpoints
+require('./apis/user_profile_endpoints.js')(app);
 
 
 app.listen(3000, function () {
