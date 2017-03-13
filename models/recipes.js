@@ -12,7 +12,7 @@ module.exports = function (connection, Schema, autoIncrement) {
         numServings: {type: Number, required: true, min: 1},
         notes: String
     });
-    
+
     RecipeSchema.plugin(autoIncrement.plugin, {model: 'Recipe', field: 'id'});
 
     return connection.model('Recipe', RecipeSchema);

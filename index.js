@@ -90,18 +90,11 @@ User.find({userName: "admin"}, function (err, adminUser) {
     if (err) return console.error(err);
     if (adminUser.length) {
         adminUser[0].test();
-    } else {
-        var admin = new User({
-            userName: "admin",
-            password: sha1("admin"),
-            isAdmin: true
-        });
-        admin.save(function (err, admin) {
-            if (err) return console.error(err);
-            admin.test();
-        });
     }
 });
+
+// store 
+require('./apis/builtIn_records.js')(app, sha1, User, Ingredient);
 
 // Share endpoints
 require('./apis/shared_endpoints.js')(app);
@@ -119,7 +112,7 @@ require('./apis/recipe_view_endpoints.js')(app);
 require('./apis/recipe_browser_endpoints.js')(app);
 
 // User Profile endpoints
-require('./apis/user_profile_endpoints.js')(app);
+require('./apis/user_profile_endpoints.js')(app, User, NotificationSetting, NotificationHistory);
 
 
 app.listen(3333, function () {
