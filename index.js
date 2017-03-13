@@ -2,10 +2,6 @@ var express = require('express');
 var app = express();
 
 
-// Secure Hash Algorithm 1
-var sha1 = require('sha1');
-
-
 // Mongoose
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
@@ -28,6 +24,65 @@ var FavoriteHistory = require('./models/favorite_history.js')(connection, Schema
 var NotificationSetting = require('./models/notification_settings.js')(connection, Schema, autoIncrement);
 var NotificationHistory = require('./models/notification_history.js')(connection, Schema, autoIncrement);
 
+
+// Secure Hash Algorithm 1
+var sha1 = require('sha1');
+
+// Reads bearer authorization token
+var bearerToken = require('express-bearer-token');
+app.use(bearerToken());
+
+// JSON web token
+var jwt = require('jwt-simple');
+var secret = 'QbSqjf3v1V2sMHyeo27W';
+
+// Function for generating token
+var generateToken = function (userID) {
+    var date = new Date();
+    var payload = {
+        userID: userID,
+        exp: date.setHours(date.getHours() + 17532)
+    };
+    return jwt.encode(payload, secret);
+};
+
+// body parser to make sure every post request body is not empty
+var bodyParser = require('body-parser');
+var jsonParser = bodyParser.json();
+app.post('*', jsonParser, function (req, res, next) {
+    if (!req.body) return res.sendStatus(400);
+    next();
+});
+
+// Authentication
+app.all('*', jsonParser, function (req, res, next) {
+    if (req.token) {
+        var decodedToken = jwt.decode(req.token, secret);
+        if (decodedToken && new Date(decodedToken.exp) > new Date()) {
+            User.find({id: decodedToken.userID}, function (err, resUsers) {
+                if (err) return console.error(err);
+                if (resUsers.length) {
+                    req.auth = true;
+                    req.userName = resUsers[0].userName;
+                    req.isAdmin = resUsers[0].isAdmin;
+                } else {
+                    // user not found, set auth failed
+                    req.auth = false;
+                }
+                next();
+            });
+        } else {
+            // token expired? set auth failed
+            req.auth = false;
+            next();
+        }
+    } else {
+        // token not passed, leave auth not set
+        next();
+    }
+});
+
+
 // for testing: add admin account
 User.find({userName: "admin"}, function (err, adminUser) {
     if (err) return console.error(err);
@@ -45,16 +100,6 @@ User.find({userName: "admin"}, function (err, adminUser) {
         });
     }
 });
-
-
-// body parser to make sure every post request body is not empty
-var bodyParser = require('body-parser');
-var jsonParser = bodyParser.json();
-app.post('*', jsonParser, function (req, res, next) {
-    if (!req.body) return res.sendStatus(400);
-    next();
-});
-
 
 // Share endpoints
 require('./apis/shared_endpoints.js')(app);
