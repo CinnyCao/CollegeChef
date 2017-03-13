@@ -12,7 +12,7 @@ var Schema = mongoose.Schema;
 // Mongoose auto-increment
 // Usage: https://www.npmjs.com/package/mongoose-auto-increment
 var autoIncrement = require("mongoose-auto-increment");
-
+mongoose.Promise = global.Promise;
 var connection = mongoose.createConnection("mongodb://localhost:27017/database");
 autoIncrement.initialize(connection);
 
@@ -29,14 +29,20 @@ var NotificationSetting = require('./models/notification_settings.js')(connectio
 var NotificationHistory = require('./models/notification_history.js')(connection, Schema, autoIncrement);
 
 // for testing: add admin account
-var admin = new User({
-    userName: "admin",
-    password: sha1("admin"),
-    isAdmin: true
-});
-admin.save(function (err, admin) {
-    if (err) return console.error(err);
-    admin.test();
+User.findOne({userName: "admin"}, function (err, adminUser) {
+   if (err) {
+       var admin = new User({
+           userName: "admin",
+           password: sha1("admin"),
+           isAdmin: true
+       });
+       admin.save(function (err, admin) {
+           if (err) return console.error(err);
+           admin.test();
+       });
+   } else {
+       adminUser.test();
+   }
 });
 
 
@@ -68,6 +74,6 @@ require('./apis/recipe_browser_endpoints.js')(app);
 require('./apis/user_profile_endpoints.js')(app);
 
 
-app.listen(3000, function () {
-    console.log('App listening on port 3000');
+app.listen(3333, function () {
+    console.log('App listening on port 3333');
 });
