@@ -19,8 +19,8 @@ var Category = require('./models/categories.js')(connection, Schema, autoIncreme
 var Ingredient = require('./models/ingredients.js')(connection, Schema, autoIncrement);
 var IngredientToRecipe = require('./models/ingredient_to_recipe.js')(connection, Schema, autoIncrement);
 var Comment = require('./models/comments.js')(connection, Schema, autoIncrement);
-var RateHistory = require('./models/rate_history.js')(connection, Schema, autoIncrement);
-var FavoriteHistory = require('./models/favorite_history.js')(connection, Schema, autoIncrement);
+var Rate = require('./models/rate.js')(connection, Schema, autoIncrement);
+var Favorite = require('./models/favorite.js')(connection, Schema, autoIncrement);
 var NotificationSetting = require('./models/notification_settings.js')(connection, Schema, autoIncrement);
 var NotificationHistory = require('./models/notification_history.js')(connection, Schema, autoIncrement);
 

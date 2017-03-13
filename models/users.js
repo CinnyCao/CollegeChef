@@ -13,7 +13,7 @@ module.exports = function (connection, Schema, autoIncrement) {
     UserSchema.methods.test = function () {
         var greeting = "I am " + this.userName + ". " + (this.isAdmin ? "I am an Admin" : "");
         console.log(greeting);
-    }
+    };
 
     return connection.model('User', UserSchema);
-}
+};

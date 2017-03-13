@@ -6,4 +6,4 @@ module.exports = function (connection, Schema, autoIncrement) {
     CategorySchema.plugin(autoIncrement.plugin, {model: 'Category', field: 'id'});
 
     return connection.model('Category', CategorySchema);
-}
+};

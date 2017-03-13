@@ -7,4 +7,4 @@ module.exports = function (connection, Schema, autoIncrement) {
     IngredientSchema.plugin(autoIncrement.plugin, {model: 'Ingredient', field: 'id'});
 
     return connection.model('Ingredient', IngredientSchema);
-}
+};
