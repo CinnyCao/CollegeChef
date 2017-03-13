@@ -84,15 +84,6 @@ app.all('*', jsonParser, function (req, res, next) {
     }
 });
 
-
-// for testing: add admin account
-User.find({userName: "admin"}, function (err, adminUser) {
-    if (err) return console.error(err);
-    if (adminUser.length) {
-        adminUser[0].test();
-    }
-});
-
 // store 
 require('./apis/builtIn_records.js')(app, sha1, User, Ingredient);
 

@@ -5,10 +5,20 @@ module.exports = function (app, sha1, User, Ingredient) {
         {userName: 'user', password: sha1("user"), isAdmin: false}
     ];
 
-    User.create(users, function (err) {
+    User.find({}, function (err, adminUser) {
         if (err)
             return console.error(err);
+        if (adminUser.length) {
+            // for testing, test if amdin has been created
+            adminUser[0].test();
+        } else {
+            User.create(users, function (err) {
+                if (err)
+                    return console.error(err);
+            });
+        }
     });
+
 
     // insert built-in ingredients
     var ingredients = [
@@ -21,9 +31,14 @@ module.exports = function (app, sha1, User, Ingredient) {
         {name: "butter", imgUrl: "/img/ingredients/butter.jpg"}
     ];
 
-    Ingredient.create(ingredients, function (err) {
+    Ingredient.find({}, function (err, allingredients) {
         if (err)
             return console.error(err);
+        if (!allingredients.length) {
+            Ingredient.create(ingredients, function (err) {
+                if (err)
+                    return console.error(err);
+            });
+        }
     });
-
 };
