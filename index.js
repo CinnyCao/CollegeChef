@@ -2,10 +2,6 @@ var express = require('express');
 var app = express();
 
 
-// Secure Hash Algorithm 1
-var sha1 = require('sha1');
-
-
 // Mongoose
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
@@ -40,9 +36,31 @@ admin.save(function (err, admin) {
 });
 
 
+// Secure Hash Algorithm 1
+var sha1 = require('sha1');
+
+// Reads bearer authorization token
+var bearerToken = require('express-bearer-token');
+app.use(bearerToken());
+
+// JSON web token
+var jwt = require('jwt-simple');
+var secret = 'QbSqjf3v1V2sMHyeo27W';
+
+// Function for generating token
+var generateToken = function (userID) {
+    var date = new Date();
+    var payload = {
+        userID: userID,
+        exp: date.setHours(date.getHours() + 17532)
+    };
+    return jwt.encode(payload, secret);
+};
+
 // body parser to make sure every post request body is not empty
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
+
 app.post('*', jsonParser, function (req, res, next) {
     if (!req.body) return res.sendStatus(400);
     next();
