@@ -29,20 +29,21 @@ var NotificationSetting = require('./models/notification_settings.js')(connectio
 var NotificationHistory = require('./models/notification_history.js')(connection, Schema, autoIncrement);
 
 // for testing: add admin account
-User.findOne({userName: "admin"}, function (err, adminUser) {
-   if (err) {
-       var admin = new User({
-           userName: "admin",
-           password: sha1("admin"),
-           isAdmin: true
-       });
-       admin.save(function (err, admin) {
-           if (err) return console.error(err);
-           admin.test();
-       });
-   } else {
-       adminUser.test();
-   }
+User.find({userName: "admin"}, function (err, adminUser) {
+    if (err) return console.error(err);
+    if (adminUser.length) {
+        adminUser[0].test();
+    } else {
+        var admin = new User({
+            userName: "admin",
+            password: sha1("admin"),
+            isAdmin: true
+        });
+        admin.save(function (err, admin) {
+            if (err) return console.error(err);
+            admin.test();
+        });
+    }
 });
 
 
