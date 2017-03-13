@@ -9,7 +9,9 @@ var Schema = mongoose.Schema;
 // Usage: https://www.npmjs.com/package/mongoose-auto-increment
 var autoIncrement = require("mongoose-auto-increment");
 mongoose.Promise = global.Promise;
-var connection = mongoose.createConnection("mongodb://localhost:27017/database");
+var connection = mongoose.createConnection("mongodb://localhost:27017/database", function () {
+    console.log("Database ready on port 27017");
+});
 autoIncrement.initialize(connection);
 
 // DB Models
@@ -121,5 +123,5 @@ require('./apis/user_profile_endpoints.js')(app);
 
 
 app.listen(3333, function () {
-    console.log('App listening on port 27017');
+    console.log('App listening on port 3333');
 });
