@@ -121,5 +121,5 @@ require('./apis/user_profile_endpoints.js')(app);
 
 
 app.listen(3333, function () {
-    console.log('App listening on port 3333');
+    console.log('App listening on port 27017');
 });
