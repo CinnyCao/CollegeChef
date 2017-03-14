@@ -1,4 +1,17 @@
 # Team 2 CollegeChef
+
+## Phase 3
+* Setup
+  - Check out repository
+  - Do "npm install"
+  - Do "mongod"
+  - Do "npm start" or "node index.js"
+* API testing
+  - If linix: do "npm test"
+  - If using postMan, use option "raw" under Body for post requests
+
+
+## Phase 2
 **Please use a server to open our site** or else some styles will not be loaded.
 
 **Please note that the smallest width and height our website support is 270 and 370**. We found that this size is on the border of usability. It's not worthy to adapt it to a smaller size because it would be near impossible to use. For any screen size that has width **or** height that is smaller than our limit will only receive a static image. 
