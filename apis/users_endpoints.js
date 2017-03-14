@@ -19,7 +19,7 @@ module.exports = function (app, sha1, generateToken, User) {
                 var token = generateToken(user.id);
                 console.log("Logged in");
                 res.json({
-                    userID: user.id,
+                    userId: user.id,
                     userName: user.userName,
                     isAdmin: user.isAdmin,
                     token: token

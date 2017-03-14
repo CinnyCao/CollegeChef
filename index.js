@@ -18,16 +18,16 @@ connection.once('open', function() {
     var Schema = mongoose.Schema;
 
     // DB Models
-    var User = require('./models/users.js')(connection, Schema, autoIncrement);
-    var Recipe = require('./models/recipes.js')(connection, Schema, autoIncrement);
-    var Category = require('./models/categories.js')(connection, Schema, autoIncrement);
-    var Ingredient = require('./models/ingredients.js')(connection, Schema, autoIncrement);
-    var IngredientToRecipe = require('./models/ingredient_to_recipe.js')(connection, Schema, autoIncrement);
-    var Comment = require('./models/comments.js')(connection, Schema, autoIncrement);
-    var Rate = require('./models/rate.js')(connection, Schema, autoIncrement);
-    var Favorite = require('./models/favorite.js')(connection, Schema, autoIncrement);
-    var NotificationSetting = require('./models/notification_settings.js')(connection, Schema, autoIncrement);
-    var NotificationHistory = require('./models/notification_history.js')(connection, Schema, autoIncrement);
+    var User = require('./database/models/users.js')(connection, Schema, autoIncrement);
+    var Recipe = require('./database/models/recipes.js')(connection, Schema, autoIncrement);
+    var Category = require('./database/models/categories.js')(connection, Schema, autoIncrement);
+    var Ingredient = require('./database/models/ingredients.js')(connection, Schema, autoIncrement);
+    var IngredientToRecipe = require('./database/models/ingredient_to_recipe.js')(connection, Schema, autoIncrement);
+    var Comment = require('./database/models/comments.js')(connection, Schema, autoIncrement);
+    var Rate = require('./database/models/rate.js')(connection, Schema, autoIncrement);
+    var Favorite = require('./database/models/favorite.js')(connection, Schema, autoIncrement);
+    var NotificationSetting = require('./database/models/notification_settings.js')(connection, Schema, autoIncrement);
+    var NotificationHistory = require('./database/models/notification_history.js')(connection, Schema, autoIncrement);
 
     // Secure Hash Algorithm 1
     var sha1 = require('sha1');
@@ -93,26 +93,26 @@ connection.once('open', function() {
     // connection.dropDatabase(function () {
     //     console.log("Database cleared");
         // factory database prepration
-        require('./apis/builtIn_records.js')(app, sha1, User, Ingredient);
+        require('./database/factory_data.js')(app, sha1, User, Ingredient);
     // });
 
-    // Share endpoints
-    require('./apis/shared_endpoints.js')(app);
+    // Endpoints that manage users
+    require('./apis/users_endpoints.js')(app, sha1, generateToken, User);
 
-    // Endpoints that process forms
-    require('./apis/forms_endpoints.js')(app, sha1, generateToken, User);
+    // Endpoints that manage ingredients
+    require('./apis/ingredients_endpoints.js')(app, Recipe, Ingredient);
 
-    // Home Page endpoints
-    require('./apis/home_endpoints.js')(app, Recipe, Ingredient);
+    // Endpoints that generate specialty recipe lists
+    require('./apis/specialty_recipes_endpoints.js')(app);
 
-    // Recipe View endpoints
-    require('./apis/recipe_view_endpoints.js')(app);
+    // Endpoints that manage recipes
+    require('./apis/recipes_endpoints.js')(app);
 
-    // Recipe Browser endpoints
-    require('./apis/recipe_browser_endpoints.js')(app);
+    // Endpoints that manage comments, rate and favorite
+    require('./apis/comments_endpoints.js')(app, User, NotificationSetting, NotificationHistory);
 
-    // User Profile endpoints
-    require('./apis/user_profile_endpoints.js')(app, User, NotificationSetting, NotificationHistory);
+    // Endpoints that manage notifications
+    require('./apis/notification_endpoints.js')(app);
 
     var server = app.listen(3000, function () {
         console.log('App listening on port 3000');
