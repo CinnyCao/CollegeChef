@@ -3,8 +3,8 @@ module.exports = function (app, sha1, User, Ingredient) {
 
     // insert built-in admin and user
     var users = [
-        {userName: 'admin', password: sha1("admin"), isAdmin: true},
-        {userName: 'user', password: sha1("user"), isAdmin: false}
+        {userName: 'admin', password: sha1("adminadmin"), isAdmin: true},
+        {userName: 'user', password: sha1("useruser"), isAdmin: false}
     ];
 
     User.find({}, function (err, resUsers) {

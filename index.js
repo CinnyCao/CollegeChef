@@ -54,7 +54,10 @@ connection.once('open', function() {
     var bodyParser = require('body-parser');
     var jsonParser = bodyParser.json();
     app.post('*', jsonParser, function (req, res, next) {
-        if (!req.body) return res.sendStatus(400);
+        if (!req.body) {
+            console.error("Request body not found");
+            return res.sendStatus(400);
+        }
         next();
     });
 
@@ -87,15 +90,17 @@ connection.once('open', function() {
     });
 
     // // testing only - clear database
-    // connection.dropDatabase();
-    // factory database prepration
-    require('./apis/builtIn_records.js')(app, sha1, User, Ingredient);
+    // connection.dropDatabase(function () {
+    //     console.log("Database cleared");
+        // factory database prepration
+        require('./apis/builtIn_records.js')(app, sha1, User, Ingredient);
+    // });
 
     // Share endpoints
     require('./apis/shared_endpoints.js')(app);
 
     // Endpoints that process forms
-    require('./apis/forms_endpoints.js')(app);
+    require('./apis/forms_endpoints.js')(app, sha1, generateToken, User);
 
     // Home Page endpoints
     require('./apis/home_endpoints.js')(app, Recipe, Ingredient);
