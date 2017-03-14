@@ -109,8 +109,8 @@ connection.once('open', function() {
     // User Profile endpoints
     require('./apis/user_profile_endpoints.js')(app, User, NotificationSetting, NotificationHistory);
 
-    var server = app.listen(3333, function () {
-        console.log('App listening on port 3333');
+    var server = app.listen(3000, function () {
+        console.log('App listening on port 3000');
     });
 
     var shutdown = function() {
