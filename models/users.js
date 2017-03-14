@@ -10,8 +10,8 @@ module.exports = function (connection, Schema, autoIncrement) {
 
     UserSchema.plugin(autoIncrement.plugin, {model: 'User', field: 'id'});
 
-    UserSchema.methods.test = function () {
-        var greeting = "I am " + this.userName + ". " + (this.isAdmin ? "I am an Admin" : "");
+    UserSchema.methods.introduce = function () {
+        var greeting = "I am " + this.userName + ". " + (this.isAdmin ? "I am an Admin" : "I am a normal User");
         console.log(greeting);
     };
 

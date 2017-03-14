@@ -1,21 +1,28 @@
 module.exports = function (app, sha1, User, Ingredient) {
-    // insert built-in admin
+    console.log("Checking for factory data: 1. Users, 2. Ingredients");
+
+    // insert built-in admin and user
     var users = [
         {userName: 'admin', password: sha1("admin"), isAdmin: true},
         {userName: 'user', password: sha1("user"), isAdmin: false}
     ];
 
-    User.find({}, function (err, adminUser) {
+    User.find({}, function (err, resUsers) {
         if (err)
             return console.error(err);
-        if (adminUser.length) {
-            // for testing, test if amdin has been created
-            adminUser[0].test();
-        } else {
-            User.create(users, function (err) {
+        // check if factory admin and user have been created or not
+        if (!resUsers.length) {
+            console.log("Inserting factory admin and user");
+            User.create(users, function (err, createdUsers) {
                 if (err)
                     return console.error(err);
+                for (var i = 0; i < createdUsers.length; i++) {
+                    createdUsers[i].introduce();
+                }
+                console.log("Factory admin and user OK");
             });
+        } else {
+            console.log("Factory admin and user OK");
         }
     });
 
@@ -35,10 +42,17 @@ module.exports = function (app, sha1, User, Ingredient) {
         if (err)
             return console.error(err);
         if (!allingredients.length) {
-            Ingredient.create(ingredients, function (err) {
+            console.log("Inserting factory ingredients");
+            Ingredient.create(ingredients, function (err, createdIngredients) {
                 if (err)
                     return console.error(err);
+                for (var i = 0; i < createdIngredients.length; i++) {
+                    createdIngredients[i].check();
+                }
+                console.log("Factory ingredients data OK");
             });
+        } else {
+            console.log("Factory ingredients data OK");
         }
     });
 };

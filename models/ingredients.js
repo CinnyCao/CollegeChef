@@ -6,5 +6,10 @@ module.exports = function (connection, Schema, autoIncrement) {
 
     IngredientSchema.plugin(autoIncrement.plugin, {model: 'Ingredient', field: 'id'});
 
+    IngredientSchema.methods.check = function () {
+        var greeting = "Ingredient #" + this.id + " " + this.name + " purchased. Linked with image at " + this.imgUrl;
+        console.log(greeting);
+    };
+
     return connection.model('Ingredient', IngredientSchema);
 };
