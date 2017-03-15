@@ -8,7 +8,7 @@
   - Do "npm start" or "node index.js"
 * API testing
   - If linix: do "npm test"
-  - If using postMan, use option "raw" under Body for post requests
+  - If using postMan, use option "raw" with type "JSON (application/json)" under Body for post requests
 
 
 ## Phase 2
