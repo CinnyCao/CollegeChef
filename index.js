@@ -89,11 +89,17 @@ connection.once('open', function() {
         }
     });
 
+    var getRandomIntInclusive = function (min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
     // // testing only - clear database
     connection.dropDatabase(function () {
         console.log("Database cleared");
         // factory database prepration
-        require('./database/factory_data.js')(app, sha1, User, Ingredient, Category, Recipe, IngredientToRecipe);
+        require('./database/factory_data.js')(app, sha1, getRandomIntInclusive, User, Ingredient, Category, Recipe, IngredientToRecipe);
     });
 
     // Endpoints that manage users
@@ -103,7 +109,7 @@ connection.once('open', function() {
     require('./apis/ingredients_endpoints.js')(app, Recipe, Ingredient);
 
     // Endpoints that generate specialty recipe lists
-    require('./apis/specialty_recipes_endpoints.js')(app);
+    require('./apis/specialty_recipes_endpoints.js')(app, Recipe, IngredientToRecipe, Ingredient, Rate, Favorite);
 
     // Endpoints that manage recipes
     require('./apis/recipes_endpoints.js')(app, Recipe, Ingredient, sha1, generateToken, User);
