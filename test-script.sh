@@ -8,3 +8,10 @@ curl -X "POST" "http://localhost:3000/login" \
 
 read -p $'\nGet all ingredients'
 curl "http://localhost:3000/ingredients"
+
+read -p $'\nSearch recipes by ingredients'
+curl -X "POST" "http://localhost:3000/search" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "ingredients": [1, 2]
+}'

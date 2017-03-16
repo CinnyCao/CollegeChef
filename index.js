@@ -96,11 +96,11 @@ connection.once('open', function() {
     }
 
     // // testing only - clear database
-    connection.dropDatabase(function () {
-        console.log("Database cleared");
+    // connection.dropDatabase(function () {
+    //     console.log("Database cleared");
         // factory database prepration
         require('./database/factory_data.js')(app, sha1, getRandomIntInclusive, User, Ingredient, Category, Recipe, IngredientToRecipe);
-    });
+    // });
 
     // Endpoints that manage users
     require('./apis/users_endpoints.js')(app, sha1, generateToken, User);
