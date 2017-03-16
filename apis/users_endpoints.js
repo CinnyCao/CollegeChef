@@ -48,6 +48,8 @@ module.exports = function (app, sha1, generateToken, User) {
                         return console.error(err);
                     }
                     console.log("User created");
+                    // add notification settings for new user
+                    createdUser.addNotificationSettings();
                     res.json({
                         userId: createdUser.id,
                         userName: createdUser.userName,

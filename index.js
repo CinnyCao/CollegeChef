@@ -18,7 +18,9 @@ connection.once('open', function() {
     var Schema = mongoose.Schema;
 
     // DB Models
-    var User = require('./database/models/users.js')(connection, Schema, autoIncrement);
+    var NotificationSetting = require('./database/models/notification_settings.js')(connection, Schema, autoIncrement);
+    var NotificationHistory = require('./database/models/notification_history.js')(connection, Schema, autoIncrement);
+    var User = require('./database/models/users.js')(connection, Schema, autoIncrement, NotificationSetting);
     var IngredientToRecipe = require('./database/models/ingredient_to_recipe.js')(connection, Schema, autoIncrement);
     var Recipe = require('./database/models/recipes.js')(connection, Schema, autoIncrement, IngredientToRecipe);
     var Category = require('./database/models/categories.js')(connection, Schema, autoIncrement);
@@ -26,8 +28,6 @@ connection.once('open', function() {
     var Comment = require('./database/models/comments.js')(connection, Schema, autoIncrement);
     var Rate = require('./database/models/rate.js')(connection, Schema, autoIncrement);
     var Favorite = require('./database/models/favorite.js')(connection, Schema, autoIncrement);
-    var NotificationSetting = require('./database/models/notification_settings.js')(connection, Schema, autoIncrement);
-    var NotificationHistory = require('./database/models/notification_history.js')(connection, Schema, autoIncrement);
 
     // Secure Hash Algorithm 1
     var sha1 = require('sha1');
@@ -67,7 +67,8 @@ connection.once('open', function() {
             var decodedToken = jwt.decode(req.token, secret);
             if (decodedToken && new Date(decodedToken.exp) > new Date()) {
                 User.find({id: decodedToken.userID}, function (err, resUsers) {
-                    if (err) return console.error(err);
+                    if (err)
+                        return console.error(err);
                     if (resUsers.length) {
                         req.auth = true;
                         req.userName = resUsers[0].userName;
@@ -93,7 +94,7 @@ connection.once('open', function() {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    };
 
     // // testing only - clear database
     // connection.dropDatabase(function () {
@@ -126,7 +127,7 @@ connection.once('open', function() {
         console.log('App listening on port 3000');
     });
 
-    var shutdown = function() {
+    var shutdown = function () {
         console.log("Shutting down...");
         connection.close(function () {
             console.log('Mongoose connection closed.');
@@ -136,8 +137,8 @@ connection.once('open', function() {
     };
 
     // listen for TERM signal .e.g. kill
-    process.on ('SIGTERM', shutdown);
+    process.on('SIGTERM', shutdown);
 
     // listen for INT signal e.g. Ctrl-C
-    process.on ('SIGINT', shutdown);
+    process.on('SIGINT', shutdown);
 });

@@ -17,6 +17,7 @@ module.exports = function (app, sha1, User, Ingredient, Category) {
                     return console.error(err);
                 for (var i = 0; i < createdUsers.length; i++) {
                     createdUsers[i].introduce();
+                    createdUsers[i].addNotificationSettings();
                 }
                 console.log("Factory admin and user OK");
             });
