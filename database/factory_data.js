@@ -1,5 +1,5 @@
-module.exports = function (app, sha1, User, Ingredient) {
-    console.log("Checking for factory data: 1. Users, 2. Ingredients");
+module.exports = function (app, sha1, User, Ingredient, Category, Recipe) {
+    console.log("Checking for factory data: 1. Users, 2. Ingredients, 3. Categories");
 
     // insert built-in admin and user
     var users = [
@@ -53,6 +53,31 @@ module.exports = function (app, sha1, User, Ingredient) {
             });
         } else {
             console.log("Factory ingredients data OK");
+        }
+    });
+
+    // insert built-in categories
+    var categories = [
+        {name: "dinner"},
+        {name: "dessert"},
+        {name: "soup"}
+    ];
+
+    Category.find({}, function (err, allCategories) {
+        if (err)
+            return console.error(err);
+        if (!allCategories.length) {
+            console.log("Inserting factory categories");
+            Category.create(categories, function (err, createdCategories) {
+                if (err)
+                    return console.error(err);
+                for (var i = 0; i < createdCategories.length; i++) {
+                    createdCategories[i].check();
+                }
+                console.log("Factory categories data OK");
+            });
+        } else {
+            console.log("Factory categories data OK");
         }
     });
 };
