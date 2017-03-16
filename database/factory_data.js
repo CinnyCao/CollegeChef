@@ -1,4 +1,4 @@
-module.exports = function (app, sha1, User, Ingredient, Category, Recipe) {
+module.exports = function (app, sha1, User, Ingredient, Category, Recipe, IngredientToRecipe) {
     console.log("Checking for factory data: 1. Users, 2. Ingredients, 3. Categories");
 
     // insert built-in admin and user
@@ -78,6 +78,26 @@ module.exports = function (app, sha1, User, Ingredient, Category, Recipe) {
             });
         } else {
             console.log("Factory categories data OK");
+        }
+    });
+
+    // insert built-in recipes
+    Recipe.find({}, function (err, allRecipes) {
+        if (err)
+            return console.error(err);
+        if (!allRecipes.length) {
+            console.log("Inserting factory recipes");
+            var defaultRecipe = new Recipe({
+                personId: 0, recipeName: "testRecipe", categoryId: 0, description: "Test test",
+                instruction: "Test test instruction", imgUrl: "/img/recipes/steak.jpg", numServings: 1
+            });
+            defaultRecipe.save(function (err, newRecipe) {
+                if (err) return console.error(err);
+                newRecipe.addIngredient(0, "1 portion");
+                console.log("Factory recipe data OK");
+            });
+        } else {
+            console.log("Factory recipe data OK");
         }
     });
 };

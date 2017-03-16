@@ -19,10 +19,10 @@ connection.once('open', function() {
 
     // DB Models
     var User = require('./database/models/users.js')(connection, Schema, autoIncrement);
-    var Recipe = require('./database/models/recipes.js')(connection, Schema, autoIncrement);
+    var IngredientToRecipe = require('./database/models/ingredient_to_recipe.js')(connection, Schema, autoIncrement);
+    var Recipe = require('./database/models/recipes.js')(connection, Schema, autoIncrement, IngredientToRecipe);
     var Category = require('./database/models/categories.js')(connection, Schema, autoIncrement);
     var Ingredient = require('./database/models/ingredients.js')(connection, Schema, autoIncrement);
-    var IngredientToRecipe = require('./database/models/ingredient_to_recipe.js')(connection, Schema, autoIncrement);
     var Comment = require('./database/models/comments.js')(connection, Schema, autoIncrement);
     var Rate = require('./database/models/rate.js')(connection, Schema, autoIncrement);
     var Favorite = require('./database/models/favorite.js')(connection, Schema, autoIncrement);
@@ -93,7 +93,7 @@ connection.once('open', function() {
     connection.dropDatabase(function () {
         console.log("Database cleared");
         // factory database prepration
-        require('./database/factory_data.js')(app, sha1, User, Ingredient, Category, Recipe);
+        require('./database/factory_data.js')(app, sha1, User, Ingredient, Category, Recipe, IngredientToRecipe);
     });
 
     // Endpoints that manage users
