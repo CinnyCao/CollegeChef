@@ -14,6 +14,11 @@ module.exports = function (connection, Schema, autoIncrement) {
     });
 
     RecipeSchema.plugin(autoIncrement.plugin, {model: 'Recipe', field: 'id'});
+    
+    RecipeSchema.methods.check = function () {
+        var greeting = "Recipe #" + this.id + " " + this.recipeName;
+        console.log(greeting);
+    };
 
     return connection.model('Recipe', RecipeSchema);
 };

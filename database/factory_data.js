@@ -89,34 +89,34 @@ module.exports = function (app, sha1, User, Ingredient, Category, Recipe) {
             Category.find().distinct('_id', function (err2, categoryIds) {
                 if (err2)
                     return console.error(err2);
-//                var recipeDemo = new Recipe({
-//                    personId: personIds[0],
-//                    recipeName: "demoRecipe",
-//                    ingredientIds: ingredientIds,
-//                    categoryId: categoryIds[0],
-//                    description: "declicious, very delicious, very very delicious",
-//                    instruction: "1. use egg, 2. use milk, 3. use cheese",
-//                    imgUrl: "/img/recipes/ramen.jpg",
-//                    numServings: 3
-//                });
-//                // create new demo recipe
-//                recipeDemo.save(function (err) {
-//                    if (err)
-//                        return console.error(err);
-//                });
-var recipeDemo = [{                   personId: personIds[0],
-                    recipeName: "demoRecipe",
-                    ingredientIds: ingredientIds,
-                    categoryId: categoryIds[0],
-                    description: "declicious, very delicious, very very delicious",
-                    instruction: "1. use egg, 2. use milk, 3. use cheese",
-                    imgUrl: "/img/recipes/ramen.jpg",
-                    numServings: 3}];
-            Recipe.create(recipeDemo, function(err, ls)
-            {
-                                if (err)
-                    return console.error(err);
-            });
+                Recipe.find({name: "demoRecipe"}, function(err3, recipes)
+                {
+                    if(err3) return console.error(err3);
+                    if(!recipes.length){
+                        var recipeDemo = [{
+                            personId: personIds[0],
+                            recipeName: "demoRecipe",
+                            ingredientIds: ingredientIds,
+                            categoryId: categoryIds[0],
+                            description: "declicious, very delicious, very very delicious",
+                            instruction: "1. use egg, 2. use milk, 3. use cheese",
+                            imgUrl: "/img/recipes/ramen.jpg",
+                            numServings: 3}];
+                        Recipe.create(recipeDemo, function(err, demoRecipes)
+                        {
+                            if (err) return console.error(err);
+                            demoRecipes.foreach(function(recipe){
+                                recipe.check();
+                            });
+                            console.log("Factory recipes data OK");
+                        });
+                    }
+                    else {
+                        console.log("Factory recipes data OK");
+                    }
+
+                });
+
             });
         });
     });
