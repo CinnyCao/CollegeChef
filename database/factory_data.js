@@ -80,4 +80,44 @@ module.exports = function (app, sha1, User, Ingredient, Category, Recipe) {
             console.log("Factory categories data OK");
         }
     });
+
+    // insert demo recipe
+    Ingredient.find({'name': {$in: ["cheese", "egg", "milk"]}}).distinct('_id', function (err, ingredientIds) {
+        User.find().distinct('_id', function (err1, personIds) {
+            if (err1)
+                return console.error(err1);
+            Category.find().distinct('_id', function (err2, categoryIds) {
+                if (err2)
+                    return console.error(err2);
+//                var recipeDemo = new Recipe({
+//                    personId: personIds[0],
+//                    recipeName: "demoRecipe",
+//                    ingredientIds: ingredientIds,
+//                    categoryId: categoryIds[0],
+//                    description: "declicious, very delicious, very very delicious",
+//                    instruction: "1. use egg, 2. use milk, 3. use cheese",
+//                    imgUrl: "/img/recipes/ramen.jpg",
+//                    numServings: 3
+//                });
+//                // create new demo recipe
+//                recipeDemo.save(function (err) {
+//                    if (err)
+//                        return console.error(err);
+//                });
+var recipeDemo = [{                   personId: personIds[0],
+                    recipeName: "demoRecipe",
+                    ingredientIds: ingredientIds,
+                    categoryId: categoryIds[0],
+                    description: "declicious, very delicious, very very delicious",
+                    instruction: "1. use egg, 2. use milk, 3. use cheese",
+                    imgUrl: "/img/recipes/ramen.jpg",
+                    numServings: 3}];
+            Recipe.create(recipeDemo, function(err, ls)
+            {
+                                if (err)
+                    return console.error(err);
+            });
+            });
+        });
+    });
 };
