@@ -90,11 +90,11 @@ connection.once('open', function() {
     });
 
     // // testing only - clear database
-    // connection.dropDatabase(function () {
-    //     console.log("Database cleared");
+    connection.dropDatabase(function () {
+        console.log("Database cleared");
         // factory database prepration
         require('./database/factory_data.js')(app, sha1, User, Ingredient, Category, Recipe);
-    // });
+    });
 
     // Endpoints that manage users
     require('./apis/users_endpoints.js')(app, sha1, generateToken, User);
@@ -109,7 +109,7 @@ connection.once('open', function() {
     require('./apis/recipes_endpoints.js')(app, Recipe, Ingredient, sha1, generateToken, User);
 
     // Endpoints that manage comments, rate and favorite
-    require('./apis/comments_endpoints.js')(app, User, NotificationSetting, NotificationHistory);
+    require('./apis/comments_endpoints.js')(app, Comment);
 
     // Endpoints that manage notifications
     require('./apis/notification_endpoints.js')(app);

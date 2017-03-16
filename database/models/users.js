@@ -9,7 +9,7 @@ module.exports = function (connection, Schema, autoIncrement) {
         profilePhoto: String
     });
 
-    UserSchema.plugin(autoIncrement.plugin, {model: 'User', field: 'id'});
+    UserSchema.plugin(autoIncrement.plugin, 'User');
 
     UserSchema.methods.introduce = function () {
         var greeting = "I am " + this.userName + ". " + (this.isAdmin ? "I am an Admin" : "I am a normal User");

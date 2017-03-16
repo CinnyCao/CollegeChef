@@ -1,11 +1,11 @@
 module.exports = function (connection, Schema, autoIncrement) {
     var RecipeSchema = new Schema({
-        personId: {type: Schema.ObjectId, required: true, ref: 'User'},
+        personId: {type: Number, required: true, ref: 'User'},
         recipeName: {type: String, required: true},
         ModifiedDate: {type: Date, required: true, default: Date.now},
-        ModifiedById: {type: Schema.ObjectId, required: true, ref: 'User', default: this.personId},
-        ingredientIds: {type: [{type: Schema.ObjectId, ref: 'Ingredient'}], requried: true},
-        categoryId: {type: Schema.ObjectId, required: true, ref: 'Category'},
+        ModifiedById: {type: Number, required: true, ref: 'User', default: this.personId},
+        ingredientIds: {type: Number, ref: 'Ingredient', requried: true},
+        categoryId: {type: Number, required: true, ref: 'Category'},
         description: {type: String, required: true},
         instruction: {type: String, required: true},
         imgUrl: {type: String, required: true},
@@ -13,7 +13,7 @@ module.exports = function (connection, Schema, autoIncrement) {
         notes: String
     });
 
-    RecipeSchema.plugin(autoIncrement.plugin, {model: 'Recipe', field: 'id'});
+    RecipeSchema.plugin(autoIncrement.plugin, 'Recipe');
 
     return connection.model('Recipe', RecipeSchema);
 };

@@ -1,3 +1,3 @@
-module.exports = function (app, User, NotificationSetting, NotificationHistory) {
-    
+module.exports = function (app, Comment) {
+
 };

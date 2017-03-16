@@ -4,10 +4,10 @@ module.exports = function (connection, Schema, autoIncrement) {
         imgUrl: {type: String, required: true}
     });
 
-    IngredientSchema.plugin(autoIncrement.plugin, {model: 'Ingredient', field: 'id'});
+    IngredientSchema.plugin(autoIncrement.plugin, 'Ingredient');
 
     IngredientSchema.methods.check = function () {
-        var greeting = "Ingredient #" + this.id + " " + this.name + " purchased. Linked with image at " + this.imgUrl;
+        var greeting = "Ingredient #" + this._id + " " + this.name + " purchased. Linked with image at " + this.imgUrl;
         console.log(greeting);
     };
 

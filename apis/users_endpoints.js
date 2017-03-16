@@ -8,7 +8,7 @@ module.exports = function (app, sha1, generateToken, User) {
             return res.sendStatus(400);
         }
         User.findOne({'userName': req.body.userName, 'password': sha1(req.body.userName + req.body.password)},
-            '-_id id userName isAdmin', function (err, user) {
+            '_id userName isAdmin', function (err, user) {
             if (err) {
                 console.error(err);
             }
@@ -92,7 +92,7 @@ module.exports = function (app, sha1, generateToken, User) {
             return res.sendStatus(401);
         }
         User.findOne({$or: [{'id': req.body.userId}, {'userName': req.body.userName}]},
-            '-_id id userName email isAdmin description profilePhoto', function (err, user) {
+            '_id userName email isAdmin description profilePhoto', function (err, user) {
             if (err) {
                 console.error(err);
             }
@@ -228,7 +228,7 @@ module.exports = function (app, sha1, generateToken, User) {
             }
             if (admin.isAdmin) {
                 // only looking for non-admin users
-                User.find({'isAdmin': 'false'}, '-_id, id, userName, email' ,function (err, users) {
+                User.find({'isAdmin': 'false'}, '_id userName email' ,function (err, users) {
                     if (err) {
                         console.error(err);
                     }

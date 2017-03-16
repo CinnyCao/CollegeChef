@@ -1,11 +1,11 @@
 module.exports = function (connection, Schema, autoIncrement) {
     var RateSchema = new Schema({
-        recipeId: {type: Schema.ObjectId, required: true, ref: 'Recipe'},
-        personId: {type: Schema.ObjectId, required: true, ref: 'User'},
+        recipeId: {type: Number, required: true, ref: 'Recipe'},
+        personId: {type: Number, required: true, ref: 'User'},
         scores: {type: Number, required: true, min: 1, max: 5}
     });
     
-    RateSchema.plugin(autoIncrement.plugin, {model: 'Rate', field: 'id'});
+    RateSchema.plugin(autoIncrement.plugin, 'Rate');
 
     return connection.model('Rate', RateSchema);
 };

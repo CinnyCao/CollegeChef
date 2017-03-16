@@ -3,10 +3,10 @@ module.exports = function (connection, Schema, autoIncrement) {
         name: {type: String, required: true, unique: true}
     });
 
-    CategorySchema.plugin(autoIncrement.plugin, {model: 'Category', field: 'id'});
+    CategorySchema.plugin(autoIncrement.plugin, 'Category');
 
     CategorySchema.methods.check = function () {
-        var greeting = "Category #" + this.id + " " + this.name;
+        var greeting = "Category #" + this._id + " " + this.name;
         console.log(greeting);
     };
     
