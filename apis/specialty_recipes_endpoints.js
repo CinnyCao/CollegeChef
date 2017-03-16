@@ -35,6 +35,8 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                 // return only an array of result recipes with wanted fields
                 {"$project": {
                     "_id": 0,
+                    "ingredientCount": 1,
+                    "ingredients": 1,
                     "recipes._id": 1,
                     "recipes.recipeName": 1,
                     "recipes.description": 1,
@@ -44,6 +46,11 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                 res.json(resultRecipes);
             }
         )
+    });
+
+    // get hot recipes
+    app.get("/recipes/hot", function (req, res) {
+
     });
 
 };

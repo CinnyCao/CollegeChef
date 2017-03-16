@@ -24,7 +24,6 @@ module.exports = function (connection, Schema, autoIncrement, IngredientToRecipe
                 newRecord.save(function (err) {
                     if (err)
                         return console.error(err);
-                    console.log("Added ingredient to recipe");
                 });
             }
         });

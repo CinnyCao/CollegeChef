@@ -1,5 +1,4 @@
-module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, Category, Recipe, IngredientToRecipe) {
-    console.log("Checking for factory data: 1. Users, 2. Ingredients, 3. Categories");
+module.exports = function (app, sha1, User, Ingredient, Category) {
 
     // insert built-in admin and user
     var users = [
@@ -78,39 +77,6 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
             });
         } else {
             console.log("Factory categories data OK");
-        }
-    });
-
-    // insert testing recipes
-    Recipe.find({}, function (err, allRecipes) {
-        if (err)
-            return console.error(err);
-        if (!allRecipes.length) {
-            console.log("Inserting testing recipes");
-            // insert 3 test recipes
-            for (var i=0; i<3; i++) {
-                var defaultRecipe = new Recipe({
-                    personId: getRandomIntInclusive(0, 1), recipeName: "testRecipe" + i, categoryId: getRandomIntInclusive(0, 2), description: "Test test",
-                    instruction: "Test test instruction", imgUrl: "/img/recipes/steak.jpg", numServings: 1
-                });
-                defaultRecipe.save(function (err, newRecipe) {
-                    if (err) return console.error(err);
-                    var numOfIngredients = getRandomIntInclusive(1, 4);
-                    var addedIngredients = [];
-                    for (var i = 0; i < numOfIngredients; i++) {
-                        // need to insert non-duplicated ingredients
-                        var ingredientId = getRandomIntInclusive(0, 6);
-                        while (addedIngredients.length > 0 && addedIngredients.indexOf(ingredientId) != -1) {
-                            ingredientId = getRandomIntInclusive(0, 6);
-                        }
-                        addedIngredients.push(ingredientId);
-                        newRecipe.addIngredient(ingredientId, "1 portion");
-                    }
-                    console.log("Testing recipe #" + i + " inserted");
-                });
-            }
-        } else {
-            console.log("Testing recipe data OK");
         }
     });
 };
