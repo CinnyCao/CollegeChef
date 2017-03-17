@@ -98,13 +98,13 @@ connection.once('open', function() {
     };
 
     // // testing only - clear database
-    // connection.dropDatabase(function () {
-    //     console.log("Database cleared");
+     connection.dropDatabase(function () {
+         console.log("Database cleared");
         // factory database preparation: data required for application to run
         require('./database/factory_data.js')(app, sha1, User, Ingredient, Category);
         // testing data preparation: data to population database to make api testing easier
-        require('./database/testing_data.js')(app, getRandomIntInclusive, Recipe);
-    // });
+        require('./database/testing_data.js')(app, getRandomIntInclusive, Recipe, Rate, Favorite, Comment);
+     });
 
     // Endpoints that manage users
     require('./apis/users_endpoints.js')(app, sha1, generateToken, User);

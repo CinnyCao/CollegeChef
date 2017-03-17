@@ -1,4 +1,4 @@
-module.exports = function (app, getRandomIntInclusive, Recipe) {
+module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, Comment) {
     var factoryRecordNum = {
         "numOfUsers": 2,
         "numOfIngredients": 7,
@@ -20,6 +20,7 @@ module.exports = function (app, getRandomIntInclusive, Recipe) {
                 });
                 defaultRecipe.save(function (err, newRecipe) {
                     if (err) return console.error(err);
+                    // link with ingredients
                     var numOfIngredients = getRandomIntInclusive(1, 3);
                     var addedIngredients = [];
                     for (var j = 0; j < numOfIngredients; j++) {
@@ -31,6 +32,51 @@ module.exports = function (app, getRandomIntInclusive, Recipe) {
                         addedIngredients.push(ingredientId);
                         newRecipe.addIngredient(ingredientId, "1 portion");
                     }
+                    
+                    // let every factory user randomly rate current recipe
+                    for (var u=0; u<factoryRecordNum["numOfUsers"]-1; u++) {
+                        var score = getRandomIntInclusive(1, 5);
+                        var rate = new Rate({
+                            recipeId: newRecipe._id,
+                            personId: u,
+                            scores: score
+                        });
+                        rate.save(function (err) {
+                            if (err) return console.error(err);
+                        });
+                    }
+                    
+                    // randomly favorite recipes
+                    var favoriteOrNot = getRandomIntInclusive(0, 10);
+                    if (favoriteOrNot > 4) {
+                        var favoriteUser = getRandomIntInclusive(0, factoryRecordNum["numOfUsers"]-1);
+                        var favorite = new Favorite({
+                            recipeId: newRecipe._id,
+                            personId: favoriteUser
+                        });
+                        favorite.save(function (err) {
+                            if (err) return console.error(err);
+                        });
+                    }
+                    
+                    // randomly comment a recipe
+                    for (var c=0; c<getRandomIntInclusive(0, 10); c++) {
+                        var isImage = getRandomIntInclusive(0, 1);
+                        var message = "good good";
+                        if (isImage) {
+                            message = "/img/recipes/steak.jpg";
+                        }
+                        var comment = new Comment({
+                            recipeId: newRecipe._id,
+                            personId: getRandomIntInclusive(0, factoryRecordNum["numOfUsers"]-1),
+                            isImage: isImage,
+                            message: message
+                        });
+                        comment.save(function (err) {
+                            if (err) return console.error(err);
+                        });
+                    }
+                    
                     console.log("Recipe #" + newRecipe._id + " inserted");
                 });
             }
