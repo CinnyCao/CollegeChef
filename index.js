@@ -7,6 +7,7 @@ app.engine('.html', require('ejs').__express);
 app.set('views', __dirname);
 app.set('view engine', 'html');
 
+// set this to true if want to reset database
 var clearDatabase = false;
 
 

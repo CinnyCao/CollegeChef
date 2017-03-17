@@ -22,21 +22,21 @@ module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, C
                 defaultRecipe.save(function (err, newRecipe) {
                     if (err)
                         return console.error(err);
-                    // link with ingredients
-                    var numOfIngredients = getRandomIntInclusive(1, 3);
-                    var addedIngredients = [];
-                    for (var j = 0; j < numOfIngredients; j++) {
-                        // need to insert non-duplicated ingredients
-                        var ingredientId = getRandomIntInclusive(0, factoryRecordNum["numOfIngredients"] - 1);
-                        while (addedIngredients.length > 0 && addedIngredients.indexOf(ingredientId) != -1) {
-                            ingredientId = getRandomIntInclusive(0, factoryRecordNum["numOfIngredients"] - 1);
-                        }
-                        addedIngredients.push(ingredientId);
-                        newRecipe.addIngredient(ingredientId, "1 portion");
-                    }
-
                     if (newRecipe._id > 0)
                     {
+                        // link with ingredients
+                        var numOfIngredients = getRandomIntInclusive(1, 3);
+                        var addedIngredients = [];
+                        for (var j = 0; j < numOfIngredients; j++) {
+                            // need to insert non-duplicated ingredients
+                            var ingredientId = getRandomIntInclusive(0, factoryRecordNum["numOfIngredients"] - 1);
+                            while (addedIngredients.length > 0 && addedIngredients.indexOf(ingredientId) != -1) {
+                                ingredientId = getRandomIntInclusive(0, factoryRecordNum["numOfIngredients"] - 1);
+                            }
+                            addedIngredients.push(ingredientId);
+                            newRecipe.addIngredient(ingredientId, "1 portion");
+                        }
+
                         // let every factory user randomly rate current recipe
                         for (var u = 0; u < factoryRecordNum["numOfUsers"] - 1; u++) {
                             var score = getRandomIntInclusive(1, 5);
@@ -89,8 +89,12 @@ module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, C
                             });
                         }
                     }
-                    else if(newRecipe._id == 9)
+                    else
                     {
+                        // link with ingredients
+                        newRecipe.addIngredient(1, "1 portion");
+                        newRecipe.addIngredient(2, "1 portion");
+
                         // rate current recipe
                         var rate = new Rate({
                             recipeId: newRecipe._id,
