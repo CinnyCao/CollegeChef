@@ -47,16 +47,18 @@ module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, C
                     }
                     
                     // randomly favorite recipes
-                    var favoriteOrNot = getRandomIntInclusive(0, 10);
-                    if (favoriteOrNot > 4) {
-                        var favoriteUser = getRandomIntInclusive(0, factoryRecordNum["numOfUsers"]-1);
-                        var favorite = new Favorite({
-                            recipeId: newRecipe._id,
-                            personId: favoriteUser
-                        });
-                        favorite.save(function (err) {
-                            if (err) return console.error(err);
-                        });
+                    for (var p=0; p<factoryRecordNum["numOfUsers"]; p++) {
+                        // for each user, randomly decide to favorite or not
+                        var favoriteOrNot = getRandomIntInclusive(0, 10);
+                        if (favoriteOrNot > 4) {
+                            var favorite = new Favorite({
+                                recipeId: newRecipe._id,
+                                personId: p
+                            });
+                            favorite.save(function (err) {
+                                if (err) return console.error(err);
+                            });
+                        }
                     }
                     
                     // randomly comment a recipe
