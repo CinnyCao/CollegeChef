@@ -80,7 +80,46 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
     
     // get favorited recipes
     
-    // get recipes uploaded by current user
-    
+    // get recipes uploaded by specified user
+    app.post("/recipes/uploaded", function (req, res) {
+        if (req.auth) {
+            // default to get current user's uploaded recipes if userName not specified
+            var specifiedUser = req.userName;
+            if (req.body.userName) {
+                specifiedUser = req.body.userName;
+            }
+            Recipe.aggregate(
+                [
+                    // join with user table
+                    {"$lookup": {
+                        from: "users",
+                        localField: "personId",
+                        foreignField: "_id",
+                        as: "user"
+                    }},
+                    // find recipes uploaded by user with userName specifiedUser
+                    {"$match": {"user.userName": {"$eq": specifiedUser}}},
+                    // set return fields
+                    {"$project": {
+                            "recipeName": 1,
+                            "description": 1,
+                            "imgUrl": 1
+                    }}
+                ], function (err, resultRecipes) {
+                    res.json(resultRecipes);
+                }
+            )
+        } else if (!req.auth) {
+            return res.status(401).json({
+                status: 401,
+                message: "Get Uploaded Recipes failed: user deleted or token expired"
+            });
+        } else {
+            return res.status(401).json({
+                status: 401,
+                message: "Get Uploaded Recipes failed: unauthorized"
+            });
+        }
+    });
 
 };

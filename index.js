@@ -66,7 +66,7 @@ connection.once('open', function() {
         if (req.token) {
             var decodedToken = jwt.decode(req.token, secret);
             if (decodedToken && new Date(decodedToken.exp) > new Date()) {
-                User.find({id: decodedToken.userID}, function (err, resUsers) {
+                User.find({_id: decodedToken.userID}, function (err, resUsers) {
                     if (err)
                         return console.error(err);
                     if (resUsers.length) {
