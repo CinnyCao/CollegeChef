@@ -15,17 +15,21 @@ module.exports = function (app, Comment) {
     app.post("/recipe/:recipeId/comments", function (req, res) {
         if (req.auth)
         {
-            var comment = new Comment({
-                recipeId: req.params.recipeId,
-                personId: req.userID,
-                isImage: req.body.isImage,
-                message: req.body.message
-            });
-            comment.save(function (err) {
-                if (err)
-                    return console.error(err);
-            });
-            comment.addCommentNotification(comment.recipeId, comment.personId);
+            if (req.body.isImage && req.body.message)
+            {
+                var comment = new Comment({
+                    recipeId: req.params.recipeId,
+                    personId: req.userID,
+                    isImage: req.body.isImage,
+                    message: req.body.message
+                });
+                comment.save(function (err) {
+                    if (err)
+                        return console.error(err);
+                });
+                comment.addCommentNotification(comment.recipeId, comment.personId);
+                res.json(comment);
+            }
         } else
         {
             return res.status(401).json({
