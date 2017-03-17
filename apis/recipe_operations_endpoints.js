@@ -68,6 +68,7 @@ module.exports = function (app, Comment, Rate, Favorite) {
         }
     });
 
+    // get average rate of a specific recipe
     var outPutRateAvg = function (recipeId, res) {
         Rate.aggregate(
                 [
@@ -112,12 +113,18 @@ module.exports = function (app, Comment, Rate, Favorite) {
                 });
                 rate.addRateNotification(rate.recipeId, rate.personId);
                 res.json(rate);
+            } else
+            {
+                return res.status(400).json({
+                    status: 400,
+                    message: "Rate a recipe failed: missing required input."
+                });
             }
         } else
         {
             return res.status(401).json({
                 status: 401,
-                message: "Comment a recipe failed: unauthorized or token expired."
+                message: "Rate a recipe failed: unauthorized or token expired."
             });
         }
     });
@@ -152,8 +159,6 @@ module.exports = function (app, Comment, Rate, Favorite) {
             Favorite.find({recipeId: parseInt(req.params.recipeId), personId: req.userID}).remove().exec(function (err) {
                 if (err)
                     return console.error(err);
-                console.log(parseInt(req.params.recipeId));
-                console.log(req.userID);
                 return res.sendStatus(200);
             });
         } else

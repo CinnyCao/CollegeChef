@@ -169,7 +169,7 @@ curl -X "POST" "http://localhost:3000/recipe/0/comments" \
 
 printf '\n'
 
-read -p $'\nLeave a comment with no authorization - will get 400'
+read -p $'\nLeave a comment with required input missing - will get 400'
 curl -X "POST" "http://localhost:3000/recipe/0/comments" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
      -H "Content-Type: application/json; charset=utf-8" \
@@ -217,6 +217,25 @@ curl -X "POST" "http://localhost:3000/recipe/9/rate" \
 
 printf '\n'
 
+read -p $'\nRate recipe witout authorization -- will get 401'
+curl -X "POST" "http://localhost:3000/recipe/9/rate" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+   "scores": 3
+}'
+
+printf '\n'
+
+read -p $'\nRate recipe with required input missing -- will get 400'
+curl -X "POST" "http://localhost:3000/recipe/9/rate" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+}'
+
+printf '\n'
+
+#favorite tests
 read -p $'\nFavorite recipe'
 curl -X "POST" "http://localhost:3000/recipe/0/favorite" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
