@@ -7,7 +7,10 @@ module.exports = function (app, Recipe, Ingredient) {
                 console.error(err);
             }
             if (!allIngredients.length) {
-                return res.sendStatus(403);
+                return res.status(403).json({
+                    status: 403,
+                    message: "Get ingredients failed: no ingredients found in database"
+                });
             } else {
                 res.json(allIngredients);
             }

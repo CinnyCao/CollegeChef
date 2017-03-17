@@ -5,7 +5,10 @@ module.exports = function (app, sha1, generateToken, User) {
         console.log("Start logging in");
         if (!req.body.userName || !req.body.password) {
             console.error("Login failed: Missing userName and/or password in request");
-            return res.sendStatus(400);
+            return res.status(400).json({
+                status: 400,
+                message: "Login failed: Missing userName and/or password in request"
+            });
         }
         User.findOne({'userName': req.body.userName, 'password': sha1(req.body.userName + req.body.password)},
             '_id userName isAdmin', function (err, user) {
@@ -13,8 +16,10 @@ module.exports = function (app, sha1, generateToken, User) {
                 console.error(err);
             }
             if (!user) {
-                console.log("Login failed: userName or password is incorrect");
-                return res.sendStatus(403);
+                return res.status(403).json({
+                    status: 403,
+                    message: "Login failed: userName or password is incorrect"
+                });
             } else {
                 var token = generateToken(user.id);
                 console.log("Logged in");
