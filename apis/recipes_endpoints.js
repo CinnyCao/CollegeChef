@@ -10,7 +10,7 @@ module.exports = function (app, Recipe, Ingredient) {
 					status: 403,
 					message: "Get recipes failed: no ingredients found in database"
 				});
-			else 
+			else {
 				res.json(allRecipes);
 			}
 		});
