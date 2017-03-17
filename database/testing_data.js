@@ -94,7 +94,7 @@ module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, C
                         // rate current recipe
                             var rate = new Rate({
                                 recipeId: newRecipe._id,
-                                personId: 0,
+                                personId: 1,
                                 scores: 1
                             });
                             rate.save(function (err) {
@@ -106,7 +106,7 @@ module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, C
                             // favorite current recipe
                                 var favorite = new Favorite({
                                     recipeId: newRecipe._id,
-                                    personId: 0
+                                    personId: 1
                                 });
                                 favorite.save(function (err) {
                                     if (err)
@@ -117,7 +117,7 @@ module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, C
                                 //comment current recipe
                                 var comment = new Comment({
                                 recipeId: newRecipe._id,
-                                personId: 0,
+                                personId: 1,
                                 isImage: false,
                                 message: "test message"
                             });

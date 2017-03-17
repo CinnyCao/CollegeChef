@@ -41,12 +41,18 @@ module.exports = function (app, Comment, Rate, Favorite) {
 
     // get the rate of a recipe
     app.get("/recipe/:recipeId/rate", function (req, res) {
-        Rate.find({recipeId: parseInt(req.params.recipeId)}, function (err, rate) {
+        Rate.findOne({recipeId: parseInt(req.params.recipeId), personId: req.userID},
+        function (err, comments) {
             if (err) {
                 console.error(err);
             }
-
-            res.json(rate);
+            if(comments)
+            {
+                res.json(comments);
+            }else
+            {
+                res.json({});
+            }
         });
     });
 
