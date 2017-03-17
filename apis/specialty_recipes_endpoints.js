@@ -1,4 +1,4 @@
-module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Favorite) {
+module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Favorite, Comment) {
 
     // search recipes by ingredients
     app.post('/search', function (req, res) {
@@ -38,7 +38,7 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                 {"$project": {
                     "_id": 0,
 //                    "ingredientCount": 1,
-//                    "ingredients": 1,
+                    "ingredients": 1,
                     "recipes._id": 1,
                     "recipes.recipeName": 1,
                     "recipes.description": 1,
@@ -52,7 +52,37 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
 
     // get hot (mostly commented) recipes
     app.get("/recipes/hot", function (req, res) {
-
+        Comment.aggregate(
+            [
+                // group by recipe id and count num of comments
+                {"$group": {
+                    "_id": "$recipeId",
+                    "commentCount": {"$sum": 1}
+                }},
+                // sort by commentCount
+                {"$sort": {"commentCount": -1}},
+                // get only first 10
+                {"$limit" : 10 },
+                // join recipe details by id
+                {"$lookup": {
+                    from: "recipes",
+                    localField: "_id",
+                    foreignField: "_id",
+                    as: "recipes"
+                }},
+                // set return fields
+                {"$project": {
+                        "_id": 0,
+                        "commentCount": 1,
+                        "recipes._id": 1,
+                        "recipes.recipeName": 1,
+                        "recipes.description": 1,
+                        "recipes.imgUrl": 1
+                }}
+            ], function (err, resultRecipes) {
+                res.json(resultRecipes);
+            }
+        )
     });
     
     // get remarkable (highest rated) recipes
@@ -67,7 +97,7 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                 {"$limit" : 10 },
                 // set return fields
                 {"$project": {
-//                        "ModifiedDate": 1,
+                        "ModifiedDate": 1,
                         "recipeName": 1,
                         "description": 1,
                         "imgUrl": 1
