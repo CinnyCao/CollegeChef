@@ -1,7 +1,7 @@
 module.exports = function (app, Comment) {
 
     // Get all comments of a recipe
-    app.get("/recipeId/:recipeId/comments", function (req, res) {
+    app.get("/recipe/:recipeId/comments", function (req, res) {
         Comment.find({recipeId: parseInt(req.params.recipeId)}, function (err, comments) {
             if (err) {
                 console.error(err);
@@ -9,5 +9,29 @@ module.exports = function (app, Comment) {
 
             res.json(comments);
         });
+    });
+
+    // Comment a recipe
+    app.post("/recipe/:recipeId/comments", function (req, res) {
+        if (req.auth)
+        {
+            var comment = new Comment({
+                recipeId: req.params.recipeId,
+                personId: req.userID,
+                isImage: req.body.isImage,
+                message: req.body.message
+            });
+            comment.save(function (err) {
+                if (err)
+                    return console.error(err);
+            });
+            comment.addCommentNotification(comment.recipeId, comment.personId);
+        } else
+        {
+            return res.status(401).json({
+                status: 401,
+                message: "Comment a recipe failed: unauthorized or token expired."
+            });
+        }
     });
 };
