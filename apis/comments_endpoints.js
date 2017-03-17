@@ -1,17 +1,13 @@
 module.exports = function (app, Comment) {
 
-    // Comment a recipe
+    // Get all comments of a recipe
+    app.get("/recipeId/:recipeId/comments", function (req, res) {
+        Comment.find({recipeId: parseInt(req.params.recipeId)}, function (err, comments) {
+            if (err) {
+                console.error(err);
+            }
 
-    // Get a recipe's comments
-
-    // Rate a recipe
-
-    // Favorite a recipe
-
-    // Get notifications
-
-    // Get notification settings
-
-    // Update notification settings
-
+            res.json(comments);
+        });
+    });
 };

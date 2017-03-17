@@ -1,7 +1,7 @@
 module.exports = function (app, NotificationSetting, NotificationHistory) {
 
     // get user's notification settings
-    app.get("/notification_settings", function (req, res, next) {
+    app.get("/notification_settings", function (req, res) {
         if (req.auth)
         {
             NotificationSetting.findOne({'personId': req.userID}, function (err, notificationSettings) {

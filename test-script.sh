@@ -136,3 +136,13 @@ curl -X "GET" "http://localhost:3000/notification" \
      -H "Content-Type: application/json; charset=utf-8"
 
 printf '\n'
+
+read -p $'\nGet all comments of a given recipe - recipe have mutiple comments'
+curl "http://localhost:3000/recipeId/1/comments" \
+
+printf '\n'
+
+read -p $'\nGet all comments of a given recipe - recipe have no comment'
+curl "http://localhost:3000/recipeId/1/comments" \
+
+printf '\n'
