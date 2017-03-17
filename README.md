@@ -3,9 +3,9 @@
 ## Phase 3
 * Setup
   - Check out repository
-  - Do "npm install"
-  - Do "mongod"
-  - Do "npm start" or "node index.js"
+  - Run "npm install" in the root repository of our project
+  - Start mongod in a separate shell
+  - Execte "npm start" or "node index.js" in the root repository to start the server
 * API testing
   - If linix/mac: do "npm test" or "sh test-script.sh"
   - If using postMan
