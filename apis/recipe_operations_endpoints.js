@@ -169,4 +169,39 @@ module.exports = function (app, Comment, Rate, Favorite) {
             });
         }
     });
+
+    app.delete("/recipe/:recipeId", function (req, res) {
+        if (req.auth) {
+            // Admin can delete any recipe
+            if (req.isAdmin) {
+                Recipe.find({recipeId: parseInt(req.params.recipeId)}.remove().exec(function (err) {
+                    if (err)
+                        return console.error(err);
+                    return.sendStatus(200);
+                });
+            } else {
+                // check if the user trying to delete is the owner of the recipe
+                if (req.userID == Recipe.find({recipeId: parseInt(req.params.recipeId)}.personID) {
+                    Recipe.find({recipeId: parseInt(req.params.recipeId)}.remove().exec(function (err) {
+                    if (err)
+                        return console.error(err);
+                    return.sendStatus(200);
+                } else {
+                    return res.status(401).json({
+                        status: 401,
+                        message: "Remove a recipe failed: unauthorized or token expired."
+                    });
+                }
+                    
+            }
+                
+        } else { // user token expired
+            return res.status(401).json({
+                status: 401,
+                message: "Remove a recipe failed: unauthorized or token expired."
+            });
+        }
+    });
 };
+
+
