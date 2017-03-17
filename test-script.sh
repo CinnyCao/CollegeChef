@@ -137,6 +137,7 @@ curl -X "GET" "http://localhost:3000/notification" \
 
 printf '\n'
 
+#comments test
 read -p $'\nGet all comments of a given recipe - recipe have mutiple comments'
 curl "http://localhost:3000/recipe/1/comments" \
 
@@ -147,27 +148,7 @@ curl "http://localhost:3000/recipe/0/comments" \
 
 printf '\n'
 
-read -p $'\nGet rate of recipe -- not logged-in user'
-curl -X "GET" "http://localhost:3000/recipe/1/rate" \
-     -H "Content-Type: application/json; charset=utf-8"
-
-printf '\n'
-
-read -p $'\nGet rate of recipe -- current user has never set the rate of this recipe'
-curl -X "GET" "http://localhost:3000/recipe/0/rate" \
-     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
-     -H "Content-Type: application/json; charset=utf-8"
-
-printf '\n'
-
-read -p $'\nGet rate of recipe -- current user has set the rate of this recipe'
-curl -X "GET" "http://localhost:3000/recipe/1/rate" \
-     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
-     -H "Content-Type: application/json; charset=utf-8"
-
-printf '\n'
-
-read -p $'\nComment recipe'
+read -p $'\nLeave a comment in a recipe'
 curl -X "POST" "http://localhost:3000/recipe/0/comments" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
      -H "Content-Type: application/json; charset=utf-8" \
@@ -178,7 +159,45 @@ curl -X "POST" "http://localhost:3000/recipe/0/comments" \
 
 printf '\n'
 
-read -p $'\nRate recipe -- first rate a recipe'
+read -p $'\nLeave a comment with no authorization - will get 401'
+curl -X "POST" "http://localhost:3000/recipe/0/comments" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+   "isImage": true,
+   "message": "/img/recipes/steak.jpg"
+}'
+
+printf '\n'
+
+read -p $'\nLeave a comment with no authorization - will get 400'
+curl -X "POST" "http://localhost:3000/recipe/0/comments" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+   "message": "/img/recipes/steak.jpg"
+}'
+
+printf '\n'
+
+#rate tests
+read -p $'\nGet rate of recipe -- not logged-in user'
+curl "http://localhost:3000/recipe/1/rate" \
+
+printf '\n'
+
+read -p $'\nGet rate of recipe -- current user has never set the rate of this recipe'
+curl "http://localhost:3000/recipe/0/rate" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+
+printf '\n'
+
+read -p $'\nGet rate of recipe -- current user has set the rate of this recipe'
+curl "http://localhost:3000/recipe/1/rate" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+
+printf '\n'
+
+read -p $'\nRate recipe -- rate the given recipe for the first time'
 curl -X "POST" "http://localhost:3000/recipe/0/rate" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
      -H "Content-Type: application/json; charset=utf-8" \

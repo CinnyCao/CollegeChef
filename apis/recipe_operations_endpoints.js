@@ -29,12 +29,18 @@ module.exports = function (app, Comment, Rate, Favorite) {
                 });
                 comment.addCommentNotification(comment.recipeId, comment.personId);
                 res.json(comment);
+            } else
+            {
+                return res.status(400).json({
+                    status: 400,
+                    message: "Comment in a recipe failed: missing required input."
+                });
             }
         } else
         {
             return res.status(401).json({
                 status: 401,
-                message: "Comment a recipe failed: unauthorized or token expired."
+                message: "Comment in a recipe failed: unauthorized or token expired."
             });
         }
     });
