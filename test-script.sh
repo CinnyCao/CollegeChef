@@ -1,3 +1,4 @@
+printf '\n--------------------------login tests-----------------------------------\n'
 read -p $'\nLog in'
 curl -X "POST" "http://localhost:3000/login" \
      -H "Content-Type: application/json; charset=utf-8" \
@@ -25,7 +26,7 @@ curl -X "POST" "http://localhost:3000/login" \
   "password": "password"
 }'
 
-printf '\n'
+printf '\n--------------------------ingredients tests-----------------------------------\n'
 
 read -p $'\nGet all ingredients'
 curl "http://localhost:3000/ingredients"
@@ -57,7 +58,7 @@ curl -X "POST" "http://localhost:3000/search" \
 
 }'
 
-printf '\n'
+printf '\n--------------------------recipes tests-----------------------------------\n'
 
 read -p $'\nGet list (10) of hot (mostly commented) recipes'
 curl "http://localhost:3000/recipes/hot"
@@ -99,7 +100,7 @@ curl -X "POST" "http://localhost:3000/recipes/uploaded" \
    "userName": "user"
 }'
 
-printf '\n'
+printf '\n--------------------------notification settings tests-----------------------------------\n'
 
 #notification settings test
 read -p $'\nGet notification settings of current user'
@@ -139,7 +140,7 @@ curl -X "PUT" "http://localhost:3000/notification_settings" \
      -d $'{
 }'
 
-printf '\n'
+printf '\n--------------------------notification history tests-----------------------------------\n'
 
 #notification history test
 read -p $'\nGet notification history of current user'
@@ -151,7 +152,7 @@ printf '\n'
 read -p $'\nGet notification history of current user without authorization -- wii get 401'
 curl "http://localhost:3000/notification" \
 
-printf '\n'
+printf '\n---------------------------------comments tests-----------------------------------\n'
 
 #comments test
 read -p $'\nGet all comments of a given recipe - recipe have mutiple comments'
@@ -193,7 +194,7 @@ curl -X "POST" "http://localhost:3000/recipe/0/comments" \
    "message": "/img/recipes/steak.jpg"
 }'
 
-printf '\n'
+printf '\n---------------------------------rate tests-----------------------------------\n'
 
 #rate tests
 read -p $'\nGet rate of recipe -- not logged-in user'
@@ -249,7 +250,7 @@ curl -X "POST" "http://localhost:3000/recipe/9/rate" \
      -d $'{
 }'
 
-printf '\n'
+printf '\n---------------------------------favorite tests-----------------------------------\n'
 
 #favorite tests
 read -p $'\nGet list of favorited recipes of user with id 0'
