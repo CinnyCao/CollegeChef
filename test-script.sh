@@ -161,7 +161,7 @@ curl -X "GET" "http://localhost:3000/recipe/0/rate" \
 printf '\n'
 
 read -p $'\nGet rate of recipe -- current user has set the rate of this recipe'
-curl -X "GET" "http://localhost:3000/recipe/9/rate" \
+curl -X "GET" "http://localhost:3000/recipe/1/rate" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
      -H "Content-Type: application/json; charset=utf-8"
 

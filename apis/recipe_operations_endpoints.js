@@ -41,20 +41,53 @@ module.exports = function (app, Comment, Rate, Favorite) {
 
     // get the rate of a recipe
     app.get("/recipe/:recipeId/rate", function (req, res) {
-        Rate.findOne({recipeId: parseInt(req.params.recipeId), personId: req.userID},
-        function (err, comments) {
-            if (err) {
-                console.error(err);
-            }
-            if(comments)
-            {
-                res.json(comments);
-            }else
-            {
-                res.json({});
-            }
-        });
+        if (req.auth)
+        {
+            Rate.findOne({recipeId: parseInt(req.params.recipeId), personId: req.userID},
+                    '-_id scores',
+                    function (err, comments) {
+                        if (err) {
+                            console.error(err);
+                        }
+                        if (comments)
+                        {
+                            res.json(comments);
+                        } else
+                        {
+                            outPutRateAvg(parseInt(req.params.recipeId), res);
+                        }
+                    });
+        } else {
+            outPutRateAvg(parseInt(req.params.recipeId), res);
+        }
     });
+
+    var outPutRateAvg = function (recipeId, res) {
+        Rate.aggregate(
+                [
+                    // group by recipe id and calculate average scores
+                    {"$group": {
+                            "_id": "$recipeId",
+                            "scores": {"$avg": "$scores"},
+                            "recipeId": {"$push": "$recipeId"}
+                        }},
+                    {"$match": {"recipeId": {"$eq": recipeId}}},
+                    // set return fields
+                    {"$project": {
+                            "_id": 0,
+                            "scores": 1
+                        }}
+                ], function (err, rateAvg) {
+            if (rateAvg.length)
+            {
+                res.json(rateAvg[0]);
+
+            } else {
+                res.json({"scores": 0});
+            }
+        }
+        );
+    };
 
     // rate a recipe
     app.post("/recipe/:recipeId/rate", function (req, res) {
