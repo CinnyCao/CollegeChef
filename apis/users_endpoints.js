@@ -37,15 +37,21 @@ module.exports = function (app, sha1, generateToken, User) {
     app.post('/user', function (req, res) {
         if (!req.body.userName || !req.body.password) {
             console.error("Create user failed: Missing userName and/or password in request");
-            return res.sendStatus(400);
+            return res.status(400).json({
+                status: 400,
+                message: "Create user failed: Missing userName and/or password in request"
+            });
         }
         User.count({$or: [{'userName': req.body.userName}, {'email': req.body.email}]}, function (err, count) {
             if (err) {
                 console.error(err);
             }
             if (count >= 1) {
-                console.log("Username or email address is already in use.");
-                return res.sendStatus(403);
+                console.log("Create user failed: Username or email address is already in use");
+                return res.status(403).json({
+                    status: 403,
+                    message: "Create user failed: Username or email address is already in use"
+                });
             } else {
                 User.create({'userName': req.body.userName, 'email': req.body.email, 
                     'password': sha1(req.body.userName + req.body.password)}, function (err, createdUser) {
@@ -67,90 +73,132 @@ module.exports = function (app, sha1, generateToken, User) {
 
     // delete user
     app.delete('/user', function (req, res) {
-        if (req.params.userId || req.body.userName) {
-            User.findOne({$or: [{'id': req.body.userId}, {'userName': req.body.userName}]}, function (err, user) {
+        if (!req.auth) {
+            console.error("Request failed: Not logged in");
+            return res.status(401).json({
+                status: 401,
+                message: "Request failed: Not logged in"
+            }); 
+        }
+        if (!req.isAdmin) {
+            console.error("Request failed: Lacking admin credentials");
+            return res.status(401).json({
+                status: 401,
+                message: "Request failed: Lacking admin credentials"
+            }); 
+        }  
+        if (req.body.userId) {
+            User.deleteOne({'id': req.body.userId}, function (err, result) {
                 if (err) {
                     console.error(err);
                 }
-                if (!user) {
-                    return res.sendStatus(403);
-                }
-                if (user.isAdmin) {
-                    User.deleteOne({'id': req.params.userId}, function (err, result) {
-                        if (err) {
-                            console.error(err);
-                        }
-                        return res.sendStatus(200);
-                    });
-                } else {
-                    console.error("Delete user failed: Not authorized to delete users");
-                    return res.sendStatus(401);
-                }
+                return res.status(200).json({
+                    status: 200,
+                    message: "Request successful"
+                }); 
             });
         } else {
-            return res.sendStatus(400);
+            return res.status(400).json({
+                status: 400,
+                message: "Request failed"
+            }); 
         }
     });
 
     // get user info
     app.get('/user/:userId/profile', function (req, res) {
-        if (req.userID != parseInt(req.params.userId)) {
-            console.error("Request failed: Token/userId mismatch");
-            return res.sendStatus(401);
+        if (!req.auth) {
+            console.error("Request failed: Not logged in");
+            return res.status(401).json({
+                status: 401,
+                message: "Request failed: Not logged in"
+            });
         }
-        User.findOne({$or: [{'id': req.body.userId}, {'userName': req.body.userName}]},
+        if (!req.isAdmin && req.userID != req.body.userId) {
+            console.error("Request failed: Lacking proper credentials");
+            return res.status(401).json({
+                status: 401,
+                message: "Request failed: Lacking proper credentials"
+            }); 
+        }   
+        User.findOne({'id': req.body.userId},
             '_id userName email isAdmin description profilePhoto', function (err, user) {
             if (err) {
                 console.error(err);
             }
             if (!user) {
-                return res.sendStatus(403);
+                return res.status(403).json({
+                    status: 403,
+                    message: "Request failed"
+                });
             }
-            var token = generateToken(user.id);
             res.json({
                 userId: user.id,
                 userName: user.userName,
                 email: user.email,
                 isAdmin: user.isAdmin,
                 description: user.description,
-                profilePhoto: user.profilePhoto,
-                token: token
+                profilePhoto: user.profilePhoto
             });
         });
     });
 
     // change password
     app.put('/user/:userId/edit/password', function (req, res) {
-        if (req.userID != parseInt(req.params.userId)) {
-            console.error("Request failed: Token/userId mismatch");
-            return res.sendStatus(401);
+        if (!req.auth) {
+            console.error("Request failed: Not logged in");
+            return res.status(401).json({
+                status: 401,
+                message: "Request failed: Not logged in"
+            }); 
         }
-        if (!req.body.oldPassword || (!req.body.password && !req.body.userName)) {
-            return res.sendStatus(400);
+        if (!req.isAdmin && req.userID != req.body.userId) {
+            console.error("Request failed: Lacking proper credentials");
+            return res.status(401).json({
+                status: 401,
+                message: "Request failed: Lacking proper credentials"
+            }); 
+        }   
+        if (!req.body.password || !req.body.newPassword) {
+            console.error("Request failed: Missing password(s)");
+            return res.status(400).json({
+                status: 400,
+                message: "Request failed: Missing password(s)"
+            });
         }
-        User.findOne({'id': req.params.userId, 'password': sha1(req.body.userName + req.body.oldPassword)}, 
-            function (err, user) {
+        User.updateOne({'id': req.body.userId, 'password': sha1(req.body.userName + req.body.password)}, 
+            {$set: {'password': sha1(req.body.userName + req.body.newPassword)}}, function(err, result) {
             if (err) {
                 console.error(err);
             }
-            if (!user) {
-                return res.sendStatus(403);
-            }
-            User.updateOne({'id': req.params.userId, 'password': sha1(req.body.userName + req.body.oldPassword)}, 
-                {$set: {'password': sha1(req.body.userName + req.body.password)}}, function(err, result) { 
-                res.sendStatus(200);
+            return res.status(200).json({
+                status: 200,
+                message: "Request successful"
             });
         });
     });
 
     // edit user profile
     app.put('/user/:userId/edit/profile', function (req, res, next) {
-        if (req.userID != parseInt(req.params.userId)) {
-            console.error("Request failed: Token/userId mismatch");
-            return res.sendStatus(401);
+        if (!req.auth) {
+            console.error("Request failed: Not logged in");
+            return res.status(401).json({
+                status: 401,
+                message: "Request failed: Not logged in"
+            });
+        }
+        if (!req.isAdmin && req.userID != req.body.userId) {
+            console.error("Request failed: Lacking proper credentials");
+            return res.status(401).json({
+                status: 401,
+                message: "Request failed: Lacking admin credentials"
+            });
         }
         if (!req.body.description && !req.body.profilePhoto && !req.body.email) {
-            return res.sendStatus(400);
+            return res.status(400).json({
+                status: 400,
+                message: "Request failed"
+            });
         } else {
             next();
         }
@@ -159,12 +207,15 @@ module.exports = function (app, sha1, generateToken, User) {
     app.put('/user/:userId/edit/profile', function (req, res, next) {
         // change description if specified
         if (req.body.description) {
-            User.updateOne({'id': req.params.userId}, {$set: {'description': req.body.description}}, function (err, user) {
+            User.updateOne({'id': req.body.userId}, {$set: {'description': req.body.description}}, function (err, user) {
                 if (err) {
                     console.error(err);
                 }
                 if (!user) {
-                    return res.sendStatus(403);
+                    return res.status(403).json({
+                        status: 403,
+                        message: "Request failed"
+                    }); 
                 } else {
                     next();
                 }
@@ -182,15 +233,21 @@ module.exports = function (app, sha1, generateToken, User) {
                     console.error(err);
                 }
                 if (count >= 1) {
-                    console.log("Email address is already in use.");
-                    return res.sendStatus(403);
+                    console.log("Request failed: Email address is already in use");
+                    return res.status(403).json({
+                        status: 403,
+                        message: "Request failed: Email address is already in use"
+                    }); 
                 } else {
-                    User.updateOne({'id': req.params.userId}, {$set: {'email': req.body.email}}, function (err, user) {
+                    User.updateOne({'id': req.body.userId}, {$set: {'email': req.body.email}}, function (err, user) {
                         if (err) {
                             console.error(err);
                         }
                         if (!user) {
-                            return res.sendStatus(403);
+                            return res.status(403).json({
+                                status: 403,
+                                message: "Request failed"
+                            }); 
                         } else {
                             next();
                         }
@@ -205,51 +262,62 @@ module.exports = function (app, sha1, generateToken, User) {
     app.put('/user/:userId/edit/profile', function (req, res) {
         // change profile picture if specified
         if (req.body.profilePhoto) {
-            User.updateOne({'id': req.params.userId}, {$set: {'profilePhoto': req.body.profilePhoto}}, function (err, user) {
+            User.updateOne({'id': req.body.userId}, {$set: {'profilePhoto': req.body.profilePhoto}}, function (err, user) {
                 if (err) {
                     console.error(err);
                 }
                 if (!user) {
-                    return res.sendStatus(403);
+                    return res.status(403).json({
+                        status: 403,
+                        message: "Request failed"
+                    }); 
                 } else {
-                    res.sendStatus(200);
+                    return res.status(200).json({
+                        status: 200,
+                        message: "Request successful"
+                    }); 
                 }
             });
         } else {
-            res.sendStatus(200);
+            return res.status(200).json({
+                status: 200,
+                message: "Request successful"
+            });
         }
     });
 
     // get list of users
     app.get('/users', function (req, res) {
-        if (req.userID != parseInt(req.params.userId)) {
-            console.error("Request failed: Token/userId mismatch");
-            return res.sendStatus(401);
+        if (!req.auth) {
+            console.error("Request failed: Not logged in");
+            return res.status(401).json({
+                status: 401,
+                message: "Request failed:: Not logged in"
+            }); 
         }
-        User.findOne({'id': req.params.userId}, function (err, admin) {
-            if (err) {
-                console.error(err);
-            }
-            if (!admin) {
-                return res.sendStatus(403);
-            }
-            if (admin.isAdmin) {
-                // only looking for non-admin users
-                User.find({'isAdmin': 'false'}, '_id userName email' ,function (err, users) {
-                    if (err) {
-                        console.error(err);
-                    }
-                    if (!users.length) {
-                        return res.sendStatus(403);
-                    } else {
-                        var token = generateToken(user.id);
-                        res.json({
-                            users: users,
-                            token: token
-                        });
-                    }
-                });
-            }
-        });
+        if (!req.isAdmin) {
+            console.error("Request failed: Lacking admin credentials");
+            return res.status(401).json({
+                status: 401,
+                message: "Request failed: Lacking admin credentials"
+            }); 
+        } else {
+            // only looking for non-admin users
+            User.find({'isAdmin': 'false'}, '_id userName email' ,function (err, users) {
+                if (err) {
+                    console.error(err);
+                }
+                if (!users.length) {
+                    return res.status(403).json({
+                        status: 403,
+                        message: "Request failed"
+                    });
+                } else {
+                    res.json({
+                        users: users
+                    });
+                }
+            });
+        }
     });
 };
