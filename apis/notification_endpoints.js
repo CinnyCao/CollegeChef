@@ -19,4 +19,25 @@ module.exports = function (app, NotificationSetting, NotificationHistory) {
         }
     });
 
+    // update user's notification settings
+    app.put('/notification_settings', function (req, res) {
+        if (req.auth)
+        {
+            if (req.body.enableTypeNumbers)
+            {
+                NotificationSetting.findOneAndUpdate({'personId': req.userID},
+                        {enableTypeNumbers: req.body.enableTypeNumbers},
+                        {new : true},
+                        function (err, notificationSetting) {
+                            if (err) {
+                                console.error(err);
+                            }
+                            res.sendStatus(200);
+                        });
+            }
+        } else
+        {
+            return res.sendStatus(401);
+        }
+    });
 };
