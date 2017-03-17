@@ -116,9 +116,7 @@ printf '\n'
 read -p $'\nGet notification settings of current user'
 curl -X "GET" "http://localhost:3000/notification_settings" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
-     -H "Content-Type: application/json; charset=utf-8" \
-     -d $'{
-}'
+     -H "Content-Type: application/json; charset=utf-8"
 
 printf '\n'
 
@@ -129,5 +127,12 @@ curl -X "PUT" "http://localhost:3000/notification_settings" \
      -d $'{
   "enableTypeNumbers": [1, 2]
 }'
+
+printf '\n'
+
+read -p $'\nGet notification history of current user'
+curl -X "GET" "http://localhost:3000/notification" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8"
 
 printf '\n'

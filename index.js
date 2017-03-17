@@ -25,9 +25,9 @@ connection.once('open', function() {
     var Recipe = require('./database/models/recipes.js')(connection, Schema, autoIncrement, IngredientToRecipe);
     var Category = require('./database/models/categories.js')(connection, Schema, autoIncrement);
     var Ingredient = require('./database/models/ingredients.js')(connection, Schema, autoIncrement);
-    var Comment = require('./database/models/comments.js')(connection, Schema, autoIncrement);
-    var Rate = require('./database/models/rate.js')(connection, Schema, autoIncrement);
-    var Favorite = require('./database/models/favorite.js')(connection, Schema, autoIncrement);
+    var Comment = require('./database/models/comments.js')(connection, Schema, autoIncrement, NotificationHistory, Recipe);
+    var Rate = require('./database/models/rate.js')(connection, Schema, autoIncrement, NotificationHistory, Recipe);
+    var Favorite = require('./database/models/favorite.js')(connection, Schema, autoIncrement, NotificationHistory, Recipe);
 
     // Secure Hash Algorithm 1
     var sha1 = require('sha1');

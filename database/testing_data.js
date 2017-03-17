@@ -44,6 +44,7 @@ module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, C
                         rate.save(function (err) {
                             if (err) return console.error(err);
                         });
+                        rate.addRateNotification(rate.recipeId, rate.personId);
                     }
                     
                     // randomly favorite recipes
@@ -58,6 +59,7 @@ module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, C
                             favorite.save(function (err) {
                                 if (err) return console.error(err);
                             });
+                            favorite.addFavoriteNotification(favorite.recipeId, favorite.personId);
                         }
                     }
                     
@@ -77,6 +79,8 @@ module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, C
                         comment.save(function (err) {
                             if (err) return console.error(err);
                         });
+                        comment.addCommentNotification(comment.recipeId, comment.personId);
+
                     }
                     
                     console.log("Recipe #" + newRecipe._id + " inserted");
