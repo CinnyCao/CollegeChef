@@ -199,7 +199,14 @@ curl -X "POST" "http://localhost:3000/recipe/9/rate" \
 printf '\n'
 
 read -p $'\nFavorite recipe'
-curl -X "POST" "http://localhost:3000/recipe/1/favorite" \
+curl -X "POST" "http://localhost:3000/recipe/0/favorite" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8" \
+
+printf '\n'
+
+read -p $'\nRemove favorite recipe'
+curl -X "DELETE" "http://localhost:3000/recipe/9/favorite" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
      -H "Content-Type: application/json; charset=utf-8" \
 

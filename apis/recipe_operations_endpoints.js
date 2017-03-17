@@ -134,7 +134,27 @@ module.exports = function (app, Comment, Rate, Favorite) {
         {
             return res.status(401).json({
                 status: 401,
-                message: "Comment a recipe failed: unauthorized or token expired."
+                message: "Favorite a recipe failed: unauthorized or token expired."
+            });
+        }
+    });
+
+    // delete a favorite recipe
+    app.delete("/recipe/:recipeId/favorite", function (req, res) {
+        if (req.auth)
+        {
+            Favorite.find({recipeId: parseInt(req.params.recipeId), personId: req.userID}).remove().exec(function (err) {
+                if (err)
+                    return console.error(err);
+                console.log(parseInt(req.params.recipeId));
+                console.log(req.userID);
+                return res.sendStatus(200);
+            });
+        } else
+        {
+            return res.status(401).json({
+                status: 401,
+                message: "Remove a favorite recipe failed: unauthorized or token expired."
             });
         }
     });
