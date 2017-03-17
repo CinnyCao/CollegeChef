@@ -42,7 +42,8 @@ module.exports = function (app, sha1, generateToken, User) {
                 message: "Create user failed: Missing userName and/or password in request"
             });
         }
-        User.count({$or: [{'userName': req.body.userName}, {'email': req.body.email}]}, function (err, count) {
+        User.count({$or: [{'userName': req.body.userName}, 
+                {$and: [{'req.body.email':{$type:10}}, {'email': req.body.email}]}]}, function (err, count) {
             if (err) {
                 console.error(err);
             }

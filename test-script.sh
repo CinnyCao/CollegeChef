@@ -32,8 +32,8 @@ read -p $'\nCreate users'
 curl -X "POST" "http://localhost:3000/user" \
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
-  "userName": "testUser",
-  "password": "testUser"
+  "userName": "testUser1",
+  "password": "testUser1"
 }'
 
 printf '\n'
@@ -42,7 +42,7 @@ read -p $'\nCreate users with required input missing -- will get 400'
 curl -X "POST" "http://localhost:3000/user" \
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
-  "userName": "testUser"
+  "userName": "testUser2"
 }'
 
 printf '\n'
@@ -51,8 +51,8 @@ read -p $'\nCreate existing user failed -- will get 403'
 curl -X "POST" "http://localhost:3000/user" \
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
-  "userName": "testUser",
-  "password": "testUser"
+  "userName": "testUser1",
+  "password": "testUser1"
 }'
 
 printf '\n--------------------------ingredients tests-----------------------------------\n'
