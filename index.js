@@ -71,6 +71,7 @@ connection.once('open', function() {
                         return console.error(err);
                     if (resUsers.length) {
                         req.auth = true;
+                        req.userID = resUsers[0]._id;
                         req.userName = resUsers[0].userName;
                         req.isAdmin = resUsers[0].isAdmin;
                     } else {
@@ -121,7 +122,7 @@ connection.once('open', function() {
     require('./apis/comments_endpoints.js')(app, Comment);
 
     // Endpoints that manage notifications
-    require('./apis/notification_endpoints.js')(app);
+    require('./apis/notification_endpoints.js')(app, NotificationSetting, NotificationHistory);
 
     var server = app.listen(3000, function () {
         console.log('App listening on port 3000');
