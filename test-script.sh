@@ -75,3 +75,11 @@ curl -X "POST" "http://localhost:3000/recipes/uploaded" \
    "userName": "user"
 }'
 
+read -p $'\nUpdate notification settings of current user'
+curl -X "PUT" "http://localhost:3000/notification_settings" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "enableTypeNumbers": [1, 2]
+}'
+
+read -p $'\n'
