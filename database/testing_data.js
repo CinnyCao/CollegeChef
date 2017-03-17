@@ -35,7 +35,7 @@ module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, C
                         newRecipe.addIngredient(ingredientId, "1 portion");
                     }
 
-                    if (newRecipe._id >0 && newRecipe._id < 9)
+                    if (newRecipe._id > 0)
                     {
                         // let every factory user randomly rate current recipe
                         for (var u = 0; u < factoryRecordNum["numOfUsers"] - 1; u++) {
@@ -45,11 +45,11 @@ module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, C
                                 personId: u,
                                 scores: score
                             });
-                            rate.save(function (err) {
+                            rate.save(function (err, newRate) {
                                 if (err)
                                     return console.error(err);
+                                newRate.addRateNotification(newRecipe.personId, newRate.personId);
                             });
-                            rate.addRateNotification(rate.recipeId, rate.personId);
                         }
 
                         // randomly favorite recipes
@@ -61,11 +61,11 @@ module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, C
                                     recipeId: newRecipe._id,
                                     personId: p
                                 });
-                                favorite.save(function (err) {
+                                favorite.save(function (err, newFavorite) {
                                     if (err)
                                         return console.error(err);
+                                    newFavorite.addFavoriteNotification(newRecipe.personId, newFavorite.personId);
                                 });
-                                favorite.addFavoriteNotification(favorite.recipeId, favorite.personId);
                             }
                         }
 
@@ -82,50 +82,50 @@ module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, C
                                 isImage: isImage,
                                 message: message
                             });
-                            comment.save(function (err) {
+                            comment.save(function (err, newComment) {
                                 if (err)
                                     return console.error(err);
+                                newComment.addCommentNotification(newRecipe.personId, newComment.personId);
                             });
-                            comment.addCommentNotification(comment.recipeId, comment.personId);
                         }
                     }
                     else if(newRecipe._id == 9)
                     {
                         // rate current recipe
-                            var rate = new Rate({
-                                recipeId: newRecipe._id,
-                                personId: 1,
-                                scores: 1
-                            });
-                            rate.save(function (err) {
-                                if (err)
-                                    return console.error(err);
-                            });
-                            rate.addRateNotification(rate.recipeId, rate.personId);
+                        var rate = new Rate({
+                            recipeId: newRecipe._id,
+                            personId: 1,
+                            scores: 1
+                        });
+                        rate.save(function (err, newRate) {
+                            if (err)
+                                return console.error(err);
+                            newRate.addRateNotification(newRecipe.personId, newRate.personId);
+                        });
 
-                            // favorite current recipe
-                                var favorite = new Favorite({
-                                    recipeId: newRecipe._id,
-                                    personId: 1
-                                });
-                                favorite.save(function (err) {
-                                    if (err)
-                                        return console.error(err);
-                                });
-                                favorite.addFavoriteNotification(favorite.recipeId, favorite.personId);
+                        // favorite current recipe
+                        var favorite = new Favorite({
+                            recipeId: newRecipe._id,
+                            personId: 1
+                        });
+                        favorite.save(function (err, newFavorite) {
+                            if (err)
+                                return console.error(err);
+                            newFavorite.addFavoriteNotification(newRecipe.personId, newFavorite.personId);
+                        });
 
-                                //comment current recipe
-                                var comment = new Comment({
-                                recipeId: newRecipe._id,
-                                personId: 1,
-                                isImage: false,
-                                message: "test message"
-                            });
-                            comment.save(function (err) {
-                                if (err)
-                                    return console.error(err);
-                            });
-                            comment.addCommentNotification(comment.recipeId, comment.personId);
+                        //comment current recipe
+                        var comment = new Comment({
+                            recipeId: newRecipe._id,
+                            personId: 1,
+                            isImage: false,
+                            message: "test message"
+                        });
+                        comment.save(function (err, newComment) {
+                            if (err)
+                                return console.error(err);
+                            newComment.addCommentNotification(newRecipe.personId, newComment.personId);
+                        });
                     }
 
                     console.log("Recipe #" + newRecipe._id + " inserted");

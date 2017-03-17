@@ -6,22 +6,16 @@ module.exports = function (connection, Schema, autoIncrement, NotificationHistor
     
     FavoriteSchema.plugin(autoIncrement.plugin, 'Favorite');
 
-    FavoriteSchema.methods.addFavoriteNotification = function (recipeId, operatorId) {
-        Recipe.findById(recipeId)
-                .populate('personId')
-                .exec(function (err, recipe) {
-                    if (err)
-                        return console.error(err);
-                    var notification = new NotificationHistory({
-                        personId: recipe.personId._id,
-                        operatorId: operatorId,
-                        typeNumber: 2
-                    });
-                    notification.save(function (err2) {
-                        if (err2)
-                            return console.error(err2);
-                    });
-                });
+    FavoriteSchema.methods.addFavoriteNotification = function (personId, operatorId) {
+        var notification = new NotificationHistory({
+            personId: personId,
+            operatorId: operatorId,
+            typeNumber: 2
+        });
+        notification.save(function (err) {
+            if (err)
+                return console.error(err);
+        });
     };
     return connection.model('Favorite', FavoriteSchema);
 };

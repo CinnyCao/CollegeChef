@@ -8,22 +8,16 @@ module.exports = function (connection, Schema, autoIncrement, NotificationHistor
 
     CommentSchema.plugin(autoIncrement.plugin, 'Comment');
 
-    CommentSchema.methods.addCommentNotification = function (recipeId, operatorId) {
-        Recipe.findById(recipeId)
-                .populate('personId')
-                .exec(function (err, recipe) {
-                    if (err)
-                        return console.error(err);
-                    var notification = new NotificationHistory({
-                        personId: recipe.personId._id,
-                        operatorId: operatorId,
-                        typeNumber: 1
-                    });
-                    notification.save(function (err2) {
-                        if (err2)
-                            return console.error(err2);
-                    });
-                });
+    CommentSchema.methods.addCommentNotification = function (personId, operatorId) {
+        var notification = new NotificationHistory({
+            personId: personId,
+            operatorId: operatorId,
+            typeNumber: 1
+        });
+        notification.save(function (err) {
+            if (err)
+                return console.error(err);
+        });
     };
 
 
