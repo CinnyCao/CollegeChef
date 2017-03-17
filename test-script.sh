@@ -26,6 +26,35 @@ curl -X "POST" "http://localhost:3000/login" \
   "password": "password"
 }'
 
+printf '\n--------------------------users tests-----------------------------------\n'
+
+read -p $'\nCreate users'
+curl -X "POST" "http://localhost:3000/user" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "userName": "testUser",
+  "password": "testUser"
+}'
+
+printf '\n'
+
+read -p $'\nCreate users with required input missing -- will get 400'
+curl -X "POST" "http://localhost:3000/user" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "userName": "testUser"
+}'
+
+printf '\n'
+
+read -p $'\nCreate existing user failed -- will get 403'
+curl -X "POST" "http://localhost:3000/user" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "userName": "testUser",
+  "password": "testUser"
+}'
+
 printf '\n--------------------------ingredients tests-----------------------------------\n'
 
 read -p $'\nGet all ingredients'
