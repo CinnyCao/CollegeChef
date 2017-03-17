@@ -60,6 +60,18 @@ read -p $'\nGet list (10) of new recipes'
 curl "http://localhost:3000/recipes/new"
 
 
+read -p $'\nGet list of favorited recipes of user with id 0'
+-H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIwIiwiZXhwIjoxNTUyODQ1Nzg5NjM0fQ.DjnMuU5no8k8YBRttxmYnOksHbGPRkiWMqSwV7FZDAs"\
+curl "http://localhost:3000/recipes/favorite"
+
+read -p $'\nGet list of favorited recipes of user with id 1'
+-H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+curl "http://localhost:3000/recipes/favorite"
+
+read -p $'\nGet list of favorited recipes without token - will get 401'
+curl "http://localhost:3000/recipes/favorite"
+
+
 read -p $'\nGet list of recipes uploaded by current user'
 curl -X "POST" "http://localhost:3000/recipes/uploaded" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\

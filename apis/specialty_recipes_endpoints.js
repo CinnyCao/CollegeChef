@@ -142,6 +142,44 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
     });
     
     // get favorited recipes
+    app.get("/recipes/favorite", function (req, res) {
+        if (req.auth) {
+            var userId = parseInt(req.userID);
+            Favorite.aggregate(
+                [
+                    // find records of current user
+                    {"$match": {"personId": {"$eq": userId}}},
+                    // join with recipe table
+                    {"$lookup": {
+                        from: "recipes",
+                        localField: "recipeId",
+                        foreignField: "_id",
+                        as: "recipe"
+                    }},
+                    // set return fields
+                    {"$project": {
+                            "_id": 0,
+                            "recipe._id": 1,
+                            "recipe.recipeName": 1,
+                            "recipe.description": 1,
+                            "recipe.imgUrl": 1
+                    }}
+                ], function (err, resultRecipes) {
+                    res.json(resultRecipes);
+                }
+            )
+        } else if (!req.auth) {
+            return res.status(401).json({
+                status: 401,
+                message: "Get Favorited Recipes failed: user deleted or token expired"
+            });
+        } else {
+            return res.status(401).json({
+                status: 401,
+                message: "Get Favorited Recipes failed: unauthorized"
+            });
+        }
+    });
     
     // get recipes uploaded by specified user
     app.post("/recipes/uploaded", function (req, res) {
