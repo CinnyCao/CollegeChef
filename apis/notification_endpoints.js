@@ -1,6 +1,6 @@
 module.exports = function (app, NotificationSetting, NotificationHistory) {
     // get user's notification settings
-    app.get('/notification_settings', function (req, res) {
+    app.get("/notification_settings", function (req, res) {
         if (req.auth)
         {
             NotificationSetting.findOne({'personId': req.userID}, 'enableTypeNumbers', function (err, notificationSettings) {
@@ -8,19 +8,25 @@ module.exports = function (app, NotificationSetting, NotificationHistory) {
                     console.error(err);
                 }
                 if (!notificationSettings.length) {
-                    return res.sendStatus(403);
-                } else {
                     res.json(notificationSettings);
+                } else {
+                    return res.status(400).json({
+                        status: 404,
+                        message: "Get notification settings failed: person may not exist."
+                    });
                 }
             });
         } else
         {
-            return res.sendStatus(401);
+            return res.status(401).json({
+                status: 404,
+                message: "Get notification settings failed: unauthorized or token expired."
+            });
         }
     });
 
     // update user's notification settings
-    app.put('/notification_settings', function (req, res) {
+    app.put("/notification_settings", function (req, res) {
         if (req.auth)
         {
             if (req.body.enableTypeNumbers)
@@ -37,7 +43,10 @@ module.exports = function (app, NotificationSetting, NotificationHistory) {
             }
         } else
         {
-            return res.sendStatus(401);
+            return res.status(401).json({
+                status: 404,
+                message: "Upload notification settings failed: unauthorized or token expired."
+            });
         }
     });
 };
