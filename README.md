@@ -7,7 +7,7 @@
   - Do "mongod"
   - Do "npm start" or "node index.js"
 * API testing
-  - If linix: do "npm test"
+  - If linix/mac: do "npm test" or "sh test-script.sh"
   - If using postMan
     - If input JSON is required: under Body tab, choose option "raw" with type "JSON (application/json)" and then type input here
     - If Token is required: under Headers tab, add a row with "key"="Authorization" and "value"="Bearer {token string}"
