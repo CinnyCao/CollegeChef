@@ -86,6 +86,39 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
     });
     
     // get remarkable (highest rated) recipes
+    app.get("/recipes/remarkable", function (req, res) {
+        Rate.aggregate(
+            [
+                // group by recipe id and calculate average scores
+                {"$group": {
+                    "_id": "$recipeId",
+                    "avgScore": {"$avg": "$scores"}
+                }},
+                // sort by avgScore
+                {"$sort": {"avgScore": -1}},
+                // get only first 10
+                {"$limit" : 10 },
+                // join recipe details by id
+                {"$lookup": {
+                    from: "recipes",
+                    localField: "_id",
+                    foreignField: "_id",
+                    as: "recipes"
+                }},
+                // set return fields
+                {"$project": {
+                        "_id": 0,
+                        "avgScore": 1,
+                        "recipes._id": 1,
+                        "recipes.recipeName": 1,
+                        "recipes.description": 1,
+                        "recipes.imgUrl": 1
+                }}
+            ], function (err, resultRecipes) {
+                res.json(resultRecipes);
+            }
+        )
+    });
     
     // get new recipes
     app.get("/recipes/new", function (req, res) {

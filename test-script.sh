@@ -52,6 +52,10 @@ read -p $'\nGet list (10) of hot (mostly commented) recipes'
 curl "http://localhost:3000/recipes/hot"
 
 
+read -p $'\nGet list (10) of remarkable (highestly rated) recipes'
+curl "http://localhost:3000/recipes/remarkable"
+
+
 read -p $'\nGet list (10) of new recipes'
 curl "http://localhost:3000/recipes/new"
 
