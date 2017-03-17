@@ -1,4 +1,4 @@
-module.exports = function (app, Comment) {
+module.exports = function (app, Comment, Rate) {
 
     // Get all comments of a recipe
     app.get("/recipe/:recipeId/comments", function (req, res) {
@@ -29,6 +29,44 @@ module.exports = function (app, Comment) {
                 });
                 comment.addCommentNotification(comment.recipeId, comment.personId);
                 res.json(comment);
+            }
+        } else
+        {
+            return res.status(401).json({
+                status: 401,
+                message: "Comment a recipe failed: unauthorized or token expired."
+            });
+        }
+    });
+
+    // get the rate of a recipe
+    app.get("/recipe/:recipeId/rate", function (req, res) {
+        Rate.find({recipeId: parseInt(req.params.recipeId)}, function (err, comments) {
+            if (err) {
+                console.error(err);
+            }
+
+            res.json(comments);
+        });
+    });
+
+    // rate a recipe
+    app.post("/recipe/:recipeId/rate", function (req, res) {
+        if (req.auth)
+        {
+            if (req.body.scores)
+            {
+                var rate = new Rate({
+                    recipeId: parseInt(req.params.recipeId),
+                    personId: req.userID,
+                    scores: req.body.scores
+                });
+                rate.save(function (err) {
+                    if (err)
+                        return console.error(err);
+                });
+                rate.addRateNotification(rate.recipeId, rate.personId);
+                res.json(rate);
             }
         } else
         {

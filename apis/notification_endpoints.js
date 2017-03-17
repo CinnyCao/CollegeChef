@@ -80,7 +80,15 @@ module.exports = function (app, NotificationSetting, NotificationHistory) {
                             if (err) {
                                 console.error(err);
                             }
-                            res.sendStatus(200);
+                            if (notificationSetting)
+                            {
+                                res.sendStatus(200);
+                            } else {
+                                return res.status(403).json({
+                                    status: 403,
+                                    message: "Notification Settings not found, invalid personId"
+                                });
+                            }
                         });
             }
         } else

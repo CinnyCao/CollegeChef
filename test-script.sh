@@ -157,3 +157,13 @@ curl -X "POST" "http://localhost:3000/recipe/1/comments" \
 }'
 
 printf '\n'
+
+read -p $'\nRate recipe'
+curl -X "POST" "http://localhost:3000/recipe/1/rate" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+   "scores": 3
+}'
+
+printf '\n'
