@@ -167,3 +167,10 @@ curl -X "POST" "http://localhost:3000/recipe/1/rate" \
 }'
 
 printf '\n'
+
+read -p $'\nFavorite recipe'
+curl -X "POST" "http://localhost:3000/recipe/1/favorite" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8" \
+
+printf '\n'

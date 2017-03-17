@@ -119,7 +119,7 @@ connection.once('open', function() {
     require('./apis/recipes_endpoints.js')(app, Recipe, Ingredient, sha1, generateToken, User);
 
     // Endpoints that manage comments, rate and favorite
-    require('./apis/recipe_operations_endpoints.js')(app, Comment, Rate);
+    require('./apis/recipe_operations_endpoints.js')(app, Comment, Rate, Favorite);
 
     // Endpoints that manage notifications
     require('./apis/notification_endpoints.js')(app, NotificationSetting, NotificationHistory);
