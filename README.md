@@ -20,7 +20,7 @@
       - eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk
     - Note identification of these two tokens can change since the two factory users are inserted in random order
 * Factory Data and Testing Data
-  - Some factory data (required for the application to run) will be inserted on your first time running the server. This includes:
+  - Some factory data (required for the application to run) will be inserted on your first time running the server. This includes:
     - 2 users: 1 normal user and 1 admin
       - userName: "admin", password: "admin"
       - userName: "user", password: "user"
