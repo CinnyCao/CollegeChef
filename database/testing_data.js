@@ -34,7 +34,8 @@ module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, C
                         addedIngredients.push(ingredientId);
                         newRecipe.addIngredient(ingredientId, "1 portion");
                     }
-                    if (newRecipe._id < 9)
+
+                    if (newRecipe._id >0 && newRecipe._id < 9)
                     {
                         // let every factory user randomly rate current recipe
                         for (var u = 0; u < factoryRecordNum["numOfUsers"] - 1; u++) {
@@ -87,6 +88,44 @@ module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, C
                             });
                             comment.addCommentNotification(comment.recipeId, comment.personId);
                         }
+                    }
+                    else if(newRecipe._id == 9)
+                    {
+                        // rate current recipe
+                            var rate = new Rate({
+                                recipeId: newRecipe._id,
+                                personId: 0,
+                                scores: 1
+                            });
+                            rate.save(function (err) {
+                                if (err)
+                                    return console.error(err);
+                            });
+                            rate.addRateNotification(rate.recipeId, rate.personId);
+
+                            // favorite current recipe
+                                var favorite = new Favorite({
+                                    recipeId: newRecipe._id,
+                                    personId: 0
+                                });
+                                favorite.save(function (err) {
+                                    if (err)
+                                        return console.error(err);
+                                });
+                                favorite.addFavoriteNotification(favorite.recipeId, favorite.personId);
+
+                                //comment current recipe
+                                var comment = new Comment({
+                                recipeId: newRecipe._id,
+                                personId: 0,
+                                isImage: false,
+                                message: "test message"
+                            });
+                            comment.save(function (err) {
+                                if (err)
+                                    return console.error(err);
+                            });
+                            comment.addCommentNotification(comment.recipeId, comment.personId);
                     }
 
                     console.log("Recipe #" + newRecipe._id + " inserted");

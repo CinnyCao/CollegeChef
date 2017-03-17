@@ -143,12 +143,12 @@ curl "http://localhost:3000/recipe/1/comments" \
 printf '\n'
 
 read -p $'\nGet all comments of a given recipe - recipe have no comment'
-curl "http://localhost:3000/recipe/9/comments" \
+curl "http://localhost:3000/recipe/0/comments" \
 
 printf '\n'
 
 read -p $'\nComment recipe'
-curl -X "POST" "http://localhost:3000/recipe/1/comments" \
+curl -X "POST" "http://localhost:3000/recipe/0/comments" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
@@ -158,8 +158,18 @@ curl -X "POST" "http://localhost:3000/recipe/1/comments" \
 
 printf '\n'
 
-read -p $'\nRate recipe'
-curl -X "POST" "http://localhost:3000/recipe/1/rate" \
+read -p $'\nRate recipe -- first rate a recipe'
+curl -X "POST" "http://localhost:3000/recipe/0/rate" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+   "scores": 3
+}'
+
+printf '\n'
+
+read -p $'\nRate recipe -- update rate'
+curl -X "POST" "http://localhost:3000/recipe/9/rate" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
