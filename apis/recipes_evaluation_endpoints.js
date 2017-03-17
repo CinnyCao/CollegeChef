@@ -152,7 +152,7 @@ module.exports = function (app, Comment, Rate, Favorite) {
         }
     });
 
-    // delete a favorite recipe
+    // unfavorite recipe
     app.delete("/recipe/:recipeId/favorite", function (req, res) {
         if (req.auth)
         {
