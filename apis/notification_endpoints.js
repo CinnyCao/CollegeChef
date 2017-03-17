@@ -3,7 +3,7 @@ module.exports = function (app, NotificationSetting, NotificationHistory) {
     app.get('/notification_settings', function (req, res) {
         if (req.auth)
         {
-            NotificationSetting.findOne({'personId': req.userID, 'enable': true}, 'typeNumber', function (err, notificationSettings) {
+            NotificationSetting.findOne({'personId': req.userID}, 'enableTypeNumbers', function (err, notificationSettings) {
                 if (err) {
                     console.error(err);
                 }
@@ -13,13 +13,10 @@ module.exports = function (app, NotificationSetting, NotificationHistory) {
                     res.json(notificationSettings);
                 }
             });
-        }
-        else
+        } else
         {
             return res.sendStatus(401);
         }
     });
-
-
 
 };

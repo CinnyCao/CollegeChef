@@ -19,7 +19,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "test-script.sh",
+    "test": "sh test-script.sh",
     "start": "node index.js"
   },
   "repository": {

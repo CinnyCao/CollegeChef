@@ -18,11 +18,7 @@ module.exports = function (connection, Schema, autoIncrement, NotificationSettin
                 return console.error(err);
             if (!records.length) {
                 var notificationSettings = [
-                    {personId: personId, typeNumber: 0},
-                    {personId: personId, typeNumber: 1},
-                    {personId: personId, typeNumber: 2},
-                    {personId: personId, typeNumber: 3},
-                    {personId: personId, typeNumber: 4}
+                    {personId: personId}
                 ];
                 NotificationSetting.create(notificationSettings, function (err, setNotificationSettings) {
                     if (err)
