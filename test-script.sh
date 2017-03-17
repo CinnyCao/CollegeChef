@@ -72,18 +72,6 @@ curl "http://localhost:3000/recipes/new"
 
 printf '\n'
 
-read -p $'\nGet list of favorited recipes of user with id 0'
--H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIwIiwiZXhwIjoxNTUyODQ1Nzg5NjM0fQ.DjnMuU5no8k8YBRttxmYnOksHbGPRkiWMqSwV7FZDAs"\
-curl "http://localhost:3000/recipes/favorite"
-
-read -p $'\nGet list of favorited recipes of user with id 1'
--H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
-curl "http://localhost:3000/recipes/favorite"
-
-read -p $'\nGet list of favorited recipes without token - will get 401'
-curl "http://localhost:3000/recipes/favorite"
-
-
 read -p $'\nGet list of recipes uploaded by current user'
 curl -X "POST" "http://localhost:3000/recipes/uploaded" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
@@ -236,10 +224,35 @@ curl -X "POST" "http://localhost:3000/recipe/9/rate" \
 printf '\n'
 
 #favorite tests
+read -p $'\nGet list of favorited recipes of user with id 0'
+-H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIwIiwiZXhwIjoxNTUyODQ1Nzg5NjM0fQ.DjnMuU5no8k8YBRttxmYnOksHbGPRkiWMqSwV7FZDAs"\
+curl "http://localhost:3000/recipes/favorite"
+
+printf '\n'
+
+read -p $'\nGet list of favorited recipes of user with id 1'
+-H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+curl "http://localhost:3000/recipes/favorite"
+
+printf '\n'
+
+read -p $'\nGet list of favorited recipes without token - will get 401'
+curl "http://localhost:3000/recipes/favorite"
+
+printf '\n'
+
 read -p $'\nFavorite recipe'
 curl -X "POST" "http://localhost:3000/recipe/0/favorite" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
      -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{}'
+
+printf '\n'
+
+read -p $'\nFavorite recipe without authorization -- will get 401'
+curl -X "POST" "http://localhost:3000/recipe/0/favorite" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{}'
 
 printf '\n'
 
@@ -247,5 +260,13 @@ read -p $'\nRemove favorite recipe'
 curl -X "DELETE" "http://localhost:3000/recipe/9/favorite" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
      -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{}'
+
+printf '\n'
+
+read -p $'\nRemove favorite recipe without authorization -- will get 401'
+curl -X "DELETE" "http://localhost:3000/recipe/9/favorite" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{}'
 
 printf '\n'

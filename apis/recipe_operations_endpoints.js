@@ -18,7 +18,7 @@ module.exports = function (app, Comment, Rate, Favorite) {
             if (req.body.isImage && req.body.message)
             {
                 var comment = new Comment({
-                    recipeId: req.params.recipeId,
+                    recipeId: parseInt(req.params.recipeId),
                     personId: req.userID,
                     isImage: req.body.isImage,
                     message: req.body.message
@@ -28,7 +28,7 @@ module.exports = function (app, Comment, Rate, Favorite) {
                         return console.error(err);
                 });
                 comment.addCommentNotification(comment.recipeId, comment.personId);
-                res.json(comment);
+                res.json({recipeId: parseInt(req.params.recipeId)});
             } else
             {
                 return res.status(400).json({
@@ -142,7 +142,7 @@ module.exports = function (app, Comment, Rate, Favorite) {
                     return console.error(err);
             });
             favorite.addFavoriteNotification(favorite.recipeId, favorite.personId);
-            res.json(favorite);
+            res.json({recipeId: parseInt(req.params.recipeId)});
         } else
         {
             return res.status(401).json({
