@@ -6,12 +6,16 @@ curl -X "POST" "http://localhost:3000/login" \
   "password": "user"
 }'
 
+printf '\n'
+
 read -p $'\nLog in with missing inputs - will get 400'
 curl -X "POST" "http://localhost:3000/login" \
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
   "userName": "user"
 }'
+
+printf '\n'
 
 read -p $'\nLog in with wrong inputs - will get 403'
 curl -X "POST" "http://localhost:3000/login" \
@@ -21,10 +25,12 @@ curl -X "POST" "http://localhost:3000/login" \
   "password": "password"
 }'
 
+printf '\n'
 
 read -p $'\nGet all ingredients'
 curl "http://localhost:3000/ingredients"
 
+printf '\n'
 
 read -p $'\nSearch recipes by ingredients case 1 (result might be empty since recipes are randomly created)'
 curl -X "POST" "http://localhost:3000/search" \
@@ -33,12 +39,16 @@ curl -X "POST" "http://localhost:3000/search" \
   "ingredients": [1, 2]
 }'
 
+printf '\n'
+
 read -p $'\nSearch recipes by ingredients case 2 (result might be empty since recipes are randomly created)'
 curl -X "POST" "http://localhost:3000/search" \
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
   "ingredients": [0]
 }'
+
+printf '\n'
 
 read -p $'\nSearch recipes by ingredients with no input- will get 400'
 curl -X "POST" "http://localhost:3000/search" \
@@ -47,6 +57,7 @@ curl -X "POST" "http://localhost:3000/search" \
 
 }'
 
+printf '\n'
 
 read -p $'\nGet list (10) of hot (mostly commented) recipes'
 curl "http://localhost:3000/recipes/hot"
@@ -59,6 +70,7 @@ curl "http://localhost:3000/recipes/remarkable"
 read -p $'\nGet list (10) of new recipes'
 curl "http://localhost:3000/recipes/new"
 
+printf '\n'
 
 read -p $'\nGet list of favorited recipes of user with id 0'
 -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIwIiwiZXhwIjoxNTUyODQ1Nzg5NjM0fQ.DjnMuU5no8k8YBRttxmYnOksHbGPRkiWMqSwV7FZDAs"\
@@ -80,6 +92,8 @@ curl -X "POST" "http://localhost:3000/recipes/uploaded" \
 
 }'
 
+printf '\n'
+
 read -p $'\nGet list of recipes uploaded by user called user'
 curl -X "POST" "http://localhost:3000/recipes/uploaded" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
@@ -88,6 +102,8 @@ curl -X "POST" "http://localhost:3000/recipes/uploaded" \
    "userName": "user"
 }'
 
+printf '\n'
+
 read -p $'\nGet list of recipes uploaded with no bearer - will get 401'
 curl -X "POST" "http://localhost:3000/recipes/uploaded" \
      -H "Content-Type: application/json; charset=utf-8" \
@@ -95,11 +111,23 @@ curl -X "POST" "http://localhost:3000/recipes/uploaded" \
    "userName": "user"
 }'
 
+printf '\n'
+
+read -p $'\nGet notification settings of current user'
+curl -X "GET" "http://localhost:3000/notification_settings" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+}'
+
+printf '\n'
+
 read -p $'\nUpdate notification settings of current user'
 curl -X "PUT" "http://localhost:3000/notification_settings" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
   "enableTypeNumbers": [1, 2]
 }'
 
-read -p $'\n'
+printf '\n'
