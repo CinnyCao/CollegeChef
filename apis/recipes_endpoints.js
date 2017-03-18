@@ -53,4 +53,61 @@ module.exports = function (app, Recipe, Ingredient) {
        }
     });
 
+    app.get("/recipe/:recipeId", function (req, res) {
+        Recipe.aggregate(
+            [
+                // find specified recipe
+                {"$match": {"_id": {"$eq": parseInt(req.params.recipeId)}}},
+                // join to get user info
+                {"$lookup": {
+                    from: "users",
+                    localField: "personId",
+                    foreignField: "_id",
+                    as: "uploader"
+                }},
+                // join to get modifier info
+                {"$lookup": {
+                    from: "users",
+                    localField: "ModifiedById",
+                    foreignField: "_id",
+                    as: "modifier"
+                }},
+                // join to get category name
+                {"$lookup": {
+                    from: "categories",
+                    localField: "categoryId",
+                    foreignField: "_id",
+                    as: "category"
+                }},
+                // join to get ingredients info
+                {"$lookup": {
+                    from: "ingredients",
+                    localField: "recipeId",
+                    foreignField: "recipeId",
+                    as: "ingredients"
+                }},
+                // set return fields
+                {"$project": {
+                    "recipeName": 1,
+                    "description": 1,
+                    "instruction": 1,
+                    "imgUrl": 1,
+                    "numServings": 1,
+                    "ModifiedDate": 1,
+                    "uploader._id": 1,
+                    "uploader.userName": 1,
+                    "modifier.userName": 1,
+                    "modifier._id": 1,
+                    "category._id": 1,
+                    "category.name": 1,
+                    "ingredients._id": 1,
+                    "ingredients.name": 1,
+                    "ingredients.imgUrl": 1
+                }}
+            ], function (err, resultRecipes) {
+                res.json(resultRecipes);
+            }
+        )
+    });
+
 };
