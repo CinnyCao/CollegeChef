@@ -174,105 +174,82 @@ module.exports = function (app, sha1, generateToken, User) {
     });
 
     // edit user profile
-    app.put('/user/:userId/edit/profile', function (req, res, next) {
+    app.put('/user', function (req, res) {
         if (!req.auth) {
-            console.error("Request failed: Not logged in");
-            return res.status(401).json({
-                status: 401,
-                message: "Request failed: Not logged in"
-            });
-        }
-        if (!req.isAdmin && req.userID != req.body.userId) {
-            console.error("Request failed: Lacking proper credentials");
-            return res.status(401).json({
-                status: 401,
-                message: "Request failed: Lacking admin credentials"
-            });
-        }
-        if (!req.body.description && !req.body.profilePhoto && !req.body.email) {
-            console.error("Request failed: Missing inputs");
             return res.status(400).json({
                 status: 400,
-                message: "Request failed: Missing inputs"
+                message: "Authorization failed"
             });
-        } else {
-            next();
         }
-    });
+        var toUpdate = {};
+        if (req.body.description)
+        {
+            toUpdate["description"] = req.body.description;
+        }
+        if (req.body.profilePhoto)
+        {
+            toUpdate["profilePhoto"] = req.body.profilePhoto;
+        }
+        if (req.body.email)
+        {
+            toUpdate["email"] = req.body.email;
+        }
 
-    app.put('/user/:userId/edit/profile', function (req, res, next) {
-        // change description if specified
-        if (req.body.description) {
-            User.updateOne({'id': req.body.userId}, {$set: {'description': req.body.description}}, function (err, user) {
+        if (Object.keys(toUpdate).length > 0) {
+            User.findOneAndUpdate({'_id': req.userID}, toUpdate, {new : true}, function (err, updatedUser) {
                 if (err) {
                     console.error(err);
                 }
-                if (!user) {
-                    return res.status(403).json({
-                        status: 403,
-                        message: "Request failed"
-                    });
-                } else {
-                    next();
+                if (updatedUser)
+                {
+                    res.sendStatus(200);
                 }
             });
         } else {
-            next();
+            return res.status(400).json({
+                status: 400,
+                message: "Update user profile failed: missing required input."
+            });
         }
     });
+    
+       // edit user profile
+    app.put('/user/:userId', function (req, res) {
+        if (!req.auth || !req.isAdmin) {
+            return res.status(400).json({
+                status: 400,
+                message: "Authorization failed"
+            });
+        }
+        var toUpdate = {};
+        if (req.body.description)
+        {
+            toUpdate["description"] = req.body.description;
+        }
+        if (req.body.profilePhoto)
+        {
+            toUpdate["profilePhoto"] = req.body.profilePhoto;
+        }
+        if (req.body.email)
+        {
+            toUpdate["email"] = req.body.email;
+        }
 
-    app.put('/user/:userId/edit/profile', function (req, res, next) {
-        // change email address if specified
-        if (req.body.email) {
-            User.count({'email': req.body.email}, function (err, count) {
+        if (Object.keys(toUpdate).length > 0) {
+            User.findOneAndUpdate({'_id': req.params.userId}, toUpdate, {new : true}, function (err, updatedUser) {
                 if (err) {
                     console.error(err);
                 }
-                if (count >= 1) {
-                    console.log("Request failed: Email address is already in use");
-                    return res.status(403).json({
-                        status: 403,
-                        message: "Request failed: Email address is already in use"
-                    });
-                } else {
-                    User.updateOne({'id': req.body.userId}, {$set: {'email': req.body.email}}, function (err, user) {
-                        if (err) {
-                            console.error(err);
-                        }
-                        if (!user) {
-                            return res.status(403).json({
-                                status: 403,
-                                message: "Request failed"
-                            });
-                        } else {
-                            next();
-                        }
-                    });
+                if (updatedUser)
+                {
+                    res.sendStatus(200);
                 }
             });
         } else {
-            next();
-        }
-    });
-
-    app.put('/user/:userId/edit/profile', function (req, res) {
-        // change profile picture if specified
-        if (req.body.profilePhoto) {
-            User.updateOne({'id': req.body.userId}, {$set: {'profilePhoto': req.body.profilePhoto}}, function (err, user) {
-                if (err) {
-                    console.error(err);
-                }
-                if (!user) {
-                    return res.status(403).json({
-                        status: 403,
-                        message: "Request failed"
-                    });
-                } else {
-                    return res.sendStatus(200);
-                }
+            return res.status(400).json({
+                status: 400,
+                message: "Update user profile failed: missing required input."
             });
-        } else {
-            return res.sendStatus(200);
         }
     });
 

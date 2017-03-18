@@ -91,34 +91,14 @@ curl -X "PUT" "http://localhost:3000/user/1/edit/password" \
 
 printf '\n'
 
-read -p $'\nEdit a user profile'
-curl -X "PUT" "http://localhost:3000/user/:userId/edit/profile" \
+read -p $'\nEdit current user profile'
+curl -X "PUT" "http://localhost:3000/user" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
-  "userId": "1",
-  "email": "johnsmith@home.ca"
-}'
-
-printf '\n'
-
-read -p $'\nEdit a user profile without authorization -- will get 401'
-curl -X "PUT" "http://localhost:3000/user/:userId/edit/profile" \
-     -H "Content-Type: application/json; charset=utf-8" \
-     -d $'{
-  "userId": "1",
-  "email": "johnsmith@home.ca"
-  "description": "I am a professional chef."
-}'
-
-printf '\n'
-
-read -p $'\nEdit a user profile without required input -- will get 400'
-curl -X "PUT" "http://localhost:3000/user/:userId/edit/profile" \
-     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
-     -H "Content-Type: application/json; charset=utf-8" \
-     -d $'{
-  "userId": "1"
+  "email": "johnsmith@home.ca",
+  "description": "I am a professional chef.",
+  "profilePhoto": "/img/recipes/steak.jpg"
 }'
 
 printf '\n'
