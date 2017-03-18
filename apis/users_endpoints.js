@@ -94,8 +94,7 @@ module.exports = function (app, sha1, generateToken, User) {
                     console.error(err);
                 }
                 return res.status(200).json({
-                    status: 200,
-                    message: "Request successful"
+                    status: 200
                 }); 
             });
         } else {
@@ -173,8 +172,7 @@ module.exports = function (app, sha1, generateToken, User) {
                 console.error(err);
             }
             return res.status(200).json({
-                status: 200,
-                message: "Request successful"
+                status: 200
             });
         });
     });
@@ -275,15 +273,13 @@ module.exports = function (app, sha1, generateToken, User) {
                     }); 
                 } else {
                     return res.status(200).json({
-                        status: 200,
-                        message: "Request successful"
+                        status: 200
                     }); 
                 }
             });
         } else {
             return res.status(200).json({
-                status: 200,
-                message: "Request successful"
+                status: 200
             });
         }
     });
