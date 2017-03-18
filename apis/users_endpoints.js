@@ -294,7 +294,7 @@ module.exports = function (app, sha1, generateToken, User) {
             console.error("Request failed: Not logged in");
             return res.status(401).json({
                 status: 401,
-                message: "Request failed:: Not logged in"
+                message: "Request failed: Not logged in"
             }); 
         }
         if (!req.isAdmin) {
