@@ -55,6 +55,88 @@ curl -X "POST" "http://localhost:3000/user" \
   "password": "testUser1"
 }'
 
+printf '\n'
+
+read -p $'\nChange password'
+curl -X "PUT" "http://localhost:3000/user/:userId/edit/password" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "userId": "1",
+  "userName": "testUser1",
+  "password": "testUser1",
+  "newPassword": "mypassword"
+}'
+
+printf '\n'
+
+read -p $'\nChange password without authorization -- will get 401'
+curl -X "PUT" "http://localhost:3000/user/:userId/edit/password" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "userId": "1",
+  "userName": "testUser1",
+  "password": "testUser1",
+  "newPassword": "mypassword"
+}'
+
+printf '\n'
+
+read -p $'\nChange password without required input -- will get 400'
+curl -X "PUT" "http://localhost:3000/user/:userId/edit/password" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "userId": "1",
+  "userName": "testUser1",
+  "password": "testUser1"
+}'
+
+printf '\n'
+
+read -p $'\nEdit a user profile'
+curl -X "PUT" "http://localhost:3000/user/:userId/edit/profile" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "userId": "1",
+  "email": "johnsmith@home.ca"
+}'
+
+printf '\n'
+
+read -p $'\nEdit a user profile without authorization -- will get 401'
+curl -X "PUT" "http://localhost:3000/user/:userId/edit/profile" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "userId": "1",
+  "email": "johnsmith@home.ca"
+  "description": "I am a professional chef."
+}'
+
+printf '\n'
+
+read -p $'\nEdit a user profile without required input -- will get 400'
+curl -X "PUT" "http://localhost:3000/user/:userId/edit/profile" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "userId": "1"
+}'
+
+printf '\n'
+
+read -p $'\nGet list of users'
+curl -X "GET" "http://localhost:3000/users" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8" 
+
+printf '\n'
+
+read -p $'\nGet list of users without authorization -- will get 401'
+curl -X "GET" "http://localhost:3000/users" \
+     -H "Content-Type: application/json; charset=utf-8" 
+
 printf '\n--------------------------ingredients tests-----------------------------------\n'
 
 read -p $'\nGet all ingredients'
