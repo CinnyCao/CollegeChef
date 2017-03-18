@@ -212,7 +212,7 @@ module.exports = function (app, sha1, generateToken, User) {
             });
         }
     });
-    
+
     // edit user profile
     app.put('/user/:userId', function (req, res) {
         if (!req.auth || !req.isAdmin) {
@@ -255,18 +255,10 @@ module.exports = function (app, sha1, generateToken, User) {
 
     // get list of users
     app.get('/users', function (req, res) {
-        if (!req.auth) {
-            console.error("Request failed: Not logged in");
+        if (!req.auth || !req.isAdmin) {
             return res.status(401).json({
                 status: 401,
                 message: "Request failed: Not logged in"
-            });
-        }
-        if (!req.isAdmin) {
-            console.error("Request failed: Lacking admin credentials");
-            return res.status(401).json({
-                status: 401,
-                message: "Request failed: Lacking admin credentials"
             });
         } else {
             // only looking for non-admin users
