@@ -196,9 +196,10 @@ module.exports = function (app, sha1, generateToken, User) {
             });
         }
         if (!req.body.description && !req.body.profilePhoto && !req.body.email) {
+            console.error("Request failed: Missing inputs");
             return res.status(400).json({
                 status: 400,
-                message: "Request failed"
+                message: "Request failed: Missing inputs"
             });
         } else {
             next();
