@@ -176,8 +176,8 @@ module.exports = function (app, sha1, generateToken, User) {
     // edit user profile
     app.put('/user', function (req, res) {
         if (!req.auth) {
-            return res.status(400).json({
-                status: 400,
+            return res.status(401).json({
+                status: 401,
                 message: "Authorization failed"
             });
         }
@@ -213,11 +213,11 @@ module.exports = function (app, sha1, generateToken, User) {
         }
     });
     
-       // edit user profile
+    // edit user profile
     app.put('/user/:userId', function (req, res) {
         if (!req.auth || !req.isAdmin) {
-            return res.status(400).json({
-                status: 400,
+            return res.status(401).json({
+                status: 401,
                 message: "Authorization failed"
             });
         }

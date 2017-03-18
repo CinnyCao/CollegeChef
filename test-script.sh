@@ -103,6 +103,18 @@ curl -X "PUT" "http://localhost:3000/user" \
 
 printf '\n'
 
+read -p $'\nEdit given user profile'
+curl -X "PUT" "http://localhost:3000/user/1" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIwIiwiZXhwIjoxNTUyODQ1Nzg5NjM0fQ.DjnMuU5no8k8YBRttxmYnOksHbGPRkiWMqSwV7FZDAs"\
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "email": "johnsmith@home.ca",
+  "description": "I am a professional chef.",
+  "profilePhoto": "/img/recipes/steak.jpg"
+}'
+
+printf '\n'
+
 read -p $'\nGet list of users'
 curl -X "GET" "http://localhost:3000/users" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
