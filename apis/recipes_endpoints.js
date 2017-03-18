@@ -76,7 +76,6 @@ module.exports = function (app, Recipe, Ingredient) {
             if (req.body.notes) {
                 toUpdate["notes"] = req.body.notes;
             }
-            console.log(toUpdate.length);
             if (Object.keys(toUpdate).length > 0) {
                 toUpdate["ModifiedById"] = req.userID;
                 toUpdate["ModifiedDate"] = Date.now();
@@ -84,7 +83,6 @@ module.exports = function (app, Recipe, Ingredient) {
                     if (err) {
                         console.error(err);
                     }
-                    console.log(updatedRecipe);
                     res.sendStatus(200);
                 });
             } else {

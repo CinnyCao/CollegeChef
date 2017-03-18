@@ -189,15 +189,6 @@ curl -X "PUT" "http://localhost:3000/recipe/1" \
   "recipeName": "hello"
 }'
 
-read -p $'\nUpdate a recipe'
-curl -X "PUT" "http://localhost:3000/recipe/1" \
-     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
-     -H "Content-Type: application/json; charset=utf-8" \
-     -d $'{
-  "recipeName": "hi"
-  "description": "new description"
-}'
-
 printf '\n'
 
 read -p $'\nGet a specific recipe'
