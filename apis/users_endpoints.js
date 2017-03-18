@@ -93,7 +93,7 @@ module.exports = function (app, sha1, generateToken, User) {
                 if (err) {
                     console.error(err);
                 }
-                return res.status(200); 
+                return res.sendStatus(200);
             });
         } else {
             return res.status(400).json({
@@ -144,34 +144,32 @@ module.exports = function (app, sha1, generateToken, User) {
     // change password
     app.put('/user/:userId/edit/password', function (req, res) {
         if (!req.auth) {
-            console.error("Request failed: Not logged in");
             return res.status(401).json({
                 status: 401,
                 message: "Request failed: Not logged in"
             });
         }
-        if (!req.isAdmin && req.userID != req.body.userId) {
-            console.error("Request failed: Lacking proper credentials");
+        if (!req.isAdmin && req.userID != parseInt(req.params.userId)) {
             return res.status(401).json({
                 status: 401,
                 message: "Request failed: Lacking proper credentials"
             });
         }
         if (!req.body.password || !req.body.newPassword) {
-            console.error("Request failed: Missing password(s)");
             return res.status(400).json({
                 status: 400,
                 message: "Request failed: Missing password(s)"
             });
         }
-        User.updateOne({'id': req.body.userId, 'password': sha1(req.body.userName + req.body.password)},
+        User.updateOne({'_id': parseInt(req.params.userId), 'password': sha1(req.body.userName + req.body.password)},
                 {$set: {'password': sha1(req.body.userName + req.body.newPassword)}}, function (err, result) {
             if (err) {
                 console.error(err);
             }
-            return res.status(200).json({
-                status: 200
-            });
+            if (result)
+            {
+                return res.sendStatus(200);
+            }
         });
     });
 
@@ -270,13 +268,11 @@ module.exports = function (app, sha1, generateToken, User) {
                         message: "Request failed"
                     });
                 } else {
-                    return res.status(200);
+                    return res.sendStatus(200);
                 }
             });
         } else {
-            return res.status(200).json({
-                status: 200
-            });
+            return res.sendStatus(200);
         }
     });
 
@@ -287,7 +283,7 @@ module.exports = function (app, sha1, generateToken, User) {
             return res.status(401).json({
                 status: 401,
                 message: "Request failed: Not logged in"
-            }); 
+            });
         }
         if (!req.isAdmin) {
             console.error("Request failed: Lacking admin credentials");
