@@ -57,17 +57,6 @@ curl -X "POST" "http://localhost:3000/user" \
 
 printf '\n'
 
-read -p $'\nCreate users with email'
-curl -X "POST" "http://localhost:3000/user" \
-     -H "Content-Type: application/json; charset=utf-8" \
-     -d $'{
-  "userName": "testUser3",
-  "password": "testUser3",
-  "email": "abc@gmail.com"
-}'
-
-printf '\n'
-
 read -p $'\nChange password'
 curl -X "PUT" "http://localhost:3000/user/1/edit/password" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
