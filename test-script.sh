@@ -117,7 +117,7 @@ printf '\n'
 
 read -p $'\nGet list of users'
 curl -X "GET" "http://localhost:3000/users" \
-     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIwIiwiZXhwIjoxNTUyODQ1Nzg5NjM0fQ.DjnMuU5no8k8YBRttxmYnOksHbGPRkiWMqSwV7FZDAs"\
      -H "Content-Type: application/json; charset=utf-8" 
 
 printf '\n'
@@ -165,9 +165,17 @@ curl "http://localhost:3000/recipes"
 
 printf '\n'
 
-read -p $'\nDelete a recipe'
+read -p $'\nDelete a recipe that is not created by themselves -- will get 401'
 curl -X "DELETE" "http://localhost:3000/recipe/9" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{}'
+
+printf '\n'
+
+read -p $'\nAdmin can delete any recipe'
+curl -X "DELETE" "http://localhost:3000/recipe/9" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIwIiwiZXhwIjoxNTUyODQ1Nzg5NjM0fQ.DjnMuU5no8k8YBRttxmYnOksHbGPRkiWMqSwV7FZDAs"\
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{}'
 
