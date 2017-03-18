@@ -171,13 +171,52 @@ curl -X "POST" "http://localhost:3000/search" \
 
 printf '\n--------------------------recipes tests-----------------------------------\n'
 
+read -p $'\nGet list of all recipes'
+curl "http://localhost:3000/recipes"
+
+printf '\n'
+
+read -p $'\nDelete a recipe'
+curl -X "DELETE" "http://localhost:3000/recipe/9" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{}'
+
+printf '\n'
+
+read -p $'\nUpdate a recipe'
+curl -X "PUT" "http://localhost:3000/recipe/1" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "recipeName": "hello"
+}'
+
+read -p $'\nUpdate a recipe'
+curl -X "PUT" "http://localhost:3000/recipe/1" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "recipeName": "hi"
+  "description": "new description"
+}'
+
+printf '\n'
+
+read -p $'\nGet a specific recipe'
+curl "http://localhost:3000/recipe/1"
+
+printf '\n'
+
 read -p $'\nGet list (10) of hot (mostly commented) recipes'
 curl "http://localhost:3000/recipes/hot"
 
+printf '\n'
 
 read -p $'\nGet list (10) of remarkable (highestly rated) recipes'
 curl "http://localhost:3000/recipes/remarkable"
 
+printf '\n'
 
 read -p $'\nGet list (10) of new recipes'
 curl "http://localhost:3000/recipes/new"
