@@ -1,4 +1,40 @@
 # Team 2 CollegeChef
+
+## Phase 3
+* Setup
+  - Check out repository
+  - Run "npm install" in the root repository of our project
+  - Start mongod in a separate shell
+  - Execte "npm start" or "node index.js" in the root repository to start the server
+* API testing
+  - If linix/mac: do "npm test" or "sh test-script.sh"
+  - If using postMan
+    - If input JSON is required: under Body tab, choose option "raw" with type "JSON (application/json)" and then type input here
+    - If Token is required: under Headers tab, add a row with "key"="Authorization" and "value"="Bearer {token string}"
+* About Token
+  - Call API "/login" to get Token
+  - Sample token to use:
+    - user with _id 0:
+      - eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIwIiwiZXhwIjoxNTUyODQ1Nzg5NjM0fQ.DjnMuU5no8k8YBRttxmYnOksHbGPRkiWMqSwV7FZDAs
+    - user with _id 1:
+      - eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk
+    - Note identification of these two tokens can change since the two factory users are inserted in random order
+* Factory Data and Testing Data
+  - Some factory data (required for the application to run) will be inserted on your first time running the server. This includes:
+    - 2 users: 1 normal user and 1 admin
+      - userName: "admin", password: "admin"
+      - userName: "user", password: "user"
+    - 7 ingredients
+    - 3 categories
+  - Some testing data (populate the database for easier api test) will be inserted too on your first time running the server. This includes:
+    - 10 recipes with random userId from the 2 factory user and random categoryId from the 3 factory categories
+    - each recipe is asscociated with 1-3 random factory ingredient; saved in ingredienttorecipes collection
+    - each recipe is rated by each fatory user with a random rating score; saved in rates collection
+    - each recipe is randomly favorited by some factory users or none; saved in favorites collection
+    - each recipe is commented 0-10 times by a random factory user; saved in comments collection
+
+
+## Phase 2
 **Please use a server to open our site** or else some styles will not be loaded.
 
 **Please note that the smallest width and height our website support is 270 and 370**. We found that this size is on the border of usability. It's not worthy to adapt it to a smaller size because it would be near impossible to use. For any screen size that has width **or** height that is smaller than our limit will only receive a static image. 
