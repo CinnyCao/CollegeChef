@@ -21,16 +21,13 @@ $(function () {
 
     $('#footer_holder').on('footerLoaded', function () {
         //hide no user option in user type controller
-        user_type = "user";
-        $("input[name=user_type][value=user]").prop("checked",true);
-        $("input[name=user_type][value=none]").next().hide();
-        $("input[name=user_type][value=none]").hide();
+//        user_type = "user";
+//        $("input[name=user_type][value=user]").prop("checked", true);
+//        $("input[name=user_type][value=none]").next().hide();
+//        $("input[name=user_type][value=none]").hide();
         updateNavMenuItems();
 
-        $(".user_radio").on('click', function () {
-            // display the corresponding user profile page for user/admin
-            displayUserProfilePageContent();
-        });
+        displayUserProfilePageContent();
     });
 
     // load recipe_card
@@ -39,7 +36,7 @@ $(function () {
 
     //load notification messages
     populateNotifications();
-    
+
     //load user cards
     populateUserCards();
 
@@ -52,10 +49,11 @@ $(function () {
 });
 
 function displayUserProfilePageContent() {
-    if(user_type == "user"){
+    var user_type = window.localStorage.getItem('userType');
+    if (user_type == "user") {
         twoTab();
     }
-    if(user_type == "admin"){
+    if (user_type == "admin") {
         fourTab();
     }
 }

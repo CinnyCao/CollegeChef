@@ -10,9 +10,7 @@ $(function () {
         populateRecipeCards();
         ellipsisRecipeCardDescription();
 
-        $(".user_radio").on('click', function () {
-            showHideRecipeEditorTools();
-        });
+        showHideRecipeEditorTools();
     });
 });
 
@@ -26,12 +24,13 @@ function populateRecipeCards() {
 }
 
 function showHideRecipeEditorTools() {
+    var user_type = window.localStorage.getItem('userType');
     $('.recipe_card_tools_wrapper').toggle(user_type == "admin");
 }
 
 // Display recipes with recipe names that contain the entered input
 function filterRecipes() {
-	reset();
+    reset();
     var search_text = $('#recipe_browser_input').val().toLowerCase();
     var recipes = $(".recipe_card");
 
@@ -42,29 +41,29 @@ function filterRecipes() {
 
 // Displays recipes that start with the selected letter
 function letter(a) {
-	var str = a.id;
-	if (document.getElementById(str).style.color == "red") {
-		reset();
-	} else {
-		reset();
-		document.getElementById("recipe_browser_input").value = "";
-		document.getElementById(str).style.color = "red";
+    var str = a.id;
+    if (document.getElementById(str).style.color == "red") {
+        reset();
+    } else {
+        reset();
+        document.getElementById("recipe_browser_input").value = "";
+        document.getElementById(str).style.color = "red";
 
-	    var letter = $('#'+str).val().toLowerCase();
-		var recipes = $(".recipe_card");
+        var letter = $('#' + str).val().toLowerCase();
+        var recipes = $(".recipe_card");
 
-		for (i = 0; i < recipes.length; i++) {
-	    	$(recipes[i]).toggle(recipes[i].title.toLowerCase().startsWith(letter));
-		}
-	}
+        for (i = 0; i < recipes.length; i++) {
+            $(recipes[i]).toggle(recipes[i].title.toLowerCase().startsWith(letter));
+        }
+    }
 }
 
 // Resets letter button colors to an unselected white
 function reset() {
-	var str = 0;
-	for (var i = 1; i < 27; i++) {
-		str = [i];
-  		document.getElementById(str).style.color = "white";
-  	}
-  	$('.recipe_card').show();
+    var str = 0;
+    for (var i = 1; i < 27; i++) {
+        str = [i];
+        document.getElementById(str).style.color = "white";
+    }
+    $('.recipe_card').show();
 }

@@ -42,28 +42,26 @@ var recipesData = [
 ];
 
 /**
- * Global Variables
- */
-
-var user_type = "none";
-
-/**
  * Start-up Setup
  */
-$(function() {
+$(function () {
     //load footer
-    $('#footer_holder').load('/components/footer.html', function() {
-        $(".user_radio").on('click', function() {
-            user_type = $('input[name=user_type]:checked').val();
-            // update links' visibility in nav bar
-            updateNavMenuItems();
-        });
+    $('#footer_holder').load('/components/footer.html', function () {
+        updateNavMenuItems();
         $('#footer_holder').trigger('footerLoaded');
     });
 
     $('.addEditRecipeForm').load('/components/addEditRecipeForm.html');
 
-    $(window).on('resize', function() {
+    /**
+     * Global Variables
+     */
+    if (!window.localStorage.getItem("userType"))
+    {
+        window.localStorage.setItem("userType", "none");
+    }
+
+    $(window).on('resize', function () {
         // make left side bar wider on medium screen
         changeColumnPercentage();
 
@@ -116,13 +114,14 @@ function onNavBarLoaded() {
     // hide menu items on start
     $('.menu_item_left:not(.user_only)').hide();
     updateNavMenuItems();
-    $(window).on('resize', function() {
+    $(window).on('resize', function () {
         updateNavMenuItems();
     });
     $(".pwd-check").append($(getEnteredNewPwdPart()));
 }
 
 function showHideRightMenuItems() {
+    var user_type = window.localStorage.getItem('userType');
     $('.menu_item_right').toggle(user_type == "none" && ($(window).width() > 600 || ($(window).width() <= 600 && $('.menu_item_left').is(':visible'))));
 }
 
@@ -137,6 +136,7 @@ function showLinks() {
 }
 
 function updateNavMenuItems() {
+    var user_type = window.localStorage.getItem('userType');
     // show hide user only links iff logged in and other left menu items is visible
     $('.user_only').toggle($('.menu_item_left:not(.user_only)').is(':visible') && (user_type == "user" || user_type == "admin"));
     showHideRightMenuItems();
@@ -146,7 +146,48 @@ function updateNavMenuItems() {
 
 /* Login form */
 function login() {
-    // todo
+    $('#loginUserNameFailed').html('');
+    $('#loginPwdFailed').html('');
+    var userName = $('#loginUserName').val();
+    var password = $('#loginPwd').val();
+    if (!userName) {
+        $('#loginUserNameFailed').html('User name is required.');
+    } else if (!password) {
+        $('#loginPwdFailed').html('Password is required.');
+    } else {
+        var params = {
+            "userName": userName,
+            "password": password
+        };
+
+        $.ajax({
+            url: "/login",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(params),
+            statusCode: {
+                403: function (response) {
+                    $('#loginFailed').html(response.responseJSON['message']);
+                    console.log(response);
+                }
+            },
+            success: function (response) {
+                $("#login-content").submit();
+                window.localStorage.setItem("token", response['token']);
+                window.localStorage.setItem("userType", response['isAdmin'] ? "admin" : "user");
+                updateNavMenuItems();
+            }
+        });
+    }
+}
+
+/* Logout */
+function logOut() {
+    if (window.localStorage.getItem("userType")) {
+        window.localStorage.setItem("userType", "none");
+        window.location.href = "/index.html";
+    }
 }
 
 /* Sign Up form */
@@ -178,9 +219,9 @@ function sendFeedback() {
 
 function getIngredientButton(title, src) {
     return '' +
-        '<a class="ingredient_button w3-center" href="#" title="' + title + '">' +
-        '<img src="' + src + '" alt="' + title + '"><p>' + title + '</p>' +
-        '</a>';
+            '<a class="ingredient_button w3-center" href="#" title="' + title + '">' +
+            '<img src="' + src + '" alt="' + title + '"><p>' + title + '</p>' +
+            '</a>';
 }
 
 function filterIngredients() {
@@ -200,14 +241,14 @@ function getEnteredNewPwdPart() {
     var validation = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}";
     var hint = "Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters";
     return '' +
-        '<label><b>New Password*</b></label>' +
-        '<input class="new-pwd w3-input w3-border" type="password"' +
-        ' placeholder="Enter New Password" name="newPwd" pattern=' + validation + 
-        ' title="' + hint + '" required>' +
-        '<p class="w3-text-grey w3-margin-bottom">' + hint + '</p>' +
-        '<label><b>Repeat New Password*</b></label>' +
-        '<input class="repeated-pwd w3-input w3-border" type="password"' +
-        ' placeholder="Please Repeat New Password" title="Passwords Do Not Match." name="repeatPwd" onkeyup="checkPasswordMatch()" required>';
+            '<label><b>New Password*</b></label>' +
+            '<input class="new-pwd w3-input w3-border" type="password"' +
+            ' placeholder="Enter New Password" name="newPwd" pattern=' + validation +
+            ' title="' + hint + '" required>' +
+            '<p class="w3-text-grey w3-margin-bottom">' + hint + '</p>' +
+            '<label><b>Repeat New Password*</b></label>' +
+            '<input class="repeated-pwd w3-input w3-border" type="password"' +
+            ' placeholder="Please Repeat New Password" title="Passwords Do Not Match." name="repeatPwd" onkeyup="checkPasswordMatch()" required>';
 }
 
 /**
@@ -217,13 +258,13 @@ function getEnteredNewPwdPart() {
 function getRecipeCard(name, description, src) {
     var href = "/pages/recipe_view.html"; // todo: generate different href to revipe_view page for different recipe
     return '' +
-        '<div class="recipe_card w3-card-2 w3-hover-shadow" title="' + name + '" onclick="location.href=\'' + href + '\'">' +
-        '<img src="' + src + '" alt="' + name + '">' +
-        '<div class="w3-container w3-center">' +
-        '<p class="recipe_card_title">' + name + '</p>' +
-        '<p class="recipe_card_des">' + description + '</p>' +
-        '</div>' +
-        '</div>';
+            '<div class="recipe_card w3-card-2 w3-hover-shadow" title="' + name + '" onclick="location.href=\'' + href + '\'">' +
+            '<img src="' + src + '" alt="' + name + '">' +
+            '<div class="w3-container w3-center">' +
+            '<p class="recipe_card_title">' + name + '</p>' +
+            '<p class="recipe_card_des">' + description + '</p>' +
+            '</div>' +
+            '</div>';
 }
 
 function ellipsisRecipeCardDescription() {
@@ -238,10 +279,10 @@ function ellipsisRecipeCardDescription() {
 
 function addEditorToolsToRecipeCard() {
     var tools = '' +
-        '<div class="recipe_card_tools_wrapper">' +
-        '<i class="recipe_card_tools fa fa-trash fa-fw w3-hover-grey" onclick="event.stopPropagation(); deleteRecipe()"></i>' +
-        '<i class="recipe_card_tools fa fa-pencil-square-o fa-fw w3-hover-grey" onclick="event.stopPropagation(); addEditRecipe(\'editRecipe\')"></i>' +
-        '</div>';
+            '<div class="recipe_card_tools_wrapper">' +
+            '<i class="recipe_card_tools fa fa-trash fa-fw w3-hover-grey" onclick="event.stopPropagation(); deleteRecipe()"></i>' +
+            '<i class="recipe_card_tools fa fa-pencil-square-o fa-fw w3-hover-grey" onclick="event.stopPropagation(); addEditRecipe(\'editRecipe\')"></i>' +
+            '</div>';
     $('.recipe_card').append($(tools));
 }
 
@@ -269,9 +310,9 @@ function addEditRecipe(id) {
     document.getElementById("instructions").value = (id == 'addRecipe') ? "" : "1. Whisk eggs, milk, salt together until consistent; 2. Heat butter in pan; 3. Pour egg mixture into pan; 4. Let it sit for 15 seconds then stir; 5. Repeat until eggs are softly set";
     document.getElementById("tips").value = (id == 'addRecipe') ? "" : "Serve with black coffee.";
     document.getElementById("ingredient_list").innerHTML = "<div class='item' id='item1'><select id='ingredient1'" +
-        "class='ing w3-input w3-border w3-margin-bottom' name='ingredient' required><option value='' disabled selected>" +
-        "Select an ingredient</option></select><input id='quantity1' class='w3-input w3-border w3-margin-bottom'" +
-        "name='quantity' placeholder='Enter ingredient quantity' required></div>";
+            "class='ing w3-input w3-border w3-margin-bottom' name='ingredient' required><option value='' disabled selected>" +
+            "Select an ingredient</option></select><input id='quantity1' class='w3-input w3-border w3-margin-bottom'" +
+            "name='quantity' placeholder='Enter ingredient quantity' required></div>";
     buildIngredientList(1);
     if (id == 'editRecipe') {
         document.getElementById("ingredient1").value = "Egg";
@@ -298,9 +339,9 @@ function addIngredient() {
         var item = document.createElement('div');
         item.id = "item" + count;
         item.innerHTML = "<select id='ingredient" + count + "' class='added_ings w3-input w3-border w3-margin-bottom' name='ingredient'" +
-            " required> <option value='' disabled selected>Select an ingredient</option>" +
-            "</select> <input id='quantity" + count + "' class='w3-input w3-border w3-margin-bottom'" +
-            "name='quantity' placeholder='Enter ingredient quantity' required>";
+                " required> <option value='' disabled selected>Select an ingredient</option>" +
+                "</select> <input id='quantity" + count + "' class='w3-input w3-border w3-margin-bottom'" +
+                "name='quantity' placeholder='Enter ingredient quantity' required>";
         document.getElementById("ingredient_list").appendChild(item);
         buildIngredientList(count);
         count++;

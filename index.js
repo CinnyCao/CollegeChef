@@ -141,7 +141,7 @@ connection.once('open', function() {
 
     // Endpoints that manage notifications
     require('./apis/notification_endpoints.js')(app, NotificationSetting, NotificationHistory);
-
+    
     var server = app.listen(3000, function () {
         console.log('App listening on port 3000');
     });
