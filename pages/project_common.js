@@ -174,7 +174,7 @@ function login() {
             },
             success: function (response) {
                 $("#login-content").submit();
-                window.localStorage.setItem("token", response['token']);
+                window.localStorage.setItem("userObj", JSON.stringify(response));
                 window.localStorage.setItem("userType", response['isAdmin'] ? "admin" : "user");
                 updateNavMenuItems();
             }
