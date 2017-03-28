@@ -80,11 +80,11 @@ function currentUserInfo() {
 }
 
 function displayUserProfilePageContent() {
-    var user_type = window.localStorage.getItem('userType');
-    if (user_type == "user") {
+    var user_type = getUserType();
+    if (user_type === USER_TYPE_USER) {
         twoTab();
     }
-    if (user_type == "admin") {
+    if (user_type === USER_TYPE_ADMIN) {
         fourTab();
     }
 }

@@ -24,8 +24,8 @@ function populateRecipeCards() {
 }
 
 function showHideRecipeEditorTools() {
-    var user_type = window.localStorage.getItem('userType');
-    $('.recipe_card_tools_wrapper').toggle(user_type == "admin");
+    var user_type = getUserType();
+    $('.recipe_card_tools_wrapper').toggle(user_type === USER_TYPE_ADMIN);
 }
 
 // Display recipes with recipe names that contain the entered input

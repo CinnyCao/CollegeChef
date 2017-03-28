@@ -10,7 +10,6 @@ app.set('view engine', 'html');
 // set this to true if want to reset database
 var clearDatabase = false;
 
-
 // Mongoose
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -59,6 +58,21 @@ connection.once('open', function() {
         return jwt.encode(payload, secret);
     };
 
+    var logout = function (req, res) {
+        // todo: expire token immediately
+        return res.status(200).json({});
+    }
+
+    var getRandomIntInclusive = function (min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    var isDefined = function (value) {
+        return typeof value !== "undefined";
+    };
+
     // body parser to make sure every post request body is not empty
     var bodyParser = require('body-parser');
     var jsonParser = bodyParser.json();
@@ -100,12 +114,6 @@ connection.once('open', function() {
         }
     });
 
-    var getRandomIntInclusive = function (min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    };
-
     if (clearDatabase) {
         connection.dropDatabase(function () {
             console.log("Database cleared");
@@ -125,7 +133,7 @@ connection.once('open', function() {
     });
 
     // Endpoints that manage users
-    require('./apis/users_endpoints.js')(app, sha1, generateToken, User);
+    require('./apis/users_endpoints.js')(app, sha1, generateToken, isDefined, logout, User);
 
     // Endpoints that manage ingredients
     require('./apis/ingredients_endpoints.js')(app, Recipe, Ingredient);

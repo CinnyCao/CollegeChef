@@ -1,4 +1,4 @@
-module.exports = function (app, sha1, generateToken, User) {
+module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
 
     // login
     app.post('/login', function (req, res) {
@@ -32,6 +32,9 @@ module.exports = function (app, sha1, generateToken, User) {
                     }
                 });
     });
+
+    // logout
+    app.get('/logout', logout);
 
     // create user
     app.post('/user', function (req, res) {

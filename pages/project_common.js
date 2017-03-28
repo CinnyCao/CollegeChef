@@ -1,3 +1,29 @@
+/**
+ * Identification Info
+ */
+var USER_TYPE_USER = "user";
+var USER_TYPE_ADMIN = "admin";
+
+function getUserType() {
+    return localStorage.getItem("userType");
+}
+
+function setUserType(isAdmin) {
+    localStorage.setItem("userType", isAdmin ? USER_TYPE_ADMIN : USER_TYPE_USER);
+}
+
+function removeUserType() {
+    localStorage.removeItem("userType");
+}
+
+function setToken(token) {
+    localStorage.setItem("token", token);
+}
+
+function getToken() {
+    return localStorage.getItem("token");
+}
+
 /** dummy data **/
 var ingredientsData = [
     ["Egg", "/img/ingredients/egg.png"],
@@ -52,14 +78,6 @@ $(function () {
     });
 
     $('.addEditRecipeForm').load('/components/addEditRecipeForm.html');
-
-    /**
-     * Global Variables
-     */
-    if (!window.localStorage.getItem("userType"))
-    {
-        window.localStorage.setItem("userType", "none");
-    }
 
     $(window).on('resize', function () {
         // make left side bar wider on medium screen
@@ -121,8 +139,7 @@ function onNavBarLoaded() {
 }
 
 function showHideRightMenuItems() {
-    var user_type = window.localStorage.getItem('userType');
-    $('.menu_item_right').toggle(user_type == "none" && ($(window).width() > 600 || ($(window).width() <= 600 && $('.menu_item_left').is(':visible'))));
+    $('.menu_item_right').toggle(getUserType() == null && ($(window).width() > 600 || ($(window).width() <= 600 && $('.menu_item_left').is(':visible'))));
 }
 
 function showHideSiteName() {
@@ -131,14 +148,14 @@ function showHideSiteName() {
 
 function showLinks() {
     // show hide links that are always present
-    $('.menu_item_left:not(.user_only)').toggle();
+    $('.menu_item_left:not(.user_only)').toggle(!$('.menu_item_left:not(.user_only)').is(':visible'));
     updateNavMenuItems();
 }
 
 function updateNavMenuItems() {
-    var user_type = window.localStorage.getItem('userType');
+    var user_type = getUserType();
     // show hide user only links iff logged in and other left menu items is visible
-    $('.user_only').toggle($('.menu_item_left:not(.user_only)').is(':visible') && (user_type == "user" || user_type == "admin"));
+    $('.user_only').toggle($('.menu_item_left:not(.user_only)').is(':visible') && (user_type === USER_TYPE_USER || user_type === USER_TYPE_ADMIN));
     showHideRightMenuItems();
     // Hide site name when showing menu items in large and medium screen size
     showHideSiteName();
@@ -173,9 +190,9 @@ function login() {
                 }
             },
             success: function (response) {
-                $("#login-content").submit();
-                window.localStorage.setItem("userObj", JSON.stringify(response));
-                window.localStorage.setItem("userType", response['isAdmin'] ? "admin" : "user");
+                setUserType(response["isAdmin"]);
+                setToken(response["token"]);
+                hide('login-form');
                 updateNavMenuItems();
             }
         });
@@ -184,10 +201,16 @@ function login() {
 
 /* Logout */
 function logOut() {
-    if (window.localStorage.getItem("userType")) {
-        window.localStorage.setItem("userType", "none");
-        window.location.href = "/index.html";
-    }
+    $.ajax({
+        type : "GET",
+        url : "/logout",
+        dataType : "json",
+        contentType: "application/json; charset=utf-8",
+        success : function (response) {
+            removeUserType();
+            window.location.href = "/index.html";
+        }
+    });
 }
 
 /* Sign Up form */
