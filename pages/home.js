@@ -109,7 +109,9 @@ function populateUserOnlyRecipeList() {
             },
             success : function (response) {
                 for (var i = 0; i < response.length; i++) {
-                    $("#favorite_recipes").append($(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"])));
+                    $("#favorite_recipes").append(
+                        $(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"],
+                            RECIPE_CARD_FAVORITE_BUTTON_TOOL, true)));
                 }
             },
             error: function (request, status, error) {

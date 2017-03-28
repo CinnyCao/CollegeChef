@@ -291,8 +291,9 @@ var RECIPE_CARD_EDITOR_TOOL = "EDITOR";
 var RECIPE_CARD_RATING_DISPLAY_TOOL = "RATING_DISPLAY";
 var RECIPE_CARD_RATING_BUTTON_TOOL = "RATING_BUTTON";
 var RECIPE_CARD_COMMENT_COUNT_TOOL = "COMMENT_COUNT";
+var RECIPE_CARD_FAVORITE_BUTTON_TOOL = "FAVORITE_BUTTON";
 
-function getRecipeCard(name, description, src, tool, extraDataNum) {
+function getRecipeCard(name, description, src, tool, toolData) {
     var href = "/pages/recipe_view.html"; // todo: generate different href to revipe_view page for different recipe
     // ellipsis description
     if (description.length > 100) {
@@ -309,10 +310,10 @@ function getRecipeCard(name, description, src, tool, extraDataNum) {
             '</div>';
     } else if (tool === RECIPE_CARD_RATING_DISPLAY_TOOL) {
         starCommentTool = '<div class="recipe_card_tools_wrapper rating_display">';
-        for (var i = 0; i < 5 - extraDataNum; i++) {
+        for (var i = 0; i < 5 - toolData; i++) {
             starCommentTool += '<lable class="rating_display_star_grey"></lable>';
         }
-        for (var i = 0; i < extraDataNum; i++) {
+        for (var i = 0; i < toolData; i++) {
             starCommentTool += '<label class="rating_display_star_gold"></label>';
         }
         starCommentTool += '</div>';
@@ -321,7 +322,20 @@ function getRecipeCard(name, description, src, tool, extraDataNum) {
     } else if (tool === RECIPE_CARD_COMMENT_COUNT_TOOL) {
         starCommentTool = '<div class="recipe_card_tools_wrapper comment_count">' +
             '<img src="/img/comment.png" alt="Num of Comments:">' +
-            '<p>x' + extraDataNum + '</p>' +
+            '<p>x' + toolData + '</p>' +
+            '</div>';
+    } else if (tool === RECIPE_CARD_FAVORITE_BUTTON_TOOL) {
+        var favorited = "";
+        var hint = "";
+        if (toolData) {
+            favorited = "favoritedHeart";
+            hint = "Click to unfavorite";
+        } else {
+            hint = "Click to favorite";
+        }
+        editorTool = '' +
+            '<div class="recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right" title="' + hint + '">' +
+            '<i class="recipe_card_tools ' + favorited + ' fa fa-heart fa-fw w3-hover-grey" onclick="event.stopPropagation(); toggleFavorite()"></i>' +
             '</div>';
     }
     return '' +
@@ -341,6 +355,10 @@ function deleteRecipe() {
 }
 
 function saveRecipe() {
+    // todo
+}
+
+function toggleFavorite() {
     // todo
 }
 

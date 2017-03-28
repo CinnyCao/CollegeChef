@@ -100,6 +100,11 @@ body {
     margin-right: 4px;
 }
 
+/* Favorite Heart */
+.favoritedHeart {
+    color: red;
+}
+
 /* Comment Count */
 .comment_count {
     bottom: 0;
