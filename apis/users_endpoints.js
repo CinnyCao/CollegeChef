@@ -104,7 +104,7 @@ module.exports = function (app, sha1, generateToken, User) {
     });
 
     // get user info
-    app.get('/user/:userId/profile', function (req, res) {
+    app.get('/user/:userId', function (req, res) {
         if (!req.auth) {
             console.error("Request failed: Not logged in");
             return res.status(401).json({
@@ -171,46 +171,6 @@ module.exports = function (app, sha1, generateToken, User) {
                 return res.sendStatus(200);
             }
         });
-    });
-
-    // edit user profile
-    app.put('/user', function (req, res) {
-        if (!req.auth) {
-            return res.status(401).json({
-                status: 401,
-                message: "Authorization failed"
-            });
-        }
-        var toUpdate = {};
-        if (req.body.description)
-        {
-            toUpdate["description"] = req.body.description;
-        }
-        if (req.body.profilePhoto)
-        {
-            toUpdate["profilePhoto"] = req.body.profilePhoto;
-        }
-        if (req.body.email)
-        {
-            toUpdate["email"] = req.body.email;
-        }
-
-        if (Object.keys(toUpdate).length > 0) {
-            User.findOneAndUpdate({'_id': req.userID}, toUpdate, {new : true}, function (err, updatedUser) {
-                if (err) {
-                    console.error(err);
-                }
-                if (updatedUser)
-                {
-                    res.sendStatus(200);
-                }
-            });
-        } else {
-            return res.status(400).json({
-                status: 400,
-                message: "Update user profile failed: missing required input."
-            });
-        }
     });
 
     // edit user profile

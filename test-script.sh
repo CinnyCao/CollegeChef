@@ -91,6 +91,13 @@ curl -X "PUT" "http://localhost:3000/user/1/edit/password" \
 
 printf '\n'
 
+read -p $'\nGet user profile by id'
+curl -X "GET" "http://localhost:3000/user/1" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIwIiwiZXhwIjoxNTUyODQ1Nzg5NjM0fQ.DjnMuU5no8k8YBRttxmYnOksHbGPRkiWMqSwV7FZDAs"\
+     -H "Content-Type: application/json; charset=utf-8" 
+
+printf '\n'
+
 read -p $'\nEdit current user profile'
 curl -X "PUT" "http://localhost:3000/user" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\

@@ -21,14 +21,13 @@ $(function () {
 
     $('#footer_holder').on('footerLoaded', function () {
         //hide no user option in user type controller
-//        user_type = "user";
-//        $("input[name=user_type][value=user]").prop("checked", true);
-//        $("input[name=user_type][value=none]").next().hide();
-//        $("input[name=user_type][value=none]").hide();
         updateNavMenuItems();
 
         displayUserProfilePageContent();
     });
+
+    // load current user info
+    currentUserInfo();
 
     // load recipe_card
     populateRecipeCards();
@@ -47,6 +46,38 @@ $(function () {
     // this part will be modified later, decided by status of user(Admin or User)
     twoTab();
 });
+
+function currentUserInfo() {
+    var userObj = JSON.parse(window.localStorage.getItem('userObj'));
+    var url = '/user/' + userObj['userId'];
+
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + userObj['token']);
+        },
+        statusCode: {
+            401: function (response) {
+                console.error(response);
+            }
+        },
+        success: function (user) {
+            // update user info to UI
+            if (user) {
+                // required user info
+                $('#userName').html(user['userName']);
+                
+                // optional user info
+                $('#email').html(user['email'] || "Email is not provided");
+                $('#description').html(user['description'] || "Description is not provided");
+                $('#profilePhoto').attr('src', user['profilePhoto'] || "/img/profile_picture.jpg");
+            }
+        }
+    });
+}
 
 function displayUserProfilePageContent() {
     var user_type = window.localStorage.getItem('userType');
