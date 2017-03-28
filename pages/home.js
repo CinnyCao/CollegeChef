@@ -15,6 +15,7 @@ $(function () {
 
     // open the first recipe list on start
     showRecipeList('hot_recipes');
+    $(".user_only_recipe_list").toggle(getUserType() !== null);
 
     // load recipe_card
     populateRecipeCards();
@@ -45,7 +46,6 @@ function populateRecipeCards() {
         dataType : "json",
         contentType: "application/json; charset=utf-8",
         success : function (response) {
-            console.log(response);
             for (var i = 0; i < response.length; i++) {
                 $("#hot_recipes").append(
                     $(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"],
@@ -63,7 +63,6 @@ function populateRecipeCards() {
         dataType : "json",
         contentType: "application/json; charset=utf-8",
         success : function (response) {
-            console.log(response);
             for (var i = 0; i < response.length; i++) {
                 $("#remarkable_recipes").append(
                     $(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"],
@@ -81,7 +80,6 @@ function populateRecipeCards() {
         dataType : "json",
         contentType: "application/json; charset=utf-8",
         success : function (response) {
-            console.log(response);
             for (var i = 0; i < response.length; i++) {
                 $("#new_recipes").append($(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"])));
             }
@@ -90,6 +88,48 @@ function populateRecipeCards() {
             alert(request.responseText);
         }
     });
+
+    if (getUserType() !== null) {
+        $.ajax({
+            type : "GET",
+            url : "/recipes/favorite",
+            dataType : "json",
+            contentType: "application/json; charset=utf-8",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+            },
+            success : function (response) {
+                console.log(response);
+                for (var i = 0; i < response.length; i++) {
+                    $("#favorite_recipes").append($(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"])));
+                }
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
+
+        $.ajax({
+            type : "POST",
+            url : "/recipes/uploaded",
+            dataType : "json",
+            contentType: "application/json; charset=utf-8",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+            },
+            success : function (response) {
+                console.log(response);
+                for (var i = 0; i < response.length; i++) {
+                    $("#uploaded_recipes").append(
+                        $(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"],
+                        RECIPE_CARD_EDITOR_TOOL)));
+                }
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
+    }
 }
 
 function showRecipeList(id) {

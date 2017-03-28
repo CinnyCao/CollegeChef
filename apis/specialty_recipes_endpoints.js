@@ -159,10 +159,10 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                     {$unwind: "$recipe"},
                     // set return fields
                     {"$project": {
-                        "_id": "$recipes._id",
-                        "recipeName": "$recipes.recipeName",
-                        "description": "$recipes.description",
-                        "imgUrl": "$recipes.imgUrl"
+                        "_id": "$recipe._id",
+                        "recipeName": "$recipe.recipeName",
+                        "description": "$recipe.description",
+                        "imgUrl": "$recipe.imgUrl"
                     }}
                 ], function (err, resultRecipes) {
                     res.json(resultRecipes);
@@ -202,9 +202,9 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                     {"$match": {"user.userName": {"$eq": specifiedUser}}},
                     // set return fields
                     {"$project": {
-                            "recipeName": 1,
-                            "description": 1,
-                            "imgUrl": 1
+                        "recipeName": 1,
+                        "description": 1,
+                        "imgUrl": 1
                     }}
                 ], function (err, resultRecipes) {
                     res.json(resultRecipes);
