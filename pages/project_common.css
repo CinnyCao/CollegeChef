@@ -32,15 +32,15 @@ body {
     display: inline-block;
     border: 1px solid #CCCCCC;
     border-radius: 5px;
-    width: 52px;
-    height: 52px;
+    width: 86px;
+    height: 68px;
 }
 .ingredient_button:hover {
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
 }
 .ingredient_button img {
-    width: 32px;
-    height: 32px;
+    width: 48px;
+    height: 48px;
 }
 .ingredient_button p {
     width: 100%;

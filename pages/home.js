@@ -5,7 +5,13 @@ $(function () {
     });
 
     // populate ingredients list
-    populateIngredients();
+    populateIngredients(function () {
+        // pin and unpin ingredient buttons
+        $('.ingredient_button').on('click', function () {
+            $(this).toggleClass('selected_ingredient_button');
+            $(this).parent().prepend($('.selected_ingredient_button'));
+        });
+    });
 
     // open the first recipe list on start
     showRecipeList('hot_recipes');
@@ -13,19 +19,24 @@ $(function () {
     // load recipe_card
     populateRecipeCards();
     ellipsisRecipeCardDescription();
-
-    // pin and unpin ingredient buttons
-    $('.ingredient_button').on('click', function () {
-        $(this).toggleClass('selected_ingredient_button');
-        $(this).parent().prepend($('.selected_ingredient_button'));
-    });
 });
 
-function populateIngredients() {
-    var data = ingredientsData; // todo: load ingredients data from database
-    for (var i = 0; i < data.length; i++) {
-        $(".ingredient_buttons_wrapper").append($(getIngredientButton(data[i][0], data[i][1])));
-    }
+function populateIngredients(callback) {
+    $.ajax({
+        type : "GET",
+        url : "/ingredients",
+        dataType : "json",
+        contentType: "application/json; charset=utf-8",
+        success : function (response) {
+            for (var i = 0; i < response.length; i++) {
+                $(".ingredient_buttons_wrapper").append($(getIngredientButton(response[i]["name"], response[i]["imgUrl"])));
+            }
+            callback();
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    });
 }
 
 function populateRecipeCards() {

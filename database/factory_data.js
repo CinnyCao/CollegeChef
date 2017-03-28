@@ -32,7 +32,7 @@ module.exports = function (app, sha1, User, Ingredient, Category) {
         {name: "cheese", imgUrl: "/img/ingredients/cheese.png"},
         {name: "egg", imgUrl: "/img/ingredients/egg.png"},
         {name: "eggplant", imgUrl: "/img/ingredients/eggplant.png"},
-        {name: "milk", imgUrl: "/img/ingredients/milk_ing.ipg"},
+        {name: "milk", imgUrl: "/img/ingredients/milk_ing.jpg"},
         {name: "brown sugar", imgUrl: "/img/ingredients/brown_sugar_ing.jpg"},
         {name: "mushroom", imgUrl: "/img/ingredients/mushroom_ing.jpg"},
         {name: "butter", imgUrl: "/img/ingredients/butter.jpg"}
