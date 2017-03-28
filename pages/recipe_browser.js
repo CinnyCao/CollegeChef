@@ -14,12 +14,21 @@ $(function () {
 });
 
 function populateRecipeCards() {
-    var data = recipesData; // todo: load recipes data from database
-    for (var i = 0; i < data.length; i++) {
-        $(".recipe_cards_wrapper").append($(getRecipeCard(data[i][0], data[i][1], data[i][2])));
-    }
-    addEditorToolsToRecipeCard();
-    showHideRecipeEditorTools();
+    $.ajax({
+        type : "GET",
+        url : "/recipes",
+        dataType : "json",
+        contentType: "application/json; charset=utf-8",
+        success : function (response) {
+            for (var i = 0; i < response.length; i++) {
+                $(".recipe_cards_wrapper").append($(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"], RECIPE_CARD_EDITOR_TOOL)));
+            }
+            showHideRecipeEditorTools();
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    });
 }
 
 function showHideRecipeEditorTools() {

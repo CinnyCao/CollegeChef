@@ -278,29 +278,41 @@ function getEnteredNewPwdPart() {
  * Recipe Card
  */
 
-function getRecipeCard(name, description, src) {
+var RECIPE_CARD_EDITOR_TOOL = "EDITOR";
+var RECIPE_CARD_RATING_DISPLAY_TOOL = "RATING_DISPLAY";
+var RECIPE_CARD_RATING_BUTTON_TOOL = "RATING_BUTTON";
+var RECIPE_CARD_COMMENT_COUNT_TOOL = "COMMENT_COUNT";
+
+function getRecipeCard(name, description, src, tool) {
     var href = "/pages/recipe_view.html"; // todo: generate different href to revipe_view page for different recipe
     // ellipsis description
     if (description.length > 100) {
         description = description.substr(0, 100) + "...";
     }
-    return '' +
-            '<div class="recipe_card w3-card-2 w3-hover-shadow" title="' + name + '" onclick="location.href=\'' + href + '\'">' +
-            '<img src="' + src + '" alt="' + name + '">' +
-            '<div class="w3-container w3-center">' +
-            '<p class="recipe_card_title">' + name + '</p>' +
-            '<p class="recipe_card_des">' + description + '</p>' +
-            '</div>' +
-            '</div>';
-}
-
-function addEditorToolsToRecipeCard() {
-    var tools = '' +
+    // add tool if requested
+    var toolCode = "";
+    if (tool === RECIPE_CARD_EDITOR_TOOL) {
+        toolCode = '' +
             '<div class="recipe_card_tools_wrapper">' +
             '<i class="recipe_card_tools fa fa-trash fa-fw w3-hover-grey" onclick="event.stopPropagation(); deleteRecipe()"></i>' +
             '<i class="recipe_card_tools fa fa-pencil-square-o fa-fw w3-hover-grey" onclick="event.stopPropagation(); addEditRecipe(\'editRecipe\')"></i>' +
             '</div>';
-    $('.recipe_card').append($(tools));
+    } else if (tool === RECIPE_CARD_RATING_DISPLAY_TOOL) {
+
+    } else if (tool === RECIPE_CARD_RATING_BUTTON_TOOL) {
+
+    } else if (tool === RECIPE_CARD_COMMENT_COUNT_TOOL) {
+
+    }
+    return '' +
+            '<div class="recipe_card w3-card-2 w3-hover-shadow" title="' + name + '" onclick="location.href=\'' + href + '\'">' +
+                '<img src="' + src + '" alt="' + name + '">' +
+                '<div class="w3-container w3-center">' +
+                    '<p class="recipe_card_title">' + name + '</p>' +
+                    '<p class="recipe_card_des">' + description + '</p>' +
+                '</div>' +
+                toolCode +
+            '</div>';
 }
 
 function deleteRecipe() {

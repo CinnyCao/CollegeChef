@@ -8,7 +8,7 @@ app.set('views', __dirname);
 app.set('view engine', 'html');
 
 // set this to true if want to reset database
-var clearDatabase = true;
+var clearDatabase = false;
 
 // Mongoose
 var mongoose = require('mongoose');

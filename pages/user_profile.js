@@ -108,9 +108,8 @@ function fourTab() {
 function populateRecipeCards() {
     var data = recipesData; // todo: load recipes data from database
     for (var i = 0; i < data.length; i++) {
-        $(".uploaded-card").append($(getRecipeCard(data[i][0], data[i][1], data[i][2])));
+        $(".uploaded-card").append($(getRecipeCard(data[i][0], data[i][1], data[i][2], RECIPE_CARD_EDITOR_TOOL)));
     }
-    addEditorToolsToRecipeCard();
 }
 
 function populateNotifications() {
