@@ -47,7 +47,9 @@ function populateRecipeCards() {
         success : function (response) {
             console.log(response);
             for (var i = 0; i < response.length; i++) {
-                $("#hot_recipes").append($(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"])));
+                $("#hot_recipes").append(
+                    $(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"],
+                    RECIPE_CARD_COMMENT_COUNT_TOOL, response[i]["commentCount"])));
             }
         },
         error: function (request, status, error) {

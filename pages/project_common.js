@@ -299,7 +299,7 @@ function getRecipeCard(name, description, src, tool, extraDataNum) {
             '<i class="recipe_card_tools fa fa-pencil-square-o fa-fw w3-hover-grey" onclick="event.stopPropagation(); addEditRecipe(\'editRecipe\')"></i>' +
             '</div>';
     } else if (tool === RECIPE_CARD_RATING_DISPLAY_TOOL) {
-        starCommentTool = '<div class="recipe_card_tools_wrapper recipe_card_tools_wrapper_bottom rating_display">';
+        starCommentTool = '<div class="recipe_card_tools_wrapper rating_display">';
         for (var i = 0; i < 5 - extraDataNum; i++) {
             starCommentTool += '<lable class="rating_display_star_grey"></lable>';
         }
@@ -310,7 +310,10 @@ function getRecipeCard(name, description, src, tool, extraDataNum) {
     } else if (tool === RECIPE_CARD_RATING_BUTTON_TOOL) {
 
     } else if (tool === RECIPE_CARD_COMMENT_COUNT_TOOL) {
-
+        starCommentTool = '<div class="recipe_card_tools_wrapper comment_count">' +
+            '<img src="/img/comment.png" alt="Num of Comments:">' +
+            '<p>x' + extraDataNum + '</p>' +
+            '</div>';
     }
     return '' +
             '<div class="recipe_card w3-card-2 w3-hover-shadow" title="' + name + '" onclick="location.href=\'' + href + '\'">' +

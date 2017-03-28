@@ -89,10 +89,6 @@ body {
     top: 0;
     right: 0;
 }
-.recipe_card_tools_wrapper_bottom {
-    bottom: 0;
-    right: 20px;
-}
 .recipe_card_tools {
     display: block;
     width: 30px;
@@ -104,10 +100,30 @@ body {
     margin-right: 4px;
 }
 
+/* Comment Count */
+.comment_count {
+    bottom: 0;
+    right: 0;
+    border-radius: 50%;
+    padding: 6px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.comment_count img {
+    width: 30px;
+}
+
+.comment_count p {
+    display: inline-block;
+    font-weight: bold;
+    margin: 0;
+}
+
 /* Rating Stars */
 .rating_display {
     border: none;
     padding: 0;
+    bottom: 0;
+    right: 20px;
 }
 .rating > input {
     display: none;
