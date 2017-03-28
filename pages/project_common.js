@@ -16,12 +16,20 @@ function removeUserType() {
     localStorage.removeItem("userType");
 }
 
-function setToken(token) {
-    localStorage.setItem("token", token);
+function setUser(userObj) {
+    localStorage.setItem("userObj", userObj);
 }
 
 function getToken() {
-    return localStorage.getItem("token");
+    return JSON.parse(localStorage.getItem("userObj"))["token"];
+}
+
+function getUserID() {
+    return JSON.parse(localStorage.getItem("userObj"))["userId"];
+}
+
+function getUserName() {
+    return JSON.parse(localStorage.getItem("userObj"))["userName"];
 }
 
 /** dummy data **/
@@ -191,7 +199,7 @@ function login() {
             },
             success: function (response) {
                 setUserType(response["isAdmin"]);
-                setToken(response["token"]);
+                setUser(JSON.stringify(response));
                 hide('login-form');
                 updateNavMenuItems();
             }

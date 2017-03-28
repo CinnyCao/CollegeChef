@@ -47,8 +47,7 @@ $(function () {
 });
 
 function currentUserInfo() {
-    var userObj = JSON.parse(window.localStorage.getItem('userObj'));
-    var url = '/user/' + userObj['userId'];
+    var url = '/user/' + getUserID();
 
     $.ajax({
         url: url,
@@ -56,7 +55,7 @@ function currentUserInfo() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Bearer " + userObj['token']);
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
         },
         statusCode: {
             401: function (response) {
