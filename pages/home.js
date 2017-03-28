@@ -18,7 +18,6 @@ $(function () {
 
     // load recipe_card
     populateRecipeCards();
-    ellipsisRecipeCardDescription();
 });
 
 function populateIngredients(callback) {

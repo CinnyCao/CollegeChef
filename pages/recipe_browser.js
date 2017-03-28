@@ -8,7 +8,6 @@ $(function () {
     $('#footer_holder').on('footerLoaded', function () {
         // load recipe_card
         populateRecipeCards();
-        ellipsisRecipeCardDescription();
 
         showHideRecipeEditorTools();
     });

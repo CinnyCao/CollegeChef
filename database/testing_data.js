@@ -5,6 +5,49 @@ module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, C
         "numOfCategories": 3
     };
 
+    var recipesData = [
+        ["Meat Loaf",
+            "This recipe is anything but regular old meatloaf! Everyone will love this moist version made in the slow cooker, with milk, mushrooms, and a little sage for extra flavor.",
+            "/img/recipes/meatloaf.jpg"
+        ],
+        ["Scrambled Eggs",
+            "This is the description",
+            "/img/recipes/scrambledeggs.jpg"
+        ],
+        ["Ramen",
+            "This is the description",
+            "/img/recipes/ramen.jpg"
+        ],
+        ["Chicken Nuggets",
+            "This is the description",
+            "/img/recipes/chickennuggets.jpg"
+        ],
+        ["Steak",
+            "This is the description",
+            "/img/recipes/steak.jpg"
+        ],
+        ["BLT Sandwhich",
+            "This is the description",
+            "/img/recipes/bltsandwich.jpg"
+        ],
+        ["Pizza",
+            "This is the description",
+            "/img/recipes/pizza.jpg"
+        ],
+        ["Food",
+            "This is the description",
+            "/img/food.jpeg"
+        ],
+        ["Food",
+            "This is the description",
+            "/img/food.jpeg"
+        ],
+        ["Food",
+            "This is the description",
+            "/img/food.jpeg"
+        ],
+    ];
+
     // insert testing recipes
     Recipe.find({}, function (err, allRecipes) {
         if (err)
@@ -14,9 +57,9 @@ module.exports = function (app, getRandomIntInclusive, Recipe, Rate, Favorite, C
             // insert 10 test recipes
             for (var i = 0; i < 10; i++) {
                 var defaultRecipe = new Recipe({
-                    personId: getRandomIntInclusive(0, factoryRecordNum["numOfUsers"] - 1), recipeName: "testRecipe" + i,
-                    categoryId: getRandomIntInclusive(0, factoryRecordNum["numOfCategories"] - 1), description: "Test test",
-                    instruction: "Test test instruction", imgUrl: "/img/recipes/steak.jpg", numServings: 1
+                    personId: getRandomIntInclusive(0, factoryRecordNum["numOfUsers"] - 1), recipeName: recipesData[i][0],
+                    categoryId: getRandomIntInclusive(0, factoryRecordNum["numOfCategories"] - 1), description: recipesData[i][1],
+                    instruction: "Test test instruction", imgUrl: recipesData[i][2], numServings: 1
                 });
 
                 defaultRecipe.save(function (err, newRecipe) {

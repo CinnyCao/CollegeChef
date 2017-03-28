@@ -280,6 +280,10 @@ function getEnteredNewPwdPart() {
 
 function getRecipeCard(name, description, src) {
     var href = "/pages/recipe_view.html"; // todo: generate different href to revipe_view page for different recipe
+    // ellipsis description
+    if (description.length > 100) {
+        description = description.substr(0, 100) + "...";
+    }
     return '' +
             '<div class="recipe_card w3-card-2 w3-hover-shadow" title="' + name + '" onclick="location.href=\'' + href + '\'">' +
             '<img src="' + src + '" alt="' + name + '">' +
@@ -288,16 +292,6 @@ function getRecipeCard(name, description, src) {
             '<p class="recipe_card_des">' + description + '</p>' +
             '</div>' +
             '</div>';
-}
-
-function ellipsisRecipeCardDescription() {
-    var cards = $(".recipe_card_des");
-    for (i = 0; i < cards.length; i++) {
-        var des = $(cards[i]).text();
-        if (des.length > 100) {
-            $(cards[i]).text(des.substr(0, 100) + "...");
-        }
-    }
 }
 
 function addEditorToolsToRecipeCard() {

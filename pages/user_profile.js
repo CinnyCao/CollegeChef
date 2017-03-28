@@ -31,7 +31,6 @@ $(function () {
 
     // load recipe_card
     populateRecipeCards();
-    ellipsisRecipeCardDescription();
 
     //load notification messages
     populateNotifications();
