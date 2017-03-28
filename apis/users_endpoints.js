@@ -24,7 +24,7 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
                         var token = generateToken(user.id);
                         console.log("Logged in");
                         res.json({
-                            userId: user.id,
+                            userId: user._id,
                             userName: user.userName,
                             isAdmin: user.isAdmin,
                             token: token
@@ -66,7 +66,7 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
                     // add notification settings for new user
                     createdUser.addNotificationSettings();
                     res.json({
-                        userId: createdUser.id,
+                        userId: createdUser._id,
                         userName: createdUser.userName,
                         isAdmin: createdUser.isAdmin,
                     });
@@ -135,7 +135,7 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
                     });
                 }
                 res.json({
-                    userId: user.id,
+                    userId: user._id,
                     userName: user.userName,
                     email: user.email,
                     isAdmin: user.isAdmin,
