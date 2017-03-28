@@ -92,7 +92,7 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
             });
         }
         if (req.body.userId) {
-            User.deleteOne({'id': req.body.userId}, function (err, result) {
+            User.deleteOne({'_id': req.body.userId}, function (err, result) {
                 if (err) {
                     console.error(err);
                 }
@@ -115,33 +115,34 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
                 message: "Request failed: Not logged in"
             });
         }
-        if (!req.isAdmin && req.userID != req.body.userId) {
+        // only admin or the user himself can fetch profile
+        if (!req.isAdmin && req.userID != req.params.userId) {
             console.error("Request failed: Lacking proper credentials");
             return res.status(401).json({
                 status: 401,
                 message: "Request failed: Lacking proper credentials"
             });
         }
-        User.findOne({'id': req.body.userId},
-                '_id userName email isAdmin description profilePhoto', function (err, user) {
-                    if (err) {
-                        console.error(err);
-                    }
-                    if (!user) {
-                        return res.status(403).json({
-                            status: 403,
-                            message: "Request failed"
-                        });
-                    }
-                    res.json({
-                        userId: user.id,
-                        userName: user.userName,
-                        email: user.email,
-                        isAdmin: user.isAdmin,
-                        description: user.description,
-                        profilePhoto: user.profilePhoto
+        User.findOne({'_id': req.params.userId},
+            '_id userName email isAdmin description profilePhoto', function (err, user) {
+                if (err) {
+                    console.error(err);
+                }
+                if (!user) {
+                    return res.status(403).json({
+                        status: 403,
+                        message: "Request failed"
                     });
+                }
+                res.json({
+                    userId: user.id,
+                    userName: user.userName,
+                    email: user.email,
+                    isAdmin: user.isAdmin,
+                    description: user.description,
+                    profilePhoto: user.profilePhoto
                 });
+            });
     });
 
     // change password
