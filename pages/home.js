@@ -19,6 +19,11 @@ $(function () {
 
     // load recipe_card
     populateRecipeCards();
+
+    $(window).on("loggedin", function () {
+        populateUserOnlyRecipeList();
+        $(".user_only_recipe_list").toggle(getUserType() !== null);
+    });
 });
 
 function populateIngredients(callback) {
@@ -89,6 +94,10 @@ function populateRecipeCards() {
         }
     });
 
+    populateUserOnlyRecipeList();
+}
+
+function populateUserOnlyRecipeList() {
     if (getUserType() !== null) {
         $.ajax({
             type : "GET",
@@ -99,7 +108,6 @@ function populateRecipeCards() {
                 xhr.setRequestHeader("Authorization", "Bearer " + getToken());
             },
             success : function (response) {
-                console.log(response);
                 for (var i = 0; i < response.length; i++) {
                     $("#favorite_recipes").append($(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"])));
                 }
@@ -118,11 +126,10 @@ function populateRecipeCards() {
                 xhr.setRequestHeader("Authorization", "Bearer " + getToken());
             },
             success : function (response) {
-                console.log(response);
                 for (var i = 0; i < response.length; i++) {
                     $("#uploaded_recipes").append(
                         $(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"],
-                        RECIPE_CARD_EDITOR_TOOL)));
+                            RECIPE_CARD_EDITOR_TOOL)));
                 }
             },
             error: function (request, status, error) {

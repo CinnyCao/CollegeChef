@@ -21,7 +21,7 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
                             message: "Login failed: userName or password is incorrect"
                         });
                     } else {
-                        var token = generateToken(user.id);
+                        var token = generateToken(user._id);
                         console.log("Logged in");
                         res.json({
                             userId: user._id,

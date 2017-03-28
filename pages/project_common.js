@@ -202,6 +202,7 @@ function login() {
                 setUser(JSON.stringify(response));
                 hide('login-form');
                 updateNavMenuItems();
+                $(window).trigger("loggedin");
             }
         });
     }
