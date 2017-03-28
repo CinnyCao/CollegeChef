@@ -79,10 +79,19 @@ body {
     width: 100%;
     max-height: 55%;
 }
+.recipe_card_img_wrapper {
+    position: relative;
+}
 .recipe_card_tools_wrapper {
     position: absolute;
+}
+.recipe_card_tools_wrapper_top_right {
     top: 0;
     right: 0;
+}
+.recipe_card_tools_wrapper_bottom {
+    bottom: 0;
+    right: 20px;
 }
 .recipe_card_tools {
     display: block;
@@ -94,3 +103,44 @@ body {
     margin-top: 4px;
     margin-right: 4px;
 }
+
+/* Rating Stars */
+.rating_display {
+    border: none;
+    padding: 0;
+}
+.rating > input {
+    display: none;
+}
+.rating > label:before, .rating_display_star_gold:before, .rating_display_star_grey:before {
+    margin: 5px;
+    font-size: 1.25em;
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f005";
+}
+.rating > .half:before {
+    content: "\f089";
+    position: absolute;
+}
+.rating > label, .rating_display_star_grey {
+    color: #ddd;
+    float: right;
+}
+.rating_display_star_gold, .rating_display_star_grey {
+    text-shadow: 2px 2px black;
+}
+.rating_display_star_gold {
+    color: #FFD700;
+    float: right;
+}
+.rating > input:checked ~ label, /* show gold star when clicked */
+.rating:not(:checked) > label:hover, /* hover current star */
+.rating:not(:checked) > label:hover ~ label /* hover previous stars in list */
+{
+    color: #FFD700;
+}
+.rating > input:checked + label:hover, /* hover current star when changing rating */
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating > input:checked ~ label:hover ~ label { color: #FFED85;  }

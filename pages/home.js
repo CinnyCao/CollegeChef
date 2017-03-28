@@ -63,7 +63,9 @@ function populateRecipeCards() {
         success : function (response) {
             console.log(response);
             for (var i = 0; i < response.length; i++) {
-                $("#remarkable_recipes").append($(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"])));
+                $("#remarkable_recipes").append(
+                    $(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"],
+                        RECIPE_CARD_RATING_DISPLAY_TOOL, response[i]["avgScore"])));
             }
         },
         error: function (request, status, error) {
