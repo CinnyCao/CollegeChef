@@ -40,11 +40,53 @@ function populateIngredients(callback) {
 }
 
 function populateRecipeCards() {
-    var data = recipesData; // todo: load recipes list data from database
-    for (var i = 0; i < data.length; i++) {
-        $("#hot_recipes").append($(getRecipeCard(data[i][0], data[i][1], data[i][2])));
-    }
-    // todo: populate remarkable recipes and new recipes
+    $.ajax({
+        type : "GET",
+        url : "/recipes/hot",
+        dataType : "json",
+        contentType: "application/json; charset=utf-8",
+        success : function (response) {
+            console.log(response);
+            for (var i = 0; i < response.length; i++) {
+                $("#hot_recipes").append($(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"])));
+            }
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    });
+
+    $.ajax({
+        type : "GET",
+        url : "/recipes/remarkable",
+        dataType : "json",
+        contentType: "application/json; charset=utf-8",
+        success : function (response) {
+            console.log(response);
+            for (var i = 0; i < response.length; i++) {
+                $("#remarkable_recipes").append($(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"])));
+            }
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    });
+
+    $.ajax({
+        type : "GET",
+        url : "/recipes/new",
+        dataType : "json",
+        contentType: "application/json; charset=utf-8",
+        success : function (response) {
+            console.log(response);
+            for (var i = 0; i < response.length; i++) {
+                $("#new_recipes").append($(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"])));
+            }
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    });
 }
 
 function showRecipeList(id) {

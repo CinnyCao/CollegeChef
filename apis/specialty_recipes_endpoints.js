@@ -70,14 +70,14 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                     foreignField: "_id",
                     as: "recipes"
                 }},
+                {$unwind: "$recipes"},
                 // set return fields
                 {"$project": {
-                        "_id": 0,
-                        "commentCount": 1,
-                        "recipes._id": 1,
-                        "recipes.recipeName": 1,
-                        "recipes.description": 1,
-                        "recipes.imgUrl": 1
+                    "_id": "$recipes._id",
+                    "commentCount": 1,
+                    "recipeName": "$recipes.recipeName",
+                    "description": "$recipes.description",
+                    "imgUrl": "$recipes.imgUrl"
                 }}
             ], function (err, resultRecipes) {
                 res.json(resultRecipes);
@@ -105,14 +105,14 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                     foreignField: "_id",
                     as: "recipes"
                 }},
+                {$unwind: "$recipes"},
                 // set return fields
                 {"$project": {
-                        "_id": 0,
-                        "avgScore": 1,
-                        "recipes._id": 1,
-                        "recipes.recipeName": 1,
-                        "recipes.description": 1,
-                        "recipes.imgUrl": 1
+                    "_id": "$recipes._id",
+                    "avgScore": 1,
+                    "recipeName": "$recipes.recipeName",
+                    "description": "$recipes.description",
+                    "imgUrl": "$recipes.imgUrl"
                 }}
             ], function (err, resultRecipes) {
                 res.json(resultRecipes);
@@ -130,10 +130,10 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                 {"$limit" : 10 },
                 // set return fields
                 {"$project": {
-                        "ModifiedDate": 1,
-                        "recipeName": 1,
-                        "description": 1,
-                        "imgUrl": 1
+                    "ModifiedDate": 1,
+                    "recipeName": 1,
+                    "description": 1,
+                    "imgUrl": 1
                 }}
             ], function (err, resultRecipes) {
                 res.json(resultRecipes);
@@ -156,13 +156,13 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                         foreignField: "_id",
                         as: "recipe"
                     }},
+                    {$unwind: "$recipe"},
                     // set return fields
                     {"$project": {
-                            "_id": 0,
-                            "recipe._id": 1,
-                            "recipe.recipeName": 1,
-                            "recipe.description": 1,
-                            "recipe.imgUrl": 1
+                        "_id": "$recipes._id",
+                        "recipeName": "$recipes.recipeName",
+                        "description": "$recipes.description",
+                        "imgUrl": "$recipes.imgUrl"
                     }}
                 ], function (err, resultRecipes) {
                     res.json(resultRecipes);
