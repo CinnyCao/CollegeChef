@@ -122,7 +122,7 @@ function saveProfile() {
         params['description'] = description;
     }
 
-    if (Object.keys(params).length > 0) {
+    if (Object.keys(params).length > 0 && $('#editProfile-content')[0].checkValidity()) {
         $.ajax({
             url: url,
             type: "PUT",
@@ -138,8 +138,8 @@ function saveProfile() {
                 }
             },
             success: function (user) {
-                //location.reload();
-                //hide('edit-profile');
+                location.reload();
+                hide('edit-profile');
             }
         });
     }
