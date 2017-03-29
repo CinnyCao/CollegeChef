@@ -2,7 +2,7 @@ module.exports = function (app, Recipe, Ingredient) {
     
     // get all ingredients
     app.get('/ingredients', function (req, res) {
-        Ingredient.find({}, '_id name imgUrl', function (err, allIngredients) {
+        Ingredient.find({}, '_id name imgUrl').sort({name: 1}).exec(function (err, allIngredients) {
             if (err) {
                 console.error(err);
             }

@@ -245,15 +245,6 @@ function getIngredientButton(id, title, src) {
             '</a>';
 }
 
-function filterIngredients() {
-    var search_text = $('#ingredient_search_input').val().toLowerCase();
-    var ingredients = $(".ingredient_button:not(.selected_ingredient_button)");
-
-    for (i = 0; i < ingredients.length; i++) {
-        $(ingredients[i]).toggle(ingredients[i].title.toLowerCase().indexOf(search_text) >= 0);
-    }
-}
-
 /**
  *  entered new password part
  */

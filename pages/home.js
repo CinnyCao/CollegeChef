@@ -151,6 +151,10 @@ function toggleRecipeListContent(id) {
      $('#' + id).toggleClass('w3-show');
 }
 
+function showRecipeListContent(id) {
+    $('#' + id).toggleClass('w3-show', true);
+}
+
 function searchByIngredient() {
     // find selected ingredients
     var selectedIngredients = $(".selected_ingredient_button");
@@ -167,21 +171,34 @@ function searchByIngredient() {
         success : function (response) {
             $("#result_recipes").empty();
             if (response.length > 0) {
-                var data = response[0]["recipes"];
-                console.log(data);
-                for (var i = 0; i < data.length; i++) {
+                for (var i = 0; i < response.length; i++) {
                     $("#result_recipes").append(
-                        $(getRecipeCard(data[i]["recipeName"], data[i]["description"], data[i]["imgUrl"],
-                            RECIPE_CARD_EDITOR_TOOL)));
+                        $(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"])));
                 }
             } else {
                 $("#result_recipes").append("<p>No recipes found matching the ingredients selected.</p>");
             }
             $(".search_result_list").show();
-            toggleRecipeListContent("result_recipes");
+            showRecipeListContent("result_recipes");
         },
         error: function (request, status, error) {
             alert(request.responseText);
         }
     });
+}
+
+function closeSearchResultList() {
+    $("#ingredient_search_input").val("");
+    filterIngredients();
+    $(".selected_ingredient_button").removeClass("selected_ingredient_button");
+    $(".search_result_list").hide();
+}
+
+function filterIngredients() {
+    var search_text = $('#ingredient_search_input').val().toLowerCase();
+    var ingredients = $(".ingredient_button:not(.selected_ingredient_button)");
+
+    for (i = 0; i < ingredients.length; i++) {
+        $(ingredients[i]).toggle(ingredients[i].title.toLowerCase().indexOf(search_text) >= 0);
+    }
 }

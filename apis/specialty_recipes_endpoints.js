@@ -33,18 +33,17 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                     from: "recipes",
                     localField: "recipeId",
                     foreignField: "_id",
-                    as: "recipes"
+                    as: "recipe"
                 }},
+                {$unwind: "$recipe"},
                 // return only an array of result recipes with wanted fields
                 {"$project": {
-                    "ingredients": 1,
-                    "recipes._id": 1,
-                    "recipes.recipeName": 1,
-                    "recipes.description": 1,
-                    "recipes.imgUrl": 1
+                    "recipeId": 1,
+                    "recipeName": "$recipe.recipeName",
+                    "description": "$recipe.description",
+                    "imgUrl": "$recipe.imgUrl"
                 }}
             ], function (err, resultRecipes) {
-                console.log(resultRecipes);
                 res.json(resultRecipes);
             }
         )

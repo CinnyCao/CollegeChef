@@ -32,7 +32,7 @@ body {
     display: inline-block;
     border: 1px solid #CCCCCC;
     border-radius: 5px;
-    width: 86px;
+    width: 85px;
     height: 68px;
 }
 .ingredient_button:hover {
