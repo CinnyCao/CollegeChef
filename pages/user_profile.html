@@ -82,10 +82,10 @@
                                 </p>
                                 <label><b>Upload Profile Photo</b>
                                 </label>
-                                <input id="photo-input" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter a url for a photo of the profile" pattern="/\.(jpeg|jpg|gif|png)$/" title="Image url is invalid">
+                                <input id="photo-input" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter a url for a photo of the profile" pattern="[A-Za-z0-9\/]+\.(gif|jpg|jpeg|tiff|png)$">
                                 <label><b>Email</b>
                                 </label>
-                                <input id="email-input" class="w3-input w3-border" type="text" placeholder="Enter Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Email address is invalid.">
+                                <input id="email-input" class="w3-input w3-border" type="text" placeholder="Enter Email" pattern="[A-Za-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" >
                                 <p class="w3-text-grey w3-margin-bottom">You will occasionally receive account related emails if this field is not empty. We promise not to share your email with anyone.</p>
                                 <label><b>Description</b>
                                 </label>
@@ -94,7 +94,7 @@
                         </form>
                         <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
                             <button onclick="hide('edit-profile')" type="button" class="w3-btn w3-red">Cancel</button>
-                            <button onclick="saveProfile()" class="w3-btn w3-right w3-green">Save</button>
+                            <button onclick="saveProfile()" form="editProfile-content" class="w3-btn w3-right w3-green">Save</button>
                         </div>
                     </div>
                 </section>

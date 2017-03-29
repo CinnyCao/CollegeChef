@@ -79,7 +79,7 @@ function currentUserInfo() {
 
                 // fill in edit profile form
                 $('#editUserForm-photo').attr('src', user['profilePhoto'] || "/img/profile_picture.jpg");
-                $('#profile-photo').val(user['profilePhoto']);
+                $('#photo-input').val(user['profilePhoto']);
                 $('#email-input').val(user['email']);
                 $('#description-input').val(user['description']);
             }
@@ -112,13 +112,13 @@ function saveProfile() {
     var email = $('#email-input').val();
     var description = $('#description-input').val();
     
-    if (img) {
+    if (img && img != $('#profilePhoto').attr('src')) {
         params['profilePhoto'] = img;
     }
-    if (email) {
+    if (email && email != $('#email').html()) {
         params['email'] = email;
     }
-    if (description) {
+    if (description && description != $('#description').html) {
         params['description'] = description;
     }
 
@@ -138,8 +138,8 @@ function saveProfile() {
                 }
             },
             success: function (user) {
-                location.reload();
-                hide('edit-profile');
+                //location.reload();
+                //hide('edit-profile');
             }
         });
     }
