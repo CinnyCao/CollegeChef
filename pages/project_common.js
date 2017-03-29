@@ -171,15 +171,9 @@ function updateNavMenuItems() {
 
 /* Login form */
 function login() {
-    $('#loginUserNameFailed').html('');
-    $('#loginPwdFailed').html('');
     var userName = $('#loginUserName').val();
     var password = $('#loginPwd').val();
-    if (!userName) {
-        $('#loginUserNameFailed').html('User name is required.');
-    } else if (!password) {
-        $('#loginPwdFailed').html('Password is required.');
-    } else {
+    if (userName && password) {
         var params = {
             "userName": userName,
             "password": password
@@ -211,11 +205,11 @@ function login() {
 /* Logout */
 function logOut() {
     $.ajax({
-        type : "GET",
-        url : "/logout",
-        dataType : "json",
+        type: "GET",
+        url: "/logout",
+        dataType: "json",
         contentType: "application/json; charset=utf-8",
-        success : function (response) {
+        success: function (response) {
             removeUserType();
             window.location.href = "/index.html";
         }
@@ -229,11 +223,6 @@ function signUp() {
 
 /* Save Reset Password */
 function savePwd() {
-    // todo
-}
-
-/* Save User Profile */
-function saveProfile() {
     // todo
 }
 
@@ -304,10 +293,10 @@ function getRecipeCard(name, description, src, tool, toolData) {
     var toolPositionBottm = "";
     if (tool === RECIPE_CARD_EDITOR_TOOL) {
         toolPositionTop = '' +
-            '<div class="recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right">' +
-            '<i class="recipe_card_tools fa fa-trash fa-fw w3-hover-grey" onclick="event.stopPropagation(); deleteRecipe()"></i>' +
-            '<i class="recipe_card_tools fa fa-pencil-square-o fa-fw w3-hover-grey" onclick="event.stopPropagation(); addEditRecipe(\'editRecipe\')"></i>' +
-            '</div>';
+                '<div class="recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right">' +
+                '<i class="recipe_card_tools fa fa-trash fa-fw w3-hover-grey" onclick="event.stopPropagation(); deleteRecipe()"></i>' +
+                '<i class="recipe_card_tools fa fa-pencil-square-o fa-fw w3-hover-grey" onclick="event.stopPropagation(); addEditRecipe(\'editRecipe\')"></i>' +
+                '</div>';
     } else if (tool === RECIPE_CARD_RATING_DISPLAY_TOOL) {
         toolPositionBottm = '<div class="recipe_card_tools_wrapper rating_display">';
         for (var i = 0; i < 5 - toolData; i++) {
@@ -321,9 +310,9 @@ function getRecipeCard(name, description, src, tool, toolData) {
 
     } else if (tool === RECIPE_CARD_COMMENT_COUNT_TOOL) {
         toolPositionTop = '<div class="recipe_card_tools_wrapper comment_count">' +
-            '<img src="/img/comment.png" alt="Num of Comments:">' +
-            '<p>x' + toolData + '</p>' +
-            '</div>';
+                '<img src="/img/comment.png" alt="Num of Comments:">' +
+                '<p>x' + toolData + '</p>' +
+                '</div>';
     } else if (tool === RECIPE_CARD_FAVORITE_BUTTON_TOOL) {
         var favorited = "";
         var hint = "";
@@ -334,17 +323,17 @@ function getRecipeCard(name, description, src, tool, toolData) {
             hint = "Click to favorite";
         }
         toolPositionTop = '' +
-            '<div class="recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right" title="' + hint + '">' +
-            '<i class="recipe_card_tools ' + favorited + ' fa fa-heart fa-fw w3-hover-grey" onclick="event.stopPropagation(); toggleFavorite()"></i>' +
-            '</div>';
+                '<div class="recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right" title="' + hint + '">' +
+                '<i class="recipe_card_tools ' + favorited + ' fa fa-heart fa-fw w3-hover-grey" onclick="event.stopPropagation(); toggleFavorite()"></i>' +
+                '</div>';
     }
     return '' +
             '<div class="recipe_card w3-card-2 w3-hover-shadow" title="' + name + '" onclick="location.href=\'' + href + '\'">' +
                 '<span class="recipe_card_img_wrapper"><img src="' + src + '" alt="' + name + '">' + toolPositionBottm + '</span>' +
-                '<div class="w3-container w3-center">' +
-                    '<p class="recipe_card_title">' + name + '</p>' +
-                    '<p class="recipe_card_des">' + description + '</p>' +
-                '</div>' +
+            '<div class="w3-container w3-center">' +
+            '<p class="recipe_card_title">' + name + '</p>' +
+            '<p class="recipe_card_des">' + description + '</p>' +
+            '</div>' +
                 toolPositionTop +
             '</div>';
 }
