@@ -18,10 +18,14 @@ $(function () {
         });
     });
 
-    // open hot recipe list on start
-    toggleRecipeListContent('hot_recipes');
     $(".user_only_recipe_list").toggle(getUserType() !== null);
     $(".search_result_list").hide();
+    // open remarkable recipe list on start; if logged in, open favorite
+    if (getUserType() !== null) {
+        showRecipeListContent('favorite_recipes');
+    } else {
+        showRecipeListContent('remarkable_recipes');
+    }
 
     // load recipe_card
     populateRecipeCards();
@@ -29,6 +33,7 @@ $(function () {
     $(window).on("loggedin", function () {
         populateUserOnlyRecipeList();
         $(".user_only_recipe_list").toggle(getUserType() !== null);
+        showRecipeListContent('favorite_recipes');
     });
 });
 
