@@ -8,7 +8,7 @@ app.set('views', __dirname);
 app.set('view engine', 'html');
 
 // set this to true if want to reset database
-var clearDatabase = false;
+var clearDatabase = true;
 
 // Mongoose
 var mongoose = require('mongoose');
@@ -118,13 +118,10 @@ connection.once('open', function() {
         connection.dropDatabase(function () {
             console.log("Database cleared");
             // factory database preparation: data required for application to run
-            require('./database/factory_data.js')(app, sha1, User, Ingredient, Category);
-            // testing data preparation: data to population database to make api testing easier
-            require('./database/testing_data.js')(app, getRandomIntInclusive, Recipe, Rate, Favorite, Comment);
+            require('./database/factory_data.js')(app, sha1, getRandomIntInclusive, User, Ingredient, Category, Recipe, Rate, Favorite, Comment);
         });
     } else {
-        require('./database/factory_data.js')(app, sha1, User, Ingredient, Category);
-        require('./database/testing_data.js')(app, getRandomIntInclusive, Recipe, Rate, Favorite, Comment);
+        require('./database/factory_data.js')(app, sha1, getRandomIntInclusive, User, Ingredient, Category, Recipe, Rate, Favorite, Comment);
     }
 
 

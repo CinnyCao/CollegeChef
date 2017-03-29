@@ -22,7 +22,8 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                 {"$match": {"ingredientCount": {"$eq": numOfIngredients}}},
                 // check if all ingredients required is present
                 {"$project": {
-                    "ingredientCount": 1,
+                    "_id": 0,
+                    "recipeId": "$_id",
                     "ingredients": 1,
                     "correct": {"$setIsSubset": ["$ingredientIdSet", req.body.ingredients]}
                 }},
@@ -30,14 +31,12 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                 // join recipe details by id
                 {"$lookup": {
                     from: "recipes",
-                    localField: "_id",
+                    localField: "recipeId",
                     foreignField: "_id",
                     as: "recipes"
                 }},
                 // return only an array of result recipes with wanted fields
                 {"$project": {
-                    "_id": 0,
-//                    "ingredientCount": 1,
                     "ingredients": 1,
                     "recipes._id": 1,
                     "recipes.recipeName": 1,
@@ -45,6 +44,7 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                     "recipes.imgUrl": 1
                 }}
             ], function (err, resultRecipes) {
+                console.log(resultRecipes);
                 res.json(resultRecipes);
             }
         )

@@ -30,6 +30,10 @@
     cursor: pointer;
 }
 
+.ingredient_search_button_wrapper button:disabled {
+    cursor: default;
+}
+
 /* Recipe lists styles */
 
 .recipe_list {

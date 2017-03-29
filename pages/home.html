@@ -34,35 +34,40 @@
                         <div class="ingredient_buttons_wrapper">
                         </div>
                         <div class="ingredient_search_button_wrapper">
-                            <button type="button"><i class="fa fa-search"></i>  Search</button>
+                            <button id="ingredient_search_button" type="button" onclick="searchByIngredient()" disabled><i class="fa fa-search"></i>  Search</button>
                         </div>
                     </div>
                 </div>
                 <!--dashboard-->
                 <div class="right_col w3-threequarter">
                     <div class="section_card w3-white w3-card-2">
+                        <div class="recipe_list search_result_list w3-accordion">
+                            <button class="recipe_list_header" onclick="toggleRecipeListContent('result_recipes')"><i class="fa fa-search"></i>  Search Result</button>
+                            <div id="result_recipes" class="recipe_list_content w3-accordion-content">
+                            </div>
+                        </div>
                         <div class="recipe_list w3-accordion">
-                            <button class="recipe_list_header" onclick="showRecipeList('hot_recipes')"><i class="fa fa-fire"></i>  Hot Recipes</button>
+                            <button class="recipe_list_header" onclick="toggleRecipeListContent('hot_recipes')"><i class="fa fa-comments-o"></i>  Hot Recipes</button>
                             <div id="hot_recipes" class="recipe_list_content w3-accordion-content">
                             </div>
                         </div>
                         <div class="recipe_list w3-accordion">
-                            <button class="recipe_list_header" onclick="showRecipeList('remarkable_recipes')"><i class="fa fa-star-o"></i>  Remarkable Recipes</button>
+                            <button class="recipe_list_header" onclick="toggleRecipeListContent('remarkable_recipes')"><i class="fa fa-star-o"></i>  Remarkable Recipes</button>
                             <div  id="remarkable_recipes" class="recipe_list_content w3-accordion-content">
                             </div>
                         </div>
                         <div class="recipe_list w3-accordion">
-                            <button class="recipe_list_header" onclick="showRecipeList('new_recipes')"><i class="fa fa-certificate"></i>  New Recipes</button>
+                            <button class="recipe_list_header" onclick="toggleRecipeListContent('new_recipes')"><i class="fa fa-certificate"></i>  New Recipes</button>
                             <div id="new_recipes" class="recipe_list_content w3-accordion-content">
                             </div>
                         </div>
                         <div class="recipe_list user_only_recipe_list w3-accordion">
-                            <button class="recipe_list_header" onclick="showRecipeList('favorite_recipes')"><i class="fa fa-heart"></i>  My Favorite Recipes</button>
+                            <button class="recipe_list_header" onclick="toggleRecipeListContent('favorite_recipes')"><i class="fa fa-heart"></i>  My Favorite Recipes</button>
                             <div id="favorite_recipes" class="recipe_list_content w3-accordion-content">
                             </div>
                         </div>
                         <div class="recipe_list user_only_recipe_list w3-accordion">
-                            <button class="recipe_list_header" onclick="showRecipeList('uploaded_recipes')"><i class="fa fa-cloud-upload"></i>  My Uploaded Recipes</button>
+                            <button class="recipe_list_header" onclick="toggleRecipeListContent('uploaded_recipes')"><i class="fa fa-cloud-upload"></i>  My Uploaded Recipes</button>
                             <div id="uploaded_recipes" class="recipe_list_content w3-accordion-content">
                             </div>
                         </div>

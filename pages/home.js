@@ -10,12 +10,18 @@ $(function () {
         $('.ingredient_button').on('click', function () {
             $(this).toggleClass('selected_ingredient_button');
             $(this).parent().prepend($('.selected_ingredient_button'));
+            if ($('.selected_ingredient_button').length > 0) {
+                $("#ingredient_search_button").prop("disabled", false);
+            } else {
+                $("#ingredient_search_button").prop("disabled", true);
+            }
         });
     });
 
-    // open the first recipe list on start
-    showRecipeList('hot_recipes');
+    // open hot recipe list on start
+    toggleRecipeListContent('hot_recipes');
     $(".user_only_recipe_list").toggle(getUserType() !== null);
+    $(".search_result_list").hide();
 
     // load recipe_card
     populateRecipeCards();
@@ -34,7 +40,7 @@ function populateIngredients(callback) {
         contentType: "application/json; charset=utf-8",
         success : function (response) {
             for (var i = 0; i < response.length; i++) {
-                $(".ingredient_buttons_wrapper").append($(getIngredientButton(response[i]["name"], response[i]["imgUrl"])));
+                $(".ingredient_buttons_wrapper").append($(getIngredientButton(response[i]["_id"], response[i]["name"], response[i]["imgUrl"])));
             }
             callback();
         },
@@ -141,6 +147,41 @@ function populateUserOnlyRecipeList() {
     }
 }
 
-function showRecipeList(id) {
-    var list_container = $('#' + id).toggleClass('w3-show');
+function toggleRecipeListContent(id) {
+     $('#' + id).toggleClass('w3-show');
+}
+
+function searchByIngredient() {
+    // find selected ingredients
+    var selectedIngredients = $(".selected_ingredient_button");
+    var selectedIds = [];
+    for (var i = 0; i < selectedIngredients.length; i++) {
+        selectedIds.push(parseInt($(selectedIngredients[i]).attr("data-id")));
+    }
+    $.ajax({
+        type : "POST",
+        url : "/search",
+        dataType : "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({"ingredients": selectedIds}),
+        success : function (response) {
+            $("#result_recipes").empty();
+            if (response.length > 0) {
+                var data = response[0]["recipes"];
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    $("#result_recipes").append(
+                        $(getRecipeCard(data[i]["recipeName"], data[i]["description"], data[i]["imgUrl"],
+                            RECIPE_CARD_EDITOR_TOOL)));
+                }
+            } else {
+                $("#result_recipes").append("<p>No recipes found matching the ingredients selected.</p>");
+            }
+            $(".search_result_list").show();
+            toggleRecipeListContent("result_recipes");
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    });
 }

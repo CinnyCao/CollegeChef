@@ -249,9 +249,9 @@ function sendFeedback() {
  * Ingredient Button
  */
 
-function getIngredientButton(title, src) {
+function getIngredientButton(id, title, src) {
     return '' +
-            '<a class="ingredient_button w3-center" href="#" title="' + title + '">' +
+            '<a class="ingredient_button w3-center" href="#" title="' + title + '" data-id="' + id + '">' +
             '<img src="' + src + '" alt="' + title + '"><p>' + title + '</p>' +
             '</a>';
 }
@@ -300,27 +300,27 @@ function getRecipeCard(name, description, src, tool, toolData) {
         description = description.substr(0, 100) + "...";
     }
     // add tool if requested
-    var editorTool = "";
-    var starCommentTool = "";
+    var toolPositionTop = "";
+    var toolPositionBottm = "";
     if (tool === RECIPE_CARD_EDITOR_TOOL) {
-        editorTool = '' +
+        toolPositionTop = '' +
             '<div class="recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right">' +
             '<i class="recipe_card_tools fa fa-trash fa-fw w3-hover-grey" onclick="event.stopPropagation(); deleteRecipe()"></i>' +
             '<i class="recipe_card_tools fa fa-pencil-square-o fa-fw w3-hover-grey" onclick="event.stopPropagation(); addEditRecipe(\'editRecipe\')"></i>' +
             '</div>';
     } else if (tool === RECIPE_CARD_RATING_DISPLAY_TOOL) {
-        starCommentTool = '<div class="recipe_card_tools_wrapper rating_display">';
+        toolPositionBottm = '<div class="recipe_card_tools_wrapper rating_display">';
         for (var i = 0; i < 5 - toolData; i++) {
-            starCommentTool += '<lable class="rating_display_star_grey"></lable>';
+            toolPositionBottm += '<lable class="rating_display_star_grey"></lable>';
         }
         for (var i = 0; i < toolData; i++) {
-            starCommentTool += '<label class="rating_display_star_gold"></label>';
+            toolPositionBottm += '<label class="rating_display_star_gold"></label>';
         }
-        starCommentTool += '</div>';
+        toolPositionBottm += '</div>';
     } else if (tool === RECIPE_CARD_RATING_BUTTON_TOOL) {
 
     } else if (tool === RECIPE_CARD_COMMENT_COUNT_TOOL) {
-        starCommentTool = '<div class="recipe_card_tools_wrapper comment_count">' +
+        toolPositionTop = '<div class="recipe_card_tools_wrapper comment_count">' +
             '<img src="/img/comment.png" alt="Num of Comments:">' +
             '<p>x' + toolData + '</p>' +
             '</div>';
@@ -333,19 +333,19 @@ function getRecipeCard(name, description, src, tool, toolData) {
         } else {
             hint = "Click to favorite";
         }
-        editorTool = '' +
+        toolPositionTop = '' +
             '<div class="recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right" title="' + hint + '">' +
             '<i class="recipe_card_tools ' + favorited + ' fa fa-heart fa-fw w3-hover-grey" onclick="event.stopPropagation(); toggleFavorite()"></i>' +
             '</div>';
     }
     return '' +
             '<div class="recipe_card w3-card-2 w3-hover-shadow" title="' + name + '" onclick="location.href=\'' + href + '\'">' +
-                '<span class="recipe_card_img_wrapper"><img src="' + src + '" alt="' + name + '">' + starCommentTool + '</span>' +
+                '<span class="recipe_card_img_wrapper"><img src="' + src + '" alt="' + name + '">' + toolPositionBottm + '</span>' +
                 '<div class="w3-container w3-center">' +
                     '<p class="recipe_card_title">' + name + '</p>' +
                     '<p class="recipe_card_des">' + description + '</p>' +
                 '</div>' +
-                editorTool +
+                toolPositionTop +
             '</div>';
 }
 
