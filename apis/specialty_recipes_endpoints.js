@@ -5,7 +5,7 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
         if (!req.body.ingredients) {
             return res.status(400).json({
                 status: 400,
-                message: "Search failed: Missing ingredients id list in request"
+                message: "SEARCH FAILURE: Bad Request (no ingredients passed)"
             });
         }
         var numOfIngredients = req.body.ingredients.length;
@@ -167,15 +167,10 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                     res.json(resultRecipes);
                 }
             )
-        } else if (!req.auth) {
-            return res.status(401).json({
-                status: 401,
-                message: "Get Favorited Recipes failed: user deleted or token expired"
-            });
         } else {
             return res.status(401).json({
                 status: 401,
-                message: "Get Favorited Recipes failed: unauthorized"
+                message: "GET FAVORITE RECIPES FAILURE: Unauthorized (missing token or token expired)"
             });
         }
     });
@@ -209,15 +204,10 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                     res.json(resultRecipes);
                 }
             )
-        } else if (!req.auth) {
-            return res.status(401).json({
-                status: 401,
-                message: "Get Uploaded Recipes failed: user deleted or token expired"
-            });
         } else {
             return res.status(401).json({
                 status: 401,
-                message: "Get Uploaded Recipes failed: unauthorized"
+                message: "GET UPLOADED RECIPES FAILURE: Unauthorized (missing token or token expired)"
             });
         }
     });
