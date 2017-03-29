@@ -39,7 +39,7 @@
                             <hr>
                             <div class="w3-left w3-hover-text-blue"><a href="javascript: show('reset-pwd');">Reset Password</a>
                             </div>
-                            <div class="w3-right w3-hover-text-blue"><a href="javascript: show('edit-profile'); editProfile()">Edit Profile</a>
+                            <div class="w3-right w3-hover-text-blue"><a href="javascript: show('edit-profile');">Edit Profile</a>
                             </div>
                         </section>
                     </div>
@@ -76,25 +76,25 @@
                             <h2 class="form_title">Edit Profile</h2>
                         </div>
                         <!-- add action, pass records to server  -->
-                        <form id="editProfile-content" class="w3-container">
+                        <form id="editProfile-content" class="w3-container" action="javascript:saveProfile();">
                             <div class="w3-section">
-                                <p class="w3-center"><img src="/img/profile_picture.jpg" class="w3-circle photo-style" alt="Avatar">
+                                <p class="w3-center"><img id="editUserForm-photo" src="/img/profile_picture.jpg" class="w3-circle photo-style" alt="Avatar">
                                 </p>
                                 <label><b>Upload Profile Photo</b>
                                 </label>
-                                <input id="profile-photo" class="ar w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter a url for a photo of the profile" name="profile photo">
+                                <input id="photo-input" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter a url for a photo of the profile" pattern="/\.(jpeg|jpg|gif|png)$/" title="Image url is invalid">
                                 <label><b>Email</b>
                                 </label>
-                                <input id="email-input" class="w3-input w3-border" type="text" placeholder="Enter Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Email address is invalid." name="email">
+                                <input id="email-input" class="w3-input w3-border" type="text" placeholder="Enter Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="Email address is invalid.">
                                 <p class="w3-text-grey w3-margin-bottom">You will occasionally receive account related emails if this field is not empty. We promise not to share your email with anyone.</p>
                                 <label><b>Description</b>
                                 </label>
-                                <textarea id="description-input" class="ar w3-input w3-border w3-margin-bottom" rows="5" name="description" placeholder="Enter your description."></textarea>
+                                <textarea id="description-input" class="ar w3-input w3-border w3-margin-bottom" rows="5" placeholder="Enter your description."></textarea>
                             </div>
                         </form>
                         <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
                             <button onclick="hide('edit-profile')" type="button" class="w3-btn w3-red">Cancel</button>
-                            <button onclick="saveProfile()" form="editProfile-content" class="w3-btn w3-right w3-green">Save</button>
+                            <button onclick="saveProfile()" class="w3-btn w3-right w3-green">Save</button>
                         </div>
                     </div>
                 </section>

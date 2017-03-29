@@ -124,25 +124,25 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
             });
         }
         User.findOne({'_id': req.params.userId},
-            '_id userName email isAdmin description profilePhoto', function (err, user) {
-                if (err) {
-                    console.error(err);
-                }
-                if (!user) {
-                    return res.status(403).json({
-                        status: 403,
-                        message: "Request failed"
+                '_id userName email isAdmin description profilePhoto', function (err, user) {
+                    if (err) {
+                        console.error(err);
+                    }
+                    if (!user) {
+                        return res.status(403).json({
+                            status: 403,
+                            message: "Request failed"
+                        });
+                    }
+                    res.json({
+                        userId: user._id,
+                        userName: user.userName,
+                        email: user.email,
+                        isAdmin: user.isAdmin,
+                        description: user.description,
+                        profilePhoto: user.profilePhoto
                     });
-                }
-                res.json({
-                    userId: user._id,
-                    userName: user.userName,
-                    email: user.email,
-                    isAdmin: user.isAdmin,
-                    description: user.description,
-                    profilePhoto: user.profilePhoto
                 });
-            });
     });
 
     // change password
@@ -206,7 +206,10 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
                 }
                 if (updatedUser)
                 {
-                    res.sendStatus(200);
+                    return res.status(200).json({
+                        status: 200,
+                        message: updatedUser
+                    });
                 }
             });
         } else {
@@ -222,23 +225,21 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
         if (!req.auth || !req.isAdmin) {
             return res.status(401).json({
                 status: 401,
-                message: "Request failed: Not logged in"
+                message: "Request failed: Authentication failed"
             });
         } else {
             // only looking for non-admin users
-            User.find({'isAdmin': 'false'}, '_id userName email', function (err, users) {
+            User.find({'isAdmin': 'false'}, function (err, users) {
                 if (err) {
                     console.error(err);
                 }
                 if (!users.length) {
                     return res.status(403).json({
                         status: 403,
-                        message: "Request failed"
+                        message: "No users found."
                     });
                 } else {
-                    res.json({
-                        users: users
-                    });
+                    res.json({users});
                 }
             });
         }

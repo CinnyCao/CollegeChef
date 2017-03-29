@@ -46,6 +46,10 @@ $(function () {
     twoTab();
 });
 
+// get current user object
+var userObj = JSON.parse(window.localStorage.getItem('userObj'));
+
+
 function currentUserInfo() {
     var url = '/user/' + getUserID();
 
@@ -65,16 +69,80 @@ function currentUserInfo() {
         success: function (user) {
             // update user info to UI
             if (user) {
+                // information section
                 // required user info
                 $('#userName').html(user['userName']);
-                
                 // optional user info
-                $('#email').html(user['email'] || "Email is not provided");
-                $('#description').html(user['description'] || "Description is not provided");
+                $('#email').html(user['email'] || "[Email is not provided]");
+                $('#description').html(user['description'] || "[Description is not provided]");
                 $('#profilePhoto').attr('src', user['profilePhoto'] || "/img/profile_picture.jpg");
+
+                // fill in edit profile form
+                $('#editUserForm-photo').attr('src', user['profilePhoto'] || "/img/profile_picture.jpg");
+                $('#profile-photo').val(user['profilePhoto']);
+                $('#email-input').val(user['email']);
+                $('#description-input').val(user['description']);
             }
         }
     });
+}
+
+function stringValidation(str, err, msg, regex, required) {
+    if (str.length != 0 && required) {
+        $('#' + err).html(msg + ' is required.');
+        return false;
+    } else if (str && str.replace(/\s/g, '') == '') {
+        $('#' + err).html(msg + ' should not be empty or blank.');
+        return false;
+    } else if (regex != '' && !str.match(regex)) {
+        $('#' + err).html(msg + ' is invalid.');
+        return false;
+    } else {
+        $('#' + err).html('');
+        return true;
+    }
+}
+
+/* Save User Profile changes */
+function saveProfile() {
+    var url = '/user/' + getUserID();
+    var params = {};
+
+    var img = $('#photo-input').val();
+    var email = $('#email-input').val();
+    var description = $('#description-input').val();
+    
+    if (img) {
+        params['profilePhoto'] = img;
+    }
+    if (email) {
+        params['email'] = email;
+    }
+    if (description) {
+        params['description'] = description;
+    }
+
+    if (Object.keys(params).length > 0) {
+        $.ajax({
+            url: url,
+            type: "PUT",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(params),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + userObj['token']);
+            },
+            statusCode: {
+                401: function (response) {
+                    console.error(response);
+                }
+            },
+            success: function (user) {
+                location.reload();
+                hide('edit-profile');
+            }
+        });
+    }
 }
 
 function displayUserProfilePageContent() {
@@ -119,9 +187,27 @@ function populateNotifications() {
 }
 
 function populateUserCards() {
-    var usersDsta = users;
-    usersDsta.forEach(function (user) {
-        $(".user-card").append($(getUserCard(user[0], user[1])));
+    $.ajax({
+        url: '/users',
+        type: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + userObj['token']);
+        },
+        statusCode: {
+            401: function (response) {
+                console.error(response);
+            }
+        },
+        success: function (users) {
+            // update user card
+            if (users.length > 0) {
+                users.forEach(function (user) {
+                    $(".user-card").append($(getUserCard(user[0], user[1])));
+                });
+            }
+        }
     });
 }
 
@@ -131,7 +217,7 @@ function getUserCard(name, photo) {
             '<h4 class="w3-container w3-center">' + name + '</h4>' +
             '<div class="display-bottom">' +
             '<div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="deleteUser()">Delete</div>' +
-            '<div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="show(\'edit-profile\'); editProfile()">Edit</div>' +
+            '<div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="show(\'edit-profile\');">Edit</div>' +
             '</div>' +
             '</section>';
 }
@@ -187,11 +273,4 @@ function saveNotificationSetting() {
 function deleteUser() {
     deleteConfirm("user");
     // todo
-}
-
-// will be modified later and pass the real user information
-function editProfile() {
-    document.getElementById("profile-photo").value = "http://pre06.deviantart.net/7bfd/th/pre/i/2011/287/a/e/luffy_chibi_head_by_fuwafuwapanda-d4crymp.jpg";
-    document.getElementById("email-input").value = "team02@gmail.com";
-    document.getElementById("description-input").value = "We are team02. Our team members are Becky, Cinny, Sean, Tanay.";
 }
