@@ -8,7 +8,7 @@ app.set('views', __dirname);
 app.set('view engine', 'html');
 
 // set this to true if want to reset database
-var clearDatabase = false;
+var clearDatabase = true;
 
 // Mongoose
 var mongoose = require('mongoose');
@@ -145,7 +145,7 @@ connection.once('open', function() {
     require('./apis/recipes_evaluation_endpoints.js')(app, isDefined, Comment, Rate, Favorite, Recipe, ActionType, ActionHistory);
 
     // Endpoints that manage notifications
-    require('./apis/notification_endpoints.js')(app, ActionHistory);
+    require('./apis/notification_endpoints.js')(app, isDefined, ActionType, ActionHistory, Favorite);
     
     var server = app.listen(3000, function () {
         console.log('App listening on port 3000');

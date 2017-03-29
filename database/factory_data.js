@@ -7,12 +7,12 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
 
     // insert built-in action types
     var actionTypes = [
-        {typeName: "rate", actionMsg: "is rated"},
-        {typeName: "comment", actionMsg: "is commented"},
-        {typeName: "favorite", actionMsg: "is favorited"},
-        {typeName: "unfavorite", actionMsg: "is unfavorited"},
-        {typeName: "update", actionMsg: "is updated"},
-        {typeName: "delete", actionMsg: "is deleted"},
+        {typeName: "rate", actionMsg: "is rated by"},
+        {typeName: "comment", actionMsg: "is commented by"},
+        {typeName: "favorite", actionMsg: "is favorited by"},
+        {typeName: "unfavorite", actionMsg: "is unfavorited by"},
+        {typeName: "update", actionMsg: "is updated by"},
+        {typeName: "delete", actionMsg: "is deleted by"},
     ];
 
     ActionType.find({}, function (err, resTypes) {
