@@ -1,8 +1,38 @@
-module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, Category, Recipe, Rate, Favorite, Comment) {
+module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, Category, Recipe, Rate, Favorite, Comment, ActionType) {
 
     var userReady = false;
     var ingredientReady = false;
     var categoryReady = false;
+    var actionTypeReady = false;
+
+    // insert built-in action types
+    var actionTypes = [
+        {typeName: "rate", actionMsg: "is rated"},
+        {typeName: "comment", actionMsg: "is commented"},
+        {typeName: "favorite", actionMsg: "is favorited"},
+        {typeName: "unfavorite", actionMsg: "is unfavorited"},
+        {typeName: "update", actionMsg: "is updated"},
+        {typeName: "delete", actionMsg: "is deleted"},
+    ];
+
+    ActionType.find({}, function (err, resTypes) {
+        if (err)
+            return console.error(err);
+        if (!resTypes.length) {
+            ActionType.create(actionTypes, function (err, createdTypes) {
+                if (err)
+                    return console.error(err);
+                for (var i = 0; i < createdTypes.length; i++) {
+                    createdTypes[i].introduce();
+                }
+                actionTypeReady = true;
+                console.log("----------Factory action types CREATED----------");
+            });
+        } else {
+            actionTypeReady = true;
+            console.log("Factory action types OK");
+        }
+    });
 
     // insert built-in admin and user
     var users = [
@@ -20,7 +50,6 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
                     return console.error(err);
                 for (var i = 0; i < createdUsers.length; i++) {
                     createdUsers[i].introduce();
-                    createdUsers[i].addNotificationSettings();
                 }
                 userReady = true;
                 console.log("----------Factory admin and user CREATED----------");
@@ -269,7 +298,7 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
                         rate.save(function (err, newRate) {
                             if (err)
                                 return console.error(err);
-                            newRate.addRateNotification(newRecipe.personId, newRate.personId);
+                            newRate.addRateNotification(newRecipe.personId, newRate.personId, newRecipe._id);
                         });
                     }
 
@@ -285,7 +314,7 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
                             favorite.save(function (err, newFavorite) {
                                 if (err)
                                     return console.error(err);
-                                newFavorite.addFavoriteNotification(newRecipe.personId, newFavorite.personId);
+                                newFavorite.addFavoriteNotification(newRecipe.personId, newFavorite.personId, newRecipe._id);
                             });
                         }
                     }
@@ -306,7 +335,7 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
                         comment.save(function (err, newComment) {
                             if (err)
                                 return console.error(err);
-                            newComment.addCommentNotification(newRecipe.personId, newComment.personId);
+                            newComment.addCommentNotification(newRecipe.personId, newComment.personId, newRecipe._id);
                         });
                     }
                 }
@@ -321,7 +350,7 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
                     rate.save(function (err, newRate) {
                         if (err)
                             return console.error(err);
-                        newRate.addRateNotification(newRecipe.personId, newRate.personId);
+                        newRate.addRateNotification(newRecipe.personId, newRate.personId, newRecipe._id);
                     });
 
                     // favorite current recipe
@@ -332,7 +361,7 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
                     favorite.save(function (err, newFavorite) {
                         if (err)
                             return console.error(err);
-                        newFavorite.addFavoriteNotification(newRecipe.personId, newFavorite.personId);
+                        newFavorite.addFavoriteNotification(newRecipe.personId, newFavorite.personId, newRecipe._id);
                     });
 
                     //comment current recipe
@@ -345,7 +374,7 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
                     comment.save(function (err, newComment) {
                         if (err)
                             return console.error(err);
-                        newComment.addCommentNotification(newRecipe.personId, newComment.personId);
+                        newComment.addCommentNotification(newRecipe.personId, newComment.personId, newRecipe._id);
                     });
                 }
 

@@ -1,76 +1,39 @@
-module.exports = function (app, NotificationSetting, NotificationHistory) {
-
-    // get user's notification settings
-    app.get("/notification_settings", function (req, res) {
-        if (req.auth)
-        {
-            NotificationSetting.findOne({'personId': req.userID}, function (err, notificationSettings) {
-                if (err) {
-                    console.error(err);
-                }
-                res.json(notificationSettings);
-            });
-        } else
-        {
-            return res.status(401).json({
-                status: 401,
-                message: "Get notification settings failed: unauthorized or token expired."
-            });
-        }
-    });
-
-    // update user's notification settings
-    app.put("/notification_settings", function (req, res) {
-        if (req.auth)
-        {
-            if (req.body.enableTypeNumbers)
-            {
-                NotificationSetting.findOneAndUpdate({'personId': req.userID},
-                        {enableTypeNumbers: req.body.enableTypeNumbers},
-                        {new : true},
-                        function (err, notificationSetting) {
-                            if (err) {
-                                console.error(err);
-                            }
-                            res.sendStatus(200);
-
-                        });
-            } else {
-                return res.status(400).json({
-                    status: 400,
-                    message: "Upload notification settings failed: missing required input."
-                });
-            }
-        } else
-        {
-            return res.status(401).json({
-                status: 401,
-                message: "Upload notification settings failed: unauthorized or token expired."
-            });
-        }
-    });
+module.exports = function (app, ActionHistory) {
 
     // get notification history
     app.get("/notification", function (req, res) {
         if (req.auth)
         {
-            NotificationSetting.findOne({'personId': req.userID}, function (err, notificationSettings) {
+            // check if input query are valid
+            var validQueryKeys = {
+                "recipetype": ["uploaded", "favorite"],
+                "actiontype": ["rate", "comment", "favorite", "update", "delete"]
+            };
+            for (var key in req.query) {
+                if (validQueryKeys.indexOf(key) < 0) {
+                    return res.status(400).json({
+                        error: 400,
+                        message: "GET NOTIFICATION FAILURE: Bad Request (Only recipetype and/or actiontype are accepted in query"
+                    })
+                }
+            }
+            ActionHistory.findOne({'personId': req.userID}, function (err, history) {
                 if (err) {
                     console.error(err);
                 }
-                if (notificationSettings)
+                if (history)
                 {
-                    NotificationHistory.find({personId: req.userID, typeNumber: {"$in": notificationSettings}},
-                            function (err, notification) {
+                    ActionHistory.find({personId: req.userID, typeNumber: {"$in": history}},
+                            function (err, history) {
                                 if (err) {
                                     console.error(err);
                                 }
-                                res.json(notification);
+                                res.json(history);
                             });
                 } else {
                     return res.status(400).json({
                         status: 404,
-                        message: "Get notification settings failed: missing requried input."
+                        message: "Get notification settings failed: missing required input."
                     });
                 }
             });

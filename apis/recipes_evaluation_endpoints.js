@@ -1,13 +1,13 @@
-module.exports = function (app, Comment, Rate, Favorite) {
+module.exports = function (app, isDefined, Comment, Rate, Favorite, Recipe, ActionType, ActionHistory) {
 
     // Get all comments of a recipe
     app.get("/recipe/:recipeId/comments", function (req, res) {
-        Comment.find({recipeId: parseInt(req.params.recipeId)}, function (err, comments) {
+        Comment.find({recipeId: parseInt(req.params.recipeId)}, "_id recipeId personId isImage message", function (err, comments) {
             if (err) {
                 console.error(err);
             }
 
-            res.json(comments);
+            return res.json(comments);
         });
     });
 
@@ -15,32 +15,43 @@ module.exports = function (app, Comment, Rate, Favorite) {
     app.post("/recipe/:recipeId/comments", function (req, res) {
         if (req.auth)
         {
-            if (req.body.isImage && req.body.message)
+            if (isDefined(req.body.isImage) && req.body.message)
             {
-                var comment = new Comment({
-                    recipeId: parseInt(req.params.recipeId),
-                    personId: req.userID,
-                    isImage: req.body.isImage,
-                    message: req.body.message
-                });
-                comment.save(function (err) {
+                Recipe.findOne({_id: parseInt(req.params.recipeId)}, function (err, foundRecipe) {
                     if (err)
                         return console.error(err);
+                    if (foundRecipe) {
+                        var comment = new Comment({
+                            recipeId: parseInt(req.params.recipeId),
+                            personId: req.userID,
+                            isImage: req.body.isImage,
+                            message: req.body.message
+                        });
+                        comment.save(function (err) {
+                            if (err)
+                                return console.error(err);
+                            comment.addCommentNotification(foundRecipe.personId, req.userID, parseInt(req.params.recipeId));
+                            res.status(200).json({});
+                        });
+                    } else {
+                        return res.status(404).json({
+                            status: 404,
+                            message: "COMMENT RECIPE FAILURE: Not Found (recipe to comment not found)"
+                        });
+                    }
                 });
-                comment.addCommentNotification(comment.recipeId, comment.personId);
-                res.json({recipeId: parseInt(req.params.recipeId)});
             } else
             {
                 return res.status(400).json({
                     status: 400,
-                    message: "Comment in a recipe failed: missing required input."
+                    message: "COMMENT RECIPE FAILURE: Bad Request (isImage or message not passed)"
                 });
             }
         } else
         {
             return res.status(401).json({
                 status: 401,
-                message: "Comment in a recipe failed: unauthorized or token expired."
+                message: "COMMENT RECIPE FAILURE: Unauthorized (missing token or token expired)"
             });
         }
     });
@@ -50,51 +61,49 @@ module.exports = function (app, Comment, Rate, Favorite) {
         if (req.auth)
         {
             Rate.findOne({recipeId: parseInt(req.params.recipeId), personId: req.userID},
-                    '-_id scores',
-                    function (err, comments) {
+                    function (err, foundRate) {
                         if (err) {
-                            console.error(err);
+                            return console.error(err);
                         }
-                        if (comments)
+                        if (foundRate)
                         {
-                            res.json(comments);
+                            return res.json({scores: foundRate.scores});
                         } else
                         {
-                            outPutRateAvg(parseInt(req.params.recipeId), res);
+                            return res.json({scores: 0});
                         }
                     });
         } else {
-            outPutRateAvg(parseInt(req.params.recipeId), res);
+            return res.status(401).json({
+                status: 401,
+                message: "GET USER RATE FAILURE: Unauthorized (missing token or token expired)"
+            });
         }
     });
 
     // get average rate of a specific recipe
-    var outPutRateAvg = function (recipeId, res) {
+    app.get("/recipe/:recipeId/ratings", function (req, res) {
         Rate.aggregate(
-                [
-                    // group by recipe id and calculate average scores
-                    {"$group": {
-                            "_id": "$recipeId",
-                            "scores": {"$avg": "$scores"},
-                            "recipeId": {"$push": "$recipeId"}
-                        }},
-                    {"$match": {"recipeId": {"$eq": recipeId}}},
-                    // set return fields
-                    {"$project": {
-                            "_id": 0,
-                            "scores": 1
-                        }}
-                ], function (err, rateAvg) {
-            if (rateAvg.length)
-            {
-                res.json(rateAvg[0]);
+            [
+                // find records of required recipe
+                {"$match": {"recipeId": {"$eq": parseInt(req.params.recipeId)}}},
+                // group by recipe id and calculate average scores
+                {"$group": {
+                    "_id": "$recipeId",
+                    "avgScore": {"$avg": "$scores"}
+                }}
+            ], function (err, rateAvg) {
+                console.log(rateAvg);
+                if (rateAvg.length)
+                {
+                    return res.json({"avgScore": rateAvg[0].avgScore});
 
-            } else {
-                res.json({"scores": 0});
+                } else {
+                    return res.json({"avgScore": 0});
+                }
             }
-        }
         );
-    };
+    });
 
     // rate a recipe
     app.post("/recipe/:recipeId/rate", function (req, res) {
@@ -102,29 +111,54 @@ module.exports = function (app, Comment, Rate, Favorite) {
         {
             if (req.body.scores)
             {
-                var rate = new Rate({
-                    recipeId: parseInt(req.params.recipeId),
-                    personId: req.userID,
-                    scores: req.body.scores
-                });
-                rate.save(function (err) {
+                Rate.findOne({recipeId: parseInt(req.params.recipeId), personId: req.userID}, function (err, foundRate) {
                     if (err)
                         return console.error(err);
+                    if (foundRate) {
+                        // update rate
+                        foundRate.update({scores: req.body.scores}, function (err) {
+                            if (err)
+                                return console.error(err);
+                            return res.status(200).json({});
+                        });
+                    } else {
+                        // create new rate
+                        var rate = new Rate({
+                            recipeId: parseInt(req.params.recipeId),
+                            personId: req.userID,
+                            scores: req.body.scores
+                        });
+                        rate.save(function (err) {
+                            if (err)
+                                return console.error(err);
+                            Recipe.findOne({_id: parseInt(req.params.recipeId)}, function (err, resRecipe) {
+                                if (err)
+                                    return console.error(err);
+                                if (resRecipe) {
+                                    rate.addRateNotification(resRecipe.personId, req.userID, parseInt(req.params.recipeId));
+                                    return res.status(200).json({});
+                                } else {
+                                    return res.status(404).json({
+                                        status: 404,
+                                        message: "RATE RECIPE FAILURE: Not Found (recipe to rate not found)"
+                                    });
+                                }
+                            });
+                        });
+                    }
                 });
-                rate.addRateNotification(rate.recipeId, rate.personId);
-                res.json(rate);
             } else
             {
                 return res.status(400).json({
                     status: 400,
-                    message: "Rate a recipe failed: missing required input."
+                    message: "RATE RECIPE FAILURE: Bad Request (scores not passed)"
                 });
             }
         } else
         {
             return res.status(401).json({
                 status: 401,
-                message: "Rate a recipe failed: unauthorized or token expired."
+                message: "RATE RECIPE FAILURE: Unauthorized (missing token or token expired)"
             });
         }
     });
@@ -133,39 +167,102 @@ module.exports = function (app, Comment, Rate, Favorite) {
     app.post("/recipe/:recipeId/favorite", function (req, res) {
         if (req.auth)
         {
-            var favorite = new Favorite({
-                recipeId: parseInt(req.params.recipeId),
-                personId: req.userID
-            });
-            favorite.save(function (err) {
+            Favorite.findOne({recipeId: parseInt((req.params.recipeId)), personId: req.userID}, function (err, result) {
                 if (err)
                     return console.error(err);
+                if (result) {
+                    return res.status(403).json({
+                        status: 403,
+                        message: "FAVORITE RECIPE FAILURE: Forbidden (recipe already favorited by current user)"
+                    });
+                } else {
+                    var favorite = new Favorite({
+                        recipeId: parseInt(req.params.recipeId),
+                        personId: req.userID
+                    });
+                    favorite.save(function (err) {
+                        if (err)
+                            return console.error(err);
+                        Recipe.findOne({_id: favorite.recipeId}, function (err, resultRecipe) {
+                            if (err)
+                                return console.error(err);
+                            if (resultRecipe) {
+                                favorite.addFavoriteNotification(resultRecipe.personId, favorite.personId, favorite.recipeId);
+                                return res.status(200).json({});
+                            } else {
+                                return res.status(404).json({
+                                    status: 404,
+                                    message: "FAVORITE RECIPE FAILURE: Not Found (recipe to favorite not found)"
+                                });
+                            }
+                        });
+                    });
+                }
             });
-            favorite.addFavoriteNotification(favorite.recipeId, favorite.personId);
-            res.json({recipeId: parseInt(req.params.recipeId)});
         } else
         {
             return res.status(401).json({
                 status: 401,
-                message: "Favorite a recipe failed: unauthorized or token expired."
+                message: "FAVORITE RECIPE FAILURE: Unauthorized (missing token or token expired)"
             });
         }
     });
+
+    var addUnfavoriteNotification = function (recipeOwnerId, operatorId, recipeId) {
+        ActionType.findOne({typeName: "unfavorite"}, function (err, type) {
+            if (err)
+                return console.error(err);
+
+            var notification = new ActionHistory({
+                recipeOwnerId: recipeOwnerId,
+                operatorId: operatorId,
+                recipeId: recipeId,
+                typeNumber: type._id
+            });
+            notification.save(function (err) {
+                if (err)
+                    return console.error(err);
+            });
+        });
+    };
 
     // unfavorite recipe
     app.delete("/recipe/:recipeId/favorite", function (req, res) {
         if (req.auth)
         {
-            Favorite.find({recipeId: parseInt(req.params.recipeId), personId: req.userID}).remove().exec(function (err) {
+            Favorite.findOne({recipeId: parseInt(req.params.recipeId), personId: req.userID}, function (err, foundRecord) {
                 if (err)
                     return console.error(err);
-                return res.sendStatus(200);
+                if (foundRecord) {
+                    foundRecord.remove(function (err) {
+                        if (err)
+                            return console.error(err);
+                        Recipe.findOne({_id: parseInt(req.params.recipeId)}, function (err, resultRecipe) {
+                            if (err)
+                                return console.error(err);
+                            if (resultRecipe) {
+                                addUnfavoriteNotification(resultRecipe.personId, req.userID, parseInt(req.params.recipeId));
+                                return res.status(200).json({});
+                            } else {
+                                return res.status(404).json({
+                                    status: 404,
+                                    message: "UNFAVORITE RECIPE FAILURE: Not Found (recipe to unfavorite not found)"
+                                });
+                            }
+                        });
+                    });
+                } else {
+                    return res.status(403).json({
+                        status: 403,
+                        message: "UNFAVORITE RECIPE FAILURE: Forbidden (recipe is not favorited by current user)"
+                    });
+                }
             });
         } else
         {
             return res.status(401).json({
                 status: 401,
-                message: "Remove a favorite recipe failed: unauthorized or token expired."
+                message: "UNFAVORITE RECIPE FAILURE: Unauthorized (missing token or token expired)"
             });
         }
     });

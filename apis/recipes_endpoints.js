@@ -27,7 +27,9 @@ module.exports = function (app, Recipe, Ingredient) {
                     resultRecipe.remove(function (err) {
                         if (err)
                             return console.error(err);
-                        return res.sendStatus(200);
+                        // delete it's ingredients, favorite, rate, and notification history
+
+                        return res.status(200).json({});
                     });
                 } else {
                     return res.status(403).json({
@@ -72,7 +74,7 @@ module.exports = function (app, Recipe, Ingredient) {
                     if (err) {
                         console.error(err);
                     }
-                    res.sendStatus(200);
+                    res.status(200).json({});
                 });
             } else {
                 return res.status(400).json({
