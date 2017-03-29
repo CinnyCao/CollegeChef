@@ -12,7 +12,7 @@
         <li class="menu_item_left"><a href="/pages/recipe_browser.html" class="w3-padding-large" title="All Recipes"><i class="fa fa-cutlery"></i><p class="menu_item_name w3-hide-medium">Recipe Browser</p></a></li>
         <li class="menu_item_left user_only"><a href="/pages/user_profile.html" class="w3-padding-large" title="User Profile"><i class="fa fa-user-o"></i><p class="menu_item_name w3-hide-medium">My Profile</p></a></li>
         <li class="menu_item_left user_only"><a href="javascript: logOut();" class="w3-padding-large" title="Sign Out"><i class="fa fa-sign-out"></i><p class="menu_item_name w3-hide-medium">Sign Out</p></a></li>
-        <li class="menu_item_right w3-right"><a href="javascript: show('login-form');" class="w3-padding-large" title="Login"><p class="menu_item_name">Login</p></a></li>
+        <li class="menu_item_right w3-right"><a href="javascript: getLoginForm();" class="w3-padding-large" title="Login"><p class="menu_item_name">Login</p></a></li>
         <li class="menu_item_right w3-right"><a href="javascript: show('register-form');" class="w3-padding-large" title="Sign Up"><p class="menu_item_name">Sign Up</p></a></li>
     </ul>
 </nav>
@@ -33,7 +33,7 @@
                 <label><b>Password</b></label>
                 <!-- password pattern can be changed later, pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" -->
                 <input id="loginPwd" class="w3-input w3-border" type="password" placeholder="Enter Password" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-                <input class="w3-check w3-margin-top" type="checkbox" checked="checked"> Remember me
+                <input id="login_remember_me" class="w3-check w3-margin-top" type="checkbox"> Remember me
             </div>
         </form>
 

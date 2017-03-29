@@ -7,29 +7,57 @@ var USER_TYPE_ADMIN = "admin";
 function getUserType() {
     return localStorage.getItem("userType");
 }
-
 function setUserType(isAdmin) {
     localStorage.setItem("userType", isAdmin ? USER_TYPE_ADMIN : USER_TYPE_USER);
 }
-
 function removeUserType() {
     localStorage.removeItem("userType");
 }
-
 function setUser(userObj) {
     localStorage.setItem("userObj", userObj);
 }
-
 function getToken() {
     return JSON.parse(localStorage.getItem("userObj"))["token"];
 }
-
 function getUserID() {
     return JSON.parse(localStorage.getItem("userObj"))["userId"];
 }
-
 function getUserName() {
     return JSON.parse(localStorage.getItem("userObj"))["userName"];
+}
+function setLoginRememberMe(rememberMe) {
+    if (rememberMe) {
+        localStorage.setItem("rememberMe", "true");
+    } else {
+        localStorage.setItem("rememberMe", "false");
+    }
+}
+function getLoginRememberMe() {
+    if (localStorage.getItem("rememberMe") === "true") {
+        return true;
+    } else {
+        return false;
+    }
+}
+function getLoginUsername() {
+    return localStorage.getItem("loginUserName");
+}
+function getLoginPassword() {
+    return localStorage.getItem("loginPassword");
+}
+function setLoginUsername(username) {
+    if (username !== "") {
+        localStorage.setItem("loginUserName", username);
+    } else {
+        localStorage.removeItem("loginUserName");
+    }
+}
+function setLoginPassword(password) {
+    if (password !== "") {
+        localStorage.setItem("loginPassword", password);
+    } else {
+        localStorage.removeItem("loginPassword");
+    }
 }
 
 /** dummy data **/
@@ -170,6 +198,15 @@ function updateNavMenuItems() {
 }
 
 /* Login form */
+function getLoginForm() {
+    if (getLoginRememberMe()) {
+        $("#loginUserName").val(getLoginUsername());
+        $("#loginPwd").val(getLoginPassword());
+        $("#login_remember_me").attr("checked", true);
+    }
+    show("login-form");
+}
+
 function login() {
     var userName = $('#loginUserName').val();
     var password = $('#loginPwd').val();
@@ -192,6 +229,18 @@ function login() {
                 }
             },
             success: function (response) {
+                // remember password if required
+                var rememberMe = $("#login_remember_me").is(":checked");
+                if (rememberMe) {
+                    setLoginRememberMe(true);
+                    setLoginUsername(userName);
+                    setLoginPassword(password);
+                } else {
+                    setLoginRememberMe(false);
+                    setLoginUsername("");
+                    setLoginPassword("");
+                }
+
                 setUserType(response["isAdmin"]);
                 setUser(JSON.stringify(response));
                 hide('login-form');
