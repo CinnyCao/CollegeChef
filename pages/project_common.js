@@ -295,7 +295,33 @@ function savePwd() {
  */
 
 function sendFeedback() {
-    // todo
+    var name = $('#fbName').val();
+    var email = $('#fbEmail').val();
+    var feedback = $('#feedback').val();
+    var params = {};
+
+    if (feedback) {
+        params.feedback = feedback;
+    }
+    if (name) {
+        params.name = name;
+    }
+    if (email) {
+        params.email = email;
+    }
+
+    if (feedback) {
+        $.ajax({
+            url: "/feedback",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(params),
+            success: function (response) {
+                hide('give-feedback');
+            }
+        });
+    }
 }
 
 /**

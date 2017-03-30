@@ -72,7 +72,6 @@ function currentUserInfo() {
 
                 // fill in edit profile form
                 $('#editUserForm-photo').attr('src', user['profilePhoto'] || defaultProfileImg);
-                $('#photo-input').val(user['profilePhoto']);
                 $('#email-input').val(user['email']);
                 $('#description-input').val(user['description']);
             }
@@ -80,20 +79,17 @@ function currentUserInfo() {
     });
 }
 
-function stringValidation(str, err, msg, regex, required) {
-    if (str.length != 0 && required) {
-        $('#' + err).html(msg + ' is required.');
-        return false;
-    } else if (str && str.replace(/\s/g, '') == '') {
-        $('#' + err).html(msg + ' should not be empty or blank.');
-        return false;
-    } else if (regex != '' && !str.match(regex)) {
-        $('#' + err).html(msg + ' is invalid.');
-        return false;
-    } else {
-        $('#' + err).html('');
-        return true;
-    }
+// upload profile photo in edit profile form
+function uploadProfilePhoto(input){
+            if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function (e) {
+                localStorage.setItem("profilePhoto", e.target.result);
+                $('#editUserForm-photo').attr('src', e.target.result)
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
 }
 
 /* Save User Profile changes */
@@ -101,7 +97,7 @@ function saveProfile() {
     var url = '/user/' + getUserID();
     var params = {};
 
-    var img = $('#photo-input').val();
+    var img = localStorage.getItem("profilePhoto");
     var email = $('#email-input').val();
     var description = $('#description-input').val();
 
@@ -135,6 +131,8 @@ function saveProfile() {
                 hide('edit-profile');
             }
         });
+    } else {
+        $('#noChanges').html('Change not found');
     }
 }
 
