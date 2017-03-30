@@ -144,60 +144,72 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
     });
 
     // change password
-    app.put('/user/:userId/edit/password', function (req, res) {
+    app.put('/user/:userId/password', function (req, res) {
         if (!req.auth) {
             return res.status(401).json({
                 status: 401,
-                message: "Request failed: Not logged in"
+                message: "Request failed: Authorization failed."
             });
-        }
-        if (!req.isAdmin && req.userID != parseInt(req.params.userId)) {
+        } else if (!req.isAdmin && req.userID != parseInt(req.params.userId)) {
             return res.status(401).json({
                 status: 401,
                 message: "Request failed: Lacking proper credentials"
             });
-        }
-        if (!req.body.password || !req.body.newPassword) {
+        } else if (!req.body.password || !req.body.newPassword) {
             return res.status(400).json({
                 status: 400,
                 message: "Request failed: Missing password(s)"
             });
+        } else {
+            User.findOneAndUpdate({'_id': parseInt(req.params.userId), 'password': sha1(req.userName + req.body.password)},
+                    {$set: {'password': sha1(req.userName + req.body.newPassword)}}, function (err, result) {
+                if (err) {
+                    console.error(err);
+                }
+                console.log(result);
+                if (result)
+                {
+                    return res.status(200).json({
+                        status: 200,
+                        message: result
+                    });
+                }else {
+                    return res.status(403).json({
+                        status: 403,
+                        message: 'Invalid password or user does not exist.'
+                    }); 
+                }
+            });
         }
-        User.updateOne({'_id': parseInt(req.params.userId), 'password': sha1(req.body.userName + req.body.password)},
-                {$set: {'password': sha1(req.body.userName + req.body.newPassword)}}, function (err, result) {
-            if (err) {
-                console.error(err);
-            }
-            if (result)
-            {
-                return res.sendStatus(200);
-            }
-        });
     });
 
     // edit user profile
     app.put('/user/:userId', function (req, res) {
-        if (!req.auth || !req.isAdmin) {
+        if (!req.auth) {
             return res.status(401).json({
                 status: 401,
-                message: "Authorization failed"
+                message: "Authorization failed."
             });
-        }
-        var toUpdate = {};
-        if (req.body.description)
-        {
-            toUpdate["description"] = req.body.description;
-        }
-        if (req.body.profilePhoto)
-        {
-            toUpdate["profilePhoto"] = req.body.profilePhoto;
-        }
-        if (req.body.email)
-        {
-            toUpdate["email"] = req.body.email;
-        }
+        } else if (!req.isAdmin && req.userID != parseInt(req.params.userId)) {
+            return res.status(401).json({
+                status: 401,
+                message: "Request failed: Lacking proper credentials"
+            });
+        } else {
+            var toUpdate = {};
+            if (req.body.description)
+            {
+                toUpdate["description"] = req.body.description;
+            }
+            if (req.body.profilePhoto)
+            {
+                toUpdate["profilePhoto"] = req.body.profilePhoto;
+            }
+            if (req.body.email)
+            {
+                toUpdate["email"] = req.body.email;
+            }
 
-        if (Object.keys(toUpdate).length > 0) {
             User.findOneAndUpdate({'_id': req.params.userId}, toUpdate, {new : true}, function (err, updatedUser) {
                 if (err) {
                     console.error(err);
@@ -208,12 +220,12 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
                         status: 200,
                         message: updatedUser
                     });
+                } else {
+                    return res.status(403).json({
+                        status: 403,
+                        message: "No user in database"
+                    });
                 }
-            });
-        } else {
-            return res.status(400).json({
-                status: 400,
-                message: "Update user profile failed: missing required input."
             });
         }
     });
@@ -223,7 +235,7 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
         if (!req.auth || !req.isAdmin) {
             return res.status(401).json({
                 status: 401,
-                message: "Request failed: Authentication failed"
+                message: "Authentication failed or lacking proper credentials(not admin)."
             });
         } else {
             // only looking for non-admin users
@@ -232,12 +244,12 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
                     console.error(err);
                 }
                 if (!users.length) {
-                    return res.status(403).json({
-                        status: 403,
+                    return res.status(404).json({
+                        status: 404,
                         message: "No users found."
                     });
                 } else {
-                    res.json(users);
+                    return res.json(users);
                 }
             });
         }

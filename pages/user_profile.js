@@ -80,24 +80,24 @@ function currentUserInfo() {
 }
 
 // upload profile photo in edit profile form
-function uploadProfilePhoto(input){
-            if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            
-            reader.onload = function (e) {
-                localStorage.setItem("profilePhoto", e.target.result);
-                $('#editUserForm-photo').attr('src', e.target.result)
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
+function uploadProfilePhoto(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            sessionStorage.setItem("profilePhoto", e.target.result);
+            $('#editUserForm-photo').attr('src', e.target.result)
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
 }
 
 /* Save User Profile changes */
-function saveProfile() {
-    var url = '/user/' + getUserID();
+function saveProfile(userId = getUserID()) {
+    var url = '/user/' + userId;
     var params = {};
 
-    var img = localStorage.getItem("profilePhoto");
+    var img = sessionStorage.getItem("profilePhoto");
     var email = $('#email-input').val();
     var description = $('#description-input').val();
 
@@ -111,7 +111,7 @@ function saveProfile() {
         params['description'] = description;
     }
 
-    if (Object.keys(params).length > 0 && $('#editProfile-content')[0].checkValidity()) {
+    if ($('#editProfile-content')[0].checkValidity()) {
         $.ajax({
             url: url,
             type: "PUT",
@@ -127,18 +127,48 @@ function saveProfile() {
                 }
             },
             success: function (user) {
+                sessionStorage.removeItem("profilePhoto");
                 location.reload();
                 hide('edit-profile');
             }
         });
-    } else {
-        $('#noChanges').html('Change not found');
+}
+}
+
+/* Save Reset Password */
+function savePwd(userId = getUserID()) {
+    var url = '/user/' + userId + '/password';
+    var params = {'password': $('#oldPwd').val(), 'newPassword': $('.repeated-pwd:visible').val()};
+
+    if (checkPasswordMatch()) {
+        $.ajax({
+            url: url,
+            type: "PUT",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(params),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+            },
+            statusCode: {
+                401: function (response) {
+                    console.error(response);
+                },
+                403: function (response) {
+                    console.error(response);
+                    $('#invalidOldPwd').html('Password is incorrect.');
+                }
+            },
+            success: function (user) {
+                hide('reset-pwd');
+            }
+        });
     }
 }
 
 function controlTab() {
     var user_type = getUserType();
-    
+
     if (user_type === USER_TYPE_USER) {
         $('#notification-tab').hide();
         $('#users-tab').hide();

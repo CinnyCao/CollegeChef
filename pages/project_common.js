@@ -285,11 +285,6 @@ function signUp() {
     // todo
 }
 
-/* Save Reset Password */
-function savePwd() {
-    // todo
-}
-
 /**
  * Footer
  */
@@ -340,17 +335,16 @@ function getIngredientButton(id, title, src) {
  */
 
 function getEnteredNewPwdPart() {
-    var validation = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,}";
     var hint = "Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters";
     return '' +
             '<label><b>New Password*</b></label>' +
             '<input class="new-pwd w3-input w3-border" type="password"' +
-            ' placeholder="Enter New Password" name="newPwd" pattern=' + validation +
+            ' placeholder="Enter New Password"' +
             ' title="' + hint + '" required>' +
             '<p class="w3-text-grey w3-margin-bottom">' + hint + '</p>' +
             '<label><b>Repeat New Password*</b></label>' +
             '<input class="repeated-pwd w3-input w3-border" type="password"' +
-            ' placeholder="Please Repeat New Password" title="Passwords Do Not Match." name="repeatPwd" onkeyup="checkPasswordMatch()" required>';
+            ' placeholder="Please Repeat New Password" title="Passwords Do Not Match." onkeyup="checkPasswordMatch()" required>';
 }
 
 /**
@@ -516,7 +510,9 @@ function checkPasswordMatch() {
     var repeatPwdValue = $('.repeated-pwd:visible').val();
     if (newPwdValue != repeatPwdValue) {
         $('.repeated-pwd').addClass('w3-red');
+        return false;
     } else {
         $('.repeated-pwd').removeClass('w3-red');
+        return true;
     }
 }
