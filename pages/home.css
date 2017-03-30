@@ -17,10 +17,15 @@
     border: 2px solid #CCCCCC;
     overflow-x: hidden;
     overflow-y: auto;
-    height: calc(100vh - 300px);
-    min-height: 70px;
+    height: calc(100vh - 400px);
+    min-height: 100px;
 }
+@media screen and (max-height: 600px) {
 
+    .ingredient_buttons_wrapper {
+        height: calc(100vh - 330px);
+    }
+}
 .ingredient_search_button_wrapper {
     text-align: right;
     padding-top: 10px;
@@ -32,6 +37,20 @@
 
 .ingredient_search_button_wrapper button:disabled {
     cursor: default;
+}
+
+.ingredient_search_rule_wrapper {
+    margin-top: 5px;
+}
+.ingredient_search_type_wrapper {
+    margin: 2px 0;
+}
+.ingredient_search_type_wrapper div {
+    width: 30%;
+    display: inline-block;
+}
+.ingredient_search_type_wrapper input, .ingredient_search_type_word {
+    cursor: pointer;
 }
 
 /* Recipe lists styles */

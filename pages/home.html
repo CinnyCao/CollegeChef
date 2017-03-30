@@ -33,6 +33,18 @@
                         </div>
                         <div class="ingredient_buttons_wrapper">
                         </div>
+                        <div class="ingredient_search_rule_wrapper">
+                            <b>Select search rule:</b><br>
+                            <div class="ingredient_search_type_wrapper">
+                                <div><input type="radio" name="ingredient_search_type" value="include" checked>
+                                    <span id="type_word_include" class="ingredient_search_type_word"> Include</span></div>
+                                <div><input type="radio" name="ingredient_search_type" value="equal">
+                                    <span id="type_word_equal" class="ingredient_search_type_word"> Equal</span></div>
+                                <div><input type="radio" name="ingredient_search_type" value="exclude">
+                                    <span id="type_word_exclude" class="ingredient_search_type_word"> Exclude</span></div>
+                            </div>
+                            <small><i class="fa fa-info-circle"></i> Search for recipes that <b><span id="search_hint">contains</span></b> ingredients selected.</small>
+                        </div>
                         <div class="ingredient_search_button_wrapper">
                             <button id="ingredient_search_button" type="button" onclick="searchByIngredient()" disabled><i class="fa fa-search"></i>  Search</button>
                         </div>

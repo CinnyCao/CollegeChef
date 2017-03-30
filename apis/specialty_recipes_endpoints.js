@@ -8,7 +8,34 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                 message: "SEARCH FAILURE: Bad Request (no ingredients passed)"
             });
         }
+        if (!req.query.searchtype) {
+            return res.status(400).json({
+                status: 400,
+                message: "SEARCH FAILURE: Bad Request (no searchtype passed)"
+            });
+        }
+        // check if input query are valid
+        var validValues = ["include", "equal", "exclude"];
+        var valueValid = true;
+        if (validValues.indexOf(req.query.searchtype) < 0) {
+            valueValid = false;
+        }
+        if (!valueValid) {
+            return res.status(400).json({
+                error: 400,
+                message: "SEARCH FAILURE: Bad Request (Invalid searchtype value)"
+            });
+        }
+
         var numOfIngredients = req.body.ingredients.length;
+        var equalCheck = {"$match": {"ingredientCount": {"$gt": 0}}};
+        if (req.query.searchtype == "equal") {
+            equalCheck = {"$match": {"ingredientCount": {"$eq": numOfIngredients}}};
+        }
+        var findContainsIngredients = {"$setIsSubset": [req.body.ingredients, "$ingredientIdSet"]};
+        if (req.query.searchtype == "exclude") {
+            findContainsIngredients = {"$not": findContainsIngredients};
+        }
         IngredientToRecipe.aggregate(
             [
                 // group by recipe id
@@ -19,13 +46,14 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                     "ingredientIdSet": {"$push": "$ingredientId"}
                 }},
                 // find records with correct ingredient count
-                {"$match": {"ingredientCount": {"$eq": numOfIngredients}}},
+                equalCheck,
                 // check if all ingredients required is present
                 {"$project": {
                     "_id": 0,
                     "recipeId": "$_id",
                     "ingredients": 1,
-                    "correct": {"$setIsSubset": ["$ingredientIdSet", req.body.ingredients]}
+                    "ingredientIdSet": 1,
+                    "correct": findContainsIngredients
                 }},
                 {"$match": {"correct": {"$eq": true}}},
                 // join recipe details by id

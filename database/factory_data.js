@@ -205,7 +205,7 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
             "description": "Beef stroganoff is a classic recipe that never goes out of style. Try this easy version that keeps things simple but delivers all the stroganoff flavours you know and love.",
             "img": "/img/recipes/beefstroganoff.jpg",
             "category": "Main: Beef",
-            "ingredient": ["beef"]
+            "ingredient": ["beef", "spaghetti"]
         },
         {
             "recipeName": "Pumpkin Soup",

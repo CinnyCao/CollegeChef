@@ -36,6 +36,26 @@ $(function () {
         $('.recipe_list_content').toggleClass('w3-show', false);
         showRecipeListContent('favorite_recipes');
     });
+
+    $('input[type=radio][name=ingredient_search_type]').change(function() {
+        if (this.value == 'include') {
+            $("#search_hint").text("contains");
+        } else if (this.value == 'equal') {
+            $("#search_hint").text("is made of exactly");
+        } else if (this.value == 'exclude') {
+            $("#search_hint").text("do not contain");
+        }
+    });
+
+    $("#type_word_include").on("click", function () {
+        $("input[name=ingredient_search_type][value=include]").prop("checked", true );
+    });
+    $("#type_word_equal").on("click", function () {
+        $("input[name=ingredient_search_type][value=equal]").prop("checked", true );
+    });
+    $("#type_word_exclude").on("click", function () {
+        $("input[name=ingredient_search_type][value=exclude]").prop("checked", true );
+    });
 });
 
 function populateIngredients(callback) {
@@ -168,9 +188,12 @@ function searchByIngredient() {
     for (var i = 0; i < selectedIngredients.length; i++) {
         selectedIds.push(parseInt($(selectedIngredients[i]).attr("data-id")));
     }
+
+    // find search type
+    var searchType = $('input[name=ingredient_search_type]:checked').val();
     $.ajax({
         type : "POST",
-        url : "/search",
+        url : "/search?searchtype=" + searchType,
         dataType : "json",
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify({"ingredients": selectedIds}),
