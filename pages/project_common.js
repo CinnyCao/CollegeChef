@@ -113,8 +113,6 @@ $(function () {
         $('#footer_holder').trigger('footerLoaded');
     });
 
-    $('.addEditRecipeForm').load('/components/addEditRecipeForm.html');
-
     $(window).on('resize', function () {
         // make left side bar wider on medium screen
         changeColumnPercentage();
@@ -191,6 +189,7 @@ function onNavBarLoaded() {
 
 function showHideRightMenuItems() {
     $('.menu_item_right').toggle(getUserType() == null && ($(window).width() > 600 || ($(window).width() <= 600 && $('.menu_item_left').is(':visible'))));
+    $('.menu_add_recipe').toggle(getUserType() != null && ($(window).width() > 600 || ($(window).width() <= 600 && $('.menu_item_left').is(':visible'))));
 }
 
 function showHideSiteName() {
@@ -497,7 +496,7 @@ var count = 2;
 
 // values will be gotten from database and reset
 function addEditRecipe(id) {
-    // todo: load real data for edit recipe form
+    //todo: load real data for edit recipe form
     count = 2;
     document.getElementById("recipe_form_title").innerHTML = (id == 'addRecipe') ? "Add a Recipe" : "Edit Recipe";
     document.getElementById("recipe_name").value = (id == 'addRecipe') ? "" : "Scrambled Eggs";

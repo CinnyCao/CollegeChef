@@ -124,19 +124,21 @@
                                 </div>
                                 <div id="actionSelector" class="w3-left w3-margin">
                                     <b>Action Types: </b><br>
-                                    <div><input id="updated" class='actionTypes' type="checkbox" checked="checked" value="updated"> Updated</div>
-                                    <div><input id="deleted" class='actionTypes' type="checkbox" checked="checked" value="deleted"> Deleted</div>
-                                    <div><input id="commented" class='actionTypes' type="checkbox" checked="checked" value="commented"> Commented</div>
-                                    <div><input id="favorited" class='actionTypes' type="checkbox" checked="checked" value="favorited"> Favorited</div>
-                                    <div><input id="unFavorited" class='actionTypes' type="checkbox" checked="checked" value="unFavorited"> UnFavorite</div>
-                                    <div><input id="rated" class='actionTypes' type="checkbox" checked="checked" value="rated"> Rated</div>
+                                    <div id="updated"><input class='actionTypes' type="checkbox" checked="checked" value="updated"> Updated</div>
+                                    <div id="deleted"><input class='actionTypes' type="checkbox" checked="checked" value="deleted"> Deleted</div>
+                                    <div id="commented"><input class='actionTypes' type="checkbox" checked="checked" value="commented"> Commented</div>
+                                    <div id="favorited"><input class='actionTypes' type="checkbox" checked="checked" value="favorited"> Favorited</div>
+                                    <div id="unFavorited"><input class='actionTypes' type="checkbox" checked="checked" value="unFavorited"> UnFavorite</div>
+                                    <div id="rated" ><input class='actionTypes' type="checkbox" checked="checked" value="rated"> Rated</div>
                                 </div>
                             </div>
 
                             <hr>
 
                             <!-- all messages, there are four default types: rate, comment, favorite edit and uploaded edit -->
-                            <div class="msg-card"></div>
+                            <div class="msg-card">
+                            </div>
+                            <h4 id="noNoti" class="w3-center">No notifications found.</h4>
                         </div>
                         <!-- All Users -->
                         <div id="user-section" class="w3-container set-tab">
