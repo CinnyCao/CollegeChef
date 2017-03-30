@@ -4,6 +4,48 @@ $(function() {
         onNavBarLoaded();
     });
 
+    // get recipe data
+    $.ajax({
+        type : "GET",
+        url : "/recipe/" + getUrlParameter("id"),
+        dataType : "json",
+        contentType: "application/json; charset=utf-8",
+        success : function (recipeResponse) {
+            console.log(recipeResponse);
+            if (getUserType() == null) {
+                recipeResponse["hasFavorited"] = false;
+                $("#recipe_card_holder").append($(
+                    getRecipeCard(recipeResponse["recipeId"], recipeResponse["recipeName"], recipeResponse["description"], recipeResponse["imgUrl"],
+                        RECIPE_CARD_DISPLAY, recipeResponse)));
+            } else {
+                recipeResponse["hasFavorited"] = true;
+                // get is favorited
+                $.ajax({
+                    type : "GET",
+                    url : "/recipe/" + getUrlParameter("id") + "/favorite",
+                    dataType : "json",
+                    contentType: "application/json; charset=utf-8",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+                    },
+                    success : function (favoriteResponse) {
+                        console.log(favoriteResponse);
+                        recipeResponse["isFavorited"] = favoriteResponse["isFavorited"];
+                        $("#recipe_card_holder").append($(
+                            getRecipeCard(recipeResponse["recipeId"], recipeResponse["recipeName"], recipeResponse["description"], recipeResponse["imgUrl"],
+                                RECIPE_CARD_DISPLAY, recipeResponse)));
+                    },
+                    error: function (request, status, error) {
+                        alert(request.responseText);
+                    }
+                });
+            }
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    });
+
     /* Button listener for text post */
     $('.input_button').on('click', function(){
         text = $('.input_text').val();
@@ -31,6 +73,10 @@ $(function() {
         changeCommentSize();
     });
 });
+
+function loadRecipeCard() {
+    $(".recipe_cards_wrapper").append($(getRecipeCard(response[i]["_id"], response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"], RECIPE_CARD_EDITOR_TOOL)));
+}
 
 function changeCommentSize() {
     $('.post_content').height($('.post').width());

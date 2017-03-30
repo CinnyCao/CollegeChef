@@ -1,4 +1,4 @@
-module.exports = function (app, isDefined, Recipe, IngredientToRecipe) {
+module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
     // get all recipes
     app.get('/recipes', function (req, res) {
         Recipe.find({isDeleted: false}, '_id recipeName description imgUrl', function (err, allRecipes) {
@@ -10,74 +10,95 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe) {
     });
 
     var getRecipeDetail = function (req, res, recipeId) {
-        Recipe.aggregate(
+        Rate.aggregate(
             [
-                // find specified recipe
-                {"$match": {"_id": {"$eq": recipeId}}},
-                // join to get user info
-                {"$lookup": {
-                    from: "users",
-                    localField: "personId",
-                    foreignField: "_id",
-                    as: "uploader"
-                }},
-                {$unwind: "$uploader"},
-                // join to get modifier info
-                {"$lookup": {
-                    from: "users",
-                    localField: "ModifiedById",
-                    foreignField: "_id",
-                    as: "modifier"
-                }},
-                {$unwind: "$modifier"},
-                // join to get category name
-                {"$lookup": {
-                    from: "categories",
-                    localField: "categoryId",
-                    foreignField: "_id",
-                    as: "category"
-                }},
-                {$unwind: "$category"},
-                // join to get ingredients info
-                {"$lookup": {
-                    from: "ingredienttorecipes",
-                    localField: "_id",
-                    foreignField: "recipeId",
-                    as: "ingredients"
-                }},
-                // set return fields
-                {"$project": {
-                    "_id": 0,
-                    "recipeId": "$_id",
-                    "recipeName": 1,
-                    "description": 1,
-                    "instruction": 1,
-                    "imgUrl": 1,
-                    "numServings": 1,
-                    "ModifiedDate": 1,
-                    "uploaderId": "$uploader._id",
-                    "uploaderName": "$uploader.userName",
-                    "modifierId": "$modifier._id",
-                    "modifierName": "$modifier.userName",
-                    "categoryId": "$category._id",
-                    "categoryName": "$category.name",
-                    "ingredients.ingredientId": 1,
-                    "ingredients.amount": 1
+                // find records of required recipe
+                {"$match": {"recipeId": {"$eq": recipeId}}},
+                // group by recipe id and calculate average scores
+                {"$group": {
+                    "_id": "$recipeId",
+                    "avgScore": {"$avg": "$scores"}
                 }}
-            ], function (err, resultRecipes) {
-                if (err) {
-                    return console.error(err);
+            ], function (err, rateAvg) {
+                var rating = 0;
+                if (rateAvg.length) {
+                    rating = rateAvg[0].avgScore;
                 }
-                if (resultRecipes.length) {
-                    return res.json(resultRecipes[0]);
-                } else {
-                    return res.status(404).json({
-                        status: 404,
-                        message: "GET RECIPE FAILURE: Bad Request (recipe not found)"
-                    });
-                }
+
+                // find recipe infos
+                Recipe.aggregate(
+                    [
+                        // find specified recipe
+                        {"$match": {"_id": {"$eq": recipeId}}},
+                        // join to get user info
+                        {"$lookup": {
+                            from: "users",
+                            localField: "personId",
+                            foreignField: "_id",
+                            as: "uploader"
+                        }},
+                        {$unwind: "$uploader"},
+                        // join to get modifier info
+                        {"$lookup": {
+                            from: "users",
+                            localField: "ModifiedById",
+                            foreignField: "_id",
+                            as: "modifier"
+                        }},
+                        {$unwind: "$modifier"},
+                        // join to get category name
+                        {"$lookup": {
+                            from: "categories",
+                            localField: "categoryId",
+                            foreignField: "_id",
+                            as: "category"
+                        }},
+                        {$unwind: "$category"},
+                        // join to get ingredients info
+                        {"$lookup": {
+                            from: "ingredienttorecipes",
+                            localField: "_id",
+                            foreignField: "recipeId",
+                            as: "ingredients"
+                        }},
+                        // set return fields
+                        {"$project": {
+                            "_id": 0,
+                            "recipeId": "$_id",
+                            "recipeName": 1,
+                            "description": 1,
+                            "instruction": 1,
+                            "imgUrl": 1,
+                            "numServings": 1,
+                            "ModifiedDate": 1,
+                            "uploaderId": "$uploader._id",
+                            "uploaderName": "$uploader.userName",
+                            "modifierId": "$modifier._id",
+                            "modifierName": "$modifier.userName",
+                            "categoryId": "$category._id",
+                            "categoryName": "$category.name",
+                            "ingredients.ingredientId": 1,
+                            "ingredients.amount": 1
+                        }}
+                    ], function (err, resultRecipes) {
+                        if (err) {
+                            return console.error(err);
+                        }
+                        if (resultRecipes.length) {
+                            // add rating
+                            resultRecipes[0]["avgRating"] = rating;
+
+                            return res.json(resultRecipes[0]);
+                        } else {
+                            return res.status(404).json({
+                                status: 404,
+                                message: "GET RECIPE FAILURE: Bad Request (recipe not found)"
+                            });
+                        }
+                    }
+                )
             }
-        )
+        );
     };
 
     // add a recipe

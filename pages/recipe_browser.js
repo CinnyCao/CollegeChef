@@ -21,7 +21,7 @@ function populateRecipeCards() {
         contentType: "application/json; charset=utf-8",
         success : function (response) {
             for (var i = 0; i < response.length; i++) {
-                $(".recipe_cards_wrapper").append($(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"], RECIPE_CARD_EDITOR_TOOL)));
+                $(".recipe_cards_wrapper").append($(getRecipeCard(response[i]["_id"], response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"], RECIPE_CARD_EDITOR_TOOL)));
             }
             showHideRecipeEditorTools();
         },

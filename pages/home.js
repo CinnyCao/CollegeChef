@@ -65,7 +65,7 @@ function populateRecipeCards() {
         success : function (response) {
             for (var i = 0; i < response.length; i++) {
                 $("#hot_recipes").append(
-                    $(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"],
+                    $(getRecipeCard(response[i]["_id"], response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"],
                     RECIPE_CARD_COMMENT_COUNT_TOOL, response[i]["commentCount"])));
             }
         },
@@ -82,7 +82,7 @@ function populateRecipeCards() {
         success : function (response) {
             for (var i = 0; i < response.length; i++) {
                 $("#remarkable_recipes").append(
-                    $(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"],
+                    $(getRecipeCard(response[i]["_id"], response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"],
                         RECIPE_CARD_RATING_DISPLAY_TOOL, response[i]["avgScore"])));
             }
         },
@@ -98,7 +98,7 @@ function populateRecipeCards() {
         contentType: "application/json; charset=utf-8",
         success : function (response) {
             for (var i = 0; i < response.length; i++) {
-                $("#new_recipes").append($(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"])));
+                $("#new_recipes").append($(response[i]["_id"], getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"])));
             }
         },
         error: function (request, status, error) {
@@ -122,7 +122,7 @@ function populateUserOnlyRecipeList() {
             success : function (response) {
                 for (var i = 0; i < response.length; i++) {
                     $("#favorite_recipes").append(
-                        $(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"],
+                        $(getRecipeCard(response[i]["_id"], response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"],
                             RECIPE_CARD_FAVORITE_BUTTON_TOOL, true)));
                 }
             },
@@ -142,7 +142,7 @@ function populateUserOnlyRecipeList() {
             success : function (response) {
                 for (var i = 0; i < response.length; i++) {
                     $("#uploaded_recipes").append(
-                        $(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"],
+                        $(getRecipeCard(response[i]["_id"], response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"],
                             RECIPE_CARD_EDITOR_TOOL)));
                 }
             },
@@ -179,7 +179,7 @@ function searchByIngredient() {
             if (response.length > 0) {
                 for (var i = 0; i < response.length; i++) {
                     $("#result_recipes").append(
-                        $(getRecipeCard(response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"])));
+                        $(getRecipeCard(response[i]["_id"], response[i]["recipeName"], response[i]["description"], response[i]["imgUrl"])));
                 }
             } else {
                 $("#result_recipes").append("<p>No recipes found matching the ingredients selected.</p>");

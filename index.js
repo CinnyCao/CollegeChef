@@ -139,7 +139,7 @@ connection.once('open', function() {
     require('./apis/specialty_recipes_endpoints.js')(app, Recipe, IngredientToRecipe, Ingredient, Rate, Favorite, Comment);
 
     // Endpoints that manage recipes
-    require('./apis/recipes_endpoints.js')(app, isDefined, Recipe, IngredientToRecipe);
+    require('./apis/recipes_endpoints.js')(app, isDefined, Recipe, IngredientToRecipe, Rate);
 
     // Endpoints that manage comments, rate and favorite
     require('./apis/recipes_evaluation_endpoints.js')(app, isDefined, Comment, Rate, Favorite, Recipe, ActionType, ActionHistory);

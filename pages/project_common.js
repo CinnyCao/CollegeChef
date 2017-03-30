@@ -159,6 +159,21 @@ function deleteConfirm(action) {
     confirm(msg);
 }
 
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
 /**
  * Navigation Bar
  */
@@ -318,63 +333,76 @@ function getEnteredNewPwdPart() {
 
 var RECIPE_CARD_EDITOR_TOOL = "EDITOR";
 var RECIPE_CARD_RATING_DISPLAY_TOOL = "RATING_DISPLAY";
-var RECIPE_CARD_RATING_BUTTON_TOOL = "RATING_BUTTON";
 var RECIPE_CARD_COMMENT_COUNT_TOOL = "COMMENT_COUNT";
 var RECIPE_CARD_FAVORITE_BUTTON_TOOL = "FAVORITE_BUTTON";
+var RECIPE_CARD_DISPLAY = "DISPLAY";
 
-function getRecipeCard(name, description, src, tool, toolData) {
-    var href = "/pages/recipe_view.html"; // todo: generate different href to revipe_view page for different recipe
+function getRecipeCard(id, name, description, src, tool, toolData) {
+    var href = "/pages/recipe_view.html?id=" + id;
     // ellipsis description
-    if (description.length > 100) {
+    if (tool !== RECIPE_CARD_DISPLAY && description.length > 100) {
         description = description.substr(0, 100) + "...";
     }
     // add tool if requested
-    var toolPositionTop = "";
-    var toolPositionBottm = "";
+    var editorTool = "";
+    var ratingTool = "";
+    var commentTool = "";
+    var favoriteTool = "";
     if (tool === RECIPE_CARD_EDITOR_TOOL) {
-        toolPositionTop = '' +
+        editorTool = '' +
                 '<div class="recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right">' +
                 '<i class="recipe_card_tools fa fa-trash fa-fw w3-hover-grey" onclick="event.stopPropagation(); deleteRecipe()"></i>' +
                 '<i class="recipe_card_tools fa fa-pencil-square-o fa-fw w3-hover-grey" onclick="event.stopPropagation(); addEditRecipe(\'editRecipe\')"></i>' +
                 '</div>';
-    } else if (tool === RECIPE_CARD_RATING_DISPLAY_TOOL) {
-        toolPositionBottm = '<div class="recipe_card_tools_wrapper rating_display">';
-        for (var i = 0; i < 5 - toolData; i++) {
-            toolPositionBottm += '<lable class="rating_display_star_grey"></lable>';
+    }
+    if (tool === RECIPE_CARD_RATING_DISPLAY_TOOL || tool === RECIPE_CARD_DISPLAY) {
+        var rating;
+        if (tool === RECIPE_CARD_DISPLAY) {
+            rating = Math.ceil(toolData["avgRating"]); // todo: display half star for 0.5 score
+        } else {
+            rating = Math.ceil(toolData);
         }
-        for (var i = 0; i < toolData; i++) {
-            toolPositionBottm += '<label class="rating_display_star_gold"></label>';
+        ratingTool = '<div class="recipe_card_tools_wrapper rating_display">';
+        for (var i = 0; i < 5 - rating; i++) {
+            ratingTool += '<lable class="rating_display_star_grey"></lable>';
         }
-        toolPositionBottm += '</div>';
-    } else if (tool === RECIPE_CARD_RATING_BUTTON_TOOL) {
-
-    } else if (tool === RECIPE_CARD_COMMENT_COUNT_TOOL) {
-        toolPositionTop = '<div class="recipe_card_tools_wrapper comment_count">' +
+        for (var i = 0; i < rating; i++) {
+            ratingTool += '<label class="rating_display_star_gold"></label>';
+        }
+        ratingTool += '</div>';
+    }
+    if (tool === RECIPE_CARD_COMMENT_COUNT_TOOL) {
+        commentTool = '<div class="recipe_card_tools_wrapper comment_count">' +
                 '<img src="/img/comment.png" alt="Num of Comments:">' +
                 '<p>x' + toolData + '</p>' +
                 '</div>';
-    } else if (tool === RECIPE_CARD_FAVORITE_BUTTON_TOOL) {
+    }
+    if (tool === RECIPE_CARD_FAVORITE_BUTTON_TOOL || tool === RECIPE_CARD_DISPLAY) {
+        var isFavorited = toolData;
+        if (tool === RECIPE_CARD_DISPLAY) {
+            isFavorited = toolData["isFavorited"];
+        }
         var favorited = "";
         var hint = "";
-        if (toolData) {
+        if (isFavorited) {
             favorited = "favoritedHeart";
             hint = "Click to unfavorite";
         } else {
             hint = "Click to favorite";
         }
-        toolPositionTop = '' +
+        favoriteTool = '' +
                 '<div class="recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right" title="' + hint + '">' +
                 '<i class="recipe_card_tools ' + favorited + ' fa fa-heart fa-fw w3-hover-grey" onclick="event.stopPropagation(); toggleFavorite()"></i>' +
                 '</div>';
     }
     return '' +
             '<div class="recipe_card w3-card-2 w3-hover-shadow" title="' + name + '" onclick="location.href=\'' + href + '\'">' +
-                '<span class="recipe_card_img_wrapper"><img src="' + src + '" alt="' + name + '">' + toolPositionBottm + '</span>' +
+                '<span class="recipe_card_img_wrapper"><img src="' + src + '" alt="' + name + '">' + ratingTool + '</span>' +
             '<div class="w3-container w3-center">' +
             '<p class="recipe_card_title">' + name + '</p>' +
             '<p class="recipe_card_des">' + description + '</p>' +
             '</div>' +
-                toolPositionTop +
+                editorTool + commentTool + favoriteTool +
             '</div>';
 }
 

@@ -93,7 +93,6 @@ module.exports = function (app, isDefined, Comment, Rate, Favorite, Recipe, Acti
                     "avgScore": {"$avg": "$scores"}
                 }}
             ], function (err, rateAvg) {
-                console.log(rateAvg);
                 if (rateAvg.length)
                 {
                     return res.json({"avgScore": rateAvg[0].avgScore});
@@ -263,6 +262,28 @@ module.exports = function (app, isDefined, Comment, Rate, Favorite, Recipe, Acti
             return res.status(401).json({
                 status: 401,
                 message: "UNFAVORITE RECIPE FAILURE: Unauthorized (missing token or token expired)"
+            });
+        }
+    });
+
+    // get favorite
+    app.get("/recipe/:recipeId/favorite", function (req, res) {
+        if (req.auth)
+        {
+            Favorite.findOne({recipeId: parseInt(req.params.recipeId), personId: req.userID}, function (err, foundRecord) {
+                if (err)
+                    return console.error(err);
+                if (foundRecord) {
+                    return res.json({"isFavorited": true});
+                } else {
+                    return res.json({"isFavorited": false});
+                }
+            });
+        } else
+        {
+            return res.status(401).json({
+                status: 401,
+                message: "GHECK FAVORITE FAILURE: Unauthorized (missing token or token expired)"
             });
         }
     });

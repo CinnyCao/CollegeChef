@@ -48,7 +48,7 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
             ], function (err, resultRecipes) {
                 res.json(resultRecipes);
             }
-        )
+        );
     });
 
     // get hot (mostly commented) recipes
@@ -85,7 +85,7 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
             ], function (err, resultRecipes) {
                 res.json(resultRecipes);
             }
-        )
+        );
     });
     
     // get remarkable (highest rated) recipes
@@ -122,7 +122,7 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
             ], function (err, resultRecipes) {
                 res.json(resultRecipes);
             }
-        )
+        );
     });
     
     // get new recipes
@@ -145,7 +145,7 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
             ], function (err, resultRecipes) {
                 res.json(resultRecipes);
             }
-        )
+        );
     });
     
     // get favorited recipes
@@ -176,7 +176,7 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                 ], function (err, resultRecipes) {
                     res.json(resultRecipes);
                 }
-            )
+            );
         } else {
             return res.status(401).json({
                 status: 401,
@@ -215,7 +215,7 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                 ], function (err, resultRecipes) {
                     res.json(resultRecipes);
                 }
-            )
+            );
         } else {
             return res.status(401).json({
                 status: 401,
