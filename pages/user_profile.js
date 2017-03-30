@@ -37,7 +37,7 @@ $(function () {
     controlTab();
 
     //load notification messages
-    populateNotifications({});
+    populateNotifications({}, []);
 });
 
 var defaultProfileImg = "/img/profile_picture.jpg";
@@ -181,12 +181,15 @@ function controlTab() {
     }
 }
 
-function setFileType(id) {
+function filterNotification() {
     var params = {};
-    if (id == "favorite") {
+
+    var type = $("input[name=fileType]:checked").val();
+    if (type == "favorite") {
         hide('commented');
         hide('favorited');
         hide('rated');
+        hide('unFavorited');
         // clear params
         params = {};
         params['recipetype'] = 'favorite';
@@ -194,39 +197,48 @@ function setFileType(id) {
         show('commented');
         show('favorited');
         show('rated');
+        show('unFavorited');
         // clear params
         params = {};
-        if (id == 'uploaded') {
+        if (type == 'uploaded') {
             params['recipetype'] = 'uploaded';
         }
     }
 
-    populateNotifications(params);
-}
-
-function setActionType(id) {
-    var params = {};
-    
-    $('#actionSelector div').change(function () {
-        console.log("hi");
+    var actions = [];
+    $("input[class=actionTypes]:checked").each(function () {
+        var val = this.value;
+        if (val == "updated") {
+            actions.push('update');
+        } else if (val == "deleted") {
+            actions.push('delete');
+        } else if (val == "commented") {
+            actions.push('comment');
+        } else if (val == "favorited") {
+            actions.push('favorite');
+        } else if (val == "unFavorited") {
+            actions.push('unfavorite');
+        } else {
+            actions.push('rate');
+        }
     });
-    
-    populateNotifications(params);
+
+    populateNotifications(params, actions);
 }
 
 // notification part
-function populateNotifications(params) {
+function populateNotifications(params, actionTypes) {
     var query = '/notification';
 
     if (params) {
         query = query + '?' + $.param(params);
     }
-
     $.ajax({
         url: query,
         type: "GET",
         dataType: "json",
         contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({'actiontype': 'actionTypes'}),
         beforeSend: function (xhr) {
             xhr.setRequestHeader("Authorization", "Bearer " + getToken());
         },
@@ -305,18 +317,18 @@ function populateUserCards() {
         success: function (users) {
             // update user card
             users.forEach(function (user) {
-                $(".user-card").append($(getUserCard(user['userName'], user['profilePhoto'] || defaultProfileImg)));
+                $(".user-card").append($(getUserCard(user['userName'], user['profilePhoto'] || defaultProfileImg, user['_id'])));
             });
         }
     });
 }
 
-function getUserCard(name, photo) {
+function getUserCard(name, photo, id) {
     return '<section id="user-card-set" class="w3-white w3-card-2 w3-hover-shadow w3-margin w3-tooltip">' +
             '<img id="user-card-photo" src=' + photo + ' alt="Profile Photo">' +
             '<h4 class="w3-container w3-center">' + name + '</h4>' +
             '<div class="display-bottom">' +
-            '<div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="deleteUser()">Delete</div>' +
+            '<div id=' + id + ' class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="deleteUser(this.id)">Delete</div>' +
             '<div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="show(\'edit-profile\');">Edit</div>' +
             '</div>' +
             '</section>';
@@ -327,7 +339,29 @@ function saveNotificationSetting() {
     // todo
 }
 
-function deleteUser() {
+function deleteUser(id) {
     deleteConfirm("user");
-    // todo
+    
+    var params = {'userId': id};
+    $.ajax({
+        url: '/user',
+        type: "DELETE",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(params),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+        },
+        statusCode: {
+            401: function (response) {
+                console.error(response);
+            }
+        },
+        success: function (users) {
+            // update user card
+            users.forEach(function (user) {
+                $(".user-card").append($(getUserCard(user['userName'], user['profilePhoto'] || defaultProfileImg)));
+            });
+        }
+    });
 }

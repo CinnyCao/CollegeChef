@@ -73,32 +73,37 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
     });
 
     // delete user
-    app.delete('/user', function (req, res) {
+    app.delete('/user/:userId', function (req, res) {
+        var userId = parseInt(req.params.userId);
         if (!req.auth) {
-            console.error("Request failed: Not logged in");
             return res.status(401).json({
                 status: 401,
                 message: "Request failed: Not logged in"
             });
-        }
-        if (!req.isAdmin) {
-            console.error("Request failed: Lacking admin credentials");
+        } else if (!req.isAdmin) {
             return res.status(401).json({
                 status: 401,
                 message: "Request failed: Lacking admin credentials"
             });
-        }
-        if (req.body.userId) {
-            User.deleteOne({'_id': req.body.userId}, function (err, result) {
+        } else if (req.userID == userId) {
+            return res.status(403).json({
+                status: 403,
+                message: "Request failed: Admins can not delete themselves."
+            });
+        } else if (userId) {
+            User.deleteOne({'_id': userId}, function (err, result) {
                 if (err) {
                     console.error(err);
                 }
-                return res.sendStatus(200);
+                return res.status(200).json({
+                    status: 200,
+                    message: result
+                });
             });
         } else {
             return res.status(400).json({
                 status: 400,
-                message: "Request failed"
+                message: "Request failed: Missing user id."
             });
         }
     });
@@ -113,14 +118,14 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
             });
         }
         // only admin or the user himself can fetch profile
-        if (!req.isAdmin && req.userID != req.params.userId) {
+        if (!req.isAdmin && req.userID != parseInt(req.params.userId)) {
             console.error("Request failed: Lacking proper credentials");
             return res.status(401).json({
                 status: 401,
                 message: "Request failed: Lacking proper credentials"
             });
         }
-        User.findOne({'_id': req.params.userId},
+        User.findOne({'_id': parseInt(req.params.userId)},
                 '_id userName email isAdmin description profilePhoto', function (err, user) {
                     if (err) {
                         console.error(err);
