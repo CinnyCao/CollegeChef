@@ -9,11 +9,11 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe) {
         });
     });
 
-    var getRecipeDetail = function (req, res) {
+    var getRecipeDetail = function (req, res, recipeId) {
         Recipe.aggregate(
             [
                 // find specified recipe
-                {"$match": {"_id": {"$eq": parseInt(req.params.recipeId)}}},
+                {"$match": {"_id": {"$eq": recipeId}}},
                 // join to get user info
                 {"$lookup": {
                     from: "users",
@@ -68,14 +68,67 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe) {
                 if (err) {
                     return console.error(err);
                 }
-                res.json(resultRecipes);
+                if (resultRecipes.length) {
+                    return res.json(resultRecipes[0]);
+                } else {
+                    return res.status(404).json({
+                        status: 404,
+                        message: "GET RECIPE FAILURE: Bad Request (recipe not found)"
+                    });
+                }
             }
         )
     };
 
     // add a recipe
     app.post("/recipe", function (req, res) {
+        if (req.auth) {
+            if (req.body.recipeName && req.body.categoryId && req.body.description && req.body.instruction
+                && req.body.imgUrl && req.body.numServings && req.body.ingredients) {
+                var recipeData = {};
+                recipeData["recipeName"] = req.body.recipeName;
+                recipeData["categoryId"] = req.body.categoryId;
+                recipeData["description"] = req.body.description;
+                recipeData["instruction"] = req.body.instruction;
+                recipeData["imgUrl"] = req.body.imgUrl;
+                recipeData["numServings"] = req.body.numServings;
+                if (req.body.notes) {
+                    recipeData["notes"] = req.body.notes;
+                }
+                var recipe = new Recipe(recipeData);
+                recipe.save(function (err, newRecipe) {
+                    if (err) {
+                        return console.error(err);
+                    }
+                    // link with ingredients
+                    var ingredientData = [];
+                    for (var i=0; i<req.body.ingredients.length; i++) {
+                        var data = {};
+                        data["ingredientId"] = req.body.ingredients[i].id;
+                        data["recipeId"] = newRecipe._id;
+                        data["amount"] = req.body.ingredients[i].amount;
+                        ingredientData.push(data);
+                    }
 
+                    IngredientToRecipe.create(ingredientData, function (err, created) {
+                        if (err) {
+                            return console.error(err);
+                        }
+                        getRecipeDetail(req, res, newRecipe._id);
+                    });
+                });
+            } else {
+                return res.status(400).json({
+                    status: 400,
+                    message: "CREATE RECIPE FAILURE: Bad Request (missing required fields)"
+                });
+            }
+        } else {
+            return res.status(401).json({
+                status: 401,
+                message: "UPDATE RECIPE FAILURE: Unauthorized (missing token or token expired)"
+            });
+        }
     });
 
     // delete a recipe
@@ -113,6 +166,9 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe) {
             var toUpdate = {};
             if (req.body.recipeName) {
                 toUpdate["recipeName"] = req.body.recipeName;
+            }
+            if (req.body.categoryId) {
+                toUpdate["categoryId"] = req.body.categoryId;
             }
             if (req.body.description) {
                 toUpdate["description"] = req.body.description;
@@ -156,11 +212,11 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe) {
                                     if (err) {
                                         return console.error(err);
                                     }
-                                    getRecipeDetail(req, res);
+                                    getRecipeDetail(req, res, parseInt(req.params.recipeId));
                                 });
                             });
                         } else {
-                            getRecipeDetail(req, res);
+                            getRecipeDetail(req, res, parseInt(req.params.recipeId));
                         }
                     } else {
                         return res.status(404).json({
@@ -179,7 +235,7 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe) {
     });
 
     app.get("/recipe/:recipeId", function (req, res) {
-        getRecipeDetail(req, res);
+        getRecipeDetail(req, res, parseInt(req.params.recipeId));
     });
 
 };

@@ -63,25 +63,43 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
 
     // insert built-in ingredients
     var ingredients = [
-        {"name": "cream", "imgUrl": "/img/ingredients/cream.jpg"},
-        {"name": "flour", "imgUrl": "/img/ingredients/flour.jpg"},
-        {"name": "potato", "imgUrl": "/img/ingredients/potato.jpg"},
-        {"name": "milk", "imgUrl": "/img/ingredients/milk.jpg"},
-        {"name": "onion", "imgUrl": "/img/ingredients/onion.jpg"},
-        {"name": "corn", "imgUrl": "/img/ingredients/corn.jpg"},
-        {"name": "butter", "imgUrl": "/img/ingredients/butter.jpg"},
-        {"name": "raseberry", "imgUrl": "/img/ingredients/raseberry.png"},
-        {"name": "egg", "imgUrl": "/img/ingredients/egg.jpg"},
+        {"name": "cream", "imgUrl": "/img/ingredients/cream.png"},
+        {"name": "flour", "imgUrl": "/img/ingredients/flour.png"},
+        {"name": "potato", "imgUrl": "/img/ingredients/potato.png"},
+        {"name": "milk", "imgUrl": "/img/ingredients/milk.png"},
+        {"name": "onion", "imgUrl": "/img/ingredients/onion.png"},
+        {"name": "corn", "imgUrl": "/img/ingredients/corn.png"},
+        {"name": "butter", "imgUrl": "/img/ingredients/butter.png"},
+        {"name": "raspberry", "imgUrl": "/img/ingredients/raspberry.png"},
+        {"name": "egg", "imgUrl": "/img/ingredients/egg.png"},
         {"name": "rice", "imgUrl": "/img/ingredients/rice.png"},
         {"name": "beef", "imgUrl": "/img/ingredients/beef.png"},
-        {"name": "stroganoff", "imgUrl": "/img/ingredients/stroganoff.jpg"},
-        {"name": "pumpkin", "imgUrl": "/img/ingredients/pumpkin.jpg"},
+        {"name": "pumpkin", "imgUrl": "/img/ingredients/pumpkin.png"},
         {"name": "chicken", "imgUrl": "/img/ingredients/chicken.png"},
         {"name": "pork", "imgUrl": "/img/ingredients/pork.jpg"},
-        {"name": "bacon", "imgUrl": "/img/ingredients/bacon.jpg"},
-        {"name": "lettuce", "imgUrl": "/img/ingredients/lettuce.jpg"},
-        {"name": "tomato", "imgUrl": "/img/ingredients/tomato.jpg"},
-        {"name": "bread", "imgUrl": "/img/ingredients/bread.png"}
+        {"name": "bacon", "imgUrl": "/img/ingredients/bacon.png"},
+        {"name": "lettuce", "imgUrl": "/img/ingredients/lettuce.png"},
+        {"name": "tomato", "imgUrl": "/img/ingredients/tomato.png"},
+        {"name": "bread", "imgUrl": "/img/ingredients/bread.png"},
+        {"name": "bean", "imgUrl": "/img/ingredients/bean.png"},
+        {"name": "pasta", "imgUrl": "/img/ingredients/pasta.png"},
+        {"name": "spaghetti", "imgUrl": "/img/ingredients/spaghetti.png"},
+        {"name": "cheese", "imgUrl": "/img/ingredients/cheese.png"},
+        {"name": "garlic", "imgUrl": "/img/ingredients/garlic.png"},
+        {"name": "bagel", "imgUrl": "/img/ingredients/bagel.png"},
+        {"name": "salmon", "imgUrl": "/img/ingredients/salmon.png"},
+        {"name": "cod", "imgUrl": "/img/ingredients/cod.png"},
+        {"name": "shrimp", "imgUrl": "/img/ingredients/shrimp.png"},
+        {"name": "turkey", "imgUrl": "/img/ingredients/turkey.png"},
+        {"name": "chocolate", "imgUrl": "/img/ingredients/chocolate.png"},
+        {"name": "strawberry", "imgUrl": "/img/ingredients/strawberry.png"},
+        {"name": "peach", "imgUrl": "/img/ingredients/peach.png"},
+        {"name": "blueberry", "imgUrl": "/img/ingredients/blueberry.png"},
+        {"name": "chilli", "imgUrl": "/img/ingredients/chilli.png"},
+        {"name": "curry", "imgUrl": "/img/ingredients/curry.png"},
+        {"name": "miso", "imgUrl": "/img/ingredients/miso.png"},
+        {"name": "wine", "imgUrl": "/img/ingredients/wine.png"},
+        {"name": "ginger", "imgUrl": "/img/ingredients/ginger.png"},
     ];
 
     Ingredient.find({}, function (err, allingredients) {
@@ -166,7 +184,7 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
             "description": "This 2 ingredient white chocolate mousse is easy enough even for the most basic cook. Grab some cream and white chocolate and you're good to go!",
             "img": "/img/recipes/mousse.jpg",
             "category": "Desserts",
-            "ingredient": ["cream", "raseberry"]
+            "ingredient": ["cream", "raspberry"]
         },
         {
             "recipeName": "Heart Shaped Eggs",
@@ -187,7 +205,7 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
             "description": "Beef stroganoff is a classic recipe that never goes out of style. Try this easy version that keeps things simple but delivers all the stroganoff flavours you know and love.",
             "img": "/img/recipes/beefstroganoff.jpg",
             "category": "Main: Beef",
-            "ingredient": ["beef", "stroganoff"]
+            "ingredient": ["beef"]
         },
         {
             "recipeName": "Pumpkin Soup",
