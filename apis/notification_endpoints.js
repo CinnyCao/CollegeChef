@@ -7,7 +7,7 @@ module.exports = function (app, isDefined, ActionType, ActionHistory, Favorite) 
             // check if input query are valid
             var validQueryKeys = {
                 "recipetype": ["uploaded", "favorite"],
-                "actiontype": ["rate", "comment", "favorite", "unfavorite", "update", "delete"]
+                "actiontype": ["rate", "comment", "favorite", "update", "delete"]
             };
             for (var key in req.query) {
                 if (Object.keys(validQueryKeys).indexOf(key) >= 0) {
@@ -20,11 +20,9 @@ module.exports = function (app, isDefined, ActionType, ActionHistory, Favorite) 
                         }
                     } else if (key === "actiontype") {
                         queryValue = req.query.actiontype;
-                        queryValue.forEach(function(act){
-                            if (validQueryKeys["actiontype"].indexOf(act) < 0) {
-                                valueValid = false;
-                            }
-                        });
+                        if (validQueryKeys["actiontype"].indexOf(queryValue) < 0) {
+                            valueValid = false;
+                        }
                     }
                     if (!valueValid) {
                         return res.status(400).json({
@@ -43,7 +41,11 @@ module.exports = function (app, isDefined, ActionType, ActionHistory, Favorite) 
             // find requested action type ids
             var actionMatch = {};
             if (isDefined(req.query.actiontype)) {
-                actionMatch["typeName"] = req.query.actiontype;
+                if (req.query.actiontype == "favorite") {
+                    actionMatch = {"$or": [{"typeName": {"$eq": "favorite"}}, {"typeName": {"$eq": "unfavorite"}}]};
+                } else {
+                    actionMatch["typeName"] = req.query.actiontype;
+                }
             }
             ActionType.find(actionMatch, function (err, types) {
                 var actionTypeIds = [];
