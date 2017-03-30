@@ -28,13 +28,13 @@ module.exports = function (app, isDefined, ActionType, ActionHistory, Favorite) 
                         return res.status(400).json({
                             error: 400,
                             message: "GET NOTIFICATION FAILURE: Bad Request (Invalid query key or value)"
-                        })
+                        });
                     }
                 } else {
                     return res.status(400).json({
                         error: 400,
                         message: "GET NOTIFICATION FAILURE: Bad Request (Invalid query key or value)"
-                    })
+                    });
                 }
             }
 
@@ -48,7 +48,6 @@ module.exports = function (app, isDefined, ActionType, ActionHistory, Favorite) 
                 for (var i=0; i<types.length; i++) {
                     actionTypeIds.push(types[i]._id);
                 }
-
                 // find favorite recipe ids
                 Favorite.aggregate(
                     [

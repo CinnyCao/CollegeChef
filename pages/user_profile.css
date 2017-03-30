@@ -51,3 +51,8 @@ textarea {
     resize: none;
     width: 100%;
 }
+
+/*notification*/
+#actionSelector div, #fileTypeSelector div{
+    display:inline-block;
+}

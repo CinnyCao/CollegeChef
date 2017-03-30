@@ -80,9 +80,9 @@
                         <form id="editProfile-content" class="w3-container" action="javascript:saveProfile();">
                             <div class="w3-section">
                                 <div class="w3-container w3-center">
-                                <p class="w3-center"><img id="editUserForm-photo" src="/img/profile_picture.jpg" class="w3-circle photo-style" alt="profile image">
-                                </p>
-                                <input type='file' id="photo-input" accept=".jpeg,.jpg,.png" onchange="uploadProfilePhoto(this)"/>
+                                    <p class="w3-center"><img id="editUserForm-photo" src="/img/profile_picture.jpg" class="w3-circle photo-style" alt="profile image">
+                                    </p>
+                                    <input type='file' id="photo-input" accept=".jpeg,.jpg,.png" onchange="uploadProfilePhoto(this)"/>
                                 </div>
                                 <label><b>Email</b>
                                 </label>
@@ -115,40 +115,28 @@
                         </div>
                         <!-- Email Notifications -->
                         <div id="notification-section" class="w3-container set-tab">
-                            <p class="w3-center w3-hover-text-blue"><a href="javascript: show('set-notification-form');">Notification Settings</a>
-                            </p>
+                            <div class="w3-container w3-border-red w3-white w3-border w3-round-xlarge w3-margin-bottom w3-margin-top">
+                                <div id="fileTypeSelector" class="w3-left w3-margin">
+                                    <div><b>Recipe Types: </b></div><br>
+                                    <div><input id="all" type="radio" value="all" checked="checked" onChange="setFileType(this.id)" name="fileType"> All</div>
+                                    <div><input id="uploaded" type="radio" value="uploaded" onChange="setFileType(this.id)" name="fileType"> Uploaded</div>
+                                    <div><input id="favorite" type="radio" value="favorite" onChange="setFileType(this.id)" name="fileType"> Favorite</div>
+                                </div>
+                                <div id="actionSelector" class="w3-left w3-margin">
+                                    <b>Action Types: </b><br>
+                                    <div><input id="updated" type="checkbox" checked="checked" onChange="setActionType(this.id)" value="updated"> Updated</div>
+                                    <div><input id="deleted" type="checkbox" checked="checked" onChange="setActionType(this.id)" value="deleted"> Deleted</div>
+                                    <div><input id="commented" type="checkbox" checked="checked" onChange="setActionType(this.id)" value="commented"> Commented</div>
+                                    <div><input id="favorited" type="checkbox" checked="checked" onChange="setActionType(this.id)" value="favorited"> Favorited</div>
+                                    <div><input id="rated" type="checkbox" checked="checked" onChange="setActionType(this.id)" value="rated"> Rated</div>
+
+                                </div>
+                            </div>
+
+                            <hr>
 
                             <!-- all messages, there are four default types: rate, comment, favorite edit and uploaded edit -->
                             <div class="msg-card"></div>
-
-                            <!-- set notification form -->
-                            <section id="set-notification-form" class="w3-modal">
-                                <div class="form_dialog w3-modal-content w3-card-8 w3-animate-zoom">
-                                    <div class="w3-center">
-                                        <br>
-                                        <span onclick="hide('set-notification-form')" class="w3-closebtn w3-hover-red w3-container w3-padding-8 w3-display-topright" title="Close Modal">×</span>
-                                        <h2 class="form_title">Notification Settings</h2>
-                                        <hr>
-                                    </div>
-                                    <form id="setNotification-content" class="w3-container">
-                                        <div class="w3-section w3-padding">
-                                            <input class="w3-margin-bottom" type="checkbox" name="set-comment-notification" checked> Receive notification about comments.
-                                            <br>
-                                            <hr>
-                                            <input class="w3-margin-bottom" type="checkbox" name="set-rate-notification" checked> Receive notification about rates.
-                                            <br>
-                                            <hr>
-                                            <input class="w3-margin-bottom" type="checkbox" name="set-uploaded-notification" checked> Receive notification about my uploaded recipes.
-                                            <br>
-                                            <hr>
-                                            <input class="w3-margin-bottom" type="checkbox" name="set-favorite-notification" checked> Receive notification about my favorite recipes.
-                                            <br>
-                                            <hr>
-                                        </div>
-                                        <button onclick="saveNotificationSetting()" form="setNotification-content" class="w3-btn w3-right w3-green w3-margin-bottom">Save</button>
-                                    </form>
-                                </div>
-                            </section>
                         </div>
                         <!-- All Users -->
                         <div id="user-section" class="w3-container set-tab">

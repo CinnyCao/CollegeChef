@@ -30,14 +30,14 @@ $(function () {
     // load recipe_card
     populateRecipeCards();
 
-    //load notification messages
-    populateNotifications();
-
     //load user cards
     populateUserCards();
 
     // uploaded recipes is the default tab
     controlTab();
+
+    //load notification messages
+    populateNotifications({});
 });
 
 var defaultProfileImg = "/img/profile_picture.jpg";
@@ -163,7 +163,7 @@ function savePwd(userId = getUserID()) {
                 hide('reset-pwd');
             }
         });
-    }
+}
 }
 
 function controlTab() {
@@ -179,6 +179,91 @@ function controlTab() {
         $('#user-section').hide();
         $('#notification-tab').addClass('w3-border-red');
     }
+}
+
+function setFileType(id) {
+    var params = {};
+    if (id == "favorite") {
+        hide('commented');
+        hide('favorited');
+        hide('rated');
+        // clear params
+        params = {};
+        params['recipetype'] = 'favorite';
+    } else {
+        show('commented');
+        show('favorited');
+        show('rated');
+        // clear params
+        params = {};
+        if (id == 'uploaded') {
+            params['recipetype'] = 'uploaded';
+        }
+    }
+
+    populateNotifications(params);
+}
+
+function setActionType(id) {
+    var params = {};
+    
+    $('#actionSelector div').change(function () {
+        console.log("hi");
+    });
+    
+    populateNotifications(params);
+}
+
+// notification part
+function populateNotifications(params) {
+    var query = '/notification';
+
+    if (params) {
+        query = query + '?' + $.param(params);
+    }
+
+    $.ajax({
+        url: query,
+        type: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+        },
+        statusCode: {
+            401: function (response) {
+                console.error(response);
+            }
+        },
+        success: function (notifications) {
+            console.log(notifications);
+            $(".msg-card").html('');
+
+            notifications.forEach(function (noti) {
+                var fileType = noti['recipeOwnerId'] == getUserID() ? 'Your Uploaded Recipe ' : 'Your Favorite Recipe ';
+                var msg = fileType + '<b>' + noti['recipeName'] + '</b>' +
+                        noti['actionTypeMsg'] + '<b>' + noti['recipeOwnerName'] + '</b>';
+                $(".msg-card").append($(getNotificationMsgs(noti['actionTypeId'], msg, noti['recipeId'])));
+            });
+        }
+    });
+}
+
+function getNotificationMsgs(type, msg, recipeId) {
+    var href = "/pages/recipe_view.html?id=" + recipeId;
+    var labels = {};
+    labels['0'] = "fa-star";
+    labels['1'] = "fa-heart-o";
+    labels['2'] = "fa-pencil";
+    labels['3'] = "fa-commenting-o";
+    labels['4'] = "fa-heart";
+    labels['5'] = "fa-trash-o";
+
+    return '<div class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow"' +
+            '" onclick="location.href=\'' + href + '\'">' +
+            '<p><i class="fa ' + labels[type] + ' fa-fw w3-margin-right">' +
+            '</i>' + msg + '</p>' +
+            '</div>';
 }
 
 // open tab
@@ -201,13 +286,6 @@ function populateRecipeCards() {
     for (var i = 0; i < data.length; i++) {
         $(".uploaded-card").append($(getRecipeCard(null, data[i][0], data[i][1], data[i][2], RECIPE_CARD_EDITOR_TOOL)));
     }
-}
-
-function populateNotifications() {
-    var dataSet = msgs;
-    dataSet.forEach(function (msg) {
-        $(".msg-card").append($(getNotificationMsgs(msg[0], msg[1], msg[2])));
-    });
 }
 
 function populateUserCards() {
@@ -242,34 +320,6 @@ function getUserCard(name, photo) {
             '<div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="show(\'edit-profile\');">Edit</div>' +
             '</div>' +
             '</section>';
-}
-
-//4 notification types: rated(1), commented(2), favorite(3), uploaded(4)
-function getNotificationMsgs(type, name, recipeName) {
-    var href = "/pages/recipe_view.html";
-    var msg = "";
-    var label = "";
-    var href = "/pages/recipe_view.html";
-    if (type == 1) {
-        msg = "Your Recipe <b>" + recipeName + "</b> is rated by " + name + "!";
-        label = "fa-star";
-    } else if (type == 2) {
-        msg = "Your Recipe <b>" + recipeName + "</b> is commented by " + name + "!";
-        label = "fa-commenting-o";
-    } else if (type == 3) {
-        msg = "Your Favorite Recipe <b>" + recipeName + "</b> has been modified by " + name + "!";
-        label = "fa-heart";
-    } else if (type == 4) {
-        msg = "Your Recipe <b>" + recipeName + "</b> has been modified by " + name + "!";
-        label = "fa-book";
-    } else {
-        //invalid notification type        
-    }
-    return '<div class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow"' +
-            '" onclick="location.href=\'' + href + '\'">' +
-            '<p><i class="fa ' + label + ' fa-fw w3-margin-right">' +
-            '</i>' + msg + '</p>' +
-            '</div>';
 }
 
 // save the result of notification settings
