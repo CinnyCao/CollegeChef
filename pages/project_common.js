@@ -230,40 +230,44 @@ function login() {
             "userName": userName,
             "password": password
         };
-
-        $.ajax({
-            url: "/login",
-            type: "POST",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(params),
-            statusCode: {
-                403: function (response) {
-                    $('#loginFailed').html(response.responseJSON['message']);
-                    console.log(response);
-                }
-            },
-            success: function (response) {
-                // remember password if required
-                var rememberMe = $("#login_remember_me").is(":checked");
-                if (rememberMe) {
-                    setLoginRememberMe(true);
-                    setLoginUsername(userName);
-                    setLoginPassword(password);
-                } else {
-                    setLoginRememberMe(false);
-                    setLoginUsername("");
-                    setLoginPassword("");
-                }
-
-                setUserType(response["isAdmin"]);
-                setUser(JSON.stringify(response));
-                hide('login-form');
-                updateNavMenuItems();
-                $(window).trigger("loggedin");
-            }
-        });
+        
+        loginHelper(params);
     }
+}
+
+function loginHelper(params) {
+    $.ajax({
+        url: "/login",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(params),
+        statusCode: {
+            403: function (response) {
+                $('#loginFailed').html(response.responseJSON['message']);
+                console.log(response);
+            }
+        },
+        success: function (response) {
+            // remember password if required
+            var rememberMe = $("#login_remember_me").is(":checked");
+            if (rememberMe) {
+                setLoginRememberMe(true);
+                setLoginUsername(userName);
+                setLoginPassword(password);
+            } else {
+                setLoginRememberMe(false);
+                setLoginUsername("");
+                setLoginPassword("");
+            }
+
+            setUserType(response["isAdmin"]);
+            setUser(JSON.stringify(response));
+            hide('login-form');
+            updateNavMenuItems();
+            $(window).trigger("loggedin");
+        }
+    });
 }
 
 /* Logout */
@@ -282,8 +286,33 @@ function logOut() {
 
 /* Sign Up form */
 function signUp() {
-    // todo
+    var userName = $('#signUpUserName').val();
+    var pwd = $('.repeated-pwd:visible').val();
+    
+    if (userName && pwd && checkPasswordMatch()) {
+        var params = {'userName': userName, 'password': pwd};
+        
+            $.ajax({
+            url: "/user",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(params),
+            statusCode: {
+                403: function (response) {
+                    $('#usernameExist').html(response.responseJSON['message']);
+                    console.log(response);
+                }
+            },
+            success: function (response) {
+                hide('register-form');
+                // login with the new created user
+                loginHelper(params);
+            }
+        });
+    }   
 }
+
 
 /**
  * Footer
@@ -335,7 +364,7 @@ function getIngredientButton(id, title, src) {
  */
 
 function getEnteredNewPwdPart() {
-    var hint = "Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters";
+    var hint = "Must contain blahblah, pattern will be added later!!!!!!!";
     return '' +
             '<label><b>New Password*</b></label>' +
             '<input class="new-pwd w3-input w3-border" type="password"' +

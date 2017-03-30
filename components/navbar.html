@@ -54,21 +54,19 @@
         <div class="w3-center w3-padding-32"><img alt="logo" class="logo-img w3-center" src="/img/logo.png"></div>
         
         <!-- add action, pass records to server  -->
-        <form id="signup-content" class="w3-container">
+        <form id="signup-content" class="w3-container" action="javascript:signUp();">
             <div class="w3-section">
                 <label><b>UserName*</b></label>
-                <input class="w3-input w3-border" type="text" placeholder="Enter Username" name="usrname" required>
+                <input id="signUpUserName" class="w3-input w3-border" type="text" placeholder="Enter Username" required>
+                <p id="usernameExist" class="w3-text-red"></p>
                 <p class="w3-text-grey w3-margin-bottom">You will use your username to login.</p>
-                <label><b>Email (Optional)</b></label>
-                <input class="w3-input w3-border" type="text" placeholder="Enter Email" name="email">
-                <p class="w3-text-grey w3-margin-bottom">You will occasionally receive account related emails. We promise not to share your email with anyone.</p>
                 <div class="pwd-check"></div>
             </div>
         </form>
 
         <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
             <button onclick="hide('register-form')" type="button" class="w3-btn w3-red">Cancel</button>
-            <button onclick="signUp()" form="signup-content" class="w3-btn w3-right w3-green">Sign Up</button>
+            <button form="signup-content" class="w3-btn w3-right w3-green">Sign Up</button>
         </div>
 
     </div>

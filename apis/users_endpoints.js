@@ -39,7 +39,6 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
     // create user
     app.post('/user', function (req, res) {
         if (!req.body.userName || !req.body.password) {
-            console.error("Create user failed: Missing userName and/or password in request");
             return res.status(400).json({
                 status: 400,
                 message: "Create user failed: Missing userName and/or password in request"
@@ -51,10 +50,9 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
             }
             if (user)
             {
-                console.log("Create user failed: Username or email address is already in use");
                 return res.status(403).json({
                     status: 403,
-                    message: "Create user failed: Username or email address is already in use"
+                    message: "Username is already in use"
                 });
             } else {
                 User.create({'userName': req.body.userName, 'email': req.body.email,
@@ -62,12 +60,13 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
                     if (err) {
                         return console.error(err);
                     }
-                    console.log("User created");
-                    res.json({
-                        userId: createdUser._id,
-                        userName: createdUser.userName,
-                        isAdmin: createdUser.isAdmin,
-                    });
+                    if (createdUser) {
+                        console.log("User created");
+                        return res.status(200).json({
+                            status: 200,
+                            message: createdUser
+                        });
+                    }
                 });
             }
         });
@@ -173,11 +172,11 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
                         status: 200,
                         message: result
                     });
-                }else {
+                } else {
                     return res.status(403).json({
                         status: 403,
                         message: 'Invalid password or user does not exist.'
-                    }); 
+                    });
                 }
             });
         }
