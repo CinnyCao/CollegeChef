@@ -157,6 +157,19 @@ function deleteConfirm(action) {
     confirm(msg);
 }
 
+// upload profile photo in edit profile form
+function uploadPhoto(input, imgElement, storeName) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            sessionStorage.setItem(storeName, e.target.result);
+            $('#' + imgElement).attr('src', e.target.result)
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 function getUrlParameter(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
         sURLVariables = sPageURL.split('&'),
@@ -272,10 +285,18 @@ function loginHelper(params) {
 /* Logout */
 function logOut() {
     $.ajax({
+        url: '/logout',
         type: "GET",
-        url: "/logout",
         dataType: "json",
         contentType: "application/json; charset=utf-8",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+        },
+        statusCode: {
+            401: function (response) {
+                console.error(response);
+            }
+        },
         success: function (response) {
             removeUserType();
             window.location.href = "/index.html";
@@ -487,67 +508,101 @@ function deleteRecipe() {
 }
 
 function saveRecipe() {
-    // todo
+    hide('add-edit-recipe');
 }
 
 function toggleFavorite() {
     // todo
 }
 
+// add recipe form
 var count = 2;
+
+function listCategories() {
+    $.ajax({
+        url: '/categories',
+        type: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        statusCode: {
+            403: function (response) {
+                console.error(response);
+            }
+        },
+        success: function (categories) {
+            $.each(categories, function (i, category) {
+                $('#category').append($('<option>', {
+                    value: category._id,
+                    text : category.name 
+                }));
+            });
+        }
+    });
+}
+
+function listIngredients() {
+    $.ajax({
+        type : "GET",
+        url : "/ingredients",
+        dataType : "json",
+        contentType: "application/json; charset=utf-8",
+        success : function (ingredients) {
+            $.each(ingredients, function (i, ingredient) {
+                $('.ingredientList').append($('<option>', {
+                    value: ingredient._id,
+                    text : ingredient.name 
+                }));
+            });
+        }
+    });
+}
+
+function addIngredientListTemplate(){
+    return '<div class="oneIgredient w3-margin-bottom">' +
+    '<div class="w3-container">' + 
+    '<select class="ingredientList input-set added_ings w3-border w3-margin-right w3-left" required>' +
+    '<option value="" selected>Select an ingredient</option>' +
+    '</select>' +
+    '<input class="quantity input-set w3-border w3-margin-right w3-left" placeholder="Enter ingredient quantity" required>' +
+    '<i class="timesBtn w3-hover-text-blue w3-xlarge fa fa-times w3-left" onClick="deleteIngredient(this);"></i>' + 
+    '</div>' +
+    '<p class="invalidIngredientInput w3-text-red w3-hide">Please select an ingredient and enter the quality.</p>' +
+    '</div>'
+}
+
+function addIngredient(){
+    $(".eachIngredient").append(addIngredientListTemplate());
+    listIngredients();
+    checkIngredientAmount();
+}
+
+function deleteIngredient(current){
+    $(current).parent().remove();
+    // fix later
+    //$(".eachIngredient").first().prepend();
+    checkIngredientAmount();
+}
+
+function checkIngredientAmount() {
+    console.log($(".oneIgredient"));
+    if($(".oneIgredient").length == 1) {
+        $('.timesBtn').addClass('w3-hide');
+    } else {
+        $('.timesBtn').removeClass('w3-hide');
+    }
+}
 
 // values will be gotten from database and reset
 function addEditRecipe(id) {
-    //todo: load real data for edit recipe form
-    count = 2;
-    document.getElementById("recipe_form_title").innerHTML = (id == 'addRecipe') ? "Add a Recipe" : "Edit Recipe";
-    document.getElementById("recipe_name").value = (id == 'addRecipe') ? "" : "Scrambled Eggs";
-    document.getElementById("category").value = (id == 'addRecipe') ? "" : "Breakfast";
-    document.getElementById("photo").value = (id == 'addRecipe') ? "" : "https://upload.wikimedia.org/wikipedia/commons/1/1e/Brinner.jpg";
-    document.getElementById("main_description").value = (id == 'addRecipe') ? "" : "Luscious, fluffy, and buttery scrambled eggs.";
-    document.getElementById("servings").value = (id == 'addRecipe') ? "" : "1";
-    document.getElementById("instructions").value = (id == 'addRecipe') ? "" : "1. Whisk eggs, milk, salt together until consistent; 2. Heat butter in pan; 3. Pour egg mixture into pan; 4. Let it sit for 15 seconds then stir; 5. Repeat until eggs are softly set";
-    document.getElementById("tips").value = (id == 'addRecipe') ? "" : "Serve with black coffee.";
-    document.getElementById("ingredient_list").innerHTML = "<div class='item' id='item1'><select id='ingredient1'" +
-            "class='ing w3-input w3-border w3-margin-bottom' name='ingredient' required><option value='' disabled selected>" +
-            "Select an ingredient</option></select><input id='quantity1' class='w3-input w3-border w3-margin-bottom'" +
-            "name='quantity' placeholder='Enter ingredient quantity' required></div>";
-    buildIngredientList(1);
-    if (id == 'editRecipe') {
-        document.getElementById("ingredient1").value = "Egg";
-        document.getElementById("quantity1").value = "2";
-        addIngredient();
-        document.getElementById("ingredient2").value = "Milk";
-        document.getElementById("quantity2").value = "6 tablespoons";
-        addIngredient();
-        document.getElementById("ingredient3").value = "Butter";
-        document.getElementById("quantity3").value = "2 tablespoons";
-        addIngredient();
-        document.getElementById("ingredient4").value = "Salt";
-        document.getElementById("quantity4").value = "1 teaspoon";
-    }
+    listCategories();
+    listIngredients();
     show('add-edit-recipe');
+    addIngredient();
+
+    // if list < 1, invisible the cross
+    checkIngredientAmount();
 }
 
-// Adds two fields for an additional ingredient and quantity to be inputted
-function addIngredient() {
-    var countPrev = count - 1;
-    var ingredientPrev = document.getElementById("ingredient" + countPrev);
-    var quantityPrev = document.getElementById("quantity" + countPrev);
-    if (ingredientPrev.value != "" && quantityPrev.value != "") {
-        var item = document.createElement('div');
-        item.id = "item" + count;
-        item.innerHTML = "<select id='ingredient" + count + "' class='added_ings w3-input w3-border w3-margin-bottom' name='ingredient'" +
-                " required> <option value='' disabled selected>Select an ingredient</option>" +
-                "</select> <input id='quantity" + count + "' class='w3-input w3-border w3-margin-bottom'" +
-                "name='quantity' placeholder='Enter ingredient quantity' required>";
-        document.getElementById("ingredient_list").appendChild(item);
-        buildIngredientList(count);
-        count++;
-    } else {
-        confirm("Please select an ingredient and quantity before adding additional ingredient fields.")
-    }
-}
 
 function buildIngredientList(item_num) {
     var ingredient_id = "ingredient" + item_num;

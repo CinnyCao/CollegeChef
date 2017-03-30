@@ -133,7 +133,7 @@ connection.once('open', function() {
     require('./apis/users_endpoints.js')(app, sha1, generateToken, isDefined, logout, User);
 
     // Endpoints that manage ingredients
-    require('./apis/ingredients_endpoints.js')(app, Recipe, Ingredient);
+    require('./apis/ingredients_categories_endpoints.js')(app, Recipe, Ingredient, Category);
 
     // Endpoints that generate specialty recipe lists
     require('./apis/specialty_recipes_endpoints.js')(app, Recipe, IngredientToRecipe, Ingredient, Rate, Favorite, Comment);

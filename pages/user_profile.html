@@ -82,7 +82,7 @@
                                 <div class="w3-container w3-center">
                                     <p class="w3-center"><img id="editUserForm-photo" src="/img/profile_picture.jpg" class="w3-circle photo-style" alt="profile image">
                                     </p>
-                                    <input type='file' id="photo-input" accept=".jpeg,.jpg,.png" onchange="uploadProfilePhoto(this)"/>
+                                    <input type='file' id="photo-input" accept=".jpeg,.jpg,.png" onchange="uploadPhoto(this, 'editUserForm-photo', 'profilePhoto')"/>
                                 </div>
                                 <label><b>Email</b>
                                 </label>
@@ -99,10 +99,8 @@
                         </div>
                     </div>
                 </section>
-                <!-- add a recipe form -->
-                <div class="addEditRecipeForm"></div>
                 <!-- Right Part -->
-                <div class="right_col w3-threequarter">
+                <div class="right_col">
                     <div class="section_card">
                         <!-- control tabs -->
                         <div class="w3-row">

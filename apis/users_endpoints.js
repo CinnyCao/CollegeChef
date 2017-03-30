@@ -34,7 +34,17 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
     });
 
     // logout
-    app.get('/logout', logout);
+    app.get('/logout', function(req, res) {
+        console.log(req.auth);
+        if (!req.auth) {
+            return res.status(401).json({
+                status: 401,
+                message: "Authentication failed."
+            });        
+        } else {
+            logout(req, res);
+        }
+    });
 
     // create user
     app.post('/user', function (req, res) {

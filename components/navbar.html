@@ -11,7 +11,7 @@
         <li class="menu_item_left"><a href="/index.html" class="w3-padding-large" title="Home"><i class="fa fa-home"></i><p class="menu_item_name w3-hide-medium">Home</p></a></li>
         <li class="menu_item_left"><a href="/pages/recipe_browser.html" class="w3-padding-large" title="All Recipes"><i class="fa fa-cutlery"></i><p class="menu_item_name w3-hide-medium">Recipe Browser</p></a></li>
         <li class="menu_item_left user_only"><a href="/pages/user_profile.html" class="w3-padding-large" title="User Profile"><i class="fa fa-user-o"></i><p class="menu_item_name w3-hide-medium">My Profile</p></a></li>
-        <li class="menu_add_recipe w3-right user_only"><a href="javascript: addEditRecipe('addRecipe');" class="w3-padding-large" title="Add Recipe"><i class="fa fa-plus-circle w3-hide-medium"></i><p class="menu_item_name">Add Recipe</p></a></li>
+        <li class="menu_add_recipe w3-right user_only"><a href="javascript: addEditRecipe('addRecipe');" class="w3-padding-large" title="Add Recipe"><i class="fa fa-plus-square w3-hide-medium"></i><p class="menu_item_name"> Add Recipe</p></a></li>
         <li class="menu_item_left user_only"><a href="javascript: logOut();" class="w3-padding-large" title="Sign Out"><i class="fa fa-sign-out"></i><p class="menu_item_name w3-hide-medium">Sign Out</p></a></li>
         <li class="menu_item_right w3-right"><a href="javascript: getLoginForm();" class="w3-padding-large" title="Login"><p class="menu_item_name">Login</p></a></li>
         <li class="menu_item_right w3-right"><a href="javascript: show('register-form');" class="w3-padding-large" title="Sign Up"><p class="menu_item_name">Sign Up</p></a></li>
@@ -82,39 +82,32 @@
             <h2 id="recipe_form_title" class="form_title">Edit Recipe</h2>
         </div>
         <!-- add action, pass records to server  -->
-        <form id="saveRecipe-content" class="w3-container">
+        <form id="saveRecipe-content" class="w3-container" action="javascript:saveRecipe();">
             <div class="w3-section">
+                <label><b>Recipe Photo*</b>
+                </label><br>
+                <img id="recipeCover" src="/img/profile_picture.jpg" class="recipePhotoStyle w3-margin-right" alt="recipe image">
+                <input type='file' id="inputRecipeImg" class="w3-margin-top w3-margin-bottom" accept=".jpeg,.jpg,.png" onchange="uploadPhoto(this, 'recipeCover', 'recipePhoto')" required/><br>
                 <label><b>Recipe Name*</b>
                 </label>
-                <input id="recipe_name" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name of recipe" name="recipename" required>
+                <input id="recipe_name" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name of recipe" name="recipename" pattern="[A-Za-z\s]{2,20}" title="Recipe name should be more than 2 characters and less than 20 characters." required>
                 <label><b>Category*</b>
                 </label>
                 <select id="category" class="w3-input w3-border w3-margin-bottom" name="category" required>
                     <option value="" disabled selected>Select a food category</option>
-                    <option>Breakfast</option>
-                    <option>Snack</option>
-                    <option>Main Dish</option>
                 </select>
-                <label><b>Recipe Photo*</b>
                 </label>
-                <input id="photo" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter a url for a photo of the recipe" name="photo" required>
                 <label><b>Description*</b>
                 </label>
                 <textarea id="main_description" class="w3-input w3-border w3-margin-bottom" rows="2" name="description" placeholder="Enter your description" required></textarea>
-                <label><b>Ingredient List*</b>
+                <label><b>Ingredient List* </b><i class="w3-hover-text-blue w3-xlarge fa fa-plus-circle" onClick="addIngredient();"></i>
                 </label>
-                <div id="ingredient_list">
-                    <div class="item" id="item1">
-                        <select id="ingredient1" class="added_ings w3-input w3-border w3-margin-bottom" name="ingredient" required>
-                            <option value="" selected>Select an ingredient</option>
-                        </select>
-                        <input id="quantity1" class="w3-input w3-border w3-margin-bottom" name="quantity" placeholder="Enter ingredient quantity" required>
-                    </div>
+                <div id="ingredient_list" class="w3-container w3-margin-bottom w3-margin-top">
+                <div class="eachIngredient"></div>
                 </div>
-                <button id="add_ingredient" type="button" class="w3-btn w3-blue" onClick="addIngredient();">Add additional ingredient</button><br>
                 <label><b>Number of Servings*</b>
                 </label>
-                <input id="servings" class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter name number of servings" name="servings" required>
+                <input id="servings" class="w3-input w3-border w3-margin-bottom" type="number" min="0" placeholder="Enter name number of servings" name="servings" required>
                 <label><b>Cooking Instructions*</b>
                 </label>
                 <textarea id="instructions" class="w3-input w3-border w3-margin-bottom" rows="5" name="instructions" placeholder="Enter your cooking instructions" required></textarea>
@@ -125,7 +118,7 @@
         </form>
         <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
             <button onclick="hide('add-edit-recipe')" type="button" class="w3-btn w3-red">Cancel</button>
-            <button onclick="saveRecipe()" form="saveRecipe-content" class="w3-btn w3-right w3-green">Submit</button>
+            <button form="saveRecipe-content" class="w3-btn w3-right w3-green">Submit</button>
         </div>
     </div>
 </section>

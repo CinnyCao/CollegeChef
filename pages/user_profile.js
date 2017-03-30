@@ -70,19 +70,6 @@ function currentUserInfo() {
     });
 }
 
-// upload profile photo in edit profile form
-function uploadProfilePhoto(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            sessionStorage.setItem("profilePhoto", e.target.result);
-            $('#editUserForm-photo').attr('src', e.target.result)
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-
 /* Save User Profile changes */
 function saveProfile(userId = getUserID()) {
     var url = '/user/' + userId;

@@ -26,6 +26,20 @@ body {
 #add_ingredient {
     margin-bottom: 15px;
 }
+.recipePhotoStyle {
+    width: 200px;
+    height: auto;
+}
+.input-set{
+    padding:8px;
+    display:block;
+    border:none;
+    border-bottom:1px solid #ccc;
+    width:40%
+}
+.timesBtn {
+    margin-top: 7px;
+}
 
 @media screen and (max-width: 600px) {
     
