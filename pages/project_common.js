@@ -252,8 +252,8 @@ function loginHelper(params) {
             var rememberMe = $("#login_remember_me").is(":checked");
             if (rememberMe) {
                 setLoginRememberMe(true);
-                setLoginUsername(userName);
-                setLoginPassword(password);
+                setLoginUsername(params["userName"]);
+                setLoginPassword(params["password"]);
             } else {
                 setLoginRememberMe(false);
                 setLoginUsername("");
