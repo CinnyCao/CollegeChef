@@ -413,11 +413,14 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
             rating = toolData;
         }
         ratingTool = '<div class="recipe_card_tools_wrapper rating_display" title="Average Rating: ' + rating + '">';
-        rating = Math.ceil(rating); // todo: display half star for 0.5 score
-        for (var i = 0; i < 5 - rating; i++) {
+        // rating = Math.ceil(rating); // todo: display half star for 0.5 score
+        for (var i = 0; i < 5 - Math.ceil(rating); i++) {
             ratingTool += '<lable class="rating_display_star_grey"></lable>';
         }
-        for (var i = 0; i < rating; i++) {
+        if (rating - Math.floor(rating) > 0) {
+            ratingTool += '<lable class="rating_display_star_half"></lable>';
+        }
+        for (var i = 0; i < Math.floor(rating); i++) {
             ratingTool += '<label class="rating_display_star_gold"></label>';
         }
         ratingTool += '</div>';
