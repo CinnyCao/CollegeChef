@@ -27,17 +27,8 @@ $(function () {
     // load current user info
     currentUserInfo();
 
-    // load recipe_card
-    populateRecipeCards();
-
-    //load user cards
-    populateUserCards();
-
     // uploaded recipes is the default tab
     controlTab();
-
-    //load notification messages
-    populateNotifications({});
 });
 
 var defaultProfileImg = "/img/profile_picture.jpg";
@@ -178,7 +169,13 @@ function controlTab() {
         $('#users-tab').show();
         $('#user-section').hide();
         $('#notification-tab').addClass('w3-border-red');
+
+        //load user cards
+        populateUserCards();
     }
+
+    //load notification messages
+    populateNotifications({});
 }
 
 function filterNotification() {
@@ -305,13 +302,6 @@ function openTab(evt, tabName) {
     }
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.firstElementChild.className += " w3-border-red";
-}
-
-function populateRecipeCards() {
-    var data = recipesData; // todo: load recipes data from database
-    for (var i = 0; i < data.length; i++) {
-        $(".uploaded-card").append($(getRecipeCard(null, data[i][0], data[i][1], data[i][2], RECIPE_CARD_EDITOR_TOOL)));
-    }
 }
 
 function populateUserCards() {
