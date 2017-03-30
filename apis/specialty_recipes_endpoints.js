@@ -36,6 +36,8 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                     as: "recipe"
                 }},
                 {$unwind: "$recipe"},
+                // removed deleted recipes
+                {"$match": {"recipe.isDeleted": {"$eq": false}}},
                 // return only an array of result recipes with wanted fields
                 {"$project": {
                     "recipeId": 1,
@@ -70,6 +72,8 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                     as: "recipes"
                 }},
                 {$unwind: "$recipes"},
+                // removed deleted recipes
+                {"$match": {"recipes.isDeleted": {"$eq": false}}},
                 // set return fields
                 {"$project": {
                     "_id": "$recipes._id",
@@ -105,6 +109,8 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                     as: "recipes"
                 }},
                 {$unwind: "$recipes"},
+                // removed deleted recipes
+                {"$match": {"recipes.isDeleted": {"$eq": false}}},
                 // set return fields
                 {"$project": {
                     "_id": "$recipes._id",
@@ -123,6 +129,8 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
     app.get("/recipes/new", function (req, res) {
         Recipe.aggregate(
             [
+                // removed deleted recipes
+                {"$match": {"isDeleted": {"$eq": false}}},
                 // sort by ModifiedDate
                 {"$sort": {"ModifiedDate": -1}},
                 // get only first 10
@@ -156,6 +164,8 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
                         as: "recipe"
                     }},
                     {$unwind: "$recipe"},
+                    // removed deleted recipes
+                    {"$match": {"recipe.isDeleted": {"$eq": false}}},
                     // set return fields
                     {"$project": {
                         "_id": "$recipe._id",
@@ -185,6 +195,8 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
             }
             Recipe.aggregate(
                 [
+                    // removed deleted recipes
+                    {"$match": {"isDeleted": {"$eq": false}}},
                     // join with user table
                     {"$lookup": {
                         from: "users",

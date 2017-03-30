@@ -33,6 +33,7 @@ $(function () {
     $(window).on("loggedin", function () {
         populateUserOnlyRecipeList();
         $(".user_only_recipe_list").toggle(getUserType() !== null);
+        $('.recipe_list_content').toggleClass('w3-show', false);
         showRecipeListContent('favorite_recipes');
     });
 });
