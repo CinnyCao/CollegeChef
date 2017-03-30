@@ -147,6 +147,10 @@ body {
     color: red;
 }
 
+.fa-heart:not(.favoritedHeart):hover {
+    color: red !important;
+}
+
 /* Comment Count */
 .comment_count {
     top: 0;

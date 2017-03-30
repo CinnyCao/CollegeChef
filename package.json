@@ -12,6 +12,7 @@
     "express-bearer-token": "^2.1.0",
     "jwt-simple": "^0.5.1",
     "mongod": "^2.0.0",
+    "mongodb": "^2.2.25",
     "mongoose": "^4.8.5",
     "mongoose-auto-increment": "^5.0.1",
     "node.js": "0.0.0",

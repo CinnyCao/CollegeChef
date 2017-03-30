@@ -20,15 +20,11 @@
             <div class="w3-row-padding w3-row">
                 <div class="section_card">
                     <div class="w3-content" style="max-width:1400px">
-                        <!-- Grid -->
+                        <!-- Left Column -->
                         <div class="w3-row">
                             <div class="w3-col l8 s12">
                                 <!--Recipe Card-->
                                 <section id="recipe_card_holder">
-                                    <!--<div class="w3-container w3-padding-8">-->
-                                        <!--<h3 ><b>Meat Loaf</b></h3>-->
-                                        <!--<p><b>Main Dish</b></p>-->
-                                        <!--<p>6 servings</p>-->
                                         <!--<fieldset class="rating">-->
                                             <!--<input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>-->
                                             <!--<input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>-->
@@ -36,35 +32,23 @@
                                             <!--<input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>-->
                                             <!--<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>-->
                                         <!--</fieldset>-->
-                                        <!--&lt;!&ndash;gotta make dynamic&ndash;&gt;-->
-                                    <!--</div>-->
-                                    <!--<div class="w3-container">-->
-                                        <!--<p>This recipe is anything but regular old meatloaf! Everyone will love this moist version made in the slow cooker, with milk, mushrooms, and a little sage for extra flavour.</p>-->
-                                    <!--</div>-->
                                 </section>
                                 <hr>
-                                <!-- Blog entry -->
+                                <!--Instruction-->
                                 <section class="w3-card-4 w3-margin w3-white">
                                     <div class="w3-container w3-padding-8">
                                         <h3><b>Instructions</b></h3>
                                     </div>
-                                    <div class="w3-container">
-                                        <p> Combine eggs, milk, bread crumbs, onion, salt, sage, and mushrooms in a large bowl. Crumble ground beef over mixture and stir well to combine. Shape into a round loaf; place in a 5-quart slow cooker. Cover and cook on Low until a meat thermometer reads 160 degrees F (71 degrees C), 5 to 6 hours. </p>
-
-                                        <p>Whisk ketchup, brown sugar, mustard, and Worcestershire sauce in a small bowl; spoon sauce over meat loaf. Return to slow cooker and cook on Low until heated through, about 15 minutes. Let stand 10 minutes before cutting.
-                                        </p>
-                                        
-                                    </div>
+                                    <div class="w3-container"><p id="instruction_holder"></p></div>
                                 </section>
-                                <section class="w3-card-4 w3-margin w3-white">
+                                <!--Notes-->
+                                <section id="notes_section" class="w3-card-4 w3-margin w3-white">
                                     <div class="w3-container w3-padding-8">
                                         <h3><b>Tips and Suggestions</b></h3>
                                     </div>
-                                    <div class="w3-container">
-                                        <p> Add a touch of sriracha hot sauce if you want to give it that extra kick. </p>
-
-                                    </div>
+                                    <div class="w3-container"><p id="notes_holder"></p></div>
                                 </section>
+                                <!--Comments-->
                                 <section class="w3-card-4 w3-margin w3-white">
                                     <div class="w3-container w3-padding-8">
                                         <h3><b>Comments</b></h3>
@@ -93,81 +77,35 @@
                                         </div>
                                     </div>
                                 </section>
-                                <!-- END BLOG ENTRIES -->
                             </div>
-                            <!-- Introduction menu -->
+                            <!-- Right Column -->
                             <div class="w3-col l4">
-                                <!-- About Card -->
-                                <div class="w3-card-2 w3-margin w3-margin-top">
-                                    <div class="w3-container w3-white">
-                                        <img src="/img/profile_picture.jpg" alt="Image" class="w3-left w3-margin-right profile-pic">
-                                        <span class="w3-large">User Name</span><br>
-                                        <h5>Upload Date, <span class="w3-opacity">April 7, 2014</span></h5>
+                                <!--Uploader Info-->
+                                <section class="w3-card-4 w3-margin w3-white">
+                                    <div class="w3-container w3-padding-16">
+                                        <div>
+                                            <img id="user_image" class="w3-left w3-margin-right profile-pic">
+                                            <span class="w3-large">
+                                                <small><b>Uploaded By: </b><span id="uploader_name_holder"></span></small>
+                                            </span><br>
+                                            <span id="modifier_span" class="w3-large">
+                                                <small><b>Modified By: </b><span id="modifier_name_holder"></span></small>
+                                            </span><br>
+                                        </div>
+                                        <span class="w3-large"><small><b><span id="modification_date_text"></span></b><span id="modification_date_holder"></span></small></span><br>
                                     </div>
-                                </div>
+                                </section>
                                 <hr>
-                                <!-- Posts -->
-                                <section class="w3-card-2 w3-margin">
-                                    <div class="w3-container w3-padding">
+                                <!-- Ingredients -->
+                                <section class="w3-card-4 w3-margin w3-white">
+                                    <div class="ingredient_list_title w3-container w3-padding">
                                         <h4>Ingredients</h4>
                                     </div>
-                                    <ul class="w3-ul w3-hoverable w3-white">
-                                        <li class="w3-padding-16">
-                                            <img src="/img/ingredients/groundbeef_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
-                                            <span class="w3-large">Ground Beef</span><br>
-                                            <span>1.5 pounds of ground beef</span>
-                                        </li>
-                                        <li class="w3-padding-16">
-                                            <img src="/img/ingredients/egg_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
-                                            <span class="w3-large">Egg</span><br>
-                                            <span>2 eggs</span>
-                                        </li>
-                                        <li class="w3-padding-16">
-                                            <img src="/img/ingredients/milk_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
-                                            <span class="w3-large">Milk</span><br>
-                                            <span>3/4 cups of milk</span>
-                                        </li>
-                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
-                                            <img src="/img/ingredients/seasoned_bread_crumbs_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
-                                            <span class="w3-large">Seasoned Bread Crumbs</span><br>
-                                            <span>2/3 cups of seasoned bread crumbs</span>
-                                        </li>
-                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
-                                            <img src="/img/ingredients/dried_minced_onions_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
-                                            <span class="w3-large">Dried Minced Onions</span><br>
-                                            <span>2 teaspoons of dried minced onions</span>
-                                        </li>
-                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
-                                            <img src="/img/ingredients/salt_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
-                                            <span class="w3-large">Salt</span><br>
-                                            <span>1 teaspoon of salt</span>
-                                        </li>
-                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
-                                            <img src="/img/ingredients/rubbed_sage_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
-                                            <span class="w3-large">Rubbed Sage</span><br>
-                                            <span>1/2 teaspoons of rubbed sage</span>
-                                        </li>
-                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
-                                            <img src="/img/ingredients/mushroom_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
-                                            <span class="w3-large">Mushrooms</span><br>
-                                            <span>1/2 cups of sliced fresh mushrooms</span>
-                                        </li>
-                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
-                                            <img src="/img/ingredients/ketchup_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
-                                            <span class="w3-large">Ketchup</span><br>
-                                            <span>1/4 cups of ketchup</span>
-                                        </li>
-                                        <li class="w3-padding-16 w3-hide-medium w3-hide-small">
-                                            <img src="/img/ingredients/brown_sugar_ing.jpg" alt="Image" class="w3-left w3-margin-right ingredient-list-img">
-                                            <span class="w3-large">Brown Sugar</span><br>
-                                            <span>2 tablespoons of brown sugar</span>
-                                        </li>
+                                    <ul id="ingredient_holder" class="w3-ul w3-hoverable w3-white">
                                     </ul>
                                 </section>
                                 <hr>
-                                <!-- END Introduction Menu -->
                             </div>
-                            <!-- END GRID -->
                         </div>
                         <br>
                     </div>

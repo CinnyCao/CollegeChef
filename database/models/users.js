@@ -6,7 +6,7 @@ module.exports = function (connection, Schema, autoIncrement) {
         password: {type: String, required: true},
         isAdmin: {type: Boolean, default: false},
         description: String,
-        profilePhoto: String
+        profilePhoto: {type: String, default: "/img/profile_picture.jpg"}
     });
 
     UserSchema.plugin(autoIncrement.plugin, 'User');

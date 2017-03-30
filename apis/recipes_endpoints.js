@@ -56,6 +56,44 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
                     [
                         // find specified recipe
                         {"$match": {"_id": {"$eq": recipeId}}},
+                        // exclude deleted
+                        {"$match": {"isDeleted": {"$eq": false}}},
+                        // join to get ingredients ids and amount
+                        {"$lookup": {
+                            from: "ingredienttorecipes",
+                            localField: "_id",
+                            foreignField: "recipeId",
+                            as: "ingredientsIds"
+                        }},
+                        // join to get ingredients name and img
+                        {"$unwind": "$ingredientsIds"},
+                        {"$lookup": {
+                            from: "ingredients",
+                            localField: "ingredientsIds.ingredientId",
+                            foreignField: "_id",
+                            as: "ingredientsDetails"
+                        }},
+                        { "$unwind": "$ingredientsDetails" },
+                        { "$group": {
+                            "_id": "$_id",
+                            "personId": {$first: "$personId"},
+                            "recipeName": {$first: "$recipeName"},
+                            "categoryId": {$first: "$categoryId"},
+                            "description": {$first: "$description"},
+                            "instruction": {$first: "$instruction"},
+                            "imgUrl": {$first: "$imgUrl"},
+                            "numServings": {$first: "$numServings"},
+                            "ModifiedById": {$first: "$ModifiedById"},
+                            "ModifiedDate": {$first: "$ModifiedDate"},
+                            "avgRating": {$first: "$avgRating"},
+                            "ingredients": {"$push":
+                                {
+                                    "ingredientId": "$ingredientsIds.ingredientId",
+                                    "amount": "$ingredientsIds.amount",
+                                    "name": "$ingredientsDetails.name",
+                                    "imgUrl": "$ingredientsDetails.imgUrl",
+                                }},
+                        }},
                         // join to get user info
                         {"$lookup": {
                             from: "users",
@@ -80,13 +118,6 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
                             as: "category"
                         }},
                         {$unwind: "$category"},
-                        // join to get ingredients info
-                        {"$lookup": {
-                            from: "ingredienttorecipes",
-                            localField: "_id",
-                            foreignField: "recipeId",
-                            as: "ingredients"
-                        }},
                         // set return fields
                         {"$project": {
                             "_id": 0,
@@ -99,12 +130,12 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
                             "ModifiedDate": 1,
                             "uploaderId": "$uploader._id",
                             "uploaderName": "$uploader.userName",
+                            "uploaderImg": "$uploader.profilePhoto",
                             "modifierId": "$modifier._id",
                             "modifierName": "$modifier.userName",
                             "categoryId": "$category._id",
                             "categoryName": "$category.name",
-                            "ingredients.ingredientId": 1,
-                            "ingredients.amount": 1
+                            "ingredients": 1
                         }}
                     ], function (err, resultRecipes) {
                         if (err) {

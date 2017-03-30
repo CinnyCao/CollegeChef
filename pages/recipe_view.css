@@ -1,49 +1,21 @@
-@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
-
-fieldset, label { margin: 0; padding: 0; }
+body,h1,h2,h3,h4,h5 {
+    font-family: "Raleway", sans-serif;
+}
 h1 { font-size: 1.5em; margin: 10px; }
 
-.ingredient-list-img{
-    height: 50px;
-    width: 50px;
-}
-
-#image-part{
-  position: relative;
-}
-
-#image-set{
-  width:100%;
-}
-
-#favourite-button{
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 30px;
-  color: red;
-}
-
-#favourite-button:hover{
-  font-size: 50px;
-}
-
+/*Uploader Info*/
 .profile-pic{
     width: 50px;
     height: 50px;
-    margin-bottom: 10px;
-    margin-top: 10px;
 }
 
-/****** Style Star Rating Widget *****/
-/* https://codepen.io/jamesbarnett/pen/vlpkh?editors=1000 */
-.rating {
-  border: none;
-  float: left;
+/*Ingredient List*/
+.ingredient_list_title {
+    border-bottom: 1px solid #ddd;
 }
-
-body,h1,h2,h3,h4,h5 {
-    font-family: "Raleway", sans-serif;
+.ingredient_list_img {
+    height: 50px;
+    width: 50px;
 }
 
 /* Comment styling */
