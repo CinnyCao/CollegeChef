@@ -13,6 +13,16 @@ $(function () {
     });
 });
 
+var userSearch = false;
+
+function searchByUser() {
+    reset();
+    userSearch = true;
+    //change a global variable so that filterRecipes() filters by username instead
+}
+
+var recipeMakers = {};
+
 function populateRecipeCards() {
     $.ajax({
         type : "GET",
@@ -21,6 +31,11 @@ function populateRecipeCards() {
         contentType: "application/json; charset=utf-8",
         success : function (response) {
             for (var i = 0; i < response.length; i++) {
+                //this only gets the user id of the user that made the recipe, not sure a good way to get the username
+                var name = response[i]["recipeName"];
+                var id = response[i]["_id"];
+                recipeMakers[name] = id;
+
                 $(".recipe_cards_wrapper").append(
                     $(getRecipeCard(response[i]["_id"], response[i]["recipeName"], response[i]["description"],
                         response[i]["imgUrl"], RECIPE_CARD_EDITOR_TOOL)));
@@ -40,6 +55,7 @@ function showHideRecipeEditorTools() {
 
 // Display recipes with recipe names that contain the entered input
 function filterRecipes() {
+    //todo - add filter by username
     reset();
     var search_text = $('#recipe_browser_input').val().toLowerCase();
     var recipes = $(".recipe_card");
