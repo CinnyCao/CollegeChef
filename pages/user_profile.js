@@ -22,8 +22,6 @@ $(function () {
     $('#footer_holder').on('footerLoaded', function () {
         //hide no user option in user type controller
         updateNavMenuItems();
-
-        displayUserProfilePageContent();
     });
 
     // load current user info
@@ -39,15 +37,10 @@ $(function () {
     populateUserCards();
 
     // uploaded recipes is the default tab
-    $('#uploaded-list').show();
-    $('#uploaded-recipes-tab').addClass('w3-border-red');
-
-    // this part will be modified later, decided by status of user(Admin or User)
-    twoTab();
+    controlTab();
 });
 
-// get current user object
-var userObj = JSON.parse(window.localStorage.getItem('userObj'));
+var defaultProfileImg = "/img/profile_picture.jpg";
 
 
 function currentUserInfo() {
@@ -75,10 +68,10 @@ function currentUserInfo() {
                 // optional user info
                 $('#email').html(user['email'] || "[Email is not provided]");
                 $('#description').html(user['description'] || "[Description is not provided]");
-                $('#profilePhoto').attr('src', user['profilePhoto'] || "/img/profile_picture.jpg");
+                $('#profilePhoto').attr('src', user['profilePhoto'] || defaultProfileImg);
 
                 // fill in edit profile form
-                $('#editUserForm-photo').attr('src', user['profilePhoto'] || "/img/profile_picture.jpg");
+                $('#editUserForm-photo').attr('src', user['profilePhoto'] || defaultProfileImg);
                 $('#photo-input').val(user['profilePhoto']);
                 $('#email-input').val(user['email']);
                 $('#description-input').val(user['description']);
@@ -111,7 +104,7 @@ function saveProfile() {
     var img = $('#photo-input').val();
     var email = $('#email-input').val();
     var description = $('#description-input').val();
-    
+
     if (img && img != $('#profilePhoto').attr('src')) {
         params['profilePhoto'] = img;
     }
@@ -130,7 +123,7 @@ function saveProfile() {
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(params),
             beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " + userObj['token']);
+                xhr.setRequestHeader("Authorization", "Bearer " + getToken());
             },
             statusCode: {
                 401: function (response) {
@@ -145,31 +138,34 @@ function saveProfile() {
     }
 }
 
-function displayUserProfilePageContent() {
+function controlTab() {
     var user_type = getUserType();
+    
     if (user_type === USER_TYPE_USER) {
-        twoTab();
+        $('#notification-tab').hide();
+        $('#users-tab').hide();
     }
     if (user_type === USER_TYPE_ADMIN) {
-        fourTab();
+        $('#notification-tab').show();
+        $('#users-tab').show();
+        $('#user-section').hide();
+        $('#notification-tab').addClass('w3-border-red');
     }
 }
 
-// These two methods will be modified when able to get the status of user(Admin or User)
-function twoTab() {
-    $('.half-or-forth').removeClass('w3-quarter');
-    $('.half-or-forth').addClass('w3-half');
-    // Hide users list and all recipes list section for users
-    $('#users-tab').hide();
-    $('#recipes-tab').hide();
-}
-
-function fourTab() {
-    $('.half-or-forth').removeClass('w3-half');
-    $('.half-or-forth').addClass('w3-quarter');
-    // Show users list and all recipes list section for Admin
-    $('#users-tab').show();
-    $('#recipes-tab').show();
+// open tab
+function openTab(evt, tabName) {
+    var i, x, tablinks;
+    x = document.getElementsByClassName("set-tab");
+    for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < x.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" w3-border-red", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.firstElementChild.className += " w3-border-red";
 }
 
 function populateRecipeCards() {
@@ -193,7 +189,7 @@ function populateUserCards() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Bearer " + userObj['token']);
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
         },
         statusCode: {
             401: function (response) {
@@ -202,11 +198,9 @@ function populateUserCards() {
         },
         success: function (users) {
             // update user card
-            if (users.length > 0) {
-                users.forEach(function (user) {
-                    $(".user-card").append($(getUserCard(user[0], user[1])));
-                });
-            }
+            users.forEach(function (user) {
+                $(".user-card").append($(getUserCard(user['userName'], user['profilePhoto'] || defaultProfileImg)));
+            });
         }
     });
 }
@@ -248,21 +242,6 @@ function getNotificationMsgs(type, name, recipeName) {
             '<p><i class="fa ' + label + ' fa-fw w3-margin-right">' +
             '</i>' + msg + '</p>' +
             '</div>';
-}
-
-// open tab
-function openTab(evt, tabName) {
-    var i, x, tablinks;
-    x = document.getElementsByClassName("set-tab");
-    for (i = 0; i < x.length; i++) {
-        x[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablink");
-    for (i = 0; i < x.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" w3-border-red", "");
-    }
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.firstElementChild.className += " w3-border-red";
 }
 
 // save the result of notification settings
