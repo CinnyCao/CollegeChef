@@ -407,11 +407,12 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
     if (tool === RECIPE_CARD_RATING_DISPLAY_TOOL || tool === RECIPE_CARD_DISPLAY) {
         var rating;
         if (tool === RECIPE_CARD_DISPLAY) {
-            rating = Math.ceil(toolData["avgRating"]); // todo: display half star for 0.5 score
+            rating = toolData["avgRating"];
         } else {
-            rating = Math.ceil(toolData);
+            rating = toolData;
         }
-        ratingTool = '<div class="recipe_card_tools_wrapper rating_display">';
+        ratingTool = '<div class="recipe_card_tools_wrapper rating_display" title="Average Rating: ' + rating + '">';
+        rating = Math.ceil(rating); // todo: display half star for 0.5 score
         for (var i = 0; i < 5 - rating; i++) {
             ratingTool += '<lable class="rating_display_star_grey"></lable>';
         }
@@ -444,15 +445,32 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
                 '<i class="recipe_card_tools ' + favorited + ' fa fa-heart fa-fw w3-hover-grey" onclick="event.stopPropagation(); toggleFavorite()"></i>' +
                 '</div>';
     }
-    return '' +
-            '<div class="recipe_card w3-card-2 w3-hover-shadow" title="' + name + '" onclick="location.href=\'' + href + '\'">' +
-                '<span class="recipe_card_img_wrapper"><img src="' + src + '" alt="' + name + '">' + ratingTool + '</span>' +
-            '<div class="w3-container w3-center">' +
-            '<p class="recipe_card_title">' + name + '</p>' +
-            '<p class="recipe_card_des">' + description + '</p>' +
+
+    var cardCode = '';
+    if (tool === RECIPE_CARD_DISPLAY) {
+        cardCode += '<div class="recipe_card_display w3-card-4 w3-margin w3-white">';
+    } else {
+        cardCode += '<div class="recipe_card w3-card-2 w3-hover-shadow" title="' + name + '" onclick="location.href=\'' + href + '\'">';
+    }
+    cardCode += '<span class="recipe_card_img_wrapper"><img src="' + src + '" alt="' + name + '">' + ratingTool + '</span>';
+    cardCode += '<div class="w3-container w3-center">';
+    // name
+    cardCode += '<p class="recipe_card_title">' + name + '</p>';
+    if (tool === RECIPE_CARD_DISPLAY) {
+        // category and num of servings
+        cardCode += '' +
+            '<div class="recipe_card_category_serving">' +
+            '<p><b>Category: </b>' + toolData["categoryName"] + '</p>' + '<p><b>Num of Servings: </b>' + toolData["numServings"] + '</p>' +
+            '</div>';
+    }
+    // description
+    cardCode += '<p class="recipe_card_des">' + description + '</p>';
+    // top corner tools
+    cardCode += '' +
             '</div>' +
                 editorTool + commentTool + favoriteTool +
             '</div>';
+    return cardCode;
 }
 
 function deleteRecipe() {
