@@ -1,12 +1,38 @@
 module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
     // get all recipes
     app.get('/recipes', function (req, res) {
-        Recipe.find({isDeleted: false}, '_id recipeName description imgUrl', function (err, allRecipes) {
-            if (err) {
-                return console.error(err);
+        var filter = [];
+        // exclude deleted recipes
+        filter.push({"$match": {"isDeleted": {"$eq": false}}});
+        // get uploader info
+        filter.push(
+            {"$lookup": {
+                from: "users",
+                localField: "personId",
+                foreignField: "_id",
+                as: "uploader"
+            }});
+        filter.push({$unwind: "$uploader"});
+        // filter by username
+        if (req.query.username) {
+            filter.push({"$match": {"uploader.userName": {"$eq": req.query.username}}});
+        }
+        // set return fields
+        filter.push(
+            {"$project": {
+                "recipeName": 1,
+                "description": 1,
+                "imgUrl": 1,
+                "uploaderName": "$uploader.userName"
+            }}
+        );
+        Recipe.aggregate([filter], function (err, allRecipes) {
+                if (err) {
+                    return console.error(err);
+                }
+                res.json(allRecipes);
             }
-            res.json(allRecipes);
-        });
+        );
     });
 
     var getRecipeDetail = function (req, res, recipeId) {

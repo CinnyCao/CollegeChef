@@ -385,6 +385,7 @@ var RECIPE_CARD_RATING_DISPLAY_TOOL = "RATING_DISPLAY";
 var RECIPE_CARD_COMMENT_COUNT_TOOL = "COMMENT_COUNT";
 var RECIPE_CARD_FAVORITE_BUTTON_TOOL = "FAVORITE_BUTTON";
 var RECIPE_CARD_DISPLAY = "DISPLAY";
+var RECIPE_CARD_BROWSER = "BROWSER";
 
 function getRecipeCard(id, name, description, src, tool, toolData) {
     var href = "/pages/recipe_view.html?id=" + id;
@@ -397,9 +398,10 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
     var ratingTool = "";
     var commentTool = "";
     var favoriteTool = "";
-    if (tool === RECIPE_CARD_EDITOR_TOOL) {
+    var usernameTool = "";
+    if (tool === RECIPE_CARD_EDITOR_TOOL || tool === RECIPE_CARD_BROWSER) {
         editorTool = '' +
-                '<div class="recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right">' +
+                '<div class="recipe_card_editor_tools recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right">' +
                 '<i class="recipe_card_tools fa fa-trash fa-fw w3-hover-grey" onclick="event.stopPropagation(); deleteRecipe()"></i>' +
                 '<i class="recipe_card_tools fa fa-pencil-square-o fa-fw w3-hover-grey" onclick="event.stopPropagation(); addEditRecipe(\'editRecipe\')"></i>' +
                 '</div>';
@@ -426,6 +428,11 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
                 '<img src="/img/comment.png" alt="Num of Comments:">' +
                 '<p>x' + toolData + '</p>' +
                 '</div>';
+    }
+    if (tool == RECIPE_CARD_BROWSER) {
+        usernameTool = '<div class="uploader_info recipe_card_tools_wrapper">' +
+            '<p data-username="' + toolData + '"><small>Uploaded by:</small><br>' + toolData + '</p>' +
+            '</div>';
     }
     if (tool === RECIPE_CARD_FAVORITE_BUTTON_TOOL || tool === RECIPE_CARD_DISPLAY) {
         var isFavorited = toolData;
@@ -468,7 +475,7 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
     // top corner tools
     cardCode += '' +
             '</div>' +
-                editorTool + commentTool + favoriteTool +
+                editorTool + commentTool + favoriteTool + usernameTool +
             '</div>';
     return cardCode;
 }

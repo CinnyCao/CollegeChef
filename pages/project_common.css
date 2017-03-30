@@ -158,8 +158,22 @@ body {
 .comment_count img {
     width: 30px;
 }
-
 .comment_count p {
+    display: inline-block;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Uploader Info */
+.uploader_info {
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    padding: 6px;
+    background-color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+}
+.uploader_info p {
     display: inline-block;
     font-weight: bold;
     margin: 0;

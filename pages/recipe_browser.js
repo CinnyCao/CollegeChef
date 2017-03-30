@@ -38,7 +38,7 @@ function populateRecipeCards() {
 
                 $(".recipe_cards_wrapper").append(
                     $(getRecipeCard(response[i]["_id"], response[i]["recipeName"], response[i]["description"],
-                        response[i]["imgUrl"], RECIPE_CARD_EDITOR_TOOL)));
+                        response[i]["imgUrl"], RECIPE_CARD_BROWSER, response[i]["uploaderName"])));
             }
             showHideRecipeEditorTools();
         },
@@ -50,7 +50,7 @@ function populateRecipeCards() {
 
 function showHideRecipeEditorTools() {
     var user_type = getUserType();
-    $('.recipe_card_tools_wrapper').toggle(user_type === USER_TYPE_ADMIN);
+    $('.recipe_card_editor_tools').toggle(user_type === USER_TYPE_ADMIN);
 }
 
 // Display recipes with recipe names that contain the entered input
