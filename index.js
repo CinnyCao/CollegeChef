@@ -118,10 +118,10 @@ connection.once('open', function() {
         connection.dropDatabase(function () {
             console.log("Database cleared");
             // factory database preparation: data required for application to run
-            require('./database/factory_data.js')(app, sha1, getRandomIntInclusive, User, Ingredient, Category, Recipe, Rate, Favorite, Comment, ActionType);
+            require('./database/factory_data.js')(app, sha1, getRandomIntInclusive, User, Ingredient, Category, Recipe, Rate, Favorite, Comment, ActionType, IngredientToRecipe);
         });
     } else {
-        require('./database/factory_data.js')(app, sha1, getRandomIntInclusive, User, Ingredient, Category, Recipe, Rate, Favorite, Comment, ActionType);
+        require('./database/factory_data.js')(app, sha1, getRandomIntInclusive, User, Ingredient, Category, Recipe, Rate, Favorite, Comment, ActionType, IngredientToRecipe);
     }
 
 
@@ -139,7 +139,7 @@ connection.once('open', function() {
     require('./apis/specialty_recipes_endpoints.js')(app, Recipe, IngredientToRecipe, Ingredient, Rate, Favorite, Comment);
 
     // Endpoints that manage recipes
-    require('./apis/recipes_endpoints.js')(app, Recipe, Ingredient, sha1, generateToken, User);
+    require('./apis/recipes_endpoints.js')(app, isDefined, Recipe, IngredientToRecipe);
 
     // Endpoints that manage comments, rate and favorite
     require('./apis/recipes_evaluation_endpoints.js')(app, isDefined, Comment, Rate, Favorite, Recipe, ActionType, ActionHistory);

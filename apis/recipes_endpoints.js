@@ -1,13 +1,77 @@
-module.exports = function (app, Recipe, Ingredient) {
+module.exports = function (app, isDefined, Recipe, IngredientToRecipe) {
     // get all recipes
     app.get('/recipes', function (req, res) {
-        Recipe.find({}, '_id recipeName description imgUrl', function (err, allRecipes) {
+        Recipe.find({isDeleted: false}, '_id recipeName description imgUrl', function (err, allRecipes) {
             if (err) {
-                console.error(err);
+                return console.error(err);
             }
             res.json(allRecipes);
         });
     });
+
+    var getRecipeDetail = function (req, res) {
+        Recipe.aggregate(
+            [
+                // find specified recipe
+                {"$match": {"_id": {"$eq": parseInt(req.params.recipeId)}}},
+                // join to get user info
+                {"$lookup": {
+                    from: "users",
+                    localField: "personId",
+                    foreignField: "_id",
+                    as: "uploader"
+                }},
+                {$unwind: "$uploader"},
+                // join to get modifier info
+                {"$lookup": {
+                    from: "users",
+                    localField: "ModifiedById",
+                    foreignField: "_id",
+                    as: "modifier"
+                }},
+                {$unwind: "$modifier"},
+                // join to get category name
+                {"$lookup": {
+                    from: "categories",
+                    localField: "categoryId",
+                    foreignField: "_id",
+                    as: "category"
+                }},
+                {$unwind: "$category"},
+                // join to get ingredients info
+                {"$lookup": {
+                    from: "ingredienttorecipes",
+                    localField: "_id",
+                    foreignField: "recipeId",
+                    as: "ingredients"
+                }},
+                // set return fields
+                {"$project": {
+                    "_id": 0,
+                    "recipeId": "$_id",
+                    "recipeName": 1,
+                    "description": 1,
+                    "instruction": 1,
+                    "imgUrl": 1,
+                    "numServings": 1,
+                    "ModifiedDate": 1,
+                    "uploaderId": "$uploader._id",
+                    "uploaderName": "$uploader.userName",
+                    "modifierId": "$modifier._id",
+                    "modifierName": "$modifier.userName",
+                    "categoryId": "$category._id",
+                    "categoryName": "$category.name",
+                    "ingredients.ingredientId": 1,
+                    "ingredients.amount": 1
+                }}
+            ], function (err, resultRecipes) {
+                if (err) {
+                    return console.error(err);
+                }
+                res.json(resultRecipes);
+            }
+        )
+    };
 
     // add a recipe
     app.post("/recipe", function (req, res) {
@@ -24,11 +88,9 @@ module.exports = function (app, Recipe, Ingredient) {
                 // check if current user if the owner of the recipe; if not, no permission to delete
                 // Admin can delete andy recipe
                 if (req.isAdmin || req.userID == resultRecipe.personId) {
-                    resultRecipe.remove(function (err) {
+                    resultRecipe.update({isDeleted: true}, function (err) {
                         if (err)
                             return console.error(err);
-                        // delete it's ingredients, favorite, rate, and notification history
-
                         return res.status(200).json({});
                     });
                 } else {
@@ -67,19 +129,45 @@ module.exports = function (app, Recipe, Ingredient) {
             if (req.body.notes) {
                 toUpdate["notes"] = req.body.notes;
             }
-            if (Object.keys(toUpdate).length > 0) {
-                toUpdate["ModifiedById"] = req.userID;
-                toUpdate["ModifiedDate"] = Date.now();
-                Recipe.findOneAndUpdate({'_id': req.params.recipeId}, toUpdate, {new : true}, function (err, updatedRecipe) {
-                    if (err) {
-                        console.error(err);
-                    }
-                    res.status(200).json({});
-                });
-            } else {
+            if (Object.keys(toUpdate).length < 1 && !req.body.ingredients) {
                 return res.status(400).json({
                     status: 400,
                     message: "UPDATE RECIPE FAILURE: Bad Request (no modifiable field passed)"
+                });
+            } else {
+                toUpdate["ModifiedById"] = req.userID;
+                toUpdate["ModifiedDate"] = Date.now();
+                Recipe.findOneAndUpdate({'_id': parseInt(req.params.recipeId), isDeleted: false},  toUpdate, {new : true}, function (err, updatedRecipe) {
+                    if (err) {
+                        return console.error(err);
+                    }
+                    if (updatedRecipe) {
+                        if (req.body.ingredients) {
+                            IngredientToRecipe.remove({recipeId: parseInt(req.params.recipeId)}, function (err) {
+                                var ingredientData = [];
+                                for (var i=0; i<req.body.ingredients.length; i++) {
+                                    var data = {};
+                                    data["ingredientId"] = req.body.ingredients[i].id;
+                                    data["recipeId"] = parseInt(req.params.recipeId);
+                                    data["amount"] = req.body.ingredients[i].amount;
+                                    ingredientData.push(data);
+                                }
+                                IngredientToRecipe.create(ingredientData, function (err, created) {
+                                    if (err) {
+                                        return console.error(err);
+                                    }
+                                    getRecipeDetail(req, res);
+                                });
+                            });
+                        } else {
+                            getRecipeDetail(req, res);
+                        }
+                    } else {
+                        return res.status(404).json({
+                            status: 404,
+                            message: "UPDATE RECIPE FAILURE: Bad Request (recipe to update not found)"
+                        });
+                    }
                 });
             }
         } else {
@@ -91,60 +179,7 @@ module.exports = function (app, Recipe, Ingredient) {
     });
 
     app.get("/recipe/:recipeId", function (req, res) {
-        Recipe.aggregate(
-            [
-                // find specified recipe
-                {"$match": {"_id": {"$eq": parseInt(req.params.recipeId)}}},
-                // join to get user info
-                {"$lookup": {
-                        from: "users",
-                        localField: "personId",
-                        foreignField: "_id",
-                        as: "uploader"
-                    }},
-                // join to get modifier info
-                {"$lookup": {
-                        from: "users",
-                        localField: "ModifiedById",
-                        foreignField: "_id",
-                        as: "modifier"
-                    }},
-                // join to get category name
-                {"$lookup": {
-                        from: "categories",
-                        localField: "categoryId",
-                        foreignField: "_id",
-                        as: "category"
-                    }},
-                // join to get ingredients info
-                {"$lookup": {
-                        from: "ingredients",
-                        localField: "recipeId",
-                        foreignField: "recipeId",
-                        as: "ingredients"
-                    }},
-                // set return fields
-                {"$project": {
-                        "recipeName": 1,
-                        "description": 1,
-                        "instruction": 1,
-                        "imgUrl": 1,
-                        "numServings": 1,
-                        "ModifiedDate": 1,
-                        "uploader._id": 1,
-                        "uploader.userName": 1,
-                        "modifier.userName": 1,
-                        "modifier._id": 1,
-                        "category._id": 1,
-                        "category.name": 1,
-                        "ingredients._id": 1,
-                        "ingredients.name": 1,
-                        "ingredients.imgUrl": 1
-                    }}
-            ], function (err, resultRecipes) {
-                res.json(resultRecipes);
-            }
-        )
+        getRecipeDetail(req, res);
     });
 
 };

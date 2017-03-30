@@ -1,4 +1,4 @@
-module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, Category, Recipe, Rate, Favorite, Comment, ActionType) {
+module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, Category, Recipe, Rate, Favorite, Comment, ActionType, IngredientToRecipe) {
 
     var userReady = false;
     var ingredientReady = false;
@@ -245,7 +245,7 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
     var waitingInterval = setInterval(checkRecipe, 500);
 
     function checkRecipe() {
-        if (userReady && ingredientReady && categoryReady) {
+        if (userReady && ingredientReady && categoryReady && actionTypeReady) {
             // stop waiting
             clearInterval(waitingInterval);
 
@@ -268,10 +268,13 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
     function createRecipeHelper(data) {
         Category.findOne({name: data["category"]}, function (err, category) {
 
+            var creator = getRandomIntInclusive(0, 1);
+
             var defaultRecipe = new Recipe({
-                personId: getRandomIntInclusive(0, 1), recipeName: data["recipeName"],
+                personId: creator, recipeName: data["recipeName"],
                 categoryId: category._id, description: data["description"],
-                instruction: "Test test instruction", imgUrl: data["img"], numServings: 1
+                instruction: "Test test instruction", imgUrl: data["img"], numServings: 1,
+                ModifiedById: creator
             });
 
             defaultRecipe.save(function (err, newRecipe) {
@@ -281,7 +284,11 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
                 // link with ingredients
                 for (var j = 0; j < data["ingredient"].length; j++) {
                     Ingredient.findOne({name: data["ingredient"][j]}, function (err, ingredient) {
-                        newRecipe.addIngredient(ingredient._id, "1 portion");
+                        var newRecord = new IngredientToRecipe({recipeId: newRecipe._id, ingredientId: ingredient._id, amount: "1 portion"});
+                        newRecord.save(function (err) {
+                            if (err)
+                                return console.error(err);
+                        });
                     });
                 }
 

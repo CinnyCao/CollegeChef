@@ -115,6 +115,7 @@ module.exports = function (app, isDefined, ActionType, ActionHistory, Favorite) 
                                     "operatorName": "$operator.userName",
                                     "recipeId": 1,
                                     "recipeName": "$recipe.recipeName",
+                                    "recipeIsDeleted": "$recipe.isDeleted",
                                     "actionTypeId": "$typeNumber",
                                     "actionTypeName": "$action.typeName",
                                     "actionTypeMsg": "$action.actionMsg",
