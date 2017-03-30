@@ -2,6 +2,8 @@ module.exports = function (app, isDefined, ActionType, ActionHistory, Favorite) 
 
     // get notification history
     app.get("/notification", function (req, res) {
+                    console.log(req.body.actiontype);
+
         if (req.auth)
         {
             // check if input query are valid
@@ -40,8 +42,9 @@ module.exports = function (app, isDefined, ActionType, ActionHistory, Favorite) 
 
             // find requested action type ids
             var actionMatch = {};
-            if (isDefined(req.query.actiontype)) {
-                actionMatch["typeName"] = req.query.actiontype;
+            var actionType = req.body.actiontype;
+            if (isDefined(actionType) && actionType.length > 0) {
+                actionMatch["typeName"] = req.body.actiontype;
             }
             ActionType.find(actionMatch, function (err, types) {
                 var actionTypeIds = [];

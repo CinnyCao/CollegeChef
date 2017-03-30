@@ -115,21 +115,21 @@
                         </div>
                         <!-- Email Notifications -->
                         <div id="notification-section" class="w3-container set-tab">
-                            <div class="w3-container w3-border-red w3-white w3-border w3-round-xlarge w3-margin-bottom w3-margin-top">
+                            <div class="w3-container w3-border-red w3-white w3-border w3-round-xlarge w3-margin-bottom w3-margin-top" onChange='filterNotification()'>
                                 <div id="fileTypeSelector" class="w3-left w3-margin">
                                     <div><b>Recipe Types: </b></div><br>
-                                    <div><input id="all" type="radio" value="all" checked="checked" onChange="setFileType(this.id)" name="fileType"> All</div>
-                                    <div><input id="uploaded" type="radio" value="uploaded" onChange="setFileType(this.id)" name="fileType"> Uploaded</div>
-                                    <div><input id="favorite" type="radio" value="favorite" onChange="setFileType(this.id)" name="fileType"> Favorite</div>
+                                    <div><input id="all" type="radio" value="all" checked="checked" name="fileType"> All</div>
+                                    <div><input id="uploaded" type="radio" value="uploaded" name="fileType"> Uploaded</div>
+                                    <div><input id="favorite" type="radio" value="favorite" name="fileType"> Favorite</div>
                                 </div>
                                 <div id="actionSelector" class="w3-left w3-margin">
                                     <b>Action Types: </b><br>
-                                    <div><input id="updated" type="checkbox" checked="checked" onChange="setActionType(this.id)" value="updated"> Updated</div>
-                                    <div><input id="deleted" type="checkbox" checked="checked" onChange="setActionType(this.id)" value="deleted"> Deleted</div>
-                                    <div><input id="commented" type="checkbox" checked="checked" onChange="setActionType(this.id)" value="commented"> Commented</div>
-                                    <div><input id="favorited" type="checkbox" checked="checked" onChange="setActionType(this.id)" value="favorited"> Favorited</div>
-                                    <div><input id="rated" type="checkbox" checked="checked" onChange="setActionType(this.id)" value="rated"> Rated</div>
-
+                                    <div><input id="updated" class='actionTypes' type="checkbox" checked="checked" value="updated"> Updated</div>
+                                    <div><input id="deleted" class='actionTypes' type="checkbox" checked="checked" value="deleted"> Deleted</div>
+                                    <div><input id="commented" class='actionTypes' type="checkbox" checked="checked" value="commented"> Commented</div>
+                                    <div><input id="favorited" class='actionTypes' type="checkbox" checked="checked" value="favorited"> Favorited</div>
+                                    <div><input id="unFavorited" class='actionTypes' type="checkbox" checked="checked" value="unFavorited"> UnFavorite</div>
+                                    <div><input id="rated" class='actionTypes' type="checkbox" checked="checked" value="rated"> Rated</div>
                                 </div>
                             </div>
 
