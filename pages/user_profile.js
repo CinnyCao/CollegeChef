@@ -37,7 +37,7 @@ $(function () {
     controlTab();
 
     //load notification messages
-    populateNotifications({}, []);
+    populateNotifications({});
 });
 
 var defaultProfileImg = "/img/profile_picture.jpg";
@@ -223,22 +223,26 @@ function filterNotification() {
         }
     });
 
-    populateNotifications(params, actions);
+    if(actions.length > 0){
+        params['actiontype'] = actions;
+    }
+
+    populateNotifications(params);
 }
 
 // notification part
-function populateNotifications(params, actionTypes) {
+function populateNotifications(params) {
     var query = '/notification';
 
     if (params) {
         query = query + '?' + $.param(params);
     }
+    console.log(query);
     $.ajax({
         url: query,
         type: "GET",
         dataType: "json",
         contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({'actiontype': 'actionTypes'}),
         beforeSend: function (xhr) {
             xhr.setRequestHeader("Authorization", "Bearer " + getToken());
         },

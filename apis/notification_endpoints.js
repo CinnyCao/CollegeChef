@@ -2,14 +2,12 @@ module.exports = function (app, isDefined, ActionType, ActionHistory, Favorite) 
 
     // get notification history
     app.get("/notification", function (req, res) {
-                    console.log(req.body.actiontype);
-
         if (req.auth)
         {
             // check if input query are valid
             var validQueryKeys = {
                 "recipetype": ["uploaded", "favorite"],
-                "actiontype": ["rate", "comment", "favorite", "update", "delete"]
+                "actiontype": ["rate", "comment", "favorite", "unfavorite", "update", "delete"]
             };
             for (var key in req.query) {
                 if (Object.keys(validQueryKeys).indexOf(key) >= 0) {
@@ -22,9 +20,11 @@ module.exports = function (app, isDefined, ActionType, ActionHistory, Favorite) 
                         }
                     } else if (key === "actiontype") {
                         queryValue = req.query.actiontype;
-                        if (validQueryKeys["actiontype"].indexOf(queryValue) < 0) {
-                            valueValid = false;
-                        }
+                        queryValue.forEach(function(act){
+                            if (validQueryKeys["actiontype"].indexOf(act) < 0) {
+                                valueValid = false;
+                            }
+                        });
                     }
                     if (!valueValid) {
                         return res.status(400).json({
@@ -42,9 +42,8 @@ module.exports = function (app, isDefined, ActionType, ActionHistory, Favorite) 
 
             // find requested action type ids
             var actionMatch = {};
-            var actionType = req.body.actiontype;
-            if (isDefined(actionType) && actionType.length > 0) {
-                actionMatch["typeName"] = req.body.actiontype;
+            if (isDefined(req.query.actiontype)) {
+                actionMatch["typeName"] = req.query.actiontype;
             }
             ActionType.find(actionMatch, function (err, types) {
                 var actionTypeIds = [];
