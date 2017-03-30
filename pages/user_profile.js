@@ -212,32 +212,34 @@ function filterNotification() {
             actions.push('update');
         } else if (val == "deleted") {
             actions.push('delete');
-        } else if (val == "commented") {
+        } else if (val == "commented" && type != "favorite") {
             actions.push('comment');
-        } else if (val == "favorited") {
+        } else if (val == "favorited" && type != "favorite") {
             actions.push('favorite');
-        } else if (val == "unFavorited") {
+        } else if (val == "unFavorited" && type != "favorite") {
             actions.push('unfavorite');
-        } else {
+        } else if (val == "rate" && type != "favorite") {
             actions.push('rate');
         }
     });
 
     if(actions.length > 0){
         params['actiontype'] = actions;
+        populateNotifications(params);
+    } else{
+        $(".msg-card").html('');
+        $('#noNoti').show();
     }
-
-    populateNotifications(params);
 }
 
 // notification part
 function populateNotifications(params) {
+    $('#noNoti').hide();
     var query = '/notification';
 
     if (params) {
         query = query + '?' + $.param(params);
     }
-    console.log(query);
     $.ajax({
         url: query,
         type: "GET",
@@ -252,14 +254,22 @@ function populateNotifications(params) {
             }
         },
         success: function (notifications) {
-            console.log(notifications);
             $(".msg-card").html('');
-
+            if (!notifications.length){
+                $('#noNoti').show();
+            }
             notifications.forEach(function (noti) {
-                var fileType = noti['recipeOwnerId'] == getUserID() ? 'Your Uploaded Recipe ' : 'Your Favorite Recipe ';
-                var msg = fileType + '<b>' + noti['recipeName'] + '</b>' +
-                        noti['actionTypeMsg'] + '<b>' + noti['recipeOwnerName'] + '</b>';
-                $(".msg-card").append($(getNotificationMsgs(noti['actionTypeId'], msg, noti['recipeId'])));
+                var recipeId = noti['recipeId'];
+                var favoriteIncluded = ['2', '5'];
+                if(noti['recipeOwnerId'] == getUserID() ||
+                    (noti['recipeOwnerId'] != getUserID() && favoriteIncluded.indexOf(recipeId) > 0)){
+
+                    var fileType = noti['recipeOwnerId'] == getUserID() ? 'Your Uploaded Recipe ' : 'Your Favorite Recipe ';
+
+                    var msg = fileType + '<b>' + noti['recipeName'] + '</b>' + noti['actionTypeMsg'] + '<b>' + noti['recipeOwnerName'] + '</b>';
+
+                    $(".msg-card").append($(getNotificationMsgs(noti['actionTypeId'], msg, recipeId)));
+                }
             });
         }
     });
