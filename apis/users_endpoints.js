@@ -237,7 +237,7 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
                         message: "No users found."
                     });
                 } else {
-                    res.json({users});
+                    res.json(users);
                 }
             });
         }

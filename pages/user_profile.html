@@ -105,29 +105,15 @@
                     <div class="section_card">
                         <!-- control tabs -->
                         <div class="w3-row">
-                            <a href="javascript:void(0)" onclick="openTab(event, 'uploaded-list');">
-                                <div id="uploaded-recipes-tab" class="tab-set half-or-forth tablink w3-bottombar w3-hover-light-grey w3-padding">Uploaded Recipes</div>
+                            <a href="javascript:void(0)" onclick="openTab(event, 'notification-section');">
+                                <div id="notification-tab" class="tab-set w3-half tablink w3-bottombar w3-hover-light-grey w3-padding">Email Notification</div>
                             </a>
-                            <a href="javascript:void(0)" onclick="openTab(event, 'notification-list');">
-                                <div id="notification-tab" class="tab-set half-or-forth tablink w3-bottombar w3-hover-light-grey w3-padding">Email Notification</div>
+                            <a href="javascript:void(0)" onclick="openTab(event, 'user-section');">
+                                <div id="users-tab" class="tab-set w3-half tablink w3-bottombar w3-hover-light-grey w3-padding">All Users</div>
                             </a>
-                            <a href="javascript:void(0)" onclick="openTab(event, 'user-list');">
-                                <div id="users-tab" class="tab-set half-or-forth tablink w3-bottombar w3-hover-light-grey w3-padding">All Users</div>
-                            </a>
-                            <a href="javascript:void(0)" onclick="openTab(event, 'recipes-list');">
-                                <div id="recipes-tab" class="tab-set half-or-forth tablink w3-bottombar w3-hover-light-grey w3-padding">All Recipes</div>
-                            </a>
-                        </div>
-                        <!-- Uploaded recipes -->
-                        <div id="uploaded-list" class="w3-container set-tab hide-section">
-                            <p id="addRecipe" class="w3-center w3-hover-text-blue"><a href="javascript: addEditRecipe('addRecipe');">Add a Recipe</a>
-                            </p>
-                            <div class="card-set w3-left">
-                                <div class="uploaded-card w3-left card-margin"></div>
-                            </div>
                         </div>
                         <!-- Email Notifications -->
-                        <div id="notification-list" class="w3-container set-tab hide-section">
+                        <div id="notification-section" class="w3-container set-tab">
                             <p class="w3-center w3-hover-text-blue"><a href="javascript: show('set-notification-form');">Notification Settings</a>
                             </p>
 
@@ -164,14 +150,8 @@
                             </section>
                         </div>
                         <!-- All Users -->
-                        <div id="user-list" class="w3-container set-tab hide-section">
+                        <div id="user-section" class="w3-container set-tab">
                             <div class="user-card"></div>
-                        </div>
-                        <!-- All Recipes -->
-                        <div id="recipes-list" class="w3-container set-tab hide-section">
-                            <div class="card-set w3-left">
-                                <div class="uploaded-card w3-left card-margin"></div>
-                            </div>
                         </div>
                     </div>
                 </div>
