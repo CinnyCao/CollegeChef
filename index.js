@@ -36,6 +36,7 @@ connection.once('open', function() {
     var Comment = require('./database/models/comments.js')(connection, Schema, autoIncrement, ActionHistory, Recipe, ActionType);
     var Rate = require('./database/models/rate.js')(connection, Schema, autoIncrement, ActionHistory, Recipe, ActionType);
     var Favorite = require('./database/models/favorite.js')(connection, Schema, autoIncrement, ActionHistory, Recipe, ActionType);
+    var Feedback = require('./database/models/feedback.js')(connection, Schema, autoIncrement);
 
     // Secure Hash Algorithm 1
     var sha1 = require('sha1');
@@ -124,7 +125,6 @@ connection.once('open', function() {
         require('./database/factory_data.js')(app, sha1, getRandomIntInclusive, User, Ingredient, Category, Recipe, Rate, Favorite, Comment, ActionType, IngredientToRecipe);
     }
 
-
     app.get("/", function(req, res) {
         res.sendFile(path.join(__dirname + '/index.html'));
     });
@@ -146,6 +146,9 @@ connection.once('open', function() {
 
     // Endpoints that manage notifications
     require('./apis/notification_endpoints.js')(app, isDefined, ActionType, ActionHistory, Favorite);
+
+    // Endpoints that manage sending feedback
+    require('./apis/feedback_endpoints.js')(app, Feedback);
     
     var server = app.listen(3000, function () {
         console.log('App listening on port 3000');
