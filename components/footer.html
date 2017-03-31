@@ -16,7 +16,7 @@
 	            <h1 class="form_title">Feedback Form</h1>
 	        </div>
 	            <!-- add action, pass records to server  -->
-	        <form id="feedback-content" class="w3-container">
+	        <form id="feedback-content" class="w3-container" action="javascript:sendFeedback();">
 		        <div class="w3-section">
 		        	<label><b>Name (optional)</b>
 		            </label>
@@ -31,7 +31,7 @@
 	        </form>
 	        <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
 	            <button onclick="hide('give-feedback')" type="button" class="w3-btn w3-red">Cancel</button>
-	            <button onclick="sendFeedback()" form="feedback-content" class="w3-btn w3-right w3-green">Submit</button>
+	            <button form="feedback-content" class="w3-btn w3-right w3-green">Submit</button>
 	        </div>
 	    </div>
 	</div>

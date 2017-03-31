@@ -11,15 +11,14 @@ $(function () {
 
         showHideRecipeEditorTools();
     });
+
+    $("#recipe_text").on("click", function () {
+        $("input[id=by_recipe_option]").prop("checked", true);
+    });
+    $("#uploader_text").on("click", function () {
+        $("input[id=by_uploader_option]").prop("checked", true);
+    });
 });
-
-var userSearch = false;
-
-function searchByUser() {
-    reset();
-    userSearch = true;
-    //change a global variable so that filterRecipes() filters by username instead
-}
 
 var recipeMakers = {};
 
@@ -31,7 +30,6 @@ function populateRecipeCards() {
         contentType: "application/json; charset=utf-8",
         success : function (response) {
             for (var i = 0; i < response.length; i++) {
-                //this only gets the user id of the user that made the recipe, not sure a good way to get the username
                 var name = response[i]["recipeName"];
                 var id = response[i]["_id"];
                 recipeMakers[name] = id;
@@ -58,13 +56,17 @@ function showHideRecipeEditorTools() {
 
 // Display recipes with recipe names that contain the entered input
 function filterRecipes() {
-    //todo - add filter by username
     reset();
     var search_text = $('#recipe_browser_input').val().toLowerCase();
     var recipes = $(".recipe_card");
 
-    for (i = 0; i < recipes.length; i++) {
-        $(recipes[i]).toggle(recipes[i].title.toLowerCase().indexOf(search_text) >= 0);
+    if ($('input[id=by_recipe_option]:checked').val()) {
+        for (i = 0; i < recipes.length; i++) {
+            $(recipes[i]).toggle(recipes[i].title.toLowerCase().indexOf(search_text) >= 0);
+        }
+    } else if ($('input[id=by_uploader_option]:checked').val()) {
+        for (i = 0; i < recipes.length; i++) {
+        }
     }
 }
 

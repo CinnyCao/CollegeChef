@@ -21,13 +21,14 @@ body,h1,h2,h3,h4,h5 {
 
 /*alphabet search*/
 
-.alphabet {
+.alphabet_wrapper {
     margin-top: 10px;
     width: 100%;
     text-align: center;
 }
 .abc {
     margin: 4px 5px;
+    border-radius: 5px;
 }
 
 /*search bar*/
@@ -40,17 +41,33 @@ body,h1,h2,h3,h4,h5 {
     border-radius: 5px;
     margin-bottom: 12px;
 }
-.search {
+.search_wrapper {
     position: relative;
     font-size: 18px;
     padding-top: 20px;
 }
-.search label {
+.search_wrapper label {
     position: absolute;
     left: 17px;
     top: 32px
 }
-#user_search_cb {
+.search_options_wrapper {
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+.search_options_wrapper div {
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 20px;
+}
+#search_by_text {
+    font-weight: bold;
+    margin-right: 5px;
+}
+.search_option {
+    cursor: pointer;
+}
+/*#user_search_cb {
     display: none;
 }
 #check1 {
@@ -79,7 +96,7 @@ body,h1,h2,h3,h4,h5 {
 }
 input:checked + #check2{
     background-color: #4dd2ff;
-}
+}*/
 
 /*recipe list*/
 

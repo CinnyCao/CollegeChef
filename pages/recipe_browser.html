@@ -19,7 +19,7 @@
             <div class="section_card">
                 <div class="recipe_browser_content w3-row-padding w3-row">
                     <!-- Browse recipes by first letter -->
-                    <div class="alphabet">
+                    <div class="alphabet_wrapper">
                         <button class="abc w3-btn w3-padding-small" id="1" value="a" onclick="letter(this)">A</button>
                         <button class="abc w3-btn w3-padding-small" id="2" value="b" onclick="letter(this)">B</button>
                         <button class="abc w3-btn w3-padding-small" id="3" value="c" onclick="letter(this)">C</button>
@@ -48,15 +48,21 @@
                         <button class="abc w3-btn w3-padding-small" id="26" value="z" onclick="letter(this)">Z</button>
                     </div>
                     <!-- Recipe Search -->
-                    <div class="search">
+                    <div class="search_wrapper">
                         <label for="recipe_browser_input"><i class="fa fa-search"></i></label>
-                        <input type="text" class="search_input w3-card-2" id="recipe_browser_input" onkeyup="filterRecipes()" placeholder="Search for recipes..">
+                        <input type="text" class="search_input w3-card-2" id="recipe_browser_input" 
+                            onkeyup="filterRecipes()" placeholder="Search for recipes..">
                     </div>
-                    <div id="user_search">
-                        <label id="check1">
-                        <input type="checkbox" id="user_search_cb">
-                        <div id="check2">Search By User</div>
-                        </label>
+                    <div class="search_options_wrapper">
+                        <span id="search_by_text">Search by:</span>
+                        <div><input id="by_recipe_option" class="recipe_search_option" type="radio" 
+                            value="by_recipe" name="recipe_search_option" checked>
+                            <span id="recipe_text">Recipe</span>
+                        </div>
+                        <div><input id="by_uploader_option" class="recipe_search_option" type="radio" 
+                            value="by_uploader" name="recipe_search_option">
+                            <span id="uploader_text">Uploader</span>
+                        </div>
                     </div>
                     <div class="recipe_cards_wrapper w3-white w3-card-2" id="main_wrapper">
                     </div>
