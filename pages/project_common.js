@@ -481,6 +481,10 @@ function toggleFavorite(element, recipeId) {
                 // remove from favorite recipe list if in home page
                 if (window.location.pathname == "/pages/home.html") {
                     $("#favorite_recipes .recipe_card[data-id="+recipeId+"]").remove();
+                    // check if favorite list is empty now
+                    if ($("#favorite_recipes .recipe_card").length == 0) {
+                        $("#favorite_recipes").append("<p>You don't have any favorite recipes.</p>");
+                    }
                 }
             },
             error: function (request, status, error) {

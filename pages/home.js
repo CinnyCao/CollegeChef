@@ -155,14 +155,18 @@ function populateUserOnlyRecipeList() {
                 xhr.setRequestHeader("Authorization", "Bearer " + getToken());
             },
             success : function (response) {
-                for (var i = 0; i < response.length; i++) {
-                    $("#favorite_recipes").append(
-                        $(getRecipeCard(
-                            response[i]["_id"], response[i]["recipeName"],
-                            response[i]["description"], response[i]["imgUrl"],
-                            RECIPE_CARD_FAVORITE_BUTTON_TOOL, true)
-                        )
-                    );
+                if (response.length > 0) {
+                    for (var i = 0; i < response.length; i++) {
+                        $("#favorite_recipes").append(
+                            $(getRecipeCard(
+                                response[i]["_id"], response[i]["recipeName"],
+                                response[i]["description"], response[i]["imgUrl"],
+                                RECIPE_CARD_FAVORITE_BUTTON_TOOL, true)
+                            )
+                        );
+                    }
+                } else {
+                    $("#favorite_recipes").append("<p>You don't have any favorite recipes.</p>");
                 }
             },
             error: function (request, status, error) {
@@ -179,14 +183,18 @@ function populateUserOnlyRecipeList() {
                 xhr.setRequestHeader("Authorization", "Bearer " + getToken());
             },
             success : function (response) {
-                for (var i = 0; i < response.length; i++) {
-                    $("#uploaded_recipes").append(
-                        $(getRecipeCard(
-                            response[i]["_id"], response[i]["recipeName"],
-                            response[i]["description"], response[i]["imgUrl"],
-                            RECIPE_CARD_EDITOR_TOOL)
-                        )
-                    );
+                if (response.length > 0) {
+                    for (var i = 0; i < response.length; i++) {
+                        $("#uploaded_recipes").append(
+                            $(getRecipeCard(
+                                response[i]["_id"], response[i]["recipeName"],
+                                response[i]["description"], response[i]["imgUrl"],
+                                RECIPE_CARD_EDITOR_TOOL)
+                            )
+                        );
+                    }
+                } else {
+                    $("#uploaded_recipes").append("<p>You haven't uploaded any recipe.</p>");
                 }
             },
             error: function (request, status, error) {
