@@ -32,15 +32,11 @@
                     </section>
                     <hr>
                     <!--Comments-->
-                    <section class="w3-hover-grey w3-card-4 w3-margin-top w3-margin-left w3-margin-right w3-white" onclick='controlComments()'>
-                        <div class="commentTitle w3-container w3-padding-8">Comments  |
+                    <section class="w3-card-4 w3-margin w3-white">
+                        <div class="commentTitle w3-container w3-padding">Comments  |
                             <b id="commentsNum" class="w3-opacity w3-large">0</b>
-                            <i id="showIcon" class="fa fa-plus w3-right"></i>
-                            <i id="hideIcon" class="fa fa-minus w3-right w3-hide"></i>
                         </div>
-                    </section>
-                    <section id="controlCmds" class="w3-card-4 w3-margin-left w3-margin-right w3-margin-bottom w3-hide">
-                        <form class="w3-container w3-padding" action="javascript:postComment();">
+                        <form class="user_only_evaluation w3-container w3-margin" action="javascript:postComment();">
                             <textarea id='postMsg' class='commentsText w3-padding' placeholder="Say something ..." rows="5" required></textarea>
                             <button class="w3-button w3-blue"><i class="fa fa-pencil"></i>  Post</button>
                         </form>
@@ -53,7 +49,7 @@
                     </section>
                     <!--Photos-->
                     <section class="w3-card-4 w3-margin w3-white">
-                        <div class="commentTitle w3-container w3-padding-8">Photos  |
+                        <div class="commentTitle w3-container w3-padding">Photos  |
                             <b id="photosNum" class="w3-opacity w3-large">0</b>
                         </div>
                         <hr class="w3-margin">
@@ -67,7 +63,7 @@
                             </div>
                         </div>
                         <div class="w3-container imgCommentsWrapper">
-                            <a href="javascript: uploadFile()"><div id="uploadImgLabel" class="w3-card w3-margin w3-left image_comment">
+                            <a class="user_only_evaluation" href="javascript: uploadFile()"><div id="uploadImgLabel" class="w3-card w3-margin w3-left image_comment">
                                     <span class="filename" id="attached-project-file">Click to select a file</span>
                                     <input id="attach-project-file" type="file" accept=".jpeg,.jpg,.png" onchange="postImageComment(this)">
                             </div></a>
@@ -111,8 +107,8 @@
                     </section>
                     <!--Instruction-->
                     <section class="w3-card-4 w3-margin w3-white">
-                        <div class="w3-container w3-padding-8">
-                            <h3><b>Instructions</b></h3>
+                        <div class="ingredient_list_title w3-container w3-padding">
+                            <h4>Instructions</h4>
                         </div>
                         <div class="w3-container"><p id="instruction_holder"></p></div>
                     </section>

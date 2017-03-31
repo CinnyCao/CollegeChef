@@ -6,6 +6,11 @@ $(function () {
 
     // get recipe data
     fetchRecipeDetail();
+
+    $(".user_only_evaluation").toggle(getUserType() !== null);
+    $(window).on("loggedin", function () {
+        $(".user_only_evaluation").toggle(getUserType() !== null);
+    });
 });
 
 function fetchRecipeDetail() {
