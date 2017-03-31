@@ -38,25 +38,32 @@ $(function () {
     });
 
     $('input[type=radio][name=ingredient_search_type]').change(function() {
-        if (this.value == 'include') {
-            $("#search_hint").text("contains");
-        } else if (this.value == 'equal') {
-            $("#search_hint").text("is made of exactly");
-        } else if (this.value == 'exclude') {
-            $("#search_hint").text("do not contain");
-        }
+        updateSearchHintMsg(this.value);
     });
 
     $("#type_word_include").on("click", function () {
         $("input[name=ingredient_search_type][value=include]").prop("checked", true );
+        updateSearchHintMsg("include");
     });
     $("#type_word_equal").on("click", function () {
         $("input[name=ingredient_search_type][value=equal]").prop("checked", true );
+        updateSearchHintMsg("equal");
     });
     $("#type_word_exclude").on("click", function () {
         $("input[name=ingredient_search_type][value=exclude]").prop("checked", true );
+        updateSearchHintMsg("exclude");
     });
 });
+
+function updateSearchHintMsg(value) {
+    if (value == 'include') {
+        $("#search_hint").text("contains");
+    } else if (value == 'equal') {
+        $("#search_hint").text("is made of exactly");
+    } else if (value == 'exclude') {
+        $("#search_hint").text("do not contain");
+    }
+}
 
 function populateIngredients(callback) {
     $.ajax({
