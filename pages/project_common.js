@@ -557,7 +557,7 @@ function saveRecipe() {
     var notes = $('#tips').val();
 
     var ingredients = [];
-    $('.oneIgredient').each(function(){
+    $('.oneIngredient').each(function(){
         var ingredientId = $(this).find('select').val();
         var quantity = $(this).find('input').val();
         ingredients.push({"id": ingredientId, "amount": quantity});
@@ -620,9 +620,6 @@ function saveRecipe() {
     }
 }
 
-// add recipe form
-var count = 2;
-
 function listCategories() {
     $.ajax({
         url: '/categories',
@@ -645,75 +642,111 @@ function listCategories() {
     });
 }
 
-function listIngredients() {
-    var selectedIngredients = [];
-    $('.oneIgredient').each(function(){
-        selectedIngredients.push($(this).find('select').val());
+var ingredientList = [];
+
+var disableSelectedIngredients = function () {
+    var selectedIngredientIds = [];
+    $.each($('.ingredientList option:selected'), function (i, select) {
+        selectedIngredientIds.push($(select).val());
     });
-    $.ajax({
-        type : "GET",
-        url : "/ingredients",
-        dataType : "json",
-        contentType: "application/json; charset=utf-8",
-        success : function (ingredients) {
-            $.each(ingredients, function (i, ingredient) {
-                if(selectedIngredients.indexOf(ingredient._id.toString()) < 0)
-                {
-                    $('.ingredientList').append($('<option>', {
-                        value: ingredient._id,
-                        text : ingredient.name 
-                    }));
-                }
-            });
+    // enable all options
+    $(".ingredientList option").prop('disabled', false);
+    // disable selected options in all select
+    $.each(selectedIngredientIds, function (i, ingredientId) {
+        if (ingredientId != "") {
+            $('.ingredientList option[value='+ingredientId+']').prop('disabled', true);
         }
     });
 }
 
+function populateIngredientList(element) {
+    $.each(ingredientList, function (i, ingredient) {
+        $(element).find(".ingredientList").append($('<option>', {
+            value: ingredient._id,
+            text : ingredient.name
+        }));
+    });
+
+    $(element).find(".ingredientList").on("change", disableSelectedIngredients).trigger("change");
+}
+
+function listIngredients(element) {
+    if (ingredientList.length == 0) {
+        $.ajax({
+            type : "GET",
+            url : "/ingredients",
+            dataType : "json",
+            contentType: "application/json; charset=utf-8",
+            success : function (ingredients) {
+                $.each(ingredients, function (i, ingredient) {
+                    ingredientList.push(ingredient);
+                });
+                populateIngredientList(element);
+            }
+        });
+    } else {
+        populateIngredientList(element);
+    }
+}
+
 function addIngredientListTemplate(){
-    return '<div w3-margin-bottom">' +
-    '<div class="w3-container oneIgredient">' + 
-    '<select class="ingredientList input-set added_ings w3-border w3-margin-right w3-left" required>' +
-    '<option value="" selected>Select an ingredient</option>' +
-    '</select>' +
-    '<input class="quantity input-set w3-border w3-margin-right w3-left" placeholder="Enter ingredient quantity" required>' +
-    '<i class="timesBtn w3-hover-text-blue w3-xlarge fa fa-times w3-left" onClick="deleteIngredient(this);"></i>' + 
-    '</div>' +
-    '<p class="invalidIngredientInput w3-text-red w3-hide">Please select an ingredient and enter the quality.</p>' +
-    '</div>'
+    return '' +
+        '<div class="oneIngredientWrapper w3-margin-bottom">' +
+            '<div class="oneIngredient w3-container">' +
+                '<select class="ingredientList input-set added_ings w3-border w3-margin-right w3-left" required>' +
+                    '<option value="">Select an ingredient</option>' +
+                '</select>' +
+                '<input class="quantity input-set w3-border w3-margin-right w3-left" placeholder="Enter ingredient quantity" required>' +
+                '<i class="timesBtn w3-hover-text-blue w3-xlarge fa fa-times w3-left" onClick="deleteIngredient(this);"></i>' +
+            '</div>' +
+            '<p class="invalidIngredientInput w3-text-red w3-hide">Please select an ingredient and enter the quality.</p>' +
+        '</div>';
 }
 
 function addIngredient(){
-    var curr = $(".eachIngredient").append(addIngredientListTemplate());
-    listIngredients();
+    var ingredientTemplate = $(addIngredientListTemplate());
+    $(".eachIngredient").append(ingredientTemplate);
+    listIngredients(ingredientTemplate);
     checkIngredientAmount();
-    return curr;
+    return ingredientTemplate;
 }
 
 function deleteIngredient(current){
-    $(current).parent().remove();
+    $(current).parentsUntil(".oneIngredientWrapper").remove();
     checkIngredientAmount();
 }
 
 function checkIngredientAmount() {
-    if($(".oneIgredient").length == 1) {
+    if($(".oneIngredient").length == 1) {
         $('.timesBtn').addClass('w3-hide');
     } else {
         $('.timesBtn').removeClass('w3-hide');
     }
 }
 
-// values will be gotten from database and reset
-function addEditRecipe(id) {
-    $('#recipe_form_title').html(id == 'addRecipe' ? "Add Recipe" : "Edit Recipe");
+
+function resetRecipeForm() {
+    $('#recipeCover').attr('src', "/img/icon.png");
+    $('#recipe_name').val("");
+    $('#category').val("");
+    $('#main_description').val("");
+    $('#instructions').val("");
+    $('#servings').val("");
+    $('#tips').val("");
+}
+
+function addRecipe() {
+    // reset ingredientList
+    ingredientList = [];
+    $('#recipe_form_title').html("Add Recipe");
+    resetRecipeForm();
+
     listCategories();
-    listIngredients();
-    show('add-edit-recipe');
-    
-    $(".eachIngredient").html('');
+
+    $(".eachIngredient").empty();
     addIngredient();
 
-    // if list < 1, invisible the cross
-    checkIngredientAmount();
+    show('add-edit-recipe');
 }
 
 // get recipe by id

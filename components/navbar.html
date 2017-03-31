@@ -11,7 +11,7 @@
         <li class="menu_item_left"><a href="/index.html" class="w3-padding-large" title="Home"><i class="fa fa-home"></i><p class="menu_item_name w3-hide-medium">Home</p></a></li>
         <li class="menu_item_left"><a href="/pages/recipe_browser.html" class="w3-padding-large" title="All Recipes"><i class="fa fa-cutlery"></i><p class="menu_item_name w3-hide-medium">Recipe Browser</p></a></li>
         <li class="menu_item_left user_only"><a href="/pages/user_profile.html" class="w3-padding-large" title="User Profile"><i class="fa fa-user-o"></i><p class="menu_item_name w3-hide-medium">My Profile</p></a></li>
-        <li class="menu_add_recipe w3-right user_only"><a href="javascript: addEditRecipe('addRecipe');" class="w3-padding-large" title="Add Recipe"><i class="fa fa-plus-square w3-hide-medium"></i><p class="menu_item_name"> Add Recipe</p></a></li>
+        <li class="menu_add_recipe w3-right user_only"><a href="javascript: addRecipe();" class="w3-padding-large" title="Add Recipe"><i class="fa fa-plus-square w3-hide-medium"></i><p class="menu_item_name"> Add Recipe</p></a></li>
         <li class="menu_item_left user_only"><a href="javascript: logOut();" class="w3-padding-large" title="Sign Out"><i class="fa fa-sign-out"></i><p class="menu_item_name w3-hide-medium">Sign Out</p></a></li>
         <li class="menu_item_right w3-right"><a href="javascript: getLoginForm();" class="w3-padding-large" title="Login"><p class="menu_item_name">Login</p></a></li>
         <li class="menu_item_right w3-right"><a href="javascript: show('register-form');" class="w3-padding-large" title="Sign Up"><p class="menu_item_name">Sign Up</p></a></li>
@@ -86,7 +86,7 @@
             <div class="w3-section">
                 <label><b>Recipe Photo*</b>
                 </label><br>
-                <img id="recipeCover" src="/img/profile_picture.jpg" class="recipePhotoStyle w3-margin-right" alt="recipe image">
+                <img id="recipeCover" src="" class="recipePhotoStyle w3-margin-right" alt="recipe image">
                 <input type='file' id="inputRecipeImg" class="w3-margin-top w3-margin-bottom" accept=".jpeg,.jpg,.png" onchange="uploadPhoto(this, 'recipeCover', 'recipePhoto')" required/><br>
                 <label><b>Recipe Name*</b>
                 </label>
