@@ -15,7 +15,6 @@ function fetchRecipeDetail() {
         dataType : "json",
         contentType: "application/json; charset=utf-8",
         success : function (recipeResponse) {
-            console.log(recipeResponse);
             if (getUserType() == null) {
                 recipeResponse["hasFavorited"] = false;
                 loadRecipeDetail(recipeResponse);
@@ -33,7 +32,7 @@ function fetchRecipeDetail() {
                     success : function (favoriteResponse) {
                         recipeResponse["isFavorited"] = favoriteResponse["isFavorited"];
                         loadRecipeDetail(recipeResponse);
-                        getAllTextComments(recipeResponse["recipeId"]);
+                        getAllTextComments();
                     },
                     error: function (request, status, error) {
                         alert(request.responseText);
@@ -48,6 +47,7 @@ function fetchRecipeDetail() {
 }
 
 function loadRecipeDetail(recipeResponse) {
+    sessionStorage.setItem('currentRecipeId', recipeResponse["recipeId"]);
     // recipe card
     $("#recipe_card_holder").append($(
         getRecipeCard(recipeResponse["recipeId"], recipeResponse["recipeName"], recipeResponse["description"], recipeResponse["imgUrl"],
@@ -92,7 +92,9 @@ function getIngredientLiElement(ingredientName, ingredientImg, ingredientAmount)
 }
 
 // get all comments
-function getAllTextComments(recipeId){
+function getAllTextComments(){
+    $(".post_feed").html('');
+    var recipeId = sessionStorage.getItem('currentRecipeId');
     var url = '/recipe/' + recipeId + '/comments/text';
     
     $.ajax({
@@ -109,7 +111,6 @@ function getAllTextComments(recipeId){
             comments.forEach(function(comment){
                 $('.noComments').addClass('w3-hide');
                 if(comment['userName']){
-                    console.log(comment['profilePhoto']);
                     $(".post_feed").append($(populateComments(comment['profilePhoto'], comment['userName'],
                     new Date(comment['createdDate']).toGMTString(), comment['message'])));
                 }
@@ -123,7 +124,7 @@ function getAllTextComments(recipeId){
 }
 
 function populateComments(avatar, userName, createdDate, message) {
-    return '<div class="w3-container w3-card-2 w3-white w3-round w3-margin">' +
+    return '<div class="w3-container w3-card-2 w3-hover-shadow w3-white w3-round w3-margin">' +
             '<div class="w3-container">' + 
             '<img id="postAvatar" src="' + avatar + '" class="w3-circle avatar-style w3-left w3-margin-top" alt="avatar">' + 
             '<section class="w3-container w3-left w3-margin-top w3-margin-left">' +
@@ -134,4 +135,27 @@ function populateComments(avatar, userName, createdDate, message) {
             '<hr>' +
             '<p>' + message + '</p>' +
             '</div>';
+}
+
+function postComment(){
+    var recipeId = sessionStorage.getItem('currentRecipeId');
+    var url = '/recipe/' + recipeId + '/comments';
+    var params = {'message': $('#postMsg').val(), "isImage": false};
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(params),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+        },
+        success: function (response) {
+            $('#postMsg').val('');
+            getAllTextComments();
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    });
 }

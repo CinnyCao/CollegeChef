@@ -47,10 +47,10 @@
                                     <div class="w3-container w3-padding-8">
                                         <h3><b>Comments</b></h3>
                                     </div>
-                                    <div class="w3-container w3-padding">
-                                        <textarea class='commentsText w3-padding' placeholder="Say something ..." rows="5"></textarea>
-                                        <button type="button" class="w3-button w3-blue"><i class="fa fa-pencil"></i>  Post</button> 
-                                    </div>
+                                    <form class="w3-container w3-padding" action="javascript:postComment();">
+                                        <textarea id='postMsg' class='commentsText w3-padding' placeholder="Say something ..." rows="5" required></textarea>
+                                        <button class="w3-button w3-blue""><i class="fa fa-pencil"></i>  Post</button> 
+                                    </form>
                                     <hr class="w3-margin">
                                     <div class="w3-container">
                                         <div class="post_feed"></div>

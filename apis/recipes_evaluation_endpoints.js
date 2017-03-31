@@ -61,7 +61,7 @@ module.exports = function (app, isDefined, Comment, Rate, Favorite, Recipe, Acti
                             if (err)
                                 return console.error(err);
                             comment.addCommentNotification(foundRecipe.personId, req.userID, parseInt(req.params.recipeId));
-                            res.status(200).json({});
+                            return res.status(200).json({});
                         });
                     } else {
                         return res.status(404).json({
