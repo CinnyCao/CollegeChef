@@ -60,49 +60,6 @@ function setLoginPassword(password) {
     }
 }
 
-/** dummy data **/
-var ingredientsData = [
-    ["Egg", "/img/ingredients/egg.png"],
-    ["Cheese", "/img/ingredients/cheese.png"],
-    ["Eggplant", "/img/ingredients/eggplant.png"],
-    ["Brown Sugar", "/img/ingredients/brown_sugar_ing.jpg"],
-    ["Milk", "/img/ingredients/milk_ing.jpg"],
-    ["Mushroom", "/img/ingredients/mushroom_ing.jpg"],
-    ["Butter", "/img/ingredients/butter.jpg"],
-    ["Salt", "/img/ingredients/salt_ing.jpg"]
-];
-
-var recipesData = [
-    ["Meat Loaf",
-        "This recipe is anything but regular old meatloaf! Everyone will love this moist version made in the slow cooker, with milk, mushrooms, and a little sage for extra flavor.",
-        "/img/recipes/meatloaf.jpg"
-    ],
-    ["Scrambled Eggs",
-        "This is the description",
-        "/img/recipes/scrambledeggs.jpg"
-    ],
-    ["Ramen",
-        "This is the description",
-        "/img/recipes/ramen.jpg"
-    ],
-    ["Chicken Nuggets",
-        "This is the description",
-        "/img/recipes/chickennuggets.jpg"
-    ],
-    ["Steak",
-        "This is the description",
-        "/img/recipes/steak.jpg"
-    ],
-    ["BLT Sandwhich",
-        "This is the description",
-        "/img/recipes/bltsandwich.jpg"
-    ],
-    ["Pizza",
-        "This is the description",
-        "/img/recipes/pizza.jpg"
-    ]
-];
-
 /**
  * Start-up Setup
  */
@@ -407,6 +364,9 @@ var RECIPE_CARD_FAVORITE_BUTTON_TOOL = "FAVORITE_BUTTON";
 var RECIPE_CARD_DISPLAY = "DISPLAY";
 var RECIPE_CARD_BROWSER = "BROWSER";
 
+var CLICK_TO_FAVORITE = "Click to favorite";
+var CLICK_TO_UNFAVORITE = "Click to unfavorite";
+
 function getRecipeCard(id, name, description, src, tool, toolData) {
     var href = "/pages/recipe_view.html?id=" + id;
     // ellipsis description
@@ -465,13 +425,14 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
         var hint = "";
         if (isFavorited) {
             favorited = "favoritedHeart";
-            hint = "Click to unfavorite";
+            hint = CLICK_TO_UNFAVORITE;
         } else {
-            hint = "Click to favorite";
+            hint = CLICK_TO_FAVORITE;
         }
         favoriteTool = '' +
-                '<div class="recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right" title="' + hint + '">' +
-                '<i class="recipe_card_tools ' + favorited + ' fa fa-heart fa-fw w3-hover-grey" onclick="event.stopPropagation(); toggleFavorite()"></i>' +
+                '<div class="recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right">' +
+                '<i class="recipe_card_tools favorite_tool ' + favorited + ' fa fa-heart fa-fw"  title="' + hint + '" ' +
+                    'onclick="event.stopPropagation(); toggleFavorite(this, ' + id + ')"></i>' +
                 '</div>';
     }
 
@@ -479,7 +440,8 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
     if (tool === RECIPE_CARD_DISPLAY) {
         cardCode += '<div class="recipe_card_display w3-card-4 w3-margin w3-white">';
     } else {
-        cardCode += '<div class="recipe_card w3-card-2 w3-hover-shadow" title="' + name + '" onclick="location.href=\'' + href + '\'">';
+        cardCode += '<div class="recipe_card w3-card-2 w3-hover-shadow"  data-id="' + id + '" ' +
+            'title="' + name + '" onclick="location.href=\'' + href + '\'">';
     }
     cardCode += '<span class="recipe_card_img_wrapper"><img src="' + src + '" alt="' + name + '">' + ratingTool + '</span>';
     cardCode += '<div class="w3-container w3-center">';
@@ -500,6 +462,49 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
                 editorTool + commentTool + favoriteTool + usernameTool +
             '</div>';
     return cardCode;
+}
+
+function toggleFavorite(element, recipeId) {
+    var isFavorited = $(element).hasClass("favoritedHeart");
+    if (isFavorited) {
+        $.ajax({
+            url: "/recipe/" + recipeId + "/favorite",
+            type: "DELETE",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+            },
+            success: function (response) {
+                $(element).removeClass("favoritedHeart");
+                $(element).attr("title", CLICK_TO_FAVORITE);
+                // remove from favorite recipe list if in home page
+                if (window.location.pathname == "/pages/home.html") {
+                    $("#favorite_recipes .recipe_card[data-id="+recipeId+"]").remove();
+                }
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
+    } else {
+        $.ajax({
+            url: "/recipe/" + recipeId + "/favorite",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+            },
+            success: function (response) {
+                $(element).addClass("favoritedHeart");
+                $(element).attr("title", CLICK_TO_UNFAVORITE);
+            },
+            error: function (request, status, error) {
+                alert(request.responseText);
+            }
+        });
+    }
 }
 
 function deleteRecipe(current) {
@@ -543,22 +548,22 @@ function saveRecipe() {
 
     if(recipeName && categoryId && description && instruction && numServings && ingredients && imgUrl)
     {
-    var params = {'recipeName': recipeName, 'categoryId': categoryId, 'description': description,
-     'instruction': instruction, 'numServings': numServings, 'ingredients': ingredients, 'imgUrl': imgUrl};
+        var params = {'recipeName': recipeName, 'categoryId': categoryId, 'description': description,
+            'instruction': instruction, 'numServings': numServings, 'ingredients': ingredients, 'imgUrl': imgUrl};
 
-    if(notes)
-    {
-        params['notes'] = notes;
-    }
+        if(notes)
+        {
+            params['notes'] = notes;
+        }
 
-            $.ajax({
+        $.ajax({
             url: "/recipe",
             type: "POST",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(params),
             beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+                xhr.setRequestHeader("Authorization", "Bearer " + getToken());
             },
             success: function (response) {
                 hide('add-edit-recipe');
@@ -566,14 +571,10 @@ function saveRecipe() {
                 window.location.reload();
             },
             error: function (request, status, error) {
-            alert(request.responseText);
-        }
+                alert(request.responseText);
+            }
         });
     }
-}
-
-function toggleFavorite() {
-    // todo
 }
 
 // add recipe form

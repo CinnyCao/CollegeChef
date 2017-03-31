@@ -146,9 +146,8 @@ body {
 .favoritedHeart {
     color: red;
 }
-
-.fa-heart:not(.favoritedHeart):hover {
-    color: red !important;
+.favorite_tool:hover {
+    background-color: #9e9e9e;
 }
 
 /* Comment Count */
