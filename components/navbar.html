@@ -14,7 +14,7 @@
         <li class="menu_add_recipe w3-right user_only"><a href="javascript: addRecipe();" class="w3-padding-large" title="Add Recipe"><i class="fa fa-plus-square w3-hide-medium"></i><p class="menu_item_name"> Add Recipe</p></a></li>
         <li class="menu_item_left user_only"><a href="javascript: logOut();" class="w3-padding-large" title="Sign Out"><i class="fa fa-sign-out"></i><p class="menu_item_name w3-hide-medium">Sign Out</p></a></li>
         <li class="menu_item_right w3-right"><a href="javascript: getLoginForm();" class="w3-padding-large" title="Login"><p class="menu_item_name">Login</p></a></li>
-        <li class="menu_item_right w3-right"><a href="javascript: show('register-form');" class="w3-padding-large" title="Sign Up"><p class="menu_item_name">Sign Up</p></a></li>
+        <li class="menu_item_right w3-right"><a href="javascript: openCreateUserForm();" class="w3-padding-large" title="Sign Up"><p class="menu_item_name">Sign Up</p></a></li>
     </ul>
 </nav>
 
@@ -67,7 +67,7 @@
 
         <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
             <button onclick="hide('register-form')" type="button" class="w3-btn w3-red">Cancel</button>
-            <button form="signup-content" class="w3-btn w3-right w3-green">Sign Up</button>
+            <button id="createBtnText" form="signup-content" class="w3-btn w3-right w3-green">Sign Up</button>
         </div>
 
     </div>

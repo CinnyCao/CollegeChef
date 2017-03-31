@@ -262,8 +262,7 @@ function populateNotifications(params) {
 
                     var fileType = noti['recipeOwnerId'] == getUserID() ? 'Your Uploaded Recipe ' : 'Your Favorite Recipe ';
 
-                    var msg = fileType + '<b>' + noti['recipeName'] + '</b>' + noti['actionTypeMsg'] + '<b>' + noti['recipeOwnerName'] + '</b>';
-
+                    var msg = fileType + '<b>' + noti['recipeName'] + '</b>' + noti['actionTypeMsg'] + '<b>' + noti['operatorName'] + '</b>';
                     $(".msg-card").append($(getNotificationMsgs(noti['actionTypeName'], msg, recipeId)));
                 }
             });
