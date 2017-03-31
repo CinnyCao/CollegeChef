@@ -383,7 +383,7 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
         editorTool = '' +
                 '<div class="recipe_card_editor_tools recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right">' +
                 '<i class="recipe_card_tools fa fa-trash fa-fw w3-hover-grey" onclick="event.stopPropagation(); deleteRecipe('+id+')"></i>' +
-                '<i class="recipe_card_tools fa fa-pencil-square-o fa-fw w3-hover-grey" onclick="event.stopPropagation(); addEditRecipe(\'editRecipe\')"></i>' +
+                '<i class="recipe_card_tools fa fa-pencil-square-o fa-fw w3-hover-grey" onclick="event.stopPropagation(); editRecipe(' + id + ')"></i>' +
                 '</div>';
     }
     if (tool === RECIPE_CARD_RATING_DISPLAY_TOOL || tool === RECIPE_CARD_DISPLAY) {
@@ -683,9 +683,10 @@ function addIngredientListTemplate(){
 }
 
 function addIngredient(){
-    $(".eachIngredient").append(addIngredientListTemplate());
+    var curr = $(".eachIngredient").append(addIngredientListTemplate());
     listIngredients();
     checkIngredientAmount();
+    return curr;
 }
 
 function deleteIngredient(current){
@@ -707,10 +708,63 @@ function addEditRecipe(id) {
     listCategories();
     listIngredients();
     show('add-edit-recipe');
+    
+    $(".eachIngredient").html('');
     addIngredient();
 
     // if list < 1, invisible the cross
     checkIngredientAmount();
+}
+
+// get recipe by id
+function editRecipe(recipeId){
+    addEditRecipe('editRecipe');
+    
+    // fill the edit form first
+    var url = '/recipe/' + recipeId;
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+        },
+        success: function (response) {
+            if(response){
+                $('#recipe_name').val(response['recipeName']);
+                $('#category').val(response['categoryId']);
+                $('#main_description').val(response['description']);
+                $('#instructions').val(response['instruction']);
+                $('#servings').val(response['numServings']);
+                $('#tips').val(response['notes']);
+
+                // save image
+                sessionStorage.setItem('recipePhoto', response['imgUrl']);
+                $('#recipeCover').attr('src', response['imgUrl']);
+                
+                // fill in ingredients list
+                var ingredients = response['ingredients'];
+                if (ingredients.length > 0) {
+                    $(".eachIngredient").html('');
+                }
+
+                for (var i = 0; i < ingredients.length; i++) {
+                    var current = addIngredient();
+                    var ingredient = ingredients[i];
+                    console.log(current);
+                    $(current).find('select').val(ingredient['ingredientId'])
+                    $(current).find('input').val(ingredient['amount']);
+                }
+                
+            }else{
+                alert("Recipe is no longer exist.");
+            }
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    });
 }
 
 

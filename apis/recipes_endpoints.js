@@ -128,6 +128,7 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
                             "imgUrl": 1,
                             "numServings": 1,
                             "ModifiedDate": 1,
+                            "notes": 1,
                             "uploaderId": "$uploader._id",
                             "uploaderName": "$uploader.userName",
                             "uploaderImg": "$uploader.profilePhoto",
