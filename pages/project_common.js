@@ -703,6 +703,7 @@ function checkIngredientAmount() {
 
 // values will be gotten from database and reset
 function addEditRecipe(id) {
+    $('#recipe_form_title').html(id == 'addRecipe' ? "Add Recipe" : "Edit Recipe");
     listCategories();
     listIngredients();
     show('add-edit-recipe');

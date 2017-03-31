@@ -20,6 +20,11 @@ h1 { font-size: 1.5em; margin: 10px; }
 
 /* Comment styling */
 
+.commentWrapper{
+    overflow-y: auto;
+    margin-bottom: 70px;
+
+}
 .commentTitle {
     font-family:"Segoe UI",Arial,sans-serif;
     font-weight:700;
@@ -38,16 +43,16 @@ h1 { font-size: 1.5em; margin: 10px; }
 /*upload image comment*/
 
 #uploadImgLabel {
-  cursor: pointer;
-  display: block;
-  text-align: center;
-  color: #828f94;
-  background: #fff;
-  border-radius: 4px;
-  width: 250px;
-  height: 250px;
-  border: 2px dashed #e0dfd5;
-  position: relative;
+    cursor: pointer;
+    display: block;
+    text-align: center;
+    color: #828f94;
+    background: #fff;
+    border-radius: 4px;
+    width: 250px;
+    height: 250px;
+    border: 2px dashed #e0dfd5;
+    position: relative;
 }
 #attach-project-file {
     width: 0.1px;
@@ -58,8 +63,8 @@ h1 { font-size: 1.5em; margin: 10px; }
     z-index: -1;
 }
 .filename {
-  font-size: 20px;
-  line-height: 300px;
+    font-size: 20px;
+    line-height: 300px;
 }
 .image_comment {
     width: 250px;
