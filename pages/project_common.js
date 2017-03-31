@@ -158,12 +158,12 @@ function deleteConfirm(action) {
 }
 
 // upload profile photo in edit profile form
-function uploadPhoto(input, imgElement, storeName) {
+function uploadPhoto(input, imgElement, storedName) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
 
         reader.onload = function (e) {
-            sessionStorage.setItem(storeName, e.target.result);
+            sessionStorage.setItem(storedName, e.target.result);
             $('#' + imgElement).attr('src', e.target.result)
         };
         reader.readAsDataURL(input.files[0]);
@@ -508,7 +508,58 @@ function deleteRecipe() {
 }
 
 function saveRecipe() {
-    hide('add-edit-recipe');
+    var recipeName = $('#recipe_name').val();
+    var categoryId = $('#category').find(":selected").val();
+    var description = $('#main_description').val();
+    var instruction = $('#instructions').val();
+    var numServings = $('#servings').val();
+    var imgUrl = sessionStorage.getItem('recipePhoto');
+    var notes = $('#tips').val();
+
+    var ingredients = {};
+    //console.log(recipeName + "  " + categoryId + $('#category').find(":selected").text() + "  " + description + "  " + instruction + "  " + numServings + "  " + imgUrl + "  " + notes + " end");
+    $('.oneIgredient').each(function(){
+        var ingredientId = $(this).find('select').val();
+        var quantity = $(this).find('input').val();
+        ingredients[ingredientId] = quantity;
+    });
+
+    if(recipeName && categoryId && description && instruction && numServings && ingredients && imgUrl)
+    {
+    var params = {'recipeName': recipeName, 'categoryId': categoryId, 'description': description,
+     'instruction': instruction, 'numServings': numServings, 'ingredients': ingredients, 'imgUrl': imgUrl};
+
+    if(notes)
+    {
+        params['notes'] = notes;
+    }
+
+            $.ajax({
+            url: "/recipe",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(params),
+            beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+            },
+            statusCode: {
+                400: function (response) {
+                    console.error(response);
+                },
+                401: function (response) {
+                    console.error(response);
+                }
+            },
+            success: function (response) {
+console.log(params);
+                
+                hide('add-edit-recipe');
+                sessionStorage.removeItem('recipePhoto');
+                window.location.reload();
+            }
+        });
+    }
 }
 
 function toggleFavorite() {
@@ -558,8 +609,8 @@ function listIngredients() {
 }
 
 function addIngredientListTemplate(){
-    return '<div class="oneIgredient w3-margin-bottom">' +
-    '<div class="w3-container">' + 
+    return '<div w3-margin-bottom">' +
+    '<div class="w3-container oneIgredient">' + 
     '<select class="ingredientList input-set added_ings w3-border w3-margin-right w3-left" required>' +
     '<option value="" selected>Select an ingredient</option>' +
     '</select>' +
