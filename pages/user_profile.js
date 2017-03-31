@@ -159,11 +159,14 @@ function controlTab() {
     if (user_type === USER_TYPE_USER) {
         $('#notification-tab').hide();
         $('#users-tab').hide();
+        $('#user-section').hide();
+        $('#addUser').hide();
     }
     if (user_type === USER_TYPE_ADMIN) {
         $('#notification-tab').show();
         $('#users-tab').show();
         $('#user-section').hide();
+        $('#addUser').hide();
         $('#notification-tab').addClass('w3-border-red');
 
         //load user cards
