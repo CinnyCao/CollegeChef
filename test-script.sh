@@ -58,7 +58,7 @@ curl -X "POST" "http://localhost:3000/user" \
 printf '\n'
 
 read -p $'\nChange password'
-curl -X "PUT" "http://localhost:3000/user/1/password" \
+curl -X "PUT" "http://localhost:3000/user/2/password" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
@@ -243,46 +243,6 @@ curl -X "POST" "http://localhost:3000/recipes/uploaded" \
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
    "userName": "user"
-}'
-
-printf '\n--------------------------notification settings tests-----------------------------------\n'
-
-#notification settings test
-read -p $'\nGet notification settings of current user'
-curl "http://localhost:3000/notification_settings" \
-     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
-
-printf '\n'
-
-read -p $'\nGet notification settings of current user without authorization -- will get 401'
-curl "http://localhost:3000/notification_settings" \
-
-printf '\n'
-
-read -p $'\nUpdate notification settings of current user'
-curl -X "PUT" "http://localhost:3000/notification_settings" \
-     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
-     -H "Content-Type: application/json; charset=utf-8" \
-     -d $'{
-  "enableTypeNumbers": [1, 2]
-}'
-
-printf '\n'
-
-read -p $'\nUpdate notification settings of current user without authorization -- will get 401'
-curl -X "PUT" "http://localhost:3000/notification_settings" \
-     -H "Content-Type: application/json; charset=utf-8" \
-     -d $'{
-  "enableTypeNumbers": [1, 2]
-}'
-
-printf '\n'
-
-read -p $'\nUpdate notification settings of current user without missing input -- will get 400'
-curl -X "PUT" "http://localhost:3000/notification_settings" \
-     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
-     -H "Content-Type: application/json; charset=utf-8" \
-     -d $'{
 }'
 
 printf '\n--------------------------notification history tests-----------------------------------\n'
