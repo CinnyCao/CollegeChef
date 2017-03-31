@@ -3,6 +3,7 @@ module.exports = function (app, isDefined, Comment, Rate, Favorite, Recipe, Acti
     var getCommentsHelper = function (res, req, isImage, returnFields) {
         Comment.aggregate([
             {"$match": {"$and": [{"recipeId": {"$eq": parseInt(req.params.recipeId)}}, {"isImage": {"$eq": isImage}}]}},
+            {"$sort": {"createdDate": -1}},
             {"$lookup": {
                     from: "users",
                     localField: "personId",

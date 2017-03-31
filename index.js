@@ -80,7 +80,7 @@ connection.once('open', function() {
 
     // body parser to make sure every post request body is not empty
     var bodyParser = require('body-parser');
-    var jsonParser = bodyParser.json();
+    var jsonParser = bodyParser.json({limit: '1mb'});
     app.post('*', jsonParser, function (req, res, next) {
         if (!req.body) {
             console.error("Request body not found");
