@@ -234,7 +234,7 @@ function searchByIngredient() {
                 for (var i = 0; i < response.length; i++) {
                     $("#result_recipes").append(
                         $(getRecipeCard(
-                            response[i]["_id"], response[i]["recipeName"],
+                            response[i]["recipeId"], response[i]["recipeName"],
                             response[i]["description"], response[i]["imgUrl"])
                         )
                     );
