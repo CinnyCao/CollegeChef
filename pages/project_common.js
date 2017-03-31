@@ -421,8 +421,8 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
     var usernameTool = "";
     if (tool === RECIPE_CARD_EDITOR_TOOL || tool === RECIPE_CARD_BROWSER) {
         editorTool = '' +
-                '<div class="recipe_card_editor_tools recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right">' +
-                '<i class="recipe_card_tools fa fa-trash fa-fw w3-hover-grey" onclick="event.stopPropagation(); deleteRecipe()"></i>' +
+                '<div id=' + id + ' class="recipe_card_editor_tools recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right">' +
+                '<i class="recipe_card_tools fa fa-trash fa-fw w3-hover-grey" onclick="event.stopPropagation(); deleteRecipe(this)"></i>' +
                 '<i class="recipe_card_tools fa fa-pencil-square-o fa-fw w3-hover-grey" onclick="event.stopPropagation(); addEditRecipe(\'editRecipe\')"></i>' +
                 '</div>';
     }
@@ -502,9 +502,27 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
     return cardCode;
 }
 
-function deleteRecipe() {
+function deleteRecipe(current) {
     deleteConfirm("recipe");
-    // todo
+
+    var url = "/recipe/" + $(current).parent().attr('id');
+
+            $.ajax({
+            url: "/recipe",
+            type: "DELETE",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+            },
+            success: function (response) {
+
+                window.location.reload();
+            },
+            error: function (request, status, error) {
+            alert(request.responseText);
+        }
+        });
 }
 
 function saveRecipe() {
@@ -516,12 +534,11 @@ function saveRecipe() {
     var imgUrl = sessionStorage.getItem('recipePhoto');
     var notes = $('#tips').val();
 
-    var ingredients = {};
-    //console.log(recipeName + "  " + categoryId + $('#category').find(":selected").text() + "  " + description + "  " + instruction + "  " + numServings + "  " + imgUrl + "  " + notes + " end");
+    var ingredients = [];
     $('.oneIgredient').each(function(){
         var ingredientId = $(this).find('select').val();
         var quantity = $(this).find('input').val();
-        ingredients[ingredientId] = quantity;
+        ingredients.push({"id": ingredientId, "amount": quantity});
     });
 
     if(recipeName && categoryId && description && instruction && numServings && ingredients && imgUrl)
@@ -543,21 +560,14 @@ function saveRecipe() {
             beforeSend: function (xhr) {
             xhr.setRequestHeader("Authorization", "Bearer " + getToken());
             },
-            statusCode: {
-                400: function (response) {
-                    console.error(response);
-                },
-                401: function (response) {
-                    console.error(response);
-                }
-            },
             success: function (response) {
-console.log(params);
-                
                 hide('add-edit-recipe');
                 sessionStorage.removeItem('recipePhoto');
                 window.location.reload();
-            }
+            },
+            error: function (request, status, error) {
+            alert(request.responseText);
+        }
         });
     }
 }
@@ -592,6 +602,10 @@ function listCategories() {
 }
 
 function listIngredients() {
+    var selectedIngredients = [];
+    $('.oneIgredient').each(function(){
+        selectedIngredients.push($(this).find('select').val());
+    });
     $.ajax({
         type : "GET",
         url : "/ingredients",
@@ -599,10 +613,13 @@ function listIngredients() {
         contentType: "application/json; charset=utf-8",
         success : function (ingredients) {
             $.each(ingredients, function (i, ingredient) {
-                $('.ingredientList').append($('<option>', {
-                    value: ingredient._id,
-                    text : ingredient.name 
-                }));
+                if(selectedIngredients.indexOf(ingredient._id.toString()) < 0)
+                {
+                    $('.ingredientList').append($('<option>', {
+                        value: ingredient._id,
+                        text : ingredient.name 
+                    }));
+                }
             });
         }
     });
@@ -629,13 +646,10 @@ function addIngredient(){
 
 function deleteIngredient(current){
     $(current).parent().remove();
-    // fix later
-    //$(".eachIngredient").first().prepend();
     checkIngredientAmount();
 }
 
 function checkIngredientAmount() {
-    console.log($(".oneIgredient"));
     if($(".oneIgredient").length == 1) {
         $('.timesBtn').addClass('w3-hide');
     } else {
