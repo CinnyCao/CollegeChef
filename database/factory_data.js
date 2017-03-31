@@ -291,7 +291,7 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
             var defaultRecipe = new Recipe({
                 personId: creator, recipeName: data["recipeName"],
                 categoryId: category._id, description: data["description"],
-                instruction: "Test test instruction", imgUrl: data["img"], numServings: 1,
+                instruction: "Test test "+data["recipeName"]+" instruction", imgUrl: data["img"], numServings: getRandomIntInclusive(1, 4),
                 ModifiedById: creator
             });
 
@@ -302,7 +302,8 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
                 // link with ingredients
                 for (var j = 0; j < data["ingredient"].length; j++) {
                     Ingredient.findOne({name: data["ingredient"][j]}, function (err, ingredient) {
-                        var newRecord = new IngredientToRecipe({recipeId: newRecipe._id, ingredientId: ingredient._id, amount: "1 portion"});
+                        var amount = getRandomIntInclusive(1, 10) + " protions";
+                        var newRecord = new IngredientToRecipe({recipeId: newRecipe._id, ingredientId: ingredient._id, amount: amount});
                         newRecord.save(function (err) {
                             if (err)
                                 return console.error(err);
