@@ -173,11 +173,17 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
                 if (req.body.notes) {
                     recipeData["notes"] = req.body.notes;
                 }
+
+                recipeData["personId"] = req.userID;
+                recipeData["ModifiedById"] = req.userID;
+
                 var recipe = new Recipe(recipeData);
+
                 recipe.save(function (err, newRecipe) {
                     if (err) {
                         return console.error(err);
                     }
+
                     // link with ingredients
                     var ingredientData = [];
                     for (var i=0; i<req.body.ingredients.length; i++) {
@@ -192,7 +198,8 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
                         if (err) {
                             return console.error(err);
                         }
-                        getRecipeDetail(req, res, newRecipe._id);
+
+                        return res.status(200).json({created});
                     });
                 });
             } else {
