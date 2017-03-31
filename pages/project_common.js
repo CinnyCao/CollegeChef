@@ -21,7 +21,11 @@ function removeUser() {
     removeUserType();
 }
 function getToken() {
-    return JSON.parse(localStorage.getItem("userObj"))["token"];
+    if (localStorage.getItem("userObj") != null) {
+        return JSON.parse(localStorage.getItem("userObj"))["token"];
+    } else {
+        return null;
+    }
 }
 function getUserID() {
     return JSON.parse(localStorage.getItem("userObj"))["userId"];

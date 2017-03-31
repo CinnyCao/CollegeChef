@@ -22,13 +22,6 @@
                 <div class="w3-col l8 s12">
                     <!--Recipe Card-->
                     <section id="recipe_card_holder">
-                        <!--<fieldset class="rating">-->
-                        <!--<input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>-->
-                        <!--<input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>-->
-                        <!--<input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>-->
-                        <!--<input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>-->
-                        <!--<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>-->
-                        <!--</fieldset>-->
                     </section>
                     <hr>
                     <!--Comments-->
@@ -41,7 +34,7 @@
                             <button class="w3-button w3-blue"><i class="fa fa-pencil"></i>  Post</button>
                         </form>
                         <hr class="w3-margin">
-                        <div class="w3-container">
+                        <div class="comment_card_wrapper w3-container">
                             <!--text command card-->
                             <div class="post_feed"></div>
                             <h4 class="w3-center w3-margin noComments">No comments.</h4>
@@ -113,6 +106,26 @@
                         <div class="w3-container"><p id="instruction_holder"></p></div>
                     </section>
                     <hr>
+                    <!--Ratings-->
+                    <section class="w3-card-4 w3-margin w3-white">
+                        <div class="ingredient_list_title w3-container w3-padding">
+                            <h4>Ratings</h4>
+                        </div>
+                        <div class="your_rate user_only_evaluation w3-container">
+                            <p id="your_rate_msg">What you rate:</p>
+                            <div class="rating_wrapper">
+                                <fieldset class="rating">
+                                    <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Awesome - 5 stars"></label>
+                                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Pretty good - 4 stars"></label>
+                                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Meh - 3 stars"></label>
+                                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Kinda bad - 2 stars"></label>
+                                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Sucks big time - 1 star"></label>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <ul id="ratings_holder" class="w3-ul w3-white">
+                        </ul>
+                    </section>
                 </div>
             </div>
             <!--footer-->

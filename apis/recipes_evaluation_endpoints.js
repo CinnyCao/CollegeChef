@@ -134,6 +134,42 @@ module.exports = function (app, isDefined, Comment, Rate, Favorite, Recipe, Acti
         );
     });
 
+    // get list of ratings of a specific recipe except current user's rating
+    app.get("/recipe/:recipeId/ratinglist", function (req, res) {
+        // find records of required recipe
+        var filter = [
+            {"$match": {"recipeId": {"$eq": parseInt(req.params.recipeId)}}}
+        ];
+        if (req.auth) {
+            // exclude current user's rating
+            filter.push(
+                {"$match": {"personId": {"$not": {"$eq": req.userID}}}}
+            );
+        }
+        // find username of each rating
+        filter.push(
+            {"$lookup": {
+                from: "users",
+                localField: "personId",
+                foreignField: "_id",
+                as: "user"
+            }}
+        );
+        filter.push({$unwind: "$user"});
+        // set return fields
+        filter.push(
+            {"$project": {
+                "_id": 0,
+                "scores": 1,
+                "userName": "$user.userName"
+            }}
+        );
+        Rate.aggregate(filter, function (err, ratings) {
+                return res.json(ratings);
+            }
+        );
+    });
+
     // rate a recipe
     app.post("/recipe/:recipeId/rate", function (req, res) {
         if (req.auth)

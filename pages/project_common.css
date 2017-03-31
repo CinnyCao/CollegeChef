@@ -184,6 +184,19 @@ body {
 }
 
 /* Rating Stars */
+.your_rate {
+    border-bottom: 1px solid #ddd;
+}
+#your_rate_msg {
+    margin-bottom: 0;
+}
+.rating_wrapper {
+    text-align: center;
+}
+.rating {
+    border: none;
+    display: inline-block;
+}
 .rating_display {
     border: none;
     padding: 0;
@@ -212,6 +225,9 @@ body {
 .rating > label, .rating_display_star_grey {
     color: #ddd;
     float: right;
+}
+.rating > label {
+    cursor: pointer;
 }
 .rating_display_star_gold, .rating_display_star_grey, rating_display_star_half {
     text-shadow: 2px 2px black;

@@ -10,6 +10,18 @@ $(function () {
     $(".user_only_evaluation").toggle(getUserType() !== null);
     $(window).on("loggedin", function () {
         $(".user_only_evaluation").toggle(getUserType() !== null);
+        getMyRating();
+    });
+
+    if (getUserType() !== null) {
+        getMyRating();
+    }
+    getRatings();
+
+    $('input[type=radio][name=rating]').change(function() {
+        if (this.value != originalRate) {
+            tryToRate(this.value);
+        }
     });
 });
 
@@ -52,12 +64,15 @@ function fetchRecipeDetail() {
     });
 }
 
+var recipeDataCache;
+
 function loadRecipeDetail(recipeResponse) {
+    recipeDataCache = recipeResponse;
     sessionStorage.setItem('currentRecipeId', recipeResponse["recipeId"]);
     // recipe card
     $("#recipe_card_holder").append($(
-            getRecipeCard(recipeResponse["recipeId"], recipeResponse["recipeName"], recipeResponse["description"], recipeResponse["imgUrl"],
-                    RECIPE_CARD_DISPLAY, recipeResponse)));
+        getRecipeCard(recipeResponse["recipeId"], recipeResponse["recipeName"], recipeResponse["description"], recipeResponse["imgUrl"],
+            RECIPE_CARD_DISPLAY, recipeResponse)));
     // instruction
     $("#instruction_holder").text(recipeResponse["instruction"]);
     // notes
@@ -165,28 +180,6 @@ function postComment() {
     });
 }
 
-function showElement(id) {
-    $('#' + id).addClass("w3-show");
-    $('#' + id).removeClass("w3-hide");
-}
-
-function hideElement(id) {
-    $('#' + id).addClass("w3-hide");
-    $('#' + id).removeClass("w3-show");
-}
-
-function controlComments() {
-    if ($('#controlCmds').hasClass("w3-show")) {
-        hideElement('controlCmds');
-        hideElement('hideIcon');
-        showElement('showIcon');
-    } else {
-        showElement('controlCmds');
-        showElement('hideIcon');
-        hideElement('showIcon');
-    }
-}
-
 function viewImage(current, userName, createdDate) {
     $('#expandImg').attr("src", current.src);
     $("#expandImgModal").css("display", "block");
@@ -271,4 +264,140 @@ function postImageComment(input) {
         };
         reader.readAsDataURL(input.files[0]);
     }
+}
+
+var originalRate = 0;
+
+// get user rating
+function getMyRating() {
+    $.ajax({
+        type : "GET",
+        url : "/recipe/"+getUrlParameter("id")+"/rate",
+        dataType : "json",
+        contentType: "application/json; charset=utf-8",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+        },
+        success : function (response) {
+            if (response["scores"] == 0) {
+                // not rated
+                $("#your_rate_msg").text("Click to rate:");
+            } else {
+                // set rate
+                setRateInUi(response["scores"]);
+            }
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    });
+}
+
+// get all ratings
+function getRatings() {
+    var request = {
+        type : "GET",
+        url : "/recipe/"+getUrlParameter("id")+"/ratinglist",
+        dataType : "json",
+        contentType: "application/json; charset=utf-8",
+        success : function (response) {
+            for (var i=0; i<response.length; i++) {
+                $("#ratings_holder").append($(getRatingLi(response[i]["userName"], response[i]["scores"])));
+            }
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    };
+    if (getToken() != null) {
+        request["beforeSend"] = function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+        };
+    }
+    $.ajax(request);
+}
+
+function getRatingLi(userName, rating) {
+    return '' +
+        '<li class="rating_li w3-padding-16">' +
+        '<p>' + userName + ':</p>' +
+        '<div>' + getStars(rating) + '</div>' +
+        '</li>';
+}
+
+function tryToRate(newRate) {
+    // confirm user if want to change rate if already rated before
+    if (originalRate != 0) {
+        var confirmed = confirm("Do you want to update the rate to "+newRate+" ?");
+        if (confirmed) {
+            doRate(newRate);
+        } else {
+            $("input[name=rating][value="+originalRate+"]").click();
+        }
+    } else {
+        doRate(newRate);
+    }
+}
+
+function doRate(rating) {
+    $.ajax({
+        type : "POST",
+        url : "/recipe/"+getUrlParameter("id")+"/rate",
+        dataType : "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({"scores": rating}),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+        },
+        success : function (response) {
+            // set rate
+            setRateInUi(response["scores"]);
+            // update avg rating in recipe card
+            updateAvgRating();
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    });
+}
+
+function setRateInUi(rating) {
+    $("#your_rate_msg").text("What you rated:");
+    originalRate = rating;
+    $("input[name=rating][value="+originalRate+"]").click();
+}
+
+function updateAvgRating() {
+    $.ajax({
+        type : "GET",
+        url : "/recipe/"+getUrlParameter("id")+"/ratings",
+        dataType : "json",
+        contentType: "application/json; charset=utf-8",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+        },
+        success : function (response) {
+            var newAvg = response["avgScore"];
+            $(".rating_display").attr("title", "Average Ratings: " + newAvg);
+            $(".rating_display").empty();
+            $(".rating_display").append($(getStars(newAvg)));
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);
+        }
+    });
+}
+
+function getStars(rating) {
+    var stars = "";
+    for (var i = 0; i < 5 - Math.ceil(rating); i++) {
+        stars += '<lable class="rating_display_star_grey"></lable>';
+    }
+    if (rating - Math.floor(rating) > 0) {
+        stars += '<lable class="rating_display_star_half"></lable>';
+    }
+    for (var i = 0; i < Math.floor(rating); i++) {
+        stars += '<lable class="rating_display_star_gold"></lable>';
+    }
+    return stars;
 }
