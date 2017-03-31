@@ -289,6 +289,7 @@ function populateUserCards() {
                 console.error(response);
             },
             404: function (response) {
+                $(".user-card").html('');
                 $('#noUser').show();
             }
         },

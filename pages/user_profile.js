@@ -367,7 +367,7 @@ function deleteUser(id) {
     var confirmed = deleteConfirm("user");
     if (confirmed) {
         var url = '/user/' + id;
-        
+        console.log(url);
         $.ajax({
             url: url,
             type: "DELETE",
