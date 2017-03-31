@@ -592,20 +592,25 @@ function checkUploadedRecipeEmpty() {
 }
 
 function saveRecipe() {
+
     var recipeName = $('#recipe_name').val();
     var categoryId = $('#category').find(":selected").val();
     var description = $('#main_description').val();
     var instruction = $('#instructions').val();
     var numServings = $('#servings').val();
     var imgUrl = sessionStorage.getItem('recipePhoto');
+    if (!imgUrl) {
+        imgUrl = "/img/icon.png";
+    }
     var notes = $('#tips').val();
 
     var ingredients = [];
-    $('.oneIngredient').each(function(){
-        var ingredientId = $(this).find('select').val();
-        var quantity = $(this).find('input').val();
+    $.each($('.oneIngredient'), function (i, ingredient) {
+        var ingredientId = $(ingredient).find('option:selected').val();
+        var quantity = $(ingredient).find('input').val();
         ingredients.push({"id": ingredientId, "amount": quantity});
     });
+    console.log(ingredients);
 
     if (recipeName && categoryId && description && instruction && numServings && ingredients && imgUrl)
     {
@@ -785,7 +790,6 @@ function checkIngredientAmount() {
         $('.timesBtn').removeClass('w3-hide');
     }
 }
-
 
 function resetRecipeForm() {
     $('#recipeCover').attr('src', "/img/icon.png");
