@@ -55,6 +55,9 @@ body {
     background: -webkit-radial-gradient(lightgray, grey);
     background: radial-gradient(lightgray, grey);
 }
+.ingredientList{
+    height: 40px;
+}
 
 /* Recipe Card */
 .recipe_card, .recipe_card_display {

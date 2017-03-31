@@ -278,6 +278,8 @@ function logOut() {
 
 // populate user cards in user profile
 function populateUserCards() {
+    $('#noUser').hide();
+    
     $.ajax({
         url: '/users',
         type: "GET",
@@ -289,6 +291,10 @@ function populateUserCards() {
         statusCode: {
             401: function (response) {
                 console.error(response);
+            },
+            404: function (response) {
+                $(".user-card").html('');
+                $('#noUser').show();
             }
         },
         success: function (users) {
@@ -334,6 +340,19 @@ function signUp() {
     }
 }
 
+// open create user form
+function openCreateUserForm() {
+    // clear form
+    $('#register-form').find("input").val("");
+    show('register-form');
+    if (getUserType())
+    {
+        $('#createBtnText').html('Create');
+    } else {
+        $('#createBtnText').html('Sign Up');
+    }
+}
+
 
 /**
  * Footer
@@ -364,9 +383,40 @@ function sendFeedback() {
             data: JSON.stringify(params),
             success: function (response) {
                 hide('give-feedback');
+                populateFeedback();
             }
         });
     }
+}
+
+// feedback part
+function populateFeedback() {
+    $('#no_feedback').hide();
+
+    $.ajax({
+        url: "/feedback",
+        type: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+        },
+        statusCode: {
+            401: function (response) {
+                console.error(response);
+            },
+            404: function (response) {
+                $('#no_feedback').show();
+            }
+        },
+        success: function (feedback) {
+            $(".feedback-card").html('');
+            feedback.forEach(function (singleFeedback) {
+                $(".feedback-card").append($(getFeedback(singleFeedback['feedback'], 
+                    singleFeedback['name'], singleFeedback['email'])));
+            });
+        }
+    });
 }
 
 /**
@@ -461,8 +511,8 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
                 '<p data-username="' + toolData["uploaderName"] + '"><small>Uploaded by:</small><br>' + toolData["uploaderName"] + '</p>' +
                 '</div>';
         categoryTool = '<div class="category_info recipe_card_tools_wrapper">' +
-            '<p data-category="' + toolData["categoryName"] + '"><small>Category:</small><br>' + toolData["categoryName"] + '</p>' +
-            '</div>';
+                '<p data-category="' + toolData["categoryName"] + '"><small>Category:</small><br>' + toolData["categoryName"] + '</p>' +
+                '</div>';
     }
     if (tool === RECIPE_CARD_FAVORITE_BUTTON_TOOL || tool === RECIPE_CARD_DISPLAY) {
         var isFavorited = toolData;
@@ -715,7 +765,7 @@ var disableSelectedIngredients = function () {
     // disable selected options in all select
     $.each(selectedIngredientIds, function (i, ingredientId) {
         if (ingredientId != "") {
-            $('.ingredientList option[value='+ingredientId+']').prop('disabled', true);
+            $('.ingredientList option[value=' + ingredientId + ']').prop('disabled', true);
         }
     });
 }
@@ -737,11 +787,11 @@ function populateIngredientList(element, selectedId) {
 function listIngredients(element, selectedId) {
     if (ingredientList.length == 0) {
         $.ajax({
-            type : "GET",
-            url : "/ingredients",
-            dataType : "json",
+            type: "GET",
+            url: "/ingredients",
+            dataType: "json",
             contentType: "application/json; charset=utf-8",
-            success : function (ingredients) {
+            success: function (ingredients) {
                 $.each(ingredients, function (i, ingredient) {
                     ingredientList.push(ingredient);
                 });
@@ -753,24 +803,24 @@ function listIngredients(element, selectedId) {
     }
 }
 
-function addIngredientListTemplate(amount){
+function addIngredientListTemplate(amount) {
     if (!isDefined(amount)) {
         amount = "";
     }
     return '' +
-        '<div class="oneIngredientWrapper w3-margin-bottom">' +
+            '<div class="oneIngredientWrapper w3-margin-bottom">' +
             '<div class="oneIngredient w3-container">' +
-                '<select class="ingredientList input-set added_ings w3-border w3-margin-right w3-left" required>' +
-                    '<option value="">Select an ingredient</option>' +
-                '</select>' +
-                '<input class="quantity input-set w3-border w3-margin-right w3-left" placeholder="Enter ingredient quantity" value="'+amount+'" required>' +
-                '<i class="timesBtn w3-hover-text-blue w3-xlarge fa fa-times w3-left" onClick="deleteIngredient(this);"></i>' +
+            '<select class="ingredientList input-set added_ings w3-border w3-margin-right w3-left" required>' +
+            '<option value="">Select an ingredient</option>' +
+            '</select>' +
+            '<input class="quantity input-set w3-border w3-margin-right w3-left" placeholder="Enter ingredient quantity" value="' + amount + '" required>' +
+            '<i class="timesBtn w3-hover-text-blue w3-xlarge fa fa-times w3-left" onClick="deleteIngredient(this);"></i>' +
             '</div>' +
             '<p class="invalidIngredientInput w3-text-red w3-hide">Please select an ingredient and enter the quality.</p>' +
-        '</div>';
+            '</div>';
 }
 
-function addIngredient(selectedId, amount){
+function addIngredient(selectedId, amount) {
     var ingredientTemplate = $(addIngredientListTemplate(amount));
     $(".eachIngredient").append(ingredientTemplate);
     if (isDefined(selectedId)) {
@@ -788,7 +838,7 @@ function deleteIngredient(current) {
 }
 
 function checkIngredientAmount() {
-    if($(".oneIngredient").length == 1) {
+    if ($(".oneIngredient").length == 1) {
         $('.timesBtn').addClass('w3-hide');
     } else {
         $('.timesBtn').removeClass('w3-hide');
@@ -809,6 +859,7 @@ function addRecipe() {
     // reset ingredientList
     ingredientList = [];
     $('#recipe_form_title').html("Add Recipe");
+    $('#recipe_add_edit_submit').html('Submit');
     resetRecipeForm();
     listCategories();
     $(".eachIngredient").empty();
@@ -834,6 +885,7 @@ function editRecipe(recipeId) {
             if (response) {
                 ingredientList = [];
                 $('#recipe_form_title').html("Edit Recipe");
+                $('#recipe_add_edit_submit').html('Save');
                 resetRecipeForm();
                 listCategories();
                 $(".eachIngredient").empty();

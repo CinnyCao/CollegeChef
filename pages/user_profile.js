@@ -162,23 +162,24 @@ function controlTab() {
         $('#user-section').hide();
         $('#addUser').hide();
         $('#feedback-tab').hide();
+        $('#feedback-section').hide();
     }
     if (user_type === USER_TYPE_ADMIN) {
         $('#notification-tab').show();
+        $('#notification-tab').addClass('w3-border-red');
         $('#users-tab').show();
         $('#user-section').hide();
         $('#addUser').hide();
         $('#feedback-tab').show();
-        $('#notification-tab').addClass('w3-border-red');
+        $('#feedback-section').hide();
 
-        //load user cards
+        //load user cards and feedback cards
         populateUserCards();
+        populateFeedback();
     }
 
     //load notification messages
     populateNotifications({});
-
-    populateFeedback();
 }
 
 function filterNotification() {
@@ -262,8 +263,7 @@ function populateNotifications(params) {
 
                     var fileType = noti['recipeOwnerId'] == getUserID() ? 'Your Uploaded Recipe ' : 'Your Favorite Recipe ';
 
-                    var msg = fileType + '<b>' + noti['recipeName'] + '</b>' + noti['actionTypeMsg'] + '<b>' + noti['recipeOwnerName'] + '</b>';
-
+                    var msg = fileType + '<b>' + noti['recipeName'] + '</b>' + noti['actionTypeMsg'] + '<b>' + noti['operatorName'] + '</b>';
                     $(".msg-card").append($(getNotificationMsgs(noti['actionTypeName'], msg, recipeId)));
                 }
             });
@@ -286,38 +286,6 @@ function getNotificationMsgs(type, msg, recipeId) {
             '<p><i class="fa ' + labels[type] + ' fa-fw w3-margin-right">' +
             '</i>' + msg + '</p>' +
             '</div>';
-}
-
-// feedback part
-function populateFeedback(params) {
-    $('#no_feedback').hide();
-
-    $.ajax({
-        url: "/feedback",
-        type: "GET",
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
-        },
-        statusCode: {
-            401: function (response) {
-                console.error(response);
-            }
-        },
-        success: function (feedback) {
-            $(".feedback-card").html('');
-            feedback.forEach(function (singleFeedback) {
-                $(".feedback-card").append($(getFeedback(singleFeedback['feedback'], 
-                    singleFeedback['name'], singleFeedback['email'])));
-            });
-        },
-        complete: function(xhr) {
-            if (xhr.status == "403") {
-                $('#no_feedback').show();
-            }
-        }
-    });
 }
 
 function getFeedback(feedback, name, email) {
@@ -369,7 +337,7 @@ function deleteUser(id) {
     var confirmed = deleteConfirm("user");
     if (confirmed) {
         var url = '/user/' + id;
-        
+        console.log(url);
         $.ajax({
             url: url,
             type: "DELETE",

@@ -100,7 +100,7 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
                 status: 403,
                 message: "Request failed: Admins can not delete themselves."
             });
-        } else if (userId) {
+        } else if (isDefined(userId)) {
             User.deleteOne({'_id': userId}, function (err, result) {
                 if (err) {
                     console.error(err);

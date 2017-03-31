@@ -42,13 +42,19 @@ module.exports = function (app, isDefined, ActionType, ActionHistory, Favorite) 
 
             // find requested action type ids
             var actionMatch = {};
-            if (isDefined(req.query.actiontype)) {
-                if (req.query.actiontype == "favorite") {
-                    actionMatch = {"$or": [{"typeName": {"$eq": "favorite"}}, {"typeName": {"$eq": "unfavorite"}}]};
-                } else {
-                    actionMatch["typeName"] = req.query.actiontype;
-                }
+            var actionTyps = req.query.actiontype;
+            if (isDefined(actionTyps) && actionTyps.length > 0) {
+                var matchedTypes = [];
+                actionTyps.forEach(function(actionType){
+                    if(actionType == "favorite"){
+                        matchedTypes.push({"typeName": {"$eq": "unfavorite"}});
+                    }
+                    matchedTypes.push({"typeName": {"$eq": actionType}});
+                });
+                
+                actionMatch = {"$or": matchedTypes};
             }
+            
             ActionType.find(actionMatch, function (err, types) {
                 var actionTypeIds = [];
                 for (var i=0; i<types.length; i++) {
@@ -71,21 +77,22 @@ module.exports = function (app, isDefined, ActionType, ActionHistory, Favorite) 
                         }
 
                         // prepare filter depending on query
-                        var filterRecipeTypeMatch = {"$match": {}};
-                        if (isDefined(req.query.recipetype)) {
-                            if (req.query.recipetype === "uploaded") {
-                                filterRecipeTypeMatch = {"$match": {"recipeOwnerId": {"$eq": req.userID}}};
-                            } else if (req.query.recipetype === "favorite" && favoriteRecipeIds > 0) {
-                                filterRecipeTypeMatch = {"$match": {"recipeId": {"$in": favoriteRecipeIds}}};
+                        var actioinTypIdsMatch = {"$and": [{"typeNumber": {"$in": actionTypeIds}}, {"operatorId": {"$ne": req.userID}}]}
+                        var filterRecipeTypeMatch = {};
+                        var givenRecipeType = req.query.recipetype;
+                        if (isDefined(givenRecipeType)) {
+                            if (givenRecipeType === "uploaded") {
+                                filterRecipeTypeMatch = {"$and": [actioinTypIdsMatch, {"recipeOwnerId": {"$eq": req.userID}}]};
+                            } else if (givenRecipeType === "favorite") {
+                                filterRecipeTypeMatch = {"$and": [actioinTypIdsMatch, {"recipeId": {"$in": favoriteRecipeIds}}]};
                             }
                         } else {
-                            filterRecipeTypeMatch = {"$match": {"$or": [{"recipeOwnerId": {"$eq": req.userID}}, {"recipeId": {"$in": favoriteRecipeIds}}]}};
+                            filterRecipeTypeMatch = {"$and": [actioinTypIdsMatch,
+                                            {"$or": [{"recipeOwnerId": {"$eq": req.userID}},{"recipeId": {"$in": favoriteRecipeIds}}]}]};
                         }
-
                         ActionHistory.aggregate(
                             [
-                                filterRecipeTypeMatch,
-                                {"$match": {"typeNumber": {"$in": actionTypeIds}}},
+                                {"$match": filterRecipeTypeMatch},
                                 {"$sort": {"actionDate": -1}},
                                 {"$lookup": {
                                     from: "users",

@@ -9,7 +9,7 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
     var actionTypes = [
         {typeName: "rate", actionMsg: " is rated by "},
         {typeName: "comment", actionMsg: " is commented by "},
-        {typeName: "favorite", actionMsg: "is favorited by "},
+        {typeName: "favorite", actionMsg: " is favorited by "},
         {typeName: "unfavorite", actionMsg: " is unfavorited by "},
         {typeName: "update", actionMsg: " is updated by "},
         {typeName: "delete", actionMsg: " is deleted by "}

@@ -36,8 +36,8 @@ module.exports = function (app, Feedback) {
                     console.error(err);
                 }
                 if (!fb.length) {
-                    return res.status(403).json({
-                        status: 403,
+                    return res.status(404).json({
+                        status: 404,
                         message: "No feedback found."
                     });
                 } else {

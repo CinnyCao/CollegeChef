@@ -37,7 +37,7 @@
                             </div>
                             <div id="description" class="w3-border w3-padding-small"></div>
                             <hr>
-                            <div class="w3-left w3-hover-text-blue"><a href="javascript: show('reset-pwd');">Reset Password</a>
+                            <div class="w3-left w3-hover-text-blue"><a href="javascript: show('reset-pwd'); $('#resetPwd-content').find('input').val('');">Reset Password</a>
                             </div>
                             <div class="w3-right w3-hover-text-blue"><a href="javascript: show('edit-profile'); getUserInfo(getUserID());">Edit Profile</a>
                             </div>
@@ -138,19 +138,20 @@
                             <!-- all messages, there are four default types: rate, comment, favorite edit and uploaded edit -->
                             <div class="msg-card">
                             </div>
-                            <h4 id="noNoti" class="w3-center">No actions found.</h4>
+                            <h4 id="noNoti" class="w3-margin w3-center">No actions found.</h4>
                         </div>
                         <!-- All Users -->
                         <section id="user-section" class="w3-container set-tab">
-                            <h3 id="addUser" class="w3-margin w3-center w3-hover-text-blue"><a href="javascript: show('register-form');">Add User</a>
+                            <h3 id="addUser" class="w3-margin w3-center w3-hover-text-blue"><a href="javascript: openCreateUserForm();">Add User</a>
                             </h3>
                             <div class="user-card"></div>
+                            <h4 id="noUser" class="w3-margin w3-center">No users found.</h4>
                         </section>
                         <!-- User Feedback -->
                         <div id="feedback-section" class="w3-container set-tab">
                             <div class="feedback-card">
                             </div>
-                            <h4 id="no_feedback" class="w3-center">No feedback found.</h4>
+                            <h4 id="no_feedback" class="w3-margin w3-center">No feedback found.</h4>
                         </div>
                     </div>
                 </div>
