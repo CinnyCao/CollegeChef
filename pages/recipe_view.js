@@ -191,9 +191,8 @@ function viewImage(current, userName, createdDate) {
 }
 
 function populateImageCommandsCard(url, userName, createdDate) {
-    console.log(createdDate);
     return '<img id="newImdComment" class="w3-left image_comment w3-card w3-margin"' +
-            ' onclick="viewImage(this, ' + userName + ', ' + createdDate +')" src="' + url + '" alt="uploaded image">';
+            ' onclick="viewImage(this)" src="' + url + '" alt="uploaded image">';
 }
 
 function getAllImgComments() {
@@ -210,7 +209,7 @@ function getAllImgComments() {
             comments.forEach(function (comment) {
                 $('.noImages').addClass('w3-hide');
                 $(".imgComments").append($(populateImageCommandsCard(comment['message'], comment['userName'],
-                        comment['createdDate'])));
+                        new Date(comment['createdDate']).toGMTString())));
             });
 
             if (comments.length == 0) {
@@ -228,7 +227,26 @@ function postImageComment(input) {
         var reader = new FileReader();
 
         reader.onload = function (e) {
-            getAllImgComments();
+            var recipeId = sessionStorage.getItem('currentRecipeId');
+            var url = '/recipe/' + recipeId + '/comments';
+            var params = {'message': e.target.result, "isImage": true};
+            $.ajax({
+                url: url,
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(params),
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+                },
+                success: function (response) {
+                    $('#imgComments').val('');
+                    getAllImgComments();
+                },
+                error: function (request, status, error) {
+                    alert(request.responseText);
+                }
+            });
         };
         reader.readAsDataURL(input.files[0]);
     }

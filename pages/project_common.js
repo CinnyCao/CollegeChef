@@ -121,7 +121,7 @@ function uploadPhoto(input, imgElement, storedName) {
 
         reader.onload = function (e) {
             sessionStorage.setItem(storedName, e.target.result);
-            $('#' + imgElement).attr('src', e.target.result)
+            $('#' + imgElement).attr('src', e.target.result);
         };
         reader.readAsDataURL(input.files[0]);
     }
