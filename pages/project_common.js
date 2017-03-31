@@ -16,6 +16,9 @@ function removeUserType() {
 function setUser(userObj) {
     localStorage.setItem("userObj", userObj);
 }
+function removeUser() {
+    localStorage.removeItem("userObj");
+}
 function getToken() {
     return JSON.parse(localStorage.getItem("userObj"))["token"];
 }
@@ -129,9 +132,9 @@ function uploadPhoto(input, imgElement, storedName) {
 
 function getUrlParameter(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
 
     for (i = 0; i < sURLVariables.length; i++) {
         sParameterName = sURLVariables[i].split('=');
@@ -140,7 +143,8 @@ function getUrlParameter(sParam) {
             return sParameterName[1] === undefined ? true : sParameterName[1];
         }
     }
-};
+}
+;
 
 /**
  * Navigation Bar
@@ -199,7 +203,7 @@ function login() {
             "userName": userName,
             "password": password
         };
-        
+
         loginHelper(params);
     }
 }
@@ -252,24 +256,28 @@ function logOut() {
         statusCode: {
             401: function (response) {
                 console.error(response);
+                removeUserType();
+                removeUser();
+                window.location.href = "/index.html";
             }
         },
         success: function (response) {
             removeUserType();
+            removeUser();
             window.location.href = "/index.html";
         }
     });
 }
 
 /* Sign Up form */
-function signUp() {
+function signUp(status) {
     var userName = $('#signUpUserName').val();
     var pwd = $('.repeated-pwd:visible').val();
-    
+
     if (userName && pwd && checkPasswordMatch()) {
         var params = {'userName': userName, 'password': pwd};
-        
-            $.ajax({
+
+        $.ajax({
             url: "/user",
             type: "POST",
             dataType: "json",
@@ -283,11 +291,13 @@ function signUp() {
             },
             success: function (response) {
                 hide('register-form');
-                // login with the new created user
-                loginHelper(params);
+                if (status == 'login') {
+                    // login with the new created user
+                    loginHelper(params);
+                }
             }
         });
-    }   
+    }
 }
 
 
@@ -382,7 +392,7 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
     if (tool === RECIPE_CARD_EDITOR_TOOL || tool === RECIPE_CARD_BROWSER) {
         editorTool = '' +
                 '<div class="recipe_card_editor_tools recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right">' +
-                '<i class="recipe_card_tools fa fa-trash fa-fw w3-hover-grey" onclick="event.stopPropagation(); deleteRecipe('+id+')"></i>' +
+                '<i class="recipe_card_tools fa fa-trash fa-fw w3-hover-grey" onclick="event.stopPropagation(); deleteRecipe(' + id + ')"></i>' +
                 '<i class="recipe_card_tools fa fa-pencil-square-o fa-fw w3-hover-grey" onclick="event.stopPropagation(); editRecipe(' + id + ')"></i>' +
                 '</div>';
     }
@@ -413,8 +423,8 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
     }
     if (tool == RECIPE_CARD_BROWSER) {
         usernameTool = '<div class="uploader_info recipe_card_tools_wrapper">' +
-            '<p data-username="' + toolData + '"><small>Uploaded by:</small><br>' + toolData + '</p>' +
-            '</div>';
+                '<p data-username="' + toolData + '"><small>Uploaded by:</small><br>' + toolData + '</p>' +
+                '</div>';
     }
     if (tool === RECIPE_CARD_FAVORITE_BUTTON_TOOL || tool === RECIPE_CARD_DISPLAY) {
         var isFavorited = toolData;
@@ -432,7 +442,7 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
         favoriteTool = '' +
                 '<div class="recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right">' +
                 '<i class="recipe_card_tools favorite_tool ' + favorited + ' fa fa-heart fa-fw"  title="' + hint + '" ' +
-                    'onclick="event.stopPropagation(); toggleFavorite(this, ' + id + ')"></i>' +
+                'onclick="event.stopPropagation(); toggleFavorite(this, ' + id + ')"></i>' +
                 '</div>';
     }
 
@@ -441,7 +451,7 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
         cardCode += '<div class="recipe_card_display w3-card-4 w3-margin w3-white">';
     } else {
         cardCode += '<div class="recipe_card w3-card-2 w3-hover-shadow"  data-id="' + id + '" ' +
-            'title="' + name + '" onclick="location.href=\'' + href + '\'">';
+                'title="' + name + '" onclick="location.href=\'' + href + '\'">';
     }
     cardCode += '<span class="recipe_card_img_wrapper"><img src="' + src + '" alt="' + name + '">' + ratingTool + '</span>';
     cardCode += '<div class="w3-container w3-center">';
@@ -450,16 +460,16 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
     if (tool === RECIPE_CARD_DISPLAY) {
         // category and num of servings
         cardCode += '' +
-            '<div class="recipe_card_category_serving">' +
-            '<p><b>Category: </b>' + toolData["categoryName"] + '</p>' + '<p><b>Num of Servings: </b>' + toolData["numServings"] + '</p>' +
-            '</div>';
+                '<div class="recipe_card_category_serving">' +
+                '<p><b>Category: </b>' + toolData["categoryName"] + '</p>' + '<p><b>Num of Servings: </b>' + toolData["numServings"] + '</p>' +
+                '</div>';
     }
     // description
     cardCode += '<p class="recipe_card_des">' + description + '</p>';
     // top corner tools
     cardCode += '' +
             '</div>' +
-                editorTool + commentTool + favoriteTool + usernameTool +
+            editorTool + commentTool + favoriteTool + usernameTool +
             '</div>';
     return cardCode;
 }
@@ -480,7 +490,7 @@ function toggleFavorite(element, recipeId) {
                 $(element).attr("title", CLICK_TO_FAVORITE);
                 // remove from favorite recipe list if in home page
                 if (window.location.pathname == "/pages/home.html") {
-                    $("#favorite_recipes .recipe_card[data-id="+recipeId+"]").remove();
+                    $("#favorite_recipes .recipe_card[data-id=" + recipeId + "]").remove();
                     // check if favorite list is empty now
                     if ($("#favorite_recipes .recipe_card").length == 0) {
                         $("#favorite_recipes").append("<p>You don't have any favorite recipes.</p>");
@@ -525,10 +535,10 @@ function deleteRecipe(recipeId) {
             },
             success: function (response) {
                 if (window.location.pathname == "/pages/home.html") {
-                    $(".recipe_card[data-id="+recipeId+"]").remove();
+                    $(".recipe_card[data-id=" + recipeId + "]").remove();
                     checkUploadedRecipeEmpty();
                 } else if (window.location.pathname == "/pages/recipe_browser.html") {
-                    $(".recipe_cards_wrapper .recipe_card[data-id="+recipeId+"]").remove();
+                    $(".recipe_cards_wrapper .recipe_card[data-id=" + recipeId + "]").remove();
                 } else {
                     window.location.reload();
                 }
@@ -557,18 +567,18 @@ function saveRecipe() {
     var notes = $('#tips').val();
 
     var ingredients = [];
-    $('.oneIgredient').each(function(){
+    $('.oneIgredient').each(function () {
         var ingredientId = $(this).find('select').val();
         var quantity = $(this).find('input').val();
         ingredients.push({"id": ingredientId, "amount": quantity});
     });
 
-    if(recipeName && categoryId && description && instruction && numServings && ingredients && imgUrl)
+    if (recipeName && categoryId && description && instruction && numServings && ingredients && imgUrl)
     {
         var params = {'recipeName': recipeName, 'categoryId': categoryId, 'description': description,
             'instruction': instruction, 'numServings': numServings, 'ingredients': ingredients, 'imgUrl': imgUrl};
 
-        if(notes)
+        if (notes)
         {
             params['notes'] = notes;
         }
@@ -587,28 +597,28 @@ function saveRecipe() {
                 sessionStorage.removeItem('recipePhoto');
                 if (window.location.pathname == "/pages/home.html") {
                     $("#uploaded_recipes").prepend(
-                        $(getRecipeCard(
-                            response["recipeId"], response["recipeName"],
-                            response["description"], response["imgUrl"],
-                            RECIPE_CARD_EDITOR_TOOL)
-                        )
-                    );
+                            $(getRecipeCard(
+                                    response["recipeId"], response["recipeName"],
+                                    response["description"], response["imgUrl"],
+                                    RECIPE_CARD_EDITOR_TOOL)
+                                    )
+                            );
                     checkUploadedRecipeEmpty();
                     $("#new_recipes").prepend(
-                        $(getRecipeCard(
-                            response["recipeId"], response["recipeName"],
-                            response["description"], response["imgUrl"])
-                        )
-                    );
+                            $(getRecipeCard(
+                                    response["recipeId"], response["recipeName"],
+                                    response["description"], response["imgUrl"])
+                                    )
+                            );
                 } else if (window.location.pathname == "/pages/recipe_browser.html") {
                     $(".recipe_cards_wrapper").prepend(
-                        $(getRecipeCard(
-                            response["recipeId"], response["recipeName"], response["description"],
-                            response["imgUrl"], RECIPE_CARD_BROWSER, response["uploaderName"])
-                        )
-                    );
+                            $(getRecipeCard(
+                                    response["recipeId"], response["recipeName"], response["description"],
+                                    response["imgUrl"], RECIPE_CARD_BROWSER, response["uploaderName"])
+                                    )
+                            );
                 } else if (window.location.pathname.startsWith("/pages/recipe_view.html")) {
-                    window.location = "/pages/recipe_view.html?id="+response["recipeId"];
+                    window.location = "/pages/recipe_view.html?id=" + response["recipeId"];
                 } else {
                     window.location.reload();
                 }
@@ -638,7 +648,7 @@ function listCategories() {
             $.each(categories, function (i, category) {
                 $('#category').append($('<option>', {
                     value: category._id,
-                    text : category.name 
+                    text: category.name
                 }));
             });
         }
@@ -647,21 +657,21 @@ function listCategories() {
 
 function listIngredients() {
     var selectedIngredients = [];
-    $('.oneIgredient').each(function(){
+    $('.oneIgredient').each(function () {
         selectedIngredients.push($(this).find('select').val());
     });
     $.ajax({
-        type : "GET",
-        url : "/ingredients",
-        dataType : "json",
+        type: "GET",
+        url: "/ingredients",
+        dataType: "json",
         contentType: "application/json; charset=utf-8",
-        success : function (ingredients) {
+        success: function (ingredients) {
             $.each(ingredients, function (i, ingredient) {
-                if(selectedIngredients.indexOf(ingredient._id.toString()) < 0)
+                if (selectedIngredients.indexOf(ingredient._id.toString()) < 0)
                 {
                     $('.ingredientList').append($('<option>', {
                         value: ingredient._id,
-                        text : ingredient.name 
+                        text: ingredient.name
                     }));
                 }
             });
@@ -669,33 +679,33 @@ function listIngredients() {
     });
 }
 
-function addIngredientListTemplate(){
+function addIngredientListTemplate() {
     return '<div w3-margin-bottom">' +
-    '<div class="w3-container oneIgredient">' + 
-    '<select class="ingredientList input-set added_ings w3-border w3-margin-right w3-left" required>' +
-    '<option value="" selected>Select an ingredient</option>' +
-    '</select>' +
-    '<input class="quantity input-set w3-border w3-margin-right w3-left" placeholder="Enter ingredient quantity" required>' +
-    '<i class="timesBtn w3-hover-text-blue w3-xlarge fa fa-times w3-left" onClick="deleteIngredient(this);"></i>' + 
-    '</div>' +
-    '<p class="invalidIngredientInput w3-text-red w3-hide">Please select an ingredient and enter the quality.</p>' +
-    '</div>'
+            '<div class="w3-container oneIgredient">' +
+            '<select class="ingredientList input-set added_ings w3-border w3-margin-right w3-left" required>' +
+            '<option value="" selected>Select an ingredient</option>' +
+            '</select>' +
+            '<input class="quantity input-set w3-border w3-margin-right w3-left" placeholder="Enter ingredient quantity" required>' +
+            '<i class="timesBtn w3-hover-text-blue w3-xlarge fa fa-times w3-left" onClick="deleteIngredient(this);"></i>' +
+            '</div>' +
+            '<p class="invalidIngredientInput w3-text-red w3-hide">Please select an ingredient and enter the quality.</p>' +
+            '</div>'
 }
 
-function addIngredient(){
+function addIngredient() {
     var curr = $(".eachIngredient").append(addIngredientListTemplate());
     listIngredients();
     checkIngredientAmount();
     return curr;
 }
 
-function deleteIngredient(current){
+function deleteIngredient(current) {
     $(current).parent().remove();
     checkIngredientAmount();
 }
 
 function checkIngredientAmount() {
-    if($(".oneIgredient").length == 1) {
+    if ($(".oneIgredient").length == 1) {
         $('.timesBtn').addClass('w3-hide');
     } else {
         $('.timesBtn').removeClass('w3-hide');
@@ -708,7 +718,7 @@ function addEditRecipe(id) {
     listCategories();
     listIngredients();
     show('add-edit-recipe');
-    
+
     $(".eachIngredient").html('');
     addIngredient();
 
@@ -717,9 +727,9 @@ function addEditRecipe(id) {
 }
 
 // get recipe by id
-function editRecipe(recipeId){
+function editRecipe(recipeId) {
     addEditRecipe('editRecipe');
-    
+
     // fill the edit form first
     var url = '/recipe/' + recipeId;
     $.ajax({
@@ -731,7 +741,7 @@ function editRecipe(recipeId){
             xhr.setRequestHeader("Authorization", "Bearer " + getToken());
         },
         success: function (response) {
-            if(response){
+            if (response) {
                 $('#recipe_name').val(response['recipeName']);
                 $('#category').val(response['categoryId']);
                 $('#main_description').val(response['description']);
@@ -742,7 +752,7 @@ function editRecipe(recipeId){
                 // save image
                 sessionStorage.setItem('recipePhoto', response['imgUrl']);
                 $('#recipeCover').attr('src', response['imgUrl']);
-                
+
                 // fill in ingredients list
                 var ingredients = response['ingredients'];
                 if (ingredients.length > 0) {
@@ -756,8 +766,8 @@ function editRecipe(recipeId){
                     $(current).find('select').val(ingredient['ingredientId'])
                     $(current).find('input').val(ingredient['amount']);
                 }
-                
-            }else{
+
+            } else {
                 alert("Recipe is no longer exist.");
             }
         },

@@ -310,12 +310,12 @@ function populateUserCards() {
 }
 
 function getUserCard(name, photo, id) {
-    return '<section id="user-card-set" class="w3-white w3-card-2 w3-hover-shadow w3-margin w3-tooltip">' +
-            '<img id="user-card-photo" src=' + photo + ' alt="Profile Photo">' +
-            '<h4 class="w3-container w3-center">' + name + '</h4>' +
-            '<div class="display-bottom">' +
-            '<div id=' + id + ' class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="deleteUser(this.id)">Delete</div>' +
-            '<div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="show(\'edit-profile\');">Edit</div>' +
+    return '<section class="w3-margin w3-card-4 w3-white w3-container w3-padding w3-center userCardBackground">' +
+            '<img src="' + photo + '" class="user-card-photo w3-margin-top" alt="Profile Photo">' +
+            '<h5>' + name + '</h5>' +
+            '<div class="w3-section">' +
+            '<button class="w3-button w3-green w3-margin userCardBtn" onclick="show(\'edit-profile\');">Edit</button>' +
+            '<button class="w3-button w3-red w3-margin userCardBtn" onclick="deleteUser(this.id)">Delete</button>' +
             '</div>' +
             '</section>';
 }
