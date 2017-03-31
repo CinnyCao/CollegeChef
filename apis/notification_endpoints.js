@@ -20,9 +20,11 @@ module.exports = function (app, isDefined, ActionType, ActionHistory, Favorite) 
                         }
                     } else if (key === "actiontype") {
                         queryValue = req.query.actiontype;
-                        if (validQueryKeys["actiontype"].indexOf(queryValue) < 0) {
-                            valueValid = false;
-                        }
+                        queryValue.forEach(function(act){
+                            if (validQueryKeys["actiontype"].indexOf(act) < 0) {
+                                valueValid = false;
+                            }
+                        });
                     }
                     if (!valueValid) {
                         return res.status(400).json({
@@ -47,6 +49,7 @@ module.exports = function (app, isDefined, ActionType, ActionHistory, Favorite) 
                     actionMatch["typeName"] = req.query.actiontype;
                 }
             }
+            console.log(actionMatch);
             ActionType.find(actionMatch, function (err, types) {
                 var actionTypeIds = [];
                 for (var i=0; i<types.length; i++) {
