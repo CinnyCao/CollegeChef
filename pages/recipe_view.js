@@ -239,12 +239,24 @@ function postImageComment(input) {
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Authorization", "Bearer " + getToken());
                 },
+                statusCode: {
+                    400: function (response) {
+                        console.error(response);
+                    },
+                    401: function (response) {
+                        console.error(response);
+                    },
+                    404: function (response) {
+                        console.error(response);
+                    },
+                    413: function (response) {
+                        alert('File size is too large.');
+                    }
+                },
+
                 success: function (response) {
                     $('#imgComments').val('');
                     getAllImgComments();
-                },
-                error: function (request, status, error) {
-                    alert(request.responseText);
                 }
             });
         };

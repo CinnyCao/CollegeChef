@@ -592,6 +592,17 @@ function saveRecipe() {
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization", "Bearer " + getToken());
             },
+            statusCode: {
+                400: function (response) {
+                    console.error(response);
+                },
+                401: function (response) {
+                    console.error(response);
+                },
+                413: function (response) {
+                    alert('File size is too large.');
+                }
+            },
             success: function (response) {
                 hide('add-edit-recipe');
                 sessionStorage.removeItem('recipePhoto');
@@ -622,9 +633,6 @@ function saveRecipe() {
                 } else {
                     window.location.reload();
                 }
-            },
-            error: function (request, status, error) {
-                alert(request.responseText);
             }
         });
     }

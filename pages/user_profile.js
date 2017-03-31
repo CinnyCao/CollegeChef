@@ -53,13 +53,13 @@ function getUserInfo(userId) {
             // update user info to UI
             if (user) {
                 // information section
-                if(userId == getUserID()){
+                if (userId == getUserID()) {
                     // required user info
                     $('#userName').html(user['userName']);
                     // optional user info
                     $('#email').html(user['email'] || "[Email is not provided]");
                     $('#description').html(user['description'] || "[Description is not provided]");
-                    $('#profilePhoto').attr('src', user['profilePhoto'] || defaultProfileImg);   
+                    $('#profilePhoto').attr('src', user['profilePhoto'] || defaultProfileImg);
                 }
 
                 // fill in edit profile form
@@ -89,7 +89,8 @@ function saveProfile(userId = getUserID()) {
     if (description && description != $('#description').html) {
         params['description'] = description;
     }
-
+    console.log(url);
+    console.log(params);
     if ($('#editProfile-content')[0].checkValidity()) {
         $.ajax({
             url: url,
@@ -103,18 +104,21 @@ function saveProfile(userId = getUserID()) {
             statusCode: {
                 401: function (response) {
                     console.error(response);
+                },
+                413: function (response) {
+                    alert('File size is too large.');
                 }
             },
             success: function (user) {
                 sessionStorage.removeItem("profilePhoto");
-                location.reload();
+                populateUserCards();
                 hide('edit-profile');
             }
         });
 }
 }
 
-function editUser(id){
+function editUser(id) {
     $('#editProfile-content').attr('action', 'javascript:saveProfile(' + id + ');');
 }
 
@@ -208,10 +212,10 @@ function filterNotification() {
         }
     });
 
-    if(actions.length > 0){
+    if (actions.length > 0) {
         params['actiontype'] = actions;
         populateNotifications(params);
-    } else{
+    } else {
         $(".msg-card").html('');
         $('#noNoti').show();
     }
@@ -240,14 +244,14 @@ function populateNotifications(params) {
         },
         success: function (notifications) {
             $(".msg-card").html('');
-            if (!notifications.length){
+            if (!notifications.length) {
                 $('#noNoti').show();
             }
             notifications.forEach(function (noti) {
                 var recipeId = noti['recipeId'];
                 var favoriteIncluded = ['2', '5'];
-                if(noti['recipeOwnerId'] == getUserID() ||
-                    (noti['recipeOwnerId'] != getUserID() && favoriteIncluded.indexOf(recipeId) > 0)){
+                if (noti['recipeOwnerId'] == getUserID() ||
+                        (noti['recipeOwnerId'] != getUserID() && favoriteIncluded.indexOf(recipeId) > 0)) {
 
                     var fileType = noti['recipeOwnerId'] == getUserID() ? 'Your Uploaded Recipe ' : 'Your Favorite Recipe ';
 
@@ -306,6 +310,7 @@ function populateUserCards() {
             }
         },
         success: function (users) {
+            $(".user-card").html('');
             // update user card
             users.forEach(function (user) {
                 $(".user-card").append($(getUserCard(user['userName'], user['profilePhoto'] || defaultProfileImg, user['_id'])));
