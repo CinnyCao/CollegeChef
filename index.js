@@ -150,10 +150,16 @@ connection.once('open', function() {
 
     // Endpoints that manage sending feedback
     require('./apis/feedback_endpoints.js')(app, Feedback);
-    
-    var server = app.listen(3000, function () {
-        console.log('App listening on port 3000');
-    });
+
+    if (process.env.PORT) {
+        var server = app.listen(process.env.PORT, function () {
+            console.log('App listening on port ' + process.env.PORT);
+        });
+    } else {
+        var server = app.listen(3000, function () {
+            console.log('App listening on port 3000');
+        });
+    }
 
     var shutdown = function () {
         console.log("Shutting down...");
