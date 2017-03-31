@@ -36,6 +36,14 @@ curl -X "POST" "http://localhost:3000/user" \
   "password": "testUser1"
 }'
 
+read -p $'\nLog in' token
+curl -X "POST" "http://localhost:3000/login" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "userName": "testUser1",
+  "password": "testUser1"
+}'
+
 printf '\n'
 
 read -p $'\nCreate users with required input missing -- will get 400'
