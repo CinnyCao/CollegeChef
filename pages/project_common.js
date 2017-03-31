@@ -517,7 +517,6 @@ function saveRecipe() {
     var notes = $('#tips').val();
 
     var ingredients = {};
-    //console.log(recipeName + "  " + categoryId + $('#category').find(":selected").text() + "  " + description + "  " + instruction + "  " + numServings + "  " + imgUrl + "  " + notes + " end");
     $('.oneIgredient').each(function(){
         var ingredientId = $(this).find('select').val();
         var quantity = $(this).find('input').val();
@@ -552,8 +551,6 @@ function saveRecipe() {
                 }
             },
             success: function (response) {
-console.log(params);
-                
                 hide('add-edit-recipe');
                 sessionStorage.removeItem('recipePhoto');
                 window.location.reload();
@@ -592,6 +589,10 @@ function listCategories() {
 }
 
 function listIngredients() {
+    var selectedIngredients = [];
+    $('.oneIgredient').each(function(){
+        selectedIngredients.push($(this).find('select').val());
+    });
     $.ajax({
         type : "GET",
         url : "/ingredients",
@@ -599,10 +600,13 @@ function listIngredients() {
         contentType: "application/json; charset=utf-8",
         success : function (ingredients) {
             $.each(ingredients, function (i, ingredient) {
-                $('.ingredientList').append($('<option>', {
-                    value: ingredient._id,
-                    text : ingredient.name 
-                }));
+                if(selectedIngredients.indexOf(ingredient._id.toString()) < 0)
+                {
+                    $('.ingredientList').append($('<option>', {
+                        value: ingredient._id,
+                        text : ingredient.name 
+                    }));
+                }
             });
         }
     });
@@ -635,7 +639,6 @@ function deleteIngredient(current){
 }
 
 function checkIngredientAmount() {
-    console.log($(".oneIgredient"));
     if($(".oneIgredient").length == 1) {
         $('.timesBtn').addClass('w3-hide');
     } else {
