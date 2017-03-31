@@ -166,6 +166,7 @@ function controlTab() {
         $('#notification-tab').show();
         $('#users-tab').show();
         $('#user-section').hide();
+        $('#feedback-tab').show();
         $('#addUser').hide();
         $('#notification-tab').addClass('w3-border-red');
 
@@ -175,6 +176,8 @@ function controlTab() {
 
     //load notification messages
     populateNotifications({});
+
+    populateFeedback();
 }
 
 function filterNotification() {
@@ -266,7 +269,6 @@ function populateNotifications(params) {
         }
     });
 }
-
 function getNotificationMsgs(type, msg, recipeId) {
     var href = "/pages/recipe_view.html?id=" + recipeId;
     var labels = {};
@@ -282,6 +284,56 @@ function getNotificationMsgs(type, msg, recipeId) {
             '<p><i class="fa ' + labels[type] + ' fa-fw w3-margin-right">' +
             '</i>' + msg + '</p>' +
             '</div>';
+}
+
+function populateFeedback(params) {
+    $('#no_feedback').hide();
+
+    $.ajax({
+        url: "/feedback",
+        type: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+        },
+        statusCode: {
+            401: function (response) {
+                console.error(response);
+            }
+        },
+        success: function (feedback) {
+            $(".feedback-card").html('');
+            feedback.forEach(function (singleFeedback) {
+                $(".feedback-card").append($(getFeedback(singleFeedback['feedback'], 
+                    singleFeedback['name'], singleFeedback['email'])));
+            });
+        },
+        complete: function(xhr) {
+            if (xhr.status == "403") {
+                $('#no_feedback').show();
+            }
+        }
+    });
+}
+message = email + ': ' + message;
+function getFeedback(feedback, name, email) {
+    var message = feedback;
+
+    if (typeof name == 'undefined' && typeof email == 'undefined') {
+        message = feedback;
+    }
+    else if (typeof name == 'undefined') {
+        message = email + ': ' + message;
+    }
+    else if (typeof email == 'undefined') {
+        message = name + ': ' + message;
+    }
+    else {
+        message = name + ' (' + email + '): ' + message;
+    }
+    return '<div class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow"' +
+        '<p>' + message + '</p>' + '</div>';
 }
 
 // open tab

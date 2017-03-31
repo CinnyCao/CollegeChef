@@ -110,6 +110,9 @@
                             <a href="javascript:void(0)" onclick="openTab(event, 'user-section'); show('addUser');">
                                 <div id="users-tab" class="tab-set w3-half tablink w3-bottombar w3-hover-light-grey w3-padding">All Users</div>
                             </a>
+                            <a href="javascript:void(0)" onclick="openTab(event, 'feedback-section');">
+                                <div id="feedback-tab" class="tab-set w3-half tablink w3-bottombar w3-hover-light-grey w3-padding">User Feedback</div>
+                            </a>
                         </div>
                         <!-- Email Notifications -->
                         <div id="notification-section" class="w3-container set-tab">
@@ -143,6 +146,12 @@
                             </h3>
                             <div class="user-card"></div>
                         </section>
+                        <!-- User Feedback -->
+                        <div id="feedback-section" class="w3-container set-tab">
+                            <div class="feedback-card">
+                            </div>
+                            <h4 id="no_feedback" class="w3-center">No feedback found.</h4>
+                        </div>
                     </div>
                 </div>
             </div>
