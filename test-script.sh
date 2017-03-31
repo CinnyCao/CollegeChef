@@ -58,7 +58,7 @@ curl -X "POST" "http://localhost:3000/user" \
 printf '\n'
 
 read -p $'\nChange password'
-curl -X "PUT" "http://localhost:3000/user/1/edit/password" \
+curl -X "PUT" "http://localhost:3000/user/1/password" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
@@ -70,7 +70,7 @@ curl -X "PUT" "http://localhost:3000/user/1/edit/password" \
 printf '\n'
 
 read -p $'\nChange password without authorization -- will get 401'
-curl -X "PUT" "http://localhost:3000/user/1/edit/password" \
+curl -X "PUT" "http://localhost:3000/user/1/password" \
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
   "userName": "testUser1",
@@ -81,7 +81,7 @@ curl -X "PUT" "http://localhost:3000/user/1/edit/password" \
 printf '\n'
 
 read -p $'\nChange password without required input -- will get 400'
-curl -X "PUT" "http://localhost:3000/user/1/edit/password" \
+curl -X "PUT" "http://localhost:3000/user/1/password" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
