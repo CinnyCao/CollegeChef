@@ -114,6 +114,10 @@ function deleteConfirm(action) {
     return confirm(msg);
 }
 
+function isDefined(value) {
+    return typeof value !== "undefined";
+}
+
 // upload profile photo in edit profile form
 function uploadPhoto(input, imgElement, storedName) {
     if (input.files && input.files[0]) {
@@ -659,18 +663,21 @@ var disableSelectedIngredients = function () {
     });
 }
 
-function populateIngredientList(element) {
+function populateIngredientList(element, selectedId) {
     $.each(ingredientList, function (i, ingredient) {
-        $(element).find(".ingredientList").append($('<option>', {
-            value: ingredient._id,
-            text : ingredient.name
-        }));
+        var data = {};
+        data["value"] = ingredient._id;
+        data["text"] = ingredient.name;
+        if (ingredient._id == selectedId) {
+            data["selected"] = true;
+        }
+        $(element).find(".ingredientList").append($('<option>', data));
     });
 
     $(element).find(".ingredientList").on("change", disableSelectedIngredients).trigger("change");
 }
 
-function listIngredients(element) {
+function listIngredients(element, selectedId) {
     if (ingredientList.length == 0) {
         $.ajax({
             type : "GET",
@@ -681,32 +688,39 @@ function listIngredients(element) {
                 $.each(ingredients, function (i, ingredient) {
                     ingredientList.push(ingredient);
                 });
-                populateIngredientList(element);
+                populateIngredientList(element, selectedId);
             }
         });
     } else {
-        populateIngredientList(element);
+        populateIngredientList(element, selectedId);
     }
 }
 
-function addIngredientListTemplate(){
+function addIngredientListTemplate(amount){
+    if (!isDefined(amount)) {
+        amount = "";
+    }
     return '' +
         '<div class="oneIngredientWrapper w3-margin-bottom">' +
             '<div class="oneIngredient w3-container">' +
                 '<select class="ingredientList input-set added_ings w3-border w3-margin-right w3-left" required>' +
                     '<option value="">Select an ingredient</option>' +
                 '</select>' +
-                '<input class="quantity input-set w3-border w3-margin-right w3-left" placeholder="Enter ingredient quantity" required>' +
+                '<input class="quantity input-set w3-border w3-margin-right w3-left" placeholder="Enter ingredient quantity" value="'+amount+'" required>' +
                 '<i class="timesBtn w3-hover-text-blue w3-xlarge fa fa-times w3-left" onClick="deleteIngredient(this);"></i>' +
             '</div>' +
             '<p class="invalidIngredientInput w3-text-red w3-hide">Please select an ingredient and enter the quality.</p>' +
         '</div>';
 }
 
-function addIngredient(){
-    var ingredientTemplate = $(addIngredientListTemplate());
+function addIngredient(selectedId, amount){
+    var ingredientTemplate = $(addIngredientListTemplate(amount));
     $(".eachIngredient").append(ingredientTemplate);
-    listIngredients(ingredientTemplate);
+    if (isDefined(selectedId)) {
+        listIngredients(ingredientTemplate, selectedId);
+    } else {
+        listIngredients(ingredientTemplate);
+    }
     checkIngredientAmount();
     return ingredientTemplate;
 }
@@ -740,9 +754,7 @@ function addRecipe() {
     ingredientList = [];
     $('#recipe_form_title').html("Add Recipe");
     resetRecipeForm();
-
     listCategories();
-
     $(".eachIngredient").empty();
     addIngredient();
 
@@ -751,8 +763,6 @@ function addRecipe() {
 
 // get recipe by id
 function editRecipe(recipeId){
-    addEditRecipe('editRecipe');
-    
     // fill the edit form first
     var url = '/recipe/' + recipeId;
     $.ajax({
@@ -765,6 +775,12 @@ function editRecipe(recipeId){
         },
         success: function (response) {
             if(response){
+                ingredientList = [];
+                $('#recipe_form_title').html("Edit Recipe");
+                resetRecipeForm();
+                listCategories();
+                $(".eachIngredient").empty();
+
                 $('#recipe_name').val(response['recipeName']);
                 $('#category').val(response['categoryId']);
                 $('#main_description').val(response['description']);
@@ -778,17 +794,16 @@ function editRecipe(recipeId){
                 
                 // fill in ingredients list
                 var ingredients = response['ingredients'];
-                if (ingredients.length > 0) {
-                    $(".eachIngredient").html('');
+                for (var i = 0; i < ingredients.length; i++) {
+                    var ingredient = ingredients[i];
+                    addIngredient(ingredient['ingredientId'], ingredient['amount']);
+
+                    // console.log(current);
+                    // $(current).find('select').val(ingredient['ingredientId'])
+                    // $(current).find('input').val(ingredient['amount']);
                 }
 
-                for (var i = 0; i < ingredients.length; i++) {
-                    var current = addIngredient();
-                    var ingredient = ingredients[i];
-                    console.log(current);
-                    $(current).find('select').val(ingredient['ingredientId'])
-                    $(current).find('input').val(ingredient['amount']);
-                }
+                show('add-edit-recipe');
                 
             }else{
                 alert("Recipe is no longer exist.");
