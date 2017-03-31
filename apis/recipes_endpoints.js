@@ -96,6 +96,7 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
                             "description": {$first: "$description"},
                             "instruction": {$first: "$instruction"},
                             "imgUrl": {$first: "$imgUrl"},
+                            "notes": {$first: "$notes"},
                             "numServings": {$first: "$numServings"},
                             "ModifiedById": {$first: "$ModifiedById"},
                             "ModifiedDate": {$first: "$ModifiedDate"},
