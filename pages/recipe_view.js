@@ -57,7 +57,7 @@ function loadRecipeDetail(recipeResponse) {
     $("#instruction_holder").text(recipeResponse["instruction"]);
     // notes
     if (recipeResponse["notes"]) {
-        $("#notes_holder").text(recipeResponse["notes"]);
+        $("#notes_holder").html(recipeResponse["notes"]);
     } else {
         $("#notes_section").hide();
     }
@@ -239,12 +239,24 @@ function postImageComment(input) {
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Authorization", "Bearer " + getToken());
                 },
+                statusCode: {
+                    400: function (response) {
+                        console.error(response);
+                    },
+                    401: function (response) {
+                        console.error(response);
+                    },
+                    404: function (response) {
+                        console.error(response);
+                    },
+                    413: function (response) {
+                        alert('File size is too large.');
+                    }
+                },
+
                 success: function (response) {
                     $('#imgComments').val('');
                     getAllImgComments();
-                },
-                error: function (request, status, error) {
-                    alert(request.responseText);
                 }
             });
         };

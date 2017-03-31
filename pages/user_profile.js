@@ -25,7 +25,7 @@ $(function () {
     });
 
     // load current user info
-    currentUserInfo();
+    getUserInfo(getUserID());
 
     // uploaded recipes is the default tab
     controlTab();
@@ -33,9 +33,8 @@ $(function () {
 
 var defaultProfileImg = "/img/profile_picture.jpg";
 
-
-function currentUserInfo() {
-    var url = '/user/' + getUserID();
+function getUserInfo(userId) {
+    var url = '/user/' + userId;
 
     $.ajax({
         url: url,
@@ -54,12 +53,14 @@ function currentUserInfo() {
             // update user info to UI
             if (user) {
                 // information section
-                // required user info
-                $('#userName').html(user['userName']);
-                // optional user info
-                $('#email').html(user['email'] || "[Email is not provided]");
-                $('#description').html(user['description'] || "[Description is not provided]");
-                $('#profilePhoto').attr('src', user['profilePhoto'] || defaultProfileImg);
+                if (userId == getUserID()) {
+                    // required user info
+                    $('#userName').html(user['userName']);
+                    // optional user info
+                    $('#email').html(user['email'] || "[Email is not provided]");
+                    $('#description').html(user['description'] || "[Description is not provided]");
+                    $('#profilePhoto').attr('src', user['profilePhoto'] || defaultProfileImg);
+                }
 
                 // fill in edit profile form
                 $('#editUserForm-photo').attr('src', user['profilePhoto'] || defaultProfileImg);
@@ -88,7 +89,8 @@ function saveProfile(userId = getUserID()) {
     if (description && description != $('#description').html) {
         params['description'] = description;
     }
-
+    console.log(url);
+    console.log(params);
     if ($('#editProfile-content')[0].checkValidity()) {
         $.ajax({
             url: url,
@@ -102,15 +104,22 @@ function saveProfile(userId = getUserID()) {
             statusCode: {
                 401: function (response) {
                     console.error(response);
+                },
+                413: function (response) {
+                    alert('File size is too large.');
                 }
             },
             success: function (user) {
                 sessionStorage.removeItem("profilePhoto");
-                location.reload();
+                populateUserCards();
                 hide('edit-profile');
             }
         });
 }
+}
+
+function editUser(id) {
+    $('#editProfile-content').attr('action', 'javascript:saveProfile(' + id + ');');
 }
 
 /* Save Reset Password */
@@ -150,11 +159,14 @@ function controlTab() {
     if (user_type === USER_TYPE_USER) {
         $('#notification-tab').hide();
         $('#users-tab').hide();
+        $('#user-section').hide();
+        $('#addUser').hide();
     }
     if (user_type === USER_TYPE_ADMIN) {
         $('#notification-tab').show();
         $('#users-tab').show();
         $('#user-section').hide();
+        $('#addUser').hide();
         $('#notification-tab').addClass('w3-border-red');
 
         //load user cards
@@ -203,10 +215,10 @@ function filterNotification() {
         }
     });
 
-    if(actions.length > 0){
+    if (actions.length > 0) {
         params['actiontype'] = actions;
         populateNotifications(params);
-    } else{
+    } else {
         $(".msg-card").html('');
         $('#noNoti').show();
     }
@@ -235,14 +247,14 @@ function populateNotifications(params) {
         },
         success: function (notifications) {
             $(".msg-card").html('');
-            if (!notifications.length){
+            if (!notifications.length) {
                 $('#noNoti').show();
             }
             notifications.forEach(function (noti) {
                 var recipeId = noti['recipeId'];
                 var favoriteIncluded = ['2', '5'];
-                if(noti['recipeOwnerId'] == getUserID() ||
-                    (noti['recipeOwnerId'] != getUserID() && favoriteIncluded.indexOf(recipeId) > 0)){
+                if (noti['recipeOwnerId'] == getUserID() ||
+                        (noti['recipeOwnerId'] != getUserID() && favoriteIncluded.indexOf(recipeId) > 0)) {
 
                     var fileType = noti['recipeOwnerId'] == getUserID() ? 'Your Uploaded Recipe ' : 'Your Favorite Recipe ';
 
@@ -262,6 +274,7 @@ function getNotificationMsgs(type, msg, recipeId) {
     labels['update'] = "fa-pencil";
     labels['comment'] = "fa-commenting-o";
     labels['favorite'] = "fa-heart";
+    labels['unfavorite'] = "fa-heart-o";
     labels['delete'] = "fa-trash-o";
 
     return '<div class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow"' +
@@ -301,6 +314,7 @@ function populateUserCards() {
             }
         },
         success: function (users) {
+            $(".user-card").html('');
             // update user card
             users.forEach(function (user) {
                 $(".user-card").append($(getUserCard(user['userName'], user['profilePhoto'] || defaultProfileImg, user['_id'])));
@@ -310,12 +324,12 @@ function populateUserCards() {
 }
 
 function getUserCard(name, photo, id) {
-    return '<section id="user-card-set" class="w3-white w3-card-2 w3-hover-shadow w3-margin w3-tooltip">' +
-            '<img id="user-card-photo" src=' + photo + ' alt="Profile Photo">' +
-            '<h4 class="w3-container w3-center">' + name + '</h4>' +
-            '<div class="display-bottom">' +
-            '<div id=' + id + ' class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="deleteUser(this.id)">Delete</div>' +
-            '<div class="w3-hover-text-blue w3-center w3-border edit_delete" onclick="show(\'edit-profile\');">Edit</div>' +
+    return '<section class="w3-left w3-margin w3-card-4 w3-white w3-container w3-padding w3-center userCardBackground">' +
+            '<img src="' + photo + '" class="user-card-photo w3-margin-top" alt="Profile Photo">' +
+            '<h5>' + name + '</h5>' +
+            '<div class="w3-section">' +
+            '<button class="w3-button w3-green w3-margin userCardBtn" onclick="show(\'edit-profile\'); getUserInfo(' + id + '); editUser(' + id + ');">Edit</button>' +
+            '<button class="w3-button w3-red w3-margin userCardBtn" onclick="deleteUser(' + id + ')">Delete</button>' +
             '</div>' +
             '</section>';
 }
@@ -323,26 +337,21 @@ function getUserCard(name, photo, id) {
 function deleteUser(id) {
     var confirmed = deleteConfirm("user");
     if (confirmed) {
-        var params = {'userId': id};
+        var url = '/user/' + id;
+        
         $.ajax({
-            url: '/user',
+            url: url,
             type: "DELETE",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(params),
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization", "Bearer " + getToken());
             },
-            statusCode: {
-                401: function (response) {
-                    console.error(response);
-                }
+            success: function (user) {
+                populateUserCards();
             },
-            success: function (users) {
-                // update user card
-                users.forEach(function (user) {
-                    $(".user-card").append($(getUserCard(user['userName'], user['profilePhoto'] || defaultProfileImg)));
-                });
+            error: function (request, status, error) {
+                alert(request.responseText);
             }
         });
     }
