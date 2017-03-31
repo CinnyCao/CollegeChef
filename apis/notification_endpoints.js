@@ -65,8 +65,6 @@ module.exports = function (app, isDefined, ActionType, ActionHistory, Favorite) 
                             "favoriteRecipeIds": {"$push": "$recipeId"}
                         }}
                     ], function (err, favorites) {
-                        console.log(favorites);
-                        
                         var favoriteRecipeIds = [];
                         if(favorites.length > 0){
                             favoriteRecipeIds = favorites[0].favoriteRecipeIds;   

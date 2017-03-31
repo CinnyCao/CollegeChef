@@ -80,10 +80,8 @@ function loadRecipeDetail(recipeResponse) {
                         recipeResponse["ingredients"][i]["imgUrl"],
                         recipeResponse["ingredients"][i]["amount"])
                 ));
-    }
-    ;
-}
-;
+    };
+};
 
 function getIngredientLiElement(ingredientName, ingredientImg, ingredientAmount) {
     return '' +
@@ -117,6 +115,7 @@ function getAllTextComments() {
             if (comments.length == 0) {
                 $('.noComments').removeClass('w3-hide');
             }
+            $('#commentsNum').html(comments.length);
         },
         error: function (request, status, error) {
             alert(request.responseText);
@@ -215,6 +214,7 @@ function getAllImgComments() {
             if (comments.length == 0) {
                 $('.noImages').removeClass('w3-hide');
             }
+            $('#photosNum').html(comments.length);
         },
         error: function (request, status, error) {
             alert(request.responseText);

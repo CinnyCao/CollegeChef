@@ -49,8 +49,8 @@ h1 { font-size: 1.5em; margin: 10px; }
     color: #828f94;
     background: #fff;
     border-radius: 4px;
-    width: 250px;
-    height: 250px;
+    width: 230px;
+    height: 230px;
     border: 2px dashed #e0dfd5;
     position: relative;
 }
@@ -67,8 +67,8 @@ h1 { font-size: 1.5em; margin: 10px; }
     line-height: 300px;
 }
 .image_comment {
-    width: 250px;
-    height: 250px;
+    width: 230px;
+    height: 230px;
 }
 .imgCommentsWrapper {
     width: 100%;

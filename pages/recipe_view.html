@@ -30,10 +30,32 @@
                     <!--</fieldset>-->
                 </section>
                 <hr>
+                <!--Comments-->
+                <div class="w3-hover-grey w3-container w3-padding-8 w3-margin-left w3-margin-right w3-margin-top w3-card-4 w3-white" onclick='controlComments()'>
+                    <div class="commentTitle">Comments  | 
+                        <b id="commentsNum" class="w3-opacity w3-large">3</b>
+                        <i id="showIcon" class="fa fa-plus w3-right"></i>
+                        <i id="hideIcon" class="fa fa-minus w3-right w3-hide"></i>
+                    </div>
+                </div>
+                <section id="controlCmds" class="w3-card-4 w3-margin-left w3-margin-right w3-margin-bottom w3-padding-top w3-hide">
+                    <form class="w3-container w3-padding" action="javascript:postComment();">
+                        <textarea id='postMsg' class='commentsText w3-padding' placeholder="Say something ..." rows="5" required></textarea>
+                        <button class="w3-button w3-blue"><i class="fa fa-pencil"></i>  Post</button> 
+                    </form>
+                    <hr class="w3-margin">
+                    <div class="w3-container">
+                        <!--text command card-->
+                        <div class="post_feed"></div>
+                        <h4 class="w3-center w3-margin noComments">No comments.</h4>
+                    </div>
+                </section>
                 <!--Photos-->
                 <section class="w3-card-4 w3-margin w3-white w3-padding">
-                    <h3 class="w3-margin"><b>Photos</b></h3>
-
+                    <div class="commentTitle">Photos  | 
+                    <b id="photosNum" class="w3-opacity w3-large">3</b>
+                    </div>
+                    <hr class="w3-margin">
                     <!--modal for all images-->
                     <div id="expandImgModal" class="w3-modal w3-black" onclick="this.style.display = 'none'">
                         <span class="w3-button w3-black w3-xxlarge w3-display-topright">×</span>
@@ -53,25 +75,6 @@
                         </div>
                         <div class="imgComments"></div>
                         <h4 class="w3-center w3-margin w3-left noImages">No Images.</h4>
-                    </div>
-                </section>
-                <!--Comments-->
-                <div class="w3-hover-grey w3-container w3-padding-8 w3-margin-left w3-margin-right w3-margin-top w3-card-4 w3-white" onclick='controlComments()'>
-                    <div class="commentTitle">Comments
-                        <i id="showIcon" class="fa fa-plus w3-right"></i>
-                        <i id="hideIcon" class="fa fa-minus w3-right w3-hide"></i>
-                    </div>
-                </div>
-                <section id="controlCmds" class="w3-card-4 w3-margin-left w3-margin-right w3-margin-bottom w3-padding-top w3-hide">
-                    <form class="w3-container w3-padding" action="javascript:postComment();">
-                        <textarea id='postMsg' class='commentsText w3-padding' placeholder="Say something ..." rows="5" required></textarea>
-                        <button class="w3-button w3-blue"><i class="fa fa-pencil"></i>  Post</button> 
-                    </form>
-                    <hr class="w3-margin">
-                    <div class="w3-container">
-                        <!--text command card-->
-                        <div class="post_feed"></div>
-                        <h4 class="w3-center w3-margin noComments">No comments.</h4>
                     </div>
                 </section>
             </div>
