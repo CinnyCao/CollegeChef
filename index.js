@@ -146,7 +146,7 @@ connection.once('open', function() {
     require('./apis/recipes_endpoints.js')(app, isDefined, Recipe, IngredientToRecipe, Rate);
 
     // Endpoints that manage comments, rate and favorite
-    require('./apis/recipes_evaluation_endpoints.js')(app, isDefined, Comment, Rate, Favorite, Recipe, ActionType, ActionHistory);
+    require('./apis/recipes_evaluation_endpoints.js')(app, isDefined, Comment, Rate, Favorite, Recipe, ActionType, ActionHistory, User);
 
     // Endpoints that manage notifications
     require('./apis/notification_endpoints.js')(app, isDefined, ActionType, ActionHistory, Favorite);

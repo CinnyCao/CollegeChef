@@ -6,33 +6,6 @@ $(function() {
 
     // get recipe data
     fetchRecipeDetail();
-
-    /* Button listener for text post */
-    $('.input_button').on('click', function(){
-        text = $('.input_text').val();
-        if (text != undefined) {
-            post = createPost(text);
-            new_post = $('.post_feed').append($(post));
-            hideEmptyMsg();
-            changeCommentSize();
-        }
-    });
-
-    /* Button listener for photo post */
-    $('.photo_button').on('click', function () {
-        photo_url = $('.photo_url').val();
-        if (photo_url != undefined) {
-            photo = '<img src="' + photo_url + '">'
-            post = createPost(photo);
-            new_post = $('.post_feed').append($(post));
-            hideEmptyMsg();
-            changeCommentSize();
-        }
-    });
-
-    $(window).on('resize', function () {
-        changeCommentSize();
-    });
 });
 
 function fetchRecipeDetail() {
@@ -60,6 +33,7 @@ function fetchRecipeDetail() {
                     success : function (favoriteResponse) {
                         recipeResponse["isFavorited"] = favoriteResponse["isFavorited"];
                         loadRecipeDetail(recipeResponse);
+                        getAllTextComments(recipeResponse["recipeId"]);
                     },
                     error: function (request, status, error) {
                         alert(request.responseText);
@@ -105,8 +79,8 @@ function loadRecipeDetail(recipeResponse) {
                 recipeResponse["ingredients"][i]["imgUrl"],
                 recipeResponse["ingredients"][i]["amount"])
         ));
-    }
-}
+    };
+};
 
 function getIngredientLiElement(ingredientName, ingredientImg, ingredientAmount) {
     return '' +
@@ -117,32 +91,47 @@ function getIngredientLiElement(ingredientName, ingredientImg, ingredientAmount)
         '</li>';
 }
 
-function changeCommentSize() {
-    $('.post_content').height($('.post').width());
+// get all comments
+function getAllTextComments(recipeId){
+    var url = '/recipe/' + recipeId + '/comments/text';
+    
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        statusCode: {
+            401: function (response) {
+                console.error(response);
+            }
+        },
+        success: function (comments) {
+            comments.forEach(function(comment){
+                $('.noComments').addClass('w3-hide');
+                if(comment['userName']){
+                    console.log(comment['profilePhoto']);
+                    $(".post_feed").append($(populateComments(comment['profilePhoto'], comment['userName'],
+                    new Date(comment['createdDate']).toGMTString(), comment['message'])));
+                }
+            });
+            
+            if(comments.length == 0){
+                $('.noComments').removeClass('w3-hide');
+            }
+        }
+    });
 }
 
-function getNextPostId() {
-    return $('.post').length + 1;
-}
-
-function createPost(content) {
-    id = getNextPostId();
-    return '' +
-        '<div class="post">' +
-            '<div class="post_content">' + content + '</div>' +
-            '<div class="post_second_row">' +
-                '<img class="post_like" src="/img/like_button.jpg" alt="Like" onclick="doLike('+ id +')">' +
-                '<p class="post_count">x<span id="count_' + id + '" class="test--like_count">0</span></p>' +
-        '</div></div>';
-}
-
-function doLike(id) {
-    $('#count_' + id).text(Number($('#count_' + id).text()) + 1);
-}
-
-function hideEmptyMsg() {
-    // Hide empty feed msg when first has been added
-    if (getNextPostId() == 2) {
-        $('#empty_feed_msg').hide();
-    }
+function populateComments(avatar, userName, createdDate, message) {
+    return '<div class="w3-container w3-card-2 w3-white w3-round w3-margin">' +
+            '<div class="w3-container">' + 
+            '<img id="postAvatar" src="' + avatar + '" class="w3-circle avatar-style w3-left w3-margin-top" alt="avatar">' + 
+            '<section class="w3-container w3-left w3-margin-top w3-margin-left">' +
+            '<h3>' + userName + '</h3><br>' +
+            '<span>Created by <span class="w3-opacity">' + createdDate +'</span></span>' +
+            '</section>' +
+            '</div>' +
+            '<hr>' +
+            '<p>' + message + '</p>' +
+            '</div>';
 }

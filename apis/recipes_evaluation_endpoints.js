@@ -1,14 +1,44 @@
-module.exports = function (app, isDefined, Comment, Rate, Favorite, Recipe, ActionType, ActionHistory) {
+module.exports = function (app, isDefined, Comment, Rate, Favorite, Recipe, ActionType, ActionHistory, User) {
 
-    // Get all comments of a recipe
-    app.get("/recipe/:recipeId/comments", function (req, res) {
-        Comment.find({recipeId: parseInt(req.params.recipeId)}, "_id recipeId personId isImage message", function (err, comments) {
-            if (err) {
-                console.error(err);
-            }
-
+    var getCommentsHelper = function (res, req, isImage, returnFields) {
+        Comment.aggregate([
+            {"$match": {"$and": [{"recipeId": {"$eq": parseInt(req.params.recipeId)}}, {"isImage": {"$eq": isImage}}]}},
+            {"$lookup": {
+                    from: "users",
+                    localField: "personId",
+                    foreignField: "_id",
+                    as: "user"
+                }},
+            {$unwind: "$user"},
+            // set return fields
+            {"$project": returnFields}
+        ], function (err, comments) {
+            if(err) return console.error(err);
             return res.json(comments);
         });
+    };
+    
+    // Get all text comments of a recipe
+    app.get("/recipe/:recipeId/comments/text", function (req, res) {
+        var returnFields = {
+                    "_id": 0,
+                    "userName": "$user.userName",
+                    "profilePhoto": "$user.profilePhoto",
+                    "message": 1,
+                    "createdDate": 1
+                };
+        getCommentsHelper(res, req, false, returnFields);
+    });
+    
+    // Get all image comments of a recipe
+    app.get("/recipe/:recipeId/comments/image", function (req, res) {
+        var returnFields = {
+                    "_id": 0,
+                    "userName": "$user.userName",
+                    "message": 1,
+                    "createdDate": 1
+                };
+        getCommentsHelper(res, req, true, returnFields);
     });
 
     // Comment a recipe

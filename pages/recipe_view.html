@@ -34,47 +34,27 @@
                                         <!--</fieldset>-->
                                 </section>
                                 <hr>
-                                <!--Instruction-->
+                                <!--Photos-->
                                 <section class="w3-card-4 w3-margin w3-white">
-                                    <div class="w3-container w3-padding-8">
-                                        <h3><b>Instructions</b></h3>
+                                    <div class="ingredient_list_title w3-container w3-padding">
+                                        <h3><b>Photos</b></h3>
                                     </div>
-                                    <div class="w3-container"><p id="instruction_holder"></p></div>
-                                </section>
-                                <!--Notes-->
-                                <section id="notes_section" class="w3-card-4 w3-margin w3-white">
-                                    <div class="w3-container w3-padding-8">
-                                        <h3><b>Tips and Suggestions</b></h3>
-                                    </div>
-                                    <div class="w3-container"><p id="notes_holder"></p></div>
+                                    <section>
+                                    </section>
                                 </section>
                                 <!--Comments-->
                                 <section class="w3-card-4 w3-margin w3-white">
                                     <div class="w3-container w3-padding-8">
                                         <h3><b>Comments</b></h3>
                                     </div>
+                                    <div class="w3-container w3-padding">
+                                        <textarea class='commentsText w3-padding' placeholder="Say something ..." rows="5"></textarea>
+                                        <button type="button" class="w3-button w3-blue"><i class="fa fa-pencil"></i>  Post</button> 
+                                    </div>
+                                    <hr class="w3-margin">
                                     <div class="w3-container">
-                                        <div class="post_feed">
-                                            <p id="empty_feed_msg">No comments!</p>
-                                        </div>
-                                        <div class="posting_forms w3-row">
-                                            <!--test posts form-->
-                                            <div class="posting_section w3-half">
-                                                <p>Write a thought</p>
-                                                <div class="post_form_wrapper">
-                                                    <input class="input_text" type="text" placeholder="Say something here.">
-                                                    <button type="submit" class="input_button">Post</button>
-                                                </div>
-                                            </div>
-                                            <!--photo posts form-->
-                                            <div class="posting_section w3-half">
-                                                <p>Leave a photo</p>
-                                                <div class="post_form_wrapper">
-                                                    <input class="photo_url" type="url" placeholder="Put image url here.">
-                                                    <button type="submit" class="photo_button">Post</button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <div class="post_feed"></div>
+                                        <h4 class="w3-center w3-margin noComments">No comments.</h4>
                                     </div>
                                 </section>
                             </div>
@@ -94,6 +74,13 @@
                                         </div>
                                         <span class="w3-large"><small><b><span id="modification_date_text"></span></b><span id="modification_date_holder"></span></small></span><br>
                                     </div>
+                                <!--Notes-->
+                                <section id="notes_section" class="w3-card-4 w3-margin w3-white">
+                                    <div class="w3-container w3-padding-8">
+                                        <h3><b>Tips and Suggestions</b></h3>
+                                    </div>
+                                    <div class="w3-container"><p id="notes_holder"></p></div>
+                                </section>
                                 </section>
                                 <hr>
                                 <!-- Ingredients -->
@@ -104,12 +91,12 @@
                                     <ul id="ingredient_holder" class="w3-ul w3-hoverable w3-white">
                                     </ul>
                                 </section>
+                                <!--Instruction-->
                                 <section class="w3-card-4 w3-margin w3-white">
-                                    <div class="ingredient_list_title w3-container w3-padding">
-                                        <h4>Photos</h4>
+                                    <div class="w3-container w3-padding-8">
+                                        <h3><b>Instructions</b></h3>
                                     </div>
-                                    <ul id="ingredient_holder" class="w3-ul w3-hoverable w3-white">
-                                    </ul>
+                                    <div class="w3-container"><p id="instruction_holder"></p></div>
                                 </section>
                                 <hr>
                             </div>

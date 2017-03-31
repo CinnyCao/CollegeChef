@@ -20,7 +20,15 @@ h1 { font-size: 1.5em; margin: 10px; }
 
 /* Comment styling */
 
-.post_feed {
+.commentsText {
+    width: 100%;
+    height: 100px;
+}
+.avatar-style {
+    height: 100px;
+    width: 100px;
+}
+/*.post_feed {
     text-align: center;
 }
 
@@ -72,4 +80,4 @@ h1 { font-size: 1.5em; margin: 10px; }
     margin: 0;
     display: inline-block;
     vertical-align: super;
-}
+}*/

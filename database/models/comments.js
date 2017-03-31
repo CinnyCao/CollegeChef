@@ -3,7 +3,8 @@ module.exports = function (connection, Schema, autoIncrement, ActionHistory, Rec
         recipeId: {type: Number, required: true, ref: 'Recipe'},
         personId: {type: Number, required: true, ref: 'User'},
         isImage: {type: Boolean, required: true},
-        message: {type: String, required: true}
+        message: {type: String, required: true},
+        createdDate: {type: Date, default: Date.now}
     });
 
     CommentSchema.plugin(autoIncrement.plugin, 'Comment');
