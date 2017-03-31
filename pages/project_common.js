@@ -419,6 +419,7 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
     var commentTool = "";
     var favoriteTool = "";
     var usernameTool = "";
+    var categoryTool = "";
     if (tool === RECIPE_CARD_EDITOR_TOOL || tool === RECIPE_CARD_BROWSER) {
         editorTool = '' +
                 '<div class="recipe_card_editor_tools recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right">' +
@@ -453,8 +454,11 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
     }
     if (tool == RECIPE_CARD_BROWSER) {
         usernameTool = '<div class="uploader_info recipe_card_tools_wrapper">' +
-                '<p data-username="' + toolData + '"><small>Uploaded by:</small><br>' + toolData + '</p>' +
+                '<p data-username="' + toolData["uploaderName"] + '"><small>Uploaded by:</small><br>' + toolData["uploaderName"] + '</p>' +
                 '</div>';
+        categoryTool = '<div class="category_info recipe_card_tools_wrapper">' +
+            '<p data-category="' + toolData["categoryName"] + '"><small>Category:</small><br>' + toolData["categoryName"] + '</p>' +
+            '</div>';
     }
     if (tool === RECIPE_CARD_FAVORITE_BUTTON_TOOL || tool === RECIPE_CARD_DISPLAY) {
         var isFavorited = toolData;
@@ -499,7 +503,7 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
     // top corner tools
     cardCode += '' +
             '</div>' +
-            editorTool + commentTool + favoriteTool + usernameTool +
+            editorTool + commentTool + favoriteTool + usernameTool + categoryTool +
             '</div>';
     return cardCode;
 }

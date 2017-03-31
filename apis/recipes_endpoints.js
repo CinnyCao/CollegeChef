@@ -17,13 +17,27 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
         if (req.query.username) {
             filter.push({"$match": {"uploader.userName": {"$eq": req.query.username}}});
         }
+        // get category info
+        filter.push(
+            {"$lookup": {
+                from: "categories",
+                localField: "categoryId",
+                foreignField: "_id",
+                as: "category"
+            }});
+        filter.push({$unwind: "$category"});
+        // filter by category
+        if (req.query.category) {
+            filter.push({"$match": {"category.name": {"$eq": req.query.category}}});
+        }
         // set return fields
         filter.push(
             {"$project": {
                 "recipeName": 1,
                 "description": 1,
                 "imgUrl": 1,
-                "uploaderName": "$uploader.userName"
+                "uploaderName": "$uploader.userName",
+                "categoryName": "$category.name"
             }}
         );
         Recipe.aggregate([filter], function (err, allRecipes) {
