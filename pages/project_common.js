@@ -768,16 +768,6 @@ function editRecipe(recipeId){
 }
 
 
-function buildIngredientList(item_num) {
-    var ingredient_id = "ingredient" + item_num;
-
-    for (var i = 0; i < ingredientsData.length; i++) {
-        var ingredient = document.createElement('option');
-        ingredient.innerHTML = ingredientsData[i][0];
-        document.getElementById(ingredient_id).appendChild(ingredient);
-    }
-}
-
 // check whether password matches
 function checkPasswordMatch() {
     var newPwdValue = $('.new-pwd:visible').val();
