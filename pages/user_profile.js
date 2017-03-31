@@ -274,6 +274,7 @@ function getNotificationMsgs(type, msg, recipeId) {
     labels['update'] = "fa-pencil";
     labels['comment'] = "fa-commenting-o";
     labels['favorite'] = "fa-heart";
+    labels['unfavorite'] = "fa-heart-o";
     labels['delete'] = "fa-trash-o";
 
     return '<div class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow"' +
