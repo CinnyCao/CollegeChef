@@ -13,7 +13,8 @@ var clearDatabase = false;
 // Mongoose
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-var connection = mongoose.createConnection("mongodb://localhost:27017/database");
+// var connection = mongoose.createConnection("mongodb://localhost:27017/database");
+var connection = mongoose.createConnection("mongodb://chef:chef@ds145800.mlab.com:45800/college_chef");
 connection.on('error', console.error.bind(console, 'connection error: (Do you forget to run mongod?)'));
 connection.once('open', function() {
     console.log("Database ready on port 27017");
