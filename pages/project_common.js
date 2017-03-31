@@ -592,7 +592,7 @@ function checkUploadedRecipeEmpty() {
 }
 
 function saveRecipe() {
-
+    $("#recipe_add_edit_submit").prop('disabled', true);
     var recipeName = $('#recipe_name').val();
     var categoryId = $('#category').find(":selected").val();
     var description = $('#main_description').val();
@@ -811,6 +811,7 @@ function addRecipe() {
     addIngredient();
 
     show('add-edit-recipe');
+    $("#recipe_add_edit_submit").prop('disabled', false);
 }
 
 // get recipe by id
@@ -856,6 +857,7 @@ function editRecipe(recipeId) {
                 }
 
                 show('add-edit-recipe');
+                $("#recipe_add_edit_submit").prop('disabled', false);
 
             } else {
                 alert("Recipe is no longer exist.");
