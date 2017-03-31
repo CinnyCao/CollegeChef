@@ -320,11 +320,6 @@ function getUserCard(name, photo, id) {
             '</section>';
 }
 
-// save the result of notification settings
-function saveNotificationSetting() {
-    // todo
-}
-
 function deleteUser(id) {
     var confirmed = deleteConfirm("user");
     if (confirmed) {
