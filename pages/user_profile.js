@@ -325,7 +325,7 @@ function getUserCard(name, photo, id) {
             '<h5>' + name + '</h5>' +
             '<div class="w3-section">' +
             '<button class="w3-button w3-green w3-margin userCardBtn" onclick="show(\'edit-profile\'); getUserInfo(' + id + '); editUser(' + id + ');">Edit</button>' +
-            '<button class="w3-button w3-red w3-margin userCardBtn" onclick="deleteUser(this.id)">Delete</button>' +
+            '<button class="w3-button w3-red w3-margin userCardBtn" onclick="deleteUser(' + id + ')">Delete</button>' +
             '</div>' +
             '</section>';
 }
@@ -333,26 +333,21 @@ function getUserCard(name, photo, id) {
 function deleteUser(id) {
     var confirmed = deleteConfirm("user");
     if (confirmed) {
-        var params = {'userId': id};
+        var url = '/user/' + id;
+        
         $.ajax({
-            url: '/user',
+            url: url,
             type: "DELETE",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(params),
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization", "Bearer " + getToken());
             },
-            statusCode: {
-                401: function (response) {
-                    console.error(response);
-                }
+            success: function (user) {
+                populateUserCards();
             },
-            success: function (users) {
-                // update user card
-                users.forEach(function (user) {
-                    $(".user-card").append($(getUserCard(user['userName'], user['profilePhoto'] || defaultProfileImg)));
-                });
+            error: function (request, status, error) {
+                alert(request.responseText);
             }
         });
     }
