@@ -302,7 +302,7 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
                 // link with ingredients
                 for (var j = 0; j < data["ingredient"].length; j++) {
                     Ingredient.findOne({name: data["ingredient"][j]}, function (err, ingredient) {
-                        var amount = getRandomIntInclusive(1, 10) + " protions";
+                        var amount = getRandomIntInclusive(1, 10) + " portions";
                         var newRecord = new IngredientToRecipe({recipeId: newRecipe._id, ingredientId: ingredient._id, amount: amount});
                         newRecord.save(function (err) {
                             if (err)
