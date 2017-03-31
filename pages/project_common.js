@@ -338,6 +338,8 @@ function signUp() {
 
 // open create user form
 function openCreateUserForm() {
+    // clear form
+    $('#register-form').find("input").val("");
     show('register-form');
     if (getUserType())
     {
