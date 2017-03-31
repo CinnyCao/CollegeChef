@@ -222,6 +222,10 @@ function getAllImgComments() {
     });
 }
 
+function uploadFile() {
+    $("#attach-project-file").click();
+}
+
 function postImageComment(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();

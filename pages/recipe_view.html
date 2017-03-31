@@ -16,113 +16,112 @@
         <!--Navbar-->
         <div id="navbar_holder"></div>
 
-        <div class="w3-row-padding w3-row commentWrapper">
-            <!-- Left Column -->
-            <div class="w3-col l8 s12">
-                <!--Recipe Card-->
-                <section id="recipe_card_holder">
-                    <!--<fieldset class="rating">-->
-                    <!--<input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>-->
-                    <!--<input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>-->
-                    <!--<input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>-->
-                    <!--<input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>-->
-                    <!--<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>-->
-                    <!--</fieldset>-->
-                </section>
-                <hr>
-                <!--Comments-->
-                <div class="w3-hover-grey w3-container w3-padding-8 w3-margin-left w3-margin-right w3-margin-top w3-card-4 w3-white" onclick='controlComments()'>
-                    <div class="commentTitle">Comments  | 
-                        <b id="commentsNum" class="w3-opacity w3-large">3</b>
-                        <i id="showIcon" class="fa fa-plus w3-right"></i>
-                        <i id="hideIcon" class="fa fa-minus w3-right w3-hide"></i>
-                    </div>
+        <div class="content">
+            <div class="section_card w3-row-padding w3-row">
+                <!-- Left Column -->
+                <div class="w3-col l8 s12">
+                    <!--Recipe Card-->
+                    <section id="recipe_card_holder">
+                        <!--<fieldset class="rating">-->
+                        <!--<input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>-->
+                        <!--<input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>-->
+                        <!--<input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>-->
+                        <!--<input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>-->
+                        <!--<input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>-->
+                        <!--</fieldset>-->
+                    </section>
+                    <hr>
+                    <!--Comments-->
+                    <section class="w3-hover-grey w3-card-4 w3-margin-top w3-margin-left w3-margin-right w3-white" onclick='controlComments()'>
+                        <div class="commentTitle w3-container w3-padding-8">Comments  |
+                            <b id="commentsNum" class="w3-opacity w3-large">0</b>
+                            <i id="showIcon" class="fa fa-plus w3-right"></i>
+                            <i id="hideIcon" class="fa fa-minus w3-right w3-hide"></i>
+                        </div>
+                    </section>
+                    <section id="controlCmds" class="w3-card-4 w3-margin-left w3-margin-right w3-margin-bottom w3-hide">
+                        <form class="w3-container w3-padding" action="javascript:postComment();">
+                            <textarea id='postMsg' class='commentsText w3-padding' placeholder="Say something ..." rows="5" required></textarea>
+                            <button class="w3-button w3-blue"><i class="fa fa-pencil"></i>  Post</button>
+                        </form>
+                        <hr class="w3-margin">
+                        <div class="w3-container">
+                            <!--text command card-->
+                            <div class="post_feed"></div>
+                            <h4 class="w3-center w3-margin noComments">No comments.</h4>
+                        </div>
+                    </section>
+                    <!--Photos-->
+                    <section class="w3-card-4 w3-margin w3-white">
+                        <div class="commentTitle w3-container w3-padding-8">Photos  |
+                            <b id="photosNum" class="w3-opacity w3-large">0</b>
+                        </div>
+                        <hr class="w3-margin">
+                        <!--modal for all images-->
+                        <div id="expandImgModal" class="w3-modal w3-black" onclick="this.style.display = 'none'">
+                            <span class="w3-button w3-black w3-xxlarge w3-display-topright">×</span>
+                            <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+                                <img id="expandImg" src="" class="w3-image" alt="uploaded image">
+                                <p id="imdPoster"></p>
+                                <p id="imgCreatedDate"></p>
+                            </div>
+                        </div>
+                        <div class="w3-container imgCommentsWrapper">
+                            <a href="javascript: uploadFile()"><div id="uploadImgLabel" class="w3-card w3-margin w3-left image_comment">
+                                    <span class="filename" id="attached-project-file">Click to select a file</span>
+                                    <input id="attach-project-file" type="file" accept=".jpeg,.jpg,.png" onchange="postImageComment(this)">
+                            </div></a>
+                            <div class="imgComments"></div>
+                            <h4 class="w3-center w3-margin w3-left noImages">No Images.</h4>
+                        </div>
+                    </section>
                 </div>
-                <section id="controlCmds" class="w3-card-4 w3-margin-left w3-margin-right w3-margin-bottom w3-padding-top w3-hide">
-                    <form class="w3-container w3-padding" action="javascript:postComment();">
-                        <textarea id='postMsg' class='commentsText w3-padding' placeholder="Say something ..." rows="5" required></textarea>
-                        <button class="w3-button w3-blue"><i class="fa fa-pencil"></i>  Post</button> 
-                    </form>
-                    <hr class="w3-margin">
-                    <div class="w3-container">
-                        <!--text command card-->
-                        <div class="post_feed"></div>
-                        <h4 class="w3-center w3-margin noComments">No comments.</h4>
-                    </div>
-                </section>
-                <!--Photos-->
-                <section class="w3-card-4 w3-margin w3-white w3-padding">
-                    <div class="commentTitle">Photos  | 
-                    <b id="photosNum" class="w3-opacity w3-large">3</b>
-                    </div>
-                    <hr class="w3-margin">
-                    <!--modal for all images-->
-                    <div id="expandImgModal" class="w3-modal w3-black" onclick="this.style.display = 'none'">
-                        <span class="w3-button w3-black w3-xxlarge w3-display-topright">×</span>
-                        <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
-                            <img id="expandImg" src="" class="w3-image" alt="uploaded image">
-                            <p id="imdPoster"></p>
-                            <p id="imgCreatedDate"></p>
-                        </div>
-                    </div>
-                    <div class="ingredient_list_title w3-container w3-padding imgCommentsWrapper">
-
-                        <div class="w3-left w3-card image_comment w3-margin">
-                            <label id="uploadImgLabel" for="attach-project-file">
-                                <span class="filename" id="attached-project-file">Click to select a file</span>
-                            </label>
-                            <input id="attach-project-file" type="file" accept=".jpeg,.jpg,.png" onchange="postImageComment(this)">
-                        </div>
-                        <div class="imgComments"></div>
-                        <h4 class="w3-center w3-margin w3-left noImages">No Images.</h4>
-                    </div>
-                </section>
-            </div>
-            <!-- Right Column -->
-            <div class="w3-col l4">
-                <!--Uploader Info-->
-                <section class="w3-card-4 w3-margin w3-white">
-                    <div class="w3-container w3-padding-16">
-                        <div>
-                            <img id="user_image" src="" class="w3-left w3-margin-right profile-pic" alt="avatar">
-                            <span class="w3-large">
+                <!-- Right Column -->
+                <div class="w3-col l4">
+                    <!--Uploader Info-->
+                    <section class="w3-card-4 w3-margin w3-white">
+                        <div class="w3-container w3-padding-16">
+                            <div>
+                                <img id="user_image" src="" class="w3-left w3-margin-right profile-pic" alt="avatar">
+                                <span class="w3-large">
                                 <small><b>Uploaded By: </b><span id="uploader_name_holder"></span></small>
                             </span><br>
-                            <span id="modifier_span" class="w3-large">
+                                <span id="modifier_span" class="w3-large">
                                 <small><b>Modified By: </b><span id="modifier_name_holder"></span></small>
                             </span><br>
+                            </div>
+                            <span class="w3-large"><small><b><span id="modification_date_text"></span></b><span id="modification_date_holder"></span></small></span><br>
                         </div>
-                        <span class="w3-large"><small><b><span id="modification_date_text"></span></b><span id="modification_date_holder"></span></small></span><br>
-                    </div>
-                    <!--Notes-->
-                    <section id="notes_section" class="w3-card-4 w3-margin w3-white">
-                        <div class="w3-container w3-padding-8">
-                            <h3><b>Tips and Suggestions</b></h3>
-                        </div>
-                        <div class="w3-container"><p id="notes_holder"></p></div>
+                        <!--Notes-->
+                        <section id="notes_section" class="w3-card-4 w3-margin w3-white">
+                            <div class="w3-container w3-padding-8">
+                                <h3><b>Tips and Suggestions</b></h3>
+                            </div>
+                            <div class="w3-container"><p id="notes_holder"></p></div>
+                        </section>
                     </section>
-                </section>
-                <hr>
-                <!-- Ingredients -->
-                <section class="w3-card-4 w3-margin w3-white">
-                    <div class="ingredient_list_title w3-container w3-padding">
-                        <h4>Ingredients</h4>
-                    </div>
-                    <ul id="ingredient_holder" class="w3-ul w3-hoverable w3-white">
-                    </ul>
-                </section>
-                <!--Instruction-->
-                <section class="w3-card-4 w3-margin w3-white">
-                    <div class="w3-container w3-padding-8">
-                        <h3><b>Instructions</b></h3>
-                    </div>
-                    <div class="w3-container"><p id="instruction_holder"></p></div>
-                </section>
-                <hr>
+                    <hr>
+                    <!-- Ingredients -->
+                    <section class="w3-card-4 w3-margin w3-white">
+                        <div class="ingredient_list_title w3-container w3-padding">
+                            <h4>Ingredients</h4>
+                        </div>
+                        <ul id="ingredient_holder" class="w3-ul w3-hoverable w3-white">
+                        </ul>
+                    </section>
+                    <!--Instruction-->
+                    <section class="w3-card-4 w3-margin w3-white">
+                        <div class="w3-container w3-padding-8">
+                            <h3><b>Instructions</b></h3>
+                        </div>
+                        <div class="w3-container"><p id="instruction_holder"></p></div>
+                    </section>
+                    <hr>
+                </div>
             </div>
-        </div>
-        <!--footer-->
-        <div class="w3-row" id="footer_holder">
+            <!--footer-->
+            <div class="w3-row" id="footer_holder">
+            </div>
         </div>
 
         <!--Project Common Custom JS and CSS-->
