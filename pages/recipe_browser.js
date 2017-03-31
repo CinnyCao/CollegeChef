@@ -66,6 +66,7 @@ function filterRecipes() {
         }
     } else if ($('input[id=by_uploader_option]:checked').val()) {
         for (i = 0; i < recipes.length; i++) {
+            $(recipes[i]).toggle($(recipes[i]).find(".uploader_info p").attr("data-username").toLowerCase().indexOf(search_text) >= 0);
         }
     }
 }
