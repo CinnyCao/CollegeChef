@@ -18,6 +18,7 @@ function setUser(userObj) {
 }
 function removeUser() {
     localStorage.removeItem("userObj");
+    removeUserType();
 }
 function getToken() {
     return JSON.parse(localStorage.getItem("userObj"))["token"];
@@ -256,13 +257,11 @@ function logOut() {
         statusCode: {
             401: function (response) {
                 console.error(response);
-                removeUserType();
                 removeUser();
                 window.location.href = "/index.html";
             }
         },
         success: function (response) {
-            removeUserType();
             removeUser();
             window.location.href = "/index.html";
         }
@@ -270,7 +269,7 @@ function logOut() {
 }
 
 /* Sign Up form */
-function signUp(status) {
+function signUp() {
     var userName = $('#signUpUserName').val();
     var pwd = $('.repeated-pwd:visible').val();
 
@@ -291,10 +290,11 @@ function signUp(status) {
             },
             success: function (response) {
                 hide('register-form');
-                if (status == 'login') {
-                    // login with the new created user
-                    loginHelper(params);
+                if (getUserType()) {
+                    window.location.reload();
                 }
+                // login with the new created user
+                loginHelper(params);
             }
         });
     }

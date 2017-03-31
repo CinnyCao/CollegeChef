@@ -25,7 +25,7 @@ $(function () {
     });
 
     // load current user info
-    currentUserInfo();
+    getUserInfo(getUserID());
 
     // uploaded recipes is the default tab
     controlTab();
@@ -33,9 +33,8 @@ $(function () {
 
 var defaultProfileImg = "/img/profile_picture.jpg";
 
-
-function currentUserInfo() {
-    var url = '/user/' + getUserID();
+function getUserInfo(userId) {
+    var url = '/user/' + userId;
 
     $.ajax({
         url: url,
@@ -54,12 +53,14 @@ function currentUserInfo() {
             // update user info to UI
             if (user) {
                 // information section
-                // required user info
-                $('#userName').html(user['userName']);
-                // optional user info
-                $('#email').html(user['email'] || "[Email is not provided]");
-                $('#description').html(user['description'] || "[Description is not provided]");
-                $('#profilePhoto').attr('src', user['profilePhoto'] || defaultProfileImg);
+                if(userId == getUserID()){
+                    // required user info
+                    $('#userName').html(user['userName']);
+                    // optional user info
+                    $('#email').html(user['email'] || "[Email is not provided]");
+                    $('#description').html(user['description'] || "[Description is not provided]");
+                    $('#profilePhoto').attr('src', user['profilePhoto'] || defaultProfileImg);   
+                }
 
                 // fill in edit profile form
                 $('#editUserForm-photo').attr('src', user['profilePhoto'] || defaultProfileImg);
@@ -111,6 +112,10 @@ function saveProfile(userId = getUserID()) {
             }
         });
 }
+}
+
+function editUser(id){
+    $('#editProfile-content').attr('action', 'javascript:saveProfile(' + id + ');');
 }
 
 /* Save Reset Password */
@@ -310,11 +315,11 @@ function populateUserCards() {
 }
 
 function getUserCard(name, photo, id) {
-    return '<section class="w3-margin w3-card-4 w3-white w3-container w3-padding w3-center userCardBackground">' +
+    return '<section class="w3-left w3-margin w3-card-4 w3-white w3-container w3-padding w3-center userCardBackground">' +
             '<img src="' + photo + '" class="user-card-photo w3-margin-top" alt="Profile Photo">' +
             '<h5>' + name + '</h5>' +
             '<div class="w3-section">' +
-            '<button class="w3-button w3-green w3-margin userCardBtn" onclick="show(\'edit-profile\');">Edit</button>' +
+            '<button class="w3-button w3-green w3-margin userCardBtn" onclick="show(\'edit-profile\'); getUserInfo(' + id + '); editUser(' + id + ');">Edit</button>' +
             '<button class="w3-button w3-red w3-margin userCardBtn" onclick="deleteUser(this.id)">Delete</button>' +
             '</div>' +
             '</section>';
