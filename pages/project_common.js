@@ -379,9 +379,40 @@ function sendFeedback() {
             data: JSON.stringify(params),
             success: function (response) {
                 hide('give-feedback');
+                populateFeedback();
             }
         });
     }
+}
+
+// feedback part
+function populateFeedback() {
+    $('#no_feedback').hide();
+
+    $.ajax({
+        url: "/feedback",
+        type: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+        },
+        statusCode: {
+            401: function (response) {
+                console.error(response);
+            },
+            404: function (response) {
+                $('#no_feedback').show();
+            }
+        },
+        success: function (feedback) {
+            $(".feedback-card").html('');
+            feedback.forEach(function (singleFeedback) {
+                $(".feedback-card").append($(getFeedback(singleFeedback['feedback'], 
+                    singleFeedback['name'], singleFeedback['email'])));
+            });
+        }
+    });
 }
 
 /**
