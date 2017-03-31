@@ -274,6 +274,8 @@ function logOut() {
 
 // populate user cards in user profile
 function populateUserCards() {
+    $('#noUser').hide();
+    
     $.ajax({
         url: '/users',
         type: "GET",
@@ -285,6 +287,9 @@ function populateUserCards() {
         statusCode: {
             401: function (response) {
                 console.error(response);
+            },
+            404: function (response) {
+                $('#noUser').show();
             }
         },
         success: function (users) {

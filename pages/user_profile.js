@@ -162,23 +162,24 @@ function controlTab() {
         $('#user-section').hide();
         $('#addUser').hide();
         $('#feedback-tab').hide();
+        $('#feedback-section').hide();
     }
     if (user_type === USER_TYPE_ADMIN) {
         $('#notification-tab').show();
+        $('#notification-tab').addClass('w3-border-red');
         $('#users-tab').show();
         $('#user-section').hide();
         $('#addUser').hide();
         $('#feedback-tab').show();
-        $('#notification-tab').addClass('w3-border-red');
+        $('#feedback-section').hide();
 
-        //load user cards
+        //load user cards and feedback cards
         populateUserCards();
+        populateFeedback();
     }
 
     //load notification messages
     populateNotifications({});
-
-    populateFeedback();
 }
 
 function filterNotification() {
@@ -288,7 +289,7 @@ function getNotificationMsgs(type, msg, recipeId) {
 }
 
 // feedback part
-function populateFeedback(params) {
+function populateFeedback() {
     $('#no_feedback').hide();
 
     $.ajax({
@@ -302,6 +303,9 @@ function populateFeedback(params) {
         statusCode: {
             401: function (response) {
                 console.error(response);
+            },
+            404: function (response) {
+                $('#no_feedback').show();
             }
         },
         success: function (feedback) {
@@ -310,11 +314,6 @@ function populateFeedback(params) {
                 $(".feedback-card").append($(getFeedback(singleFeedback['feedback'], 
                     singleFeedback['name'], singleFeedback['email'])));
             });
-        },
-        complete: function(xhr) {
-            if (xhr.status == "403") {
-                $('#no_feedback').show();
-            }
         }
     });
 }
