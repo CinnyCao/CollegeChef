@@ -526,9 +526,7 @@ function deleteRecipe(recipeId) {
             success: function (response) {
                 if (window.location.pathname == "/pages/home.html") {
                     $(".recipe_card[data-id="+recipeId+"]").remove();
-                    if ($("#uploaded_recipes .recipe_card").length == 0) {
-                        $("#uploaded_recipes").append("<p>You haven't uploaded any recipes.</p>");
-                    }
+                    checkUploadedRecipeEmpty();
                 } else if (window.location.pathname == "/pages/recipe_browser.html") {
                     $(".recipe_cards_wrapper .recipe_card[data-id="+recipeId+"]").remove();
                 } else {
@@ -539,6 +537,13 @@ function deleteRecipe(recipeId) {
                 alert(request.responseText);
             }
         });
+    }
+}
+
+function checkUploadedRecipeEmpty() {
+    $("#uploaded_recipes > p").remove();
+    if ($("#uploaded_recipes .recipe_card").length == 0) {
+        $("#uploaded_recipes").append("<p>You haven't uploaded any recipes.</p>");
     }
 }
 
@@ -588,6 +593,7 @@ function saveRecipe() {
                             RECIPE_CARD_EDITOR_TOOL)
                         )
                     );
+                    checkUploadedRecipeEmpty();
                     $("#new_recipes").prepend(
                         $(getRecipeCard(
                             response["recipeId"], response["recipeName"],
@@ -595,7 +601,7 @@ function saveRecipe() {
                         )
                     );
                 } else if (window.location.pathname == "/pages/recipe_browser.html") {
-                    $(".recipe_cards_wrapper").append(
+                    $(".recipe_cards_wrapper").prepend(
                         $(getRecipeCard(
                             response["recipeId"], response["recipeName"], response["description"],
                             response["imgUrl"], RECIPE_CARD_BROWSER, response["uploaderName"])

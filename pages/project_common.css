@@ -97,6 +97,7 @@ body {
 }
 .recipe_card_display img {
     width: 100%;
+    max-height: 450px;
 }
 .recipe_card_img_wrapper {
     position: relative;
