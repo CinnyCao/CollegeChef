@@ -331,28 +331,29 @@ function saveNotificationSetting() {
 }
 
 function deleteUser(id) {
-    deleteConfirm("user");
-    
-    var params = {'userId': id};
-    $.ajax({
-        url: '/user',
-        type: "DELETE",
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(params),
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
-        },
-        statusCode: {
-            401: function (response) {
-                console.error(response);
+    var confirmed = deleteConfirm("user");
+    if (confirmed) {
+        var params = {'userId': id};
+        $.ajax({
+            url: '/user',
+            type: "DELETE",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(params),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+            },
+            statusCode: {
+                401: function (response) {
+                    console.error(response);
+                }
+            },
+            success: function (users) {
+                // update user card
+                users.forEach(function (user) {
+                    $(".user-card").append($(getUserCard(user['userName'], user['profilePhoto'] || defaultProfileImg)));
+                });
             }
-        },
-        success: function (users) {
-            // update user card
-            users.forEach(function (user) {
-                $(".user-card").append($(getUserCard(user['userName'], user['profilePhoto'] || defaultProfileImg)));
-            });
-        }
-    });
+        });
+    }
 }

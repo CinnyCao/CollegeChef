@@ -111,7 +111,7 @@ function show(id) {
 
 function deleteConfirm(action) {
     var msg = "Are you sure you want to delete this " + action + "?";
-    confirm(msg);
+    return confirm(msg);
 }
 
 // upload profile photo in edit profile form
@@ -381,8 +381,8 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
     var usernameTool = "";
     if (tool === RECIPE_CARD_EDITOR_TOOL || tool === RECIPE_CARD_BROWSER) {
         editorTool = '' +
-                '<div id=' + id + ' class="recipe_card_editor_tools recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right">' +
-                '<i class="recipe_card_tools fa fa-trash fa-fw w3-hover-grey" onclick="event.stopPropagation(); deleteRecipe(this)"></i>' +
+                '<div class="recipe_card_editor_tools recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right">' +
+                '<i class="recipe_card_tools fa fa-trash fa-fw w3-hover-grey" onclick="event.stopPropagation(); deleteRecipe('+id+')"></i>' +
                 '<i class="recipe_card_tools fa fa-pencil-square-o fa-fw w3-hover-grey" onclick="event.stopPropagation(); addEditRecipe(\'editRecipe\')"></i>' +
                 '</div>';
     }
@@ -511,27 +511,35 @@ function toggleFavorite(element, recipeId) {
     }
 }
 
-function deleteRecipe(current) {
-    deleteConfirm("recipe");
-
-    var url = "/recipe/" + $(current).parent().attr('id');
-
-            $.ajax({
-            url: "/recipe",
+function deleteRecipe(recipeId) {
+    var confirmed = deleteConfirm("recipe");
+    if (confirmed) {
+        var url = "/recipe/" + recipeId;
+        $.ajax({
+            url: url,
             type: "DELETE",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+                xhr.setRequestHeader("Authorization", "Bearer " + getToken());
             },
             success: function (response) {
-
-                window.location.reload();
+                if (window.location.pathname == "/pages/home.html") {
+                    $(".recipe_card[data-id="+recipeId+"]").remove();
+                    if ($("#uploaded_recipes .recipe_card").length == 0) {
+                        $("#uploaded_recipes").append("<p>You haven't uploaded any recipes.</p>");
+                    }
+                } else if (window.location.pathname == "/pages/recipe_browser.html") {
+                    $(".recipe_cards_wrapper .recipe_card[data-id="+recipeId+"]").remove();
+                } else {
+                    window.location.reload();
+                }
             },
             error: function (request, status, error) {
-            alert(request.responseText);
-        }
+                alert(request.responseText);
+            }
         });
+    }
 }
 
 function saveRecipe() {
@@ -572,7 +580,32 @@ function saveRecipe() {
             success: function (response) {
                 hide('add-edit-recipe');
                 sessionStorage.removeItem('recipePhoto');
-                window.location.reload();
+                if (window.location.pathname == "/pages/home.html") {
+                    $("#uploaded_recipes").prepend(
+                        $(getRecipeCard(
+                            response["recipeId"], response["recipeName"],
+                            response["description"], response["imgUrl"],
+                            RECIPE_CARD_EDITOR_TOOL)
+                        )
+                    );
+                    $("#new_recipes").prepend(
+                        $(getRecipeCard(
+                            response["recipeId"], response["recipeName"],
+                            response["description"], response["imgUrl"])
+                        )
+                    );
+                } else if (window.location.pathname == "/pages/recipe_browser.html") {
+                    $(".recipe_cards_wrapper").append(
+                        $(getRecipeCard(
+                            response["recipeId"], response["recipeName"], response["description"],
+                            response["imgUrl"], RECIPE_CARD_BROWSER, response["uploaderName"])
+                        )
+                    );
+                } else if (window.location.pathname.startsWith("/pages/recipe_view.html")) {
+                    window.location = "/pages/recipe_view.html?id="+response["recipeId"];
+                } else {
+                    window.location.reload();
+                }
             },
             error: function (request, status, error) {
                 alert(request.responseText);

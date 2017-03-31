@@ -194,7 +194,7 @@ function populateUserOnlyRecipeList() {
                         );
                     }
                 } else {
-                    $("#uploaded_recipes").append("<p>You haven't uploaded any recipe.</p>");
+                    $("#uploaded_recipes").append("<p>You haven't uploaded any recipes.</p>");
                 }
             },
             error: function (request, status, error) {
