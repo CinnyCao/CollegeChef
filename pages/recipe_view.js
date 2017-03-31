@@ -57,7 +57,7 @@ function loadRecipeDetail(recipeResponse) {
     $("#instruction_holder").text(recipeResponse["instruction"]);
     // notes
     if (recipeResponse["notes"]) {
-        $("#notes_holder").text(recipeResponse["notes"]);
+        $("#notes_holder").html(recipeResponse["notes"]);
     } else {
         $("#notes_section").hide();
     }
