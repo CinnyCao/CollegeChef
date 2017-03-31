@@ -34,6 +34,7 @@ $(function () {
 var defaultProfileImg = "/img/profile_picture.jpg";
 
 function getUserInfo(userId) {
+    editUserFormAction(userId);
     var url = '/user/' + userId;
 
     $.ajax({
@@ -111,14 +112,19 @@ function saveProfile(userId = getUserID()) {
             },
             success: function (user) {
                 sessionStorage.removeItem("profilePhoto");
-                populateUserCards();
+                if(userId == getUserID()){
+                    getUserInfo(userId);
+                }
+                else {
+                    populateUserCards();
+                }
                 hide('edit-profile');
             }
         });
 }
 }
 
-function editUser(id) {
+function editUserFormAction(id) {
     $('#editProfile-content').attr('action', 'javascript:saveProfile(' + id + ');');
 }
 
@@ -327,7 +333,7 @@ function getUserCard(name, photo, id) {
             '<img src="' + photo + '" class="user-card-photo w3-margin-top" alt="Profile Photo">' +
             '<h5>' + name + '</h5>' +
             '<div class="w3-section">' +
-            '<button class="w3-button w3-green w3-margin userCardBtn" onclick="show(\'edit-profile\'); getUserInfo(' + id + '); editUser(' + id + ');">Edit</button>' +
+            '<button class="w3-button w3-green w3-margin userCardBtn" onclick="show(\'edit-profile\'); getUserInfo(' + id + ');">Edit</button>' +
             '<button class="w3-button w3-red w3-margin userCardBtn" onclick="deleteUser(' + id + ')">Delete</button>' +
             '</div>' +
             '</section>';
