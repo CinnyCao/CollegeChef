@@ -161,13 +161,14 @@ function controlTab() {
         $('#users-tab').hide();
         $('#user-section').hide();
         $('#addUser').hide();
+        $('#feedback-tab').hide();
     }
     if (user_type === USER_TYPE_ADMIN) {
         $('#notification-tab').show();
         $('#users-tab').show();
         $('#user-section').hide();
-        $('#feedback-tab').show();
         $('#addUser').hide();
+        $('#feedback-tab').show();
         $('#notification-tab').addClass('w3-border-red');
 
         //load user cards
@@ -269,6 +270,7 @@ function populateNotifications(params) {
         }
     });
 }
+
 function getNotificationMsgs(type, msg, recipeId) {
     var href = "/pages/recipe_view.html?id=" + recipeId;
     var labels = {};
@@ -286,6 +288,7 @@ function getNotificationMsgs(type, msg, recipeId) {
             '</div>';
 }
 
+// feedback part
 function populateFeedback(params) {
     $('#no_feedback').hide();
 
@@ -316,7 +319,7 @@ function populateFeedback(params) {
         }
     });
 }
-message = email + ': ' + message;
+
 function getFeedback(feedback, name, email) {
     var message = feedback;
 
@@ -332,7 +335,7 @@ function getFeedback(feedback, name, email) {
     else {
         message = name + ' (' + email + '): ' + message;
     }
-    return '<div class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow"' +
+    return '<div class="feedback_entries w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow">' +
         '<p>' + message + '</p>' + '</div>';
 }
 

@@ -1,5 +1,4 @@
 /*user profile*/
-
 #description {
     word-wrap: break-word;
     width: 100%;
@@ -8,12 +7,13 @@
 .padding-left1 {
     padding-left: 30px;
 }
+
 /*tab background set*/
 .tab-set{
     height: 55px;
 }
-/*user card*/
 
+/*user card*/
 .userCardBackground {
     width: 280px;
     height: 350px;
@@ -27,7 +27,6 @@
 }
 
 /*recipe card*/
-
 .card-set {
     position: relative;
     margin: 16px;
@@ -37,7 +36,6 @@
 }
 
 /*common used*/
-
 .photo-style {
     height: 106px;
     width: 106px;
@@ -51,4 +49,9 @@ textarea {
 /*notification*/
 #actionSelector div, #fileTypeSelector div{
     display:inline-block;
+}
+
+/*feedback*/
+.feedback_entries p {
+    vertical-align: middle;
 }
