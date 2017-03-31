@@ -186,21 +186,39 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
 
                     // link with ingredients
                     var ingredientData = [];
+                    var valid = true;
+                    if (!isDefined(req.body.ingredients.length)) {
+                        valid = false;
+                    }
                     for (var i=0; i<req.body.ingredients.length; i++) {
                         var data = {};
-                        data["ingredientId"] = req.body.ingredients[i].id;
-                        data["recipeId"] = newRecipe._id;
-                        data["amount"] = req.body.ingredients[i].amount;
-                        ingredientData.push(data);
-                    }
-
-                    IngredientToRecipe.create(ingredientData, function (err, created) {
-                        if (err) {
-                            return console.error(err);
+                        if (isDefined(req.body.ingredients[i].id) && req.body.ingredients[i].amount) {
+                            data["ingredientId"] = req.body.ingredients[i].id;
+                            data["recipeId"] = newRecipe._id;
+                            data["amount"] = req.body.ingredients[i].amount;
+                            ingredientData.push(data);
+                        } else {
+                            valid = false;
+                            break;
                         }
+                    }
+                    
+                    if (valid) {
+                        IngredientToRecipe.create(ingredientData, function (err) {
+                            if (err) {
+                                return console.error(err);
+                            }
 
-                        return res.status(200).json({created});
-                    });
+                            getRecipeDetail(req, res, newRecipe._id);
+                        });
+                    } else {
+                        Recipe.remove({_id: newRecipe._id}, function (err) {
+                            return res.status(400).json({
+                                status: 400,
+                                message: "CREATE RECIPE FAILURE: Bad Request (wrong ingredients format)"
+                            });
+                        });
+                    }
                 });
             } else {
                 return res.status(400).json({
@@ -211,7 +229,7 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
         } else {
             return res.status(401).json({
                 status: 401,
-                message: "UPDATE RECIPE FAILURE: Unauthorized (missing token or token expired)"
+                message: "CREATE RECIPE FAILURE: Unauthorized (missing token or token expired)"
             });
         }
     });
@@ -284,22 +302,39 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
                     }
                     if (updatedRecipe) {
                         if (req.body.ingredients) {
-                            IngredientToRecipe.remove({recipeId: parseInt(req.params.recipeId)}, function (err) {
-                                var ingredientData = [];
-                                for (var i=0; i<req.body.ingredients.length; i++) {
-                                    var data = {};
+                            var ingredientData = [];
+                            var valid = true;
+                            if (!isDefined(req.body.ingredients.length)) {
+                                valid = false;
+                            }
+                            for (var i=0; i<req.body.ingredients.length; i++) {
+                                var data = {};
+                                if (isDefined(req.body.ingredients[i].id) && req.body.ingredients[i].amount) {
                                     data["ingredientId"] = req.body.ingredients[i].id;
                                     data["recipeId"] = parseInt(req.params.recipeId);
                                     data["amount"] = req.body.ingredients[i].amount;
                                     ingredientData.push(data);
+                                } else {
+                                    valid = false;
+                                    break;
                                 }
-                                IngredientToRecipe.create(ingredientData, function (err, created) {
-                                    if (err) {
-                                        return console.error(err);
-                                    }
-                                    getRecipeDetail(req, res, parseInt(req.params.recipeId));
+                            }
+                            
+                            if (valid) {
+                                IngredientToRecipe.remove({recipeId: parseInt(req.params.recipeId)}, function (err) {
+                                    IngredientToRecipe.create(ingredientData, function (err, created) {
+                                        if (err) {
+                                            return console.error(err);
+                                        }
+                                        getRecipeDetail(req, res, parseInt(req.params.recipeId));
+                                    });
                                 });
-                            });
+                            } else {
+                                return res.status(400).json({
+                                    status: 400,
+                                    message: "UPDATE RECIPE FAILURE: Bad Request (recipe updated but ingredient is wrong format)"
+                                });
+                            }
                         } else {
                             getRecipeDetail(req, res, parseInt(req.params.recipeId));
                         }
