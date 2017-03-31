@@ -272,6 +272,31 @@ function logOut() {
     });
 }
 
+// populate user cards in user profile
+function populateUserCards() {
+    $.ajax({
+        url: '/users',
+        type: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+        },
+        statusCode: {
+            401: function (response) {
+                console.error(response);
+            }
+        },
+        success: function (users) {
+            $(".user-card").html('');
+            // update user card
+            users.forEach(function (user) {
+                $(".user-card").append($(getUserCard(user['userName'], user['profilePhoto'] || defaultProfileImg, user['_id'])));
+            });
+        }
+    });
+}
+
 /* Sign Up form */
 function signUp() {
     var userName = $('#signUpUserName').val();
@@ -295,10 +320,11 @@ function signUp() {
             success: function (response) {
                 hide('register-form');
                 if (getUserType()) {
-                    window.location.reload();
+                    populateUserCards();
+                } else {
+                    // login with the new created user
+                    loginHelper(params);
                 }
-                // login with the new created user
-                loginHelper(params);
             }
         });
     }

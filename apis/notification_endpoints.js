@@ -65,14 +65,19 @@ module.exports = function (app, isDefined, ActionType, ActionHistory, Favorite) 
                             "favoriteRecipeIds": {"$push": "$recipeId"}
                         }}
                     ], function (err, favorites) {
-                        var favoriteRecipeIds = favorites[0].favoriteRecipeIds;
+                        console.log(favorites);
+                        
+                        var favoriteRecipeIds = [];
+                        if(favorites.length > 0){
+                            favoriteRecipeIds = favorites[0].favoriteRecipeIds;   
+                        }
 
                         // prepare filter depending on query
-                        var filterRecipeTypeMatch;
+                        var filterRecipeTypeMatch = {"$match": {}};
                         if (isDefined(req.query.recipetype)) {
                             if (req.query.recipetype === "uploaded") {
                                 filterRecipeTypeMatch = {"$match": {"recipeOwnerId": {"$eq": req.userID}}};
-                            } else if (req.query.recipetype === "favorite") {
+                            } else if (req.query.recipetype === "favorite" && favoriteRecipeIds > 0) {
                                 filterRecipeTypeMatch = {"$match": {"recipeId": {"$in": favoriteRecipeIds}}};
                             }
                         } else {

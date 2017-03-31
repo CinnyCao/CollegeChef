@@ -299,30 +299,6 @@ function openTab(evt, tabName) {
     evt.currentTarget.firstElementChild.className += " w3-border-red";
 }
 
-function populateUserCards() {
-    $.ajax({
-        url: '/users',
-        type: "GET",
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
-        },
-        statusCode: {
-            401: function (response) {
-                console.error(response);
-            }
-        },
-        success: function (users) {
-            $(".user-card").html('');
-            // update user card
-            users.forEach(function (user) {
-                $(".user-card").append($(getUserCard(user['userName'], user['profilePhoto'] || defaultProfileImg, user['_id'])));
-            });
-        }
-    });
-}
-
 function getUserCard(name, photo, id) {
     return '<section class="w3-left w3-margin w3-card-4 w3-white w3-container w3-padding w3-center userCardBackground">' +
             '<img src="' + photo + '" class="user-card-photo w3-margin-top" alt="Profile Photo">' +
