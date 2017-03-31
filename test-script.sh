@@ -36,6 +36,14 @@ curl -X "POST" "http://localhost:3000/user" \
   "password": "testUser1"
 }'
 
+read -p $'\nLog in' token
+curl -X "POST" "http://localhost:3000/login" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "userName": "testUser1",
+  "password": "testUser1"
+}'
+
 printf '\n'
 
 read -p $'\nCreate users with required input missing -- will get 400'
@@ -261,12 +269,17 @@ printf '\n---------------------------------comments tests-----------------------
 
 #comments test
 read -p $'\nGet all comments of a given recipe - recipe have mutiple comments'
-curl "http://localhost:3000/recipe/1/comments" \
+curl "http://localhost:3000/recipe/8/comments/text" \
 
 printf '\n'
 
 read -p $'\nGet all comments of a given recipe - recipe have no comment'
-curl "http://localhost:3000/recipe/0/comments" \
+curl "http://localhost:3000/recipe/0/comments/text" \
+
+printf '\n'
+
+read -p $'\nGet all image comments of a given recipe'
+curl "http://localhost:3000/recipe/1/comments/image"
 
 printf '\n'
 
