@@ -173,7 +173,6 @@ function filterNotification() {
         hide('commented');
         hide('favorited');
         hide('rated');
-        hide('unFavorited');
         // clear params
         params = {};
         params['recipetype'] = 'favorite';
@@ -181,7 +180,6 @@ function filterNotification() {
         show('commented');
         show('favorited');
         show('rated');
-        show('unFavorited');
         // clear params
         params = {};
         if (type == 'uploaded') {
@@ -200,9 +198,7 @@ function filterNotification() {
             actions.push('comment');
         } else if (val == "favorited" && type != "favorite") {
             actions.push('favorite');
-        } else if (val == "unFavorited" && type != "favorite") {
-            actions.push('unfavorite');
-        } else if (val == "rate" && type != "favorite") {
+        } else if (val == "rated" && type != "favorite") {
             actions.push('rate');
         }
     });
@@ -252,7 +248,7 @@ function populateNotifications(params) {
 
                     var msg = fileType + '<b>' + noti['recipeName'] + '</b>' + noti['actionTypeMsg'] + '<b>' + noti['recipeOwnerName'] + '</b>';
 
-                    $(".msg-card").append($(getNotificationMsgs(noti['actionTypeId'], msg, recipeId)));
+                    $(".msg-card").append($(getNotificationMsgs(noti['actionTypeName'], msg, recipeId)));
                 }
             });
         }
@@ -262,12 +258,11 @@ function populateNotifications(params) {
 function getNotificationMsgs(type, msg, recipeId) {
     var href = "/pages/recipe_view.html?id=" + recipeId;
     var labels = {};
-    labels['0'] = "fa-star";
-    labels['1'] = "fa-heart-o";
-    labels['2'] = "fa-pencil";
-    labels['3'] = "fa-commenting-o";
-    labels['4'] = "fa-heart";
-    labels['5'] = "fa-trash-o";
+    labels['rate'] = "fa-star";
+    labels['update'] = "fa-pencil";
+    labels['comment'] = "fa-commenting-o";
+    labels['favorite'] = "fa-heart";
+    labels['delete'] = "fa-trash-o";
 
     return '<div class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow"' +
             '" onclick="location.href=\'' + href + '\'">' +
