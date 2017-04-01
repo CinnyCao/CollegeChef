@@ -173,7 +173,7 @@ curl "http://localhost:3000/ingredients"
 printf '\n'
 
 read -p $'\nSearch recipes by ingredients case 1 (result might be empty since recipes are randomly created)'
-curl -X "POST" "http://localhost:3000/search" \
+curl -X "POST" "http://localhost:3000/search?searchtype=include" \
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
   "ingredients": [1, 2]
@@ -182,7 +182,7 @@ curl -X "POST" "http://localhost:3000/search" \
 printf '\n'
 
 read -p $'\nSearch recipes by ingredients case 2 (result might be empty since recipes are randomly created)'
-curl -X "POST" "http://localhost:3000/search" \
+curl -X "POST" "http://localhost:3000/search?searchtype=equal" \
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
   "ingredients": [0]
@@ -205,8 +205,8 @@ curl "http://localhost:3000/recipes"
 printf '\n'
 
 read -p $'\nDelete a recipe that is not created by themselves -- will get 401'
-curl -X "DELETE" "http://localhost:3000/recipe/9" \
-     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+curl -X "DELETE" "http://localhost:3000/recipe/5" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOjAsImV4cCI6MTU1NDEyMzc0OTMxOH0.I0iyeppJvFJLAwMXRDaFgYATB2rak1wHcA81X-TgEm8"\
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{}'
 
@@ -214,7 +214,7 @@ printf '\n'
 
 read -p $'\nAdmin can delete any recipe'
 curl -X "DELETE" "http://localhost:3000/recipe/9" \
-     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIwIiwiZXhwIjoxNTUyODQ1Nzg5NjM0fQ.DjnMuU5no8k8YBRttxmYnOksHbGPRkiWMqSwV7FZDAs"\
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOjEsImV4cCI6MTU1NDEyNDA0NDM5MH0.9bgHDnmHC8VUiJnybeH7ZjfU-48yM9gxlZr52mqXV4s"\
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{}'
 
@@ -225,7 +225,7 @@ curl -X "PUT" "http://localhost:3000/recipe/1" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
-  "recipeName": "hello"
+  "recipeName": "Chocolate Mousse"
 }'
 
 printf '\n'
@@ -339,7 +339,7 @@ curl -X "POST" "http://localhost:3000/recipe/0/comments" \
 printf '\n---------------------------------rate tests-----------------------------------\n'
 
 #rate tests
-read -p $'\nGet rate of recipe -- not logged-in user'
+read -p $'\nGet rate of recipe -- not logged-in user -- will get 401'
 curl "http://localhost:3000/recipe/1/rate" \
 
 printf '\n'
@@ -376,7 +376,7 @@ curl -X "POST" "http://localhost:3000/recipe/9/rate" \
 
 printf '\n'
 
-read -p $'\nRate recipe witout authorization -- will get 401'
+read -p $'\nRate recipe without authorization -- will get 401'
 curl -X "POST" "http://localhost:3000/recipe/9/rate" \
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
