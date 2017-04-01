@@ -1,5 +1,14 @@
 # Team 2 CollegeChef
 
+## Phase 4
+* Heroku Deploy:
+  - https://college-chef.herokuapp.com
+* Account
+  - There are admins and normal users
+  - Admins cannot be created through ui, use the factory admin to test as admin (Username: admin     Password: admin)
+  - Sign up to test as normal users; or use the factory one (Username: user    Password: user)
+
+
 ## Phase 3
 * Setup
   - Check out repository
