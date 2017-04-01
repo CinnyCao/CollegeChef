@@ -64,9 +64,10 @@ h1 { font-size: 1.5em; margin: 10px; }
     font-size: 20px;
     line-height: 300px;
 }
-.image_comment {
+.image_comment, .image_uploader {
     width: 230px;
     height: 230px;
+    cursor: pointer;
 }
 .imgCommentsWrapper {
     width: 100%;

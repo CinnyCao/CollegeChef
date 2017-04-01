@@ -180,16 +180,66 @@ function postComment() {
     });
 }
 
-function viewImage(current, userName, createdDate) {
+function viewImage(current) {
     $('#expandImg').attr("src", current.src);
     $("#expandImgModal").css("display", "block");
-    $('#imdPoster').html(userName);
-    $('#imgCreatedDate').html(createdDate);
+    $('#imdPoster').text($(current).attr("data-username"));
+    $('#imgCreatedDate').text($(current).attr("data-date"));
+}
+
+var NO_MORE_IMG = "/img/nomore.png";
+var NO_MORE_LEFT_MSG = "No more on the left";
+var NO_MORE_RIGHT_MSG = "No more on the right";
+
+function showNoMore(msg) {
+    $('#expandImg').attr("src", NO_MORE_IMG);
+    $("#expandImgModal").css("display", "block");
+    $('#imdPoster').text(msg);
+    $('#imgCreatedDate').text("");
+}
+
+function viewPrevImage() {
+    var prev = null;
+    var curr = null;
+    var images = $(".image_comment");
+    for (var i=0; i<images.length; i++) {
+        if (($('#expandImg').attr("src") == NO_MORE_IMG && $('#imdPoster').text() == NO_MORE_LEFT_MSG)
+            || $(images[i]).attr("src") == $('#expandImg').attr("src")) {
+            curr = images[i];
+            break;
+        }
+        prev = images[i];
+    }
+    if (prev != null) {
+        viewImage(prev);
+    } else {
+        showNoMore(NO_MORE_LEFT_MSG);
+    }
+}
+
+function viewNextImage() {
+    var next = null;
+    var curr = null;
+    var images = $(".imgComments .image_comment");
+    for (var i=images.length-1; i>=0; i--) {
+        if (($('#expandImg').attr("src") == NO_MORE_IMG && $('#imdPoster').text() == NO_MORE_RIGHT_MSG)
+            || $(images[i]).attr("src") == $('#expandImg').attr("src")) {
+            curr = images[i];
+            break;
+        }
+        next = images[i];
+    }
+    if (next != null) {
+        viewImage(next);
+    } else {
+        showNoMore(NO_MORE_RIGHT_MSG);
+    }
 }
 
 function populateImageCommandsCard(url, userName, createdDate) {
-    return '<img id="newImdComment" class="w3-left image_comment w3-card w3-margin"' +
-            ' onclick="viewImage(this)" src="' + url + '" alt="uploaded image">';
+    return '<img class="w3-left image_comment w3-card w3-margin"' +
+            ' onclick="viewImage(this)" src="' + url + '" alt="uploaded image"' +
+        'data-username="'+userName+'" data-date="'+createdDate+'">';
 }
 
 function getAllImgComments() {

@@ -54,9 +54,11 @@
                                 <p id="imdPoster"></p>
                                 <p id="imgCreatedDate"></p>
                             </div>
+                            <span class="w3-button w3-black w3-xxlarge w3-display-left" onclick="event.stopPropagation();viewPrevImage()"><</span>
+                            <span class="w3-button w3-black w3-xxlarge w3-display-right" onclick="event.stopPropagation();viewNextImage()">></span>
                         </div>
                         <div class="w3-container imgCommentsWrapper">
-                            <a class="user_only_evaluation" href="javascript: uploadFile()"><div id="uploadImgLabel" class="w3-card w3-margin w3-left image_comment">
+                            <a class="user_only_evaluation" href="javascript: uploadFile()"><div id="uploadImgLabel" class="w3-card w3-margin w3-left image_uploader">
                                     <span class="filename" id="attached-project-file">Click to select a file</span>
                                     <input id="attach-project-file" type="file" accept=".jpeg,.jpg,.png" onchange="postImageComment(this)">
                             </div></a>
