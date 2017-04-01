@@ -346,24 +346,22 @@ module.exports = function (app, sha1, getRandomIntInclusive, User, Ingredient, C
                     }
 
                     // randomly comment a recipe
-                    for (var c = 0; c < getRandomIntInclusive(0, 10); c++) {
-                        var isImage = getRandomIntInclusive(0, 1);
-                        var message = "good good";
-                        if (isImage) {
-                            message = "/img/recipes/steak.jpg";
-                        }
-                        var comment = new Comment({
-                            recipeId: newRecipe._id,
-                            personId: getRandomIntInclusive(0, 1),
-                            isImage: isImage,
-                            message: message
-                        });
-                        comment.save(function (err, newComment) {
-                            if (err)
-                                return console.error(err);
-                            newComment.addCommentNotification(newRecipe.personId, newComment.personId, newRecipe._id);
-                        });
+                    var isImage = getRandomIntInclusive(0, 1);
+                    var message = "good good";
+                    if (isImage) {
+                        message = "/img/test.gif";
                     }
+                    var comment = new Comment({
+                        recipeId: newRecipe._id,
+                        personId: getRandomIntInclusive(0, 1),
+                        isImage: isImage,
+                        message: message
+                    });
+                    comment.save(function (err, newComment) {
+                        if (err)
+                            return console.error(err);
+                        newComment.addCommentNotification(newRecipe.personId, newComment.personId, newRecipe._id);
+                    });
                 }
                 else
                 {
