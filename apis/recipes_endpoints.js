@@ -254,7 +254,7 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
     app.delete("/recipe/:recipeId", function (req, res) {
         if (req.auth) {
             // find the recipe to be deleted
-            Recipe.findOne({_id: parseInt(req.params.recipeId)}, function (err, resultRecipe) {
+            Recipe.findOne({_id: parseInt(req.params.recipeId), isDeleted: false}, function (err, resultRecipe) {
                 if (err)
                     return console.error(err);
                 if (resultRecipe) {
