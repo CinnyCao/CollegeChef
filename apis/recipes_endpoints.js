@@ -1,4 +1,4 @@
-module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate, ActionHistory) {
+module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate, ActionHistory, ActionType) {
     // get all recipes
     app.get('/recipes', function (req, res) {
         var filter = [];
