@@ -845,6 +845,8 @@ function editRecipe(recipeId) {
 
 function updateCurrentPageContent(response){
     if (window.location.pathname == "/pages/home.html") {
+        // remove old card if any
+        $(".recipe_card[data-id=" + response["recipeId"] + "]").remove();
         $("#uploaded_recipes").prepend(
                 $(getRecipeCard(
                         response["recipeId"], response["recipeName"],
