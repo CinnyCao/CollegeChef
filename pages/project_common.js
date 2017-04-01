@@ -982,7 +982,6 @@ function updateOrAddRecipe(){
     }
 }
 
-
 // check whether password matches
 function checkPasswordMatch() {
     var newPwdValue = $('.new-pwd:visible').val();
