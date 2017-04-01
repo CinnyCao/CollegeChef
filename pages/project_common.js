@@ -250,8 +250,8 @@ function loginHelper(params) {
             
             if (window.location.pathname == "/pages/home.html") {
                 updateNavMenuItems();
-            } else if (window.location.pathname == "/pages/recipe_browser.html") {
-                window.location.href = "/pages/recipe_browser.html";
+            } else {
+                window.location.reload();
             }
         }
     });
