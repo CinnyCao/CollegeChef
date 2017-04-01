@@ -1,5 +1,5 @@
 .home_card {
-    height: calc(100vh - 140px);
+    height: calc(100vh - 150px);
     overflow-y: auto;
     margin-bottom: 10px;
 }
@@ -14,7 +14,7 @@
         margin-bottom: 10px;
     }
     .recipe_list_content {
-        max-height: 270px;
+        max-height: 270px !important;
     }
 }
 

@@ -11,6 +11,7 @@ $(function () {
     $(window).on("loggedin", function () {
         $(".user_only_evaluation").toggle(getUserType() !== null);
         getMyRating();
+        $(".favorite_wrapper").toggle(getUserType() !== null);
     });
 
     if (getUserType() !== null) {
@@ -101,6 +102,9 @@ function loadRecipeDetail(recipeResponse) {
                         recipeResponse["ingredients"][i]["amount"])
                 ));
     };
+
+    // hide favorite button
+    $(".favorite_wrapper").toggle(getUserType() !== null);
 };
 
 function getIngredientLiElement(ingredientName, ingredientImg, ingredientAmount) {

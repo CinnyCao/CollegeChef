@@ -533,7 +533,7 @@ function getRecipeCard(id, name, description, src, tool, toolData) {
             hint = CLICK_TO_FAVORITE;
         }
         favoriteTool = '' +
-                '<div class="recipe_card_tools_wrapper recipe_card_tools_wrapper_top_right">' +
+                '<div class="recipe_card_tools_wrapper favorite_wrapper recipe_card_tools_wrapper_top_right">' +
                 '<i class="recipe_card_tools favorite_tool ' + favorited + ' fa fa-heart fa-fw"  title="' + hint + '" ' +
                 'onclick="event.stopPropagation(); toggleFavorite(this, ' + id + ')"></i>' +
                 '</div>';
