@@ -110,10 +110,9 @@ function saveProfile(userId = getUserID()) {
             },
             success: function (user) {
                 sessionStorage.removeItem("profilePhoto");
-                if(userId == getUserID()){
+                if (userId == getUserID()) {
                     getUserInfo(userId);
-                }
-                else {
+                } else {
                     populateUserCards();
                 }
                 hide('edit-profile');
@@ -238,9 +237,10 @@ function populateNotifications(params) {
     $('#noNoti').hide();
     var query = '/notification';
 
-    if (params) {
+    if (params['actiontype'] != null) {
         query = query + '?' + $.param(params);
     }
+
     $.ajax({
         url: query,
         type: "GET",
@@ -260,23 +260,25 @@ function populateNotifications(params) {
                 $('#noNoti').show();
             }
             notifications.forEach(function (noti) {
-                var recipeId = noti['recipeId'];
-                var favoriteIncluded = ['2', '5'];
-                if (noti['recipeOwnerId'] == getUserID() ||
-                        (noti['recipeOwnerId'] != getUserID() && favoriteIncluded.indexOf(recipeId) > 0)) {
-
+                var recipeName = noti['recipeName'];
+                var favoriteIncluded = ['delete', 'update'];
+                if (params['recipetype'] == "favorite" && favoriteIncluded.indexOf(recipeName) || params['recipetype'] != "favorite") {
                     var fileType = noti['recipeOwnerId'] == getUserID() ? 'Your Uploaded Recipe ' : 'Your Favorite Recipe ';
 
-                    var msg = fileType + '<b>' + noti['recipeName'] + '</b>' + noti['actionTypeMsg'] + '<b>' + noti['operatorName'] + '</b>';
-                    $(".msg-card").append($(getNotificationMsgs(noti['actionTypeName'], msg, recipeId)));
+                    var msg = fileType + '<b>' + recipeName + '</b>' + noti['actionTypeMsg'] + '<b>' + noti['operatorName'] + '</b>';
+
+                    $(".msg-card").append($(getNotificationMsgs(noti['actionTypeName'], msg, noti['recipeId'], noti['recipeIsDeleted'])));
                 }
             });
         }
     });
 }
 
-function getNotificationMsgs(type, msg, recipeId) {
+function getNotificationMsgs(type, msg, recipeId, isDeleted) {
     var href = "/pages/recipe_view.html?id=" + recipeId;
+
+    var link = isDeleted ? "" : '" onclick="location.href=\'' + href + '\'">';
+
     var labels = {};
     labels['rate'] = "fa-star";
     labels['update'] = "fa-pencil";
@@ -286,8 +288,7 @@ function getNotificationMsgs(type, msg, recipeId) {
     labels['delete'] = "fa-trash-o";
 
     return '<div class="w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow"' +
-            '" onclick="location.href=\'' + href + '\'">' +
-            '<p><i class="fa ' + labels[type] + ' fa-fw w3-margin-right">' +
+            link + '<p><i class="fa ' + labels[type] + ' fa-fw w3-margin-right">' +
             '</i>' + msg + '</p>' +
             '</div>';
 }
@@ -297,18 +298,15 @@ function getFeedback(feedback, name, email) {
 
     if (typeof name == 'undefined' && typeof email == 'undefined') {
         message = feedback;
-    }
-    else if (typeof name == 'undefined') {
+    } else if (typeof name == 'undefined') {
         message = email + ': ' + message;
-    }
-    else if (typeof email == 'undefined') {
+    } else if (typeof email == 'undefined') {
         message = name + ': ' + message;
-    }
-    else {
+    } else {
         message = name + ' (' + email + '): ' + message;
     }
     return '<div class="feedback_entries w3-padding-large w3-card-2 w3-white w3-round w3-margin w3-hover-shadow">' +
-        '<p>' + message + '</p>' + '</div>';
+            '<p>' + message + '</p>' + '</div>';
 }
 
 // open tab
