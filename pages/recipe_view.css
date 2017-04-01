@@ -84,3 +84,7 @@ h1 { font-size: 1.5em; margin: 10px; }
     display: inline-block;
     vertical-align: middle;
 }
+#ratings_holder {
+    max-height: 175px;
+    overflow-y: auto;
+}
