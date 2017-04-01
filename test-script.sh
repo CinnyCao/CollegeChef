@@ -7,6 +7,14 @@ curl -X "POST" "http://localhost:3000/login" \
   "password": "user"
 }'
 
+read -p $'\nLog in'
+curl -X "POST" "http://localhost:3000/login" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "userName": "admin",
+  "password": "admin"
+}'
+
 printf '\n'
 
 read -p $'\nLog in with missing inputs - will get 400'
@@ -36,14 +44,6 @@ curl -X "POST" "http://localhost:3000/user" \
   "password": "testUser1"
 }'
 
-read -p $'\nLog in' token
-curl -X "POST" "http://localhost:3000/login" \
-     -H "Content-Type: application/json; charset=utf-8" \
-     -d $'{
-  "userName": "testUser1",
-  "password": "testUser1"
-}'
-
 printf '\n'
 
 read -p $'\nCreate users with required input missing -- will get 400'
@@ -66,12 +66,12 @@ curl -X "POST" "http://localhost:3000/user" \
 printf '\n'
 
 read -p $'\nChange password'
-curl -X "PUT" "http://localhost:3000/user/2/password" \
+curl -X "PUT" "http://localhost:3000/user/0/password" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{
-  "userName": "testUser1",
-  "password": "testUser1",
+  "userName": "admin",
+  "password": "admin",
   "newPassword": "mypassword"
 }'
 
@@ -106,18 +106,6 @@ curl -X "GET" "http://localhost:3000/user/1" \
 
 printf '\n'
 
-read -p $'\nEdit current user profile'
-curl -X "PUT" "http://localhost:3000/user" \
-     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
-     -H "Content-Type: application/json; charset=utf-8" \
-     -d $'{
-  "email": "johnsmith@home.ca",
-  "description": "I am a professional chef.",
-  "profilePhoto": "/img/recipes/steak.jpg"
-}'
-
-printf '\n'
-
 read -p $'\nEdit given user profile'
 curl -X "PUT" "http://localhost:3000/user/1" \
      -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIwIiwiZXhwIjoxNTUyODQ1Nzg5NjM0fQ.DjnMuU5no8k8YBRttxmYnOksHbGPRkiWMqSwV7FZDAs"\
@@ -138,6 +126,42 @@ curl -X "GET" "http://localhost:3000/users" \
 printf '\n'
 
 read -p $'\nGet list of users without authorization -- will get 401'
+curl -X "GET" "http://localhost:3000/users" \
+     -H "Content-Type: application/json; charset=utf-8" 
+
+printf '\n--------------------------feedback tests-----------------------------------\n'
+
+read -p $'\nGet list of submitted feedback when there is no feedback -- will get 404'
+curl -X "GET" "http://localhost:3000/feedback" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIwIiwiZXhwIjoxNTUyODQ1Nzg5NjM0fQ.DjnMuU5no8k8YBRttxmYnOksHbGPRkiWMqSwV7FZDAs"\
+     -H "Content-Type: application/json; charset=utf-8" 
+
+printf '\n'
+
+read -p $'\nSubmit feedback'
+curl -X "POST" "http://localhost:3000/feedback" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{
+  "feedback": "Great site!"
+}'
+
+printf '\n'
+
+read -p $'\nSubmit feedback with required input missing -- will get 400'
+curl -X "POST" "http://localhost:3000/user" \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{}'
+
+printf '\n'
+
+read -p $'\nGet list of submitted feedback'
+curl -X "GET" "http://localhost:3000/feedback" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIwIiwiZXhwIjoxNTUyODQ1Nzg5NjM0fQ.DjnMuU5no8k8YBRttxmYnOksHbGPRkiWMqSwV7FZDAs"\
+     -H "Content-Type: application/json; charset=utf-8" 
+
+printf '\n'
+
+read -p $'\nGet list of submitted feedback without authorization -- will get 401'
 curl -X "GET" "http://localhost:3000/users" \
      -H "Content-Type: application/json; charset=utf-8" 
 
@@ -372,19 +396,27 @@ printf '\n---------------------------------favorite tests-----------------------
 
 #favorite tests
 read -p $'\nGet list of favorited recipes of user with id 0'
-curl "http://localhost:3000/recipes/favorite"
+curl "http://localhost:3000/recipes/favorite" \
 -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIwIiwiZXhwIjoxNTUyODQ1Nzg5NjM0fQ.DjnMuU5no8k8YBRttxmYnOksHbGPRkiWMqSwV7FZDAs"\
 
 printf '\n'
 
 read -p $'\nGet list of favorited recipes of user with id 1'
-curl "http://localhost:3000/recipes/favorite"
+curl "http://localhost:3000/recipes/favorite" \
 -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
 
 printf '\n'
 
 read -p $'\nGet list of favorited recipes without token - will get 401'
-curl "http://localhost:3000/recipes/favorite"
+curl "http://localhost:3000/recipes/favorite" \
+
+printf '\n'
+
+read -p $'\nUnfavorite recipe'
+curl -X "DELETE" "http://localhost:3000/recipe/0/favorite" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d $'{}'
 
 printf '\n'
 
@@ -398,14 +430,6 @@ printf '\n'
 
 read -p $'\nFavorite recipe without authorization -- will get 401'
 curl -X "POST" "http://localhost:3000/recipe/0/favorite" \
-     -H "Content-Type: application/json; charset=utf-8" \
-     -d $'{}'
-
-printf '\n'
-
-read -p $'\nUnfavorite recipe'
-curl -X "DELETE" "http://localhost:3000/recipe/9/favorite" \
-     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySUQiOiIxIiwiZXhwIjoxNTUyODQwOTg0Nzk4fQ.oxRn-qB7itdDP-W8zDpwlzfmwHlC8esVqTC1Q5xZOGk"\
      -H "Content-Type: application/json; charset=utf-8" \
      -d $'{}'
 

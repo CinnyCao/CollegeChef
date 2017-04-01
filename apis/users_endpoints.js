@@ -180,7 +180,6 @@ module.exports = function (app, sha1, generateToken, isDefined, logout, User) {
                 if (err) {
                     console.error(err);
                 }
-                console.log(result);
                 if (result)
                 {
                     return res.status(200).json({

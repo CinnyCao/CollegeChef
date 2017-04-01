@@ -14,11 +14,9 @@ module.exports = function (app, Feedback) {
             if (err) {
                 return console.error(err);
             }
-            res.json({
-                feedbackId: newFeedback._id,
-                feedback: newFeedback.feedback,
-                name: newFeedback.name,
-                email: newFeedback.email
+            return res.status(200).json({
+                status: 200,
+                message: newFeedback
             });
         });
     });

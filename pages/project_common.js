@@ -246,8 +246,13 @@ function loginHelper(params) {
             setUserType(response["isAdmin"]);
             setUser(JSON.stringify(response));
             hide('login-form');
-            updateNavMenuItems();
             $(window).trigger("loggedin");
+            
+            if (window.location.pathname == "/pages/home.html") {
+                updateNavMenuItems();
+            } else if (window.location.pathname == "/pages/recipe_browser.html") {
+                window.location.href = "/pages/recipe_browser.html";
+            }
         }
     });
 }
@@ -645,92 +650,6 @@ function checkUploadedRecipeEmpty() {
     }
 }
 
-function saveRecipe() {
-    $("#recipe_add_edit_submit").prop('disabled', true);
-    var recipeName = $('#recipe_name').val();
-    var categoryId = $('#category').find(":selected").val();
-    var description = $('#main_description').val();
-    var instruction = $('#instructions').val();
-    var numServings = $('#servings').val();
-    var imgUrl = sessionStorage.getItem('recipePhoto');
-    if (!imgUrl) {
-        imgUrl = "/img/icon.png";
-    }
-    var notes = $('#tips').val();
-
-    var ingredients = [];
-    $.each($('.oneIngredient'), function (i, ingredient) {
-        var ingredientId = $(ingredient).find('option:selected').val();
-        var quantity = $(ingredient).find('input').val();
-        ingredients.push({"id": ingredientId, "amount": quantity});
-    });
-    console.log(ingredients);
-
-    if (recipeName && categoryId && description && instruction && numServings && ingredients && imgUrl)
-    {
-        var params = {'recipeName': recipeName, 'categoryId': categoryId, 'description': description,
-            'instruction': instruction, 'numServings': numServings, 'ingredients': ingredients, 'imgUrl': imgUrl};
-
-        if (notes)
-        {
-            params['notes'] = notes;
-        }
-
-        $.ajax({
-            url: "/recipe",
-            type: "POST",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(params),
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " + getToken());
-            },
-            statusCode: {
-                400: function (response) {
-                    console.error(response);
-                },
-                401: function (response) {
-                    console.error(response);
-                },
-                413: function (response) {
-                    alert('File size is too large.');
-                }
-            },
-            success: function (response) {
-                hide('add-edit-recipe');
-                sessionStorage.removeItem('recipePhoto');
-                if (window.location.pathname == "/pages/home.html") {
-                    $("#uploaded_recipes").prepend(
-                            $(getRecipeCard(
-                                    response["recipeId"], response["recipeName"],
-                                    response["description"], response["imgUrl"],
-                                    RECIPE_CARD_EDITOR_TOOL)
-                                    )
-                            );
-                    checkUploadedRecipeEmpty();
-                    $("#new_recipes").prepend(
-                            $(getRecipeCard(
-                                    response["recipeId"], response["recipeName"],
-                                    response["description"], response["imgUrl"])
-                                    )
-                            );
-                } else if (window.location.pathname == "/pages/recipe_browser.html") {
-                    $(".recipe_cards_wrapper").prepend(
-                            $(getRecipeCard(
-                                    response["recipeId"], response["recipeName"], response["description"],
-                                    response["imgUrl"], RECIPE_CARD_BROWSER, response["uploaderName"])
-                                    )
-                            );
-                } else if (window.location.pathname.startsWith("/pages/recipe_view.html")) {
-                    window.location = "/pages/recipe_view.html?id=" + response["recipeId"];
-                } else {
-                    window.location.reload();
-                }
-            }
-        });
-    }
-}
-
 function listCategories() {
     $.ajax({
         url: '/categories',
@@ -845,6 +764,7 @@ function checkIngredientAmount() {
     }
 }
 
+// clear recipe form
 function resetRecipeForm() {
     $('#recipeCover').attr('src', "/img/icon.png");
     $('#recipe_name').val("");
@@ -855,6 +775,7 @@ function resetRecipeForm() {
     $('#tips').val("");
 }
 
+// connect to add recipe button
 function addRecipe() {
     // reset ingredientList
     ingredientList = [];
@@ -869,8 +790,9 @@ function addRecipe() {
     $("#recipe_add_edit_submit").prop('disabled', false);
 }
 
-// get recipe by id
+// connect edit recipe button
 function editRecipe(recipeId) {
+    sessionStorage.setItem('currentRecipeId', recipeId);
     // fill the edit form first
     var url = '/recipe/' + recipeId;
     $.ajax({
@@ -906,10 +828,6 @@ function editRecipe(recipeId) {
                 for (var i = 0; i < ingredients.length; i++) {
                     var ingredient = ingredients[i];
                     addIngredient(ingredient['ingredientId'], ingredient['amount']);
-
-                    // console.log(current);
-                    // $(current).find('select').val(ingredient['ingredientId'])
-                    // $(current).find('input').val(ingredient['amount']);
                 }
 
                 show('add-edit-recipe');
@@ -925,6 +843,144 @@ function editRecipe(recipeId) {
     });
 }
 
+function updateCurrentPageContent(response){
+    if (window.location.pathname == "/pages/home.html") {
+        $("#uploaded_recipes").prepend(
+                $(getRecipeCard(
+                        response["recipeId"], response["recipeName"],
+                        response["description"], response["imgUrl"],
+                        RECIPE_CARD_EDITOR_TOOL)
+                        )
+                );
+        checkUploadedRecipeEmpty();
+        $("#new_recipes").prepend(
+                $(getRecipeCard(
+                        response["recipeId"], response["recipeName"],
+                        response["description"], response["imgUrl"])
+                        )
+                );
+    } else if (window.location.pathname == "/pages/recipe_browser.html") {
+        $(".recipe_cards_wrapper").prepend(
+                $(getRecipeCard(
+                        response["recipeId"], response["recipeName"], response["description"],
+                        response["imgUrl"], RECIPE_CARD_BROWSER, response["uploaderName"])
+                        )
+                );
+    } else if (window.location.pathname.startsWith("/pages/recipe_view.html")) {
+        window.location = "/pages/recipe_view.html?id=" + response["recipeId"];
+    } else {
+        window.location.reload();
+    }
+}
+
+// create a new recipe
+function createRecipe(params) {
+    $.ajax({
+            url: "/recipe",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(params),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+            },
+            statusCode: {
+                400: function (response) {
+                    console.error(response);
+                },
+                401: function (response) {
+                    console.error(response);
+                },
+                413: function (response) {
+                    alert('File size is too large.');
+                }
+            },
+            success: function (response) {
+                hide('add-edit-recipe');
+                sessionStorage.removeItem('recipePhoto');
+                updateCurrentPageContent(response);
+            }
+        });
+        
+}
+
+// update an existing recipe
+function updateRecipe(recipeId, params) {
+    var url = '/recipe/' + recipeId;
+
+    $.ajax({
+        url: url,
+        type: "PUT",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(params),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + getToken());
+        },
+        statusCode: {
+            400: function (response) {
+                console.error(response);
+            },
+            401: function (response) {
+                console.error(response);
+            },
+            404: function (response) {
+                console.error(response);
+            },
+            413: function (response) {
+                alert('File size is too large.');
+            }
+        },
+        success: function (response) {
+            hide('add-edit-recipe');
+            sessionStorage.removeItem('recipePhoto');
+            updateCurrentPageContent(response);
+        }
+    });
+}
+
+// update or add recipe
+function updateOrAddRecipe(){
+    $("#recipe_add_edit_submit").prop('disabled', true);
+    var recipeName = $('#recipe_name').val();
+    var categoryId = $('#category').find(":selected").val();
+    var description = $('#main_description').val();
+    var instruction = $('#instructions').val();
+    var numServings = $('#servings').val();
+    var imgUrl = sessionStorage.getItem('recipePhoto');
+    if (!imgUrl) {
+        imgUrl = "/img/icon.png";
+    }
+    var notes = $('#tips').val();
+
+    var ingredients = [];
+    $.each($('.oneIngredient'), function (i, ingredient) {
+        var ingredientId = $(ingredient).find('option:selected').val();
+        var quantity = $(ingredient).find('input').val();
+        ingredients.push({"id": ingredientId, "amount": quantity});
+    });
+
+    if (recipeName && categoryId && description && instruction && numServings && ingredients && imgUrl)
+    {
+        var params = {'recipeName': recipeName, 'categoryId': categoryId, 'description': description,
+            'instruction': instruction, 'numServings': numServings, 'ingredients': ingredients, 'imgUrl': imgUrl};
+
+        if (notes)
+        {
+            params['notes'] = notes;
+        }
+        
+        var recipeId = sessionStorage.getItem('currentRecipeId');
+        if (recipeId == null) {
+            // add a recipe
+            createRecipe(params);
+        } else {
+            sessionStorage.removeItem('currentRecipeId');
+            // update a recip
+            updateRecipe(recipeId, params);
+        }   
+    }
+}
 
 // check whether password matches
 function checkPasswordMatch() {

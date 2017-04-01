@@ -20,7 +20,7 @@ h1 { font-size: 1.5em; margin: 10px; }
 
 /* Comment styling */
 .comment_card_wrapper {
-    max-height: 230px;
+    max-height: 280px;
     overflow-y: auto;
 }
 .commentTitle {

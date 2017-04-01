@@ -90,8 +90,6 @@ function saveProfile(userId = getUserID()) {
     if (description && description != $('#description').html) {
         params['description'] = description;
     }
-    console.log(url);
-    console.log(params);
     if ($('#editProfile-content')[0].checkValidity()) {
         $.ajax({
             url: url,
@@ -343,7 +341,6 @@ function deleteUser(id) {
     var confirmed = deleteConfirm("user");
     if (confirmed) {
         var url = '/user/' + id;
-        console.log(url);
         $.ajax({
             url: url,
             type: "DELETE",
