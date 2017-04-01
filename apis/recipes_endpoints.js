@@ -257,18 +257,25 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
             Recipe.findOne({_id: parseInt(req.params.recipeId)}, function (err, resultRecipe) {
                 if (err)
                     return console.error(err);
-                // check if current user if the owner of the recipe; if not, no permission to delete
-                // Admin can delete andy recipe
-                if (req.isAdmin || req.userID == resultRecipe.personId) {
-                    resultRecipe.update({isDeleted: true}, function (err) {
-                        if (err)
-                            return console.error(err);
-                        return res.status(200).json({});
-                    });
+                if (resultRecipe) {
+                    // check if current user if the owner of the recipe; if not, no permission to delete
+                    // Admin can delete andy recipe
+                    if (req.isAdmin || req.userID == resultRecipe.personId) {
+                        resultRecipe.update({isDeleted: true}, function (err) {
+                            if (err)
+                                return console.error(err);
+                            return res.status(200).json({});
+                        });
+                    } else {
+                        return res.status(403).json({
+                            status: 403,
+                            message: "DELETE RECIPE FAILURE: Forbidden (only Admin or recipe owner can delete this recipe)"
+                        });
+                    }
                 } else {
-                    return res.status(403).json({
-                        status: 403,
-                        message: "DELETE RECIPE FAILURE: Forbidden (only Admin or recipe owner can delete this recipe)"
+                    return res.status(404).json({
+                        status: 404,
+                        message: "DELETE RECIPE FAILURE: Not Found (recipe to delete not found)"
                     });
                 }
             });
