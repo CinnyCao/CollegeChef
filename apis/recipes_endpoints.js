@@ -1,4 +1,4 @@
-module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
+module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate, ActionHistory) {
     // get all recipes
     app.get('/recipes', function (req, res) {
         var filter = [];
@@ -264,7 +264,22 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
                         resultRecipe.update({isDeleted: true}, function (err) {
                             if (err)
                                 return console.error(err);
-                            return res.status(200).json({});
+                            ActionType.findOne({typeName: "delete"}, function (err, type) {
+                                if (err)
+                                    return console.error(err);
+
+                                var notification = new ActionHistory({
+                                    recipeOwnerId: resultRecipe.personId,
+                                    operatorId: req.userID,
+                                    recipeId: parseInt(req.params.recipeId),
+                                    typeNumber: type._id
+                                });
+                                notification.save(function (err) {
+                                    if (err)
+                                        return console.error(err);
+                                    return res.status(200).json({});
+                                });
+                            });
                         });
                     } else {
                         return res.status(403).json({
@@ -349,7 +364,22 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
                                         if (err) {
                                             return console.error(err);
                                         }
-                                        getRecipeDetail(req, res, parseInt(req.params.recipeId));
+                                        ActionType.findOne({typeName: "update"}, function (err, type) {
+                                            if (err)
+                                                return console.error(err);
+
+                                            var notification = new ActionHistory({
+                                                recipeOwnerId: updatedRecipe.personId,
+                                                operatorId: req.userID,
+                                                recipeId: parseInt(req.params.recipeId),
+                                                typeNumber: type._id
+                                            });
+                                            notification.save(function (err) {
+                                                if (err)
+                                                    return console.error(err);
+                                                getRecipeDetail(req, res, parseInt(req.params.recipeId));
+                                            });
+                                        });
                                     });
                                 });
                             } else {
@@ -359,7 +389,22 @@ module.exports = function (app, isDefined, Recipe, IngredientToRecipe, Rate) {
                                 });
                             }
                         } else {
-                            getRecipeDetail(req, res, parseInt(req.params.recipeId));
+                            ActionType.findOne({typeName: "update"}, function (err, type) {
+                                if (err)
+                                    return console.error(err);
+
+                                var notification = new ActionHistory({
+                                    recipeOwnerId: updatedRecipe.personId,
+                                    operatorId: req.userID,
+                                    recipeId: parseInt(req.params.recipeId),
+                                    typeNumber: type._id
+                                });
+                                notification.save(function (err) {
+                                    if (err)
+                                        return console.error(err);
+                                    getRecipeDetail(req, res, parseInt(req.params.recipeId));
+                                });
+                            });
                         }
                     } else {
                         return res.status(404).json({
