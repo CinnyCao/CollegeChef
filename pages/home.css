@@ -1,3 +1,23 @@
+.home_card {
+    height: calc(100vh - 140px);
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+@media screen and (max-width: 480px) {
+
+    .ingredient_buttons_wrapper {
+        height: 115px!important;
+    }
+    .home_card {
+        height: 60vh;
+        overflow-y: auto;
+        margin-bottom: 10px;
+    }
+    .recipe_list_content {
+        max-height: 270px;
+    }
+}
+
 /* Ingredient search styles */
 
 .ingredient_search_hint {

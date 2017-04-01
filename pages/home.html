@@ -23,10 +23,10 @@
 
         <!--Page Content-->
         <div class="content">
-            <div class="w3-row-padding w3-row">
+            <div class="section_card w3-row-padding w3-row">
                 <!--search by ingredient section-->
                 <div class="left_col w3-quarter">
-                    <div class="section_card w3-white w3-card-2">
+                    <div class="home_card home_card_ingredient w3-card-4 w3-padding w3-white">
                         <p class="ingredient_search_hint">Search recipes by ingredients you have:</p>
                         <div class="ingredient_search_wrapper">
                             <input class="ingredient_search" type="text" placeholder="Filter ingredients..." id="ingredient_search_input" onkeyup="filterIngredients()">
@@ -52,7 +52,7 @@
                 </div>
                 <!--dashboard-->
                 <div class="right_col w3-threequarter">
-                    <div class="section_card w3-white w3-card-2">
+                    <div class="home_card home_card_recipe w3-card-4 w3-padding w3-white">
                         <div class="recipe_list search_result_list w3-accordion">
                             <button class="recipe_list_header" onclick="toggleRecipeListContent('result_recipes')"><i class="fa fa-search"></i>  Search Result</button>
                             <span class="search_result_list_close" onclick="closeSearchResultList()"><i class="fa fa-times"></i></span>
