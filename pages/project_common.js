@@ -786,13 +786,15 @@ function addRecipe() {
     $(".eachIngredient").empty();
     addIngredient();
 
+    // reset recipeId to -1
+    $("#saveRecipe-content").attr("data-recipeId", "-1");
+
     show('add-edit-recipe');
     $("#recipe_add_edit_submit").prop('disabled', false);
 }
 
 // connect edit recipe button
 function editRecipe(recipeId) {
-    sessionStorage.setItem('currentRecipeId', recipeId);
     // fill the edit form first
     var url = '/recipe/' + recipeId;
     $.ajax({
@@ -829,6 +831,9 @@ function editRecipe(recipeId) {
                     var ingredient = ingredients[i];
                     addIngredient(ingredient['ingredientId'], ingredient['amount']);
                 }
+
+                // set recipeId to form for submit use
+                $("#saveRecipe-content").attr("data-recipeId", "" + recipeId);
 
                 show('add-edit-recipe');
                 $("#recipe_add_edit_submit").prop('disabled', false);
@@ -972,14 +977,13 @@ function updateOrAddRecipe(){
             params['notes'] = notes;
         }
         
-        var recipeId = sessionStorage.getItem('currentRecipeId');
-        if (recipeId == null) {
+        var recipeId = $("#saveRecipe-content").attr("data-recipeId");
+        if (recipeId == "-1") {
             // add a recipe
             createRecipe(params);
         } else {
-            sessionStorage.removeItem('currentRecipeId');
             // update a recip
-            updateRecipe(recipeId, params);
+            updateRecipe(parseInt(recipeId), params);
         }   
     }
 }
