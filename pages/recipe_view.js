@@ -50,8 +50,6 @@ function fetchRecipeDetail() {
                     success: function (favoriteResponse) {
                         recipeResponse["isFavorited"] = favoriteResponse["isFavorited"];
                         loadRecipeDetail(recipeResponse);
-                        getAllTextComments();
-                        getAllImgComments();
                     },
                     error: function (request, status, error) {
                         alert(request.responseText);
@@ -105,6 +103,9 @@ function loadRecipeDetail(recipeResponse) {
 
     // hide favorite button
     $(".favorite_wrapper").toggle(getUserType() !== null);
+    // fetch comments
+    getAllTextComments();
+    getAllImgComments();
 };
 
 function getIngredientLiElement(ingredientName, ingredientImg, ingredientAmount) {
