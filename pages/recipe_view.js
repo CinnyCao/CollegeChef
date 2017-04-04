@@ -67,7 +67,6 @@ var recipeDataCache;
 
 function loadRecipeDetail(recipeResponse) {
     recipeDataCache = recipeResponse;
-    sessionStorage.setItem('currentRecipeId', recipeResponse["recipeId"]);
     // recipe card
     $("#recipe_card_holder").append($(
         getRecipeCard(recipeResponse["recipeId"], recipeResponse["recipeName"], recipeResponse["description"], recipeResponse["imgUrl"],
@@ -120,7 +119,7 @@ function getIngredientLiElement(ingredientName, ingredientImg, ingredientAmount)
 // get all comments
 function getAllTextComments() {
     $(".post_feed").html('');
-    var recipeId = sessionStorage.getItem('currentRecipeId');
+    var recipeId = getUrlParameter("id");
     var url = '/recipe/' + recipeId + '/comments/text';
 
     $.ajax({
@@ -163,7 +162,7 @@ function populateComments(avatar, userName, createdDate, message) {
 }
 
 function postComment() {
-    var recipeId = sessionStorage.getItem('currentRecipeId');
+    var recipeId = getUrlParameter("id");
     var url = '/recipe/' + recipeId + '/comments';
     var params = {'message': $('#postMsg').val(), "isImage": false};
     $.ajax({
@@ -249,7 +248,7 @@ function populateImageCommandsCard(url, userName, createdDate) {
 
 function getAllImgComments() {
     $(".imgComments").html('');
-    var recipeId = sessionStorage.getItem('currentRecipeId');
+    var recipeId = getUrlParameter("id");
     var url = '/recipe/' + recipeId + '/comments/image';
 
     $.ajax({
@@ -284,7 +283,7 @@ function postImageComment(input) {
         var reader = new FileReader();
 
         reader.onload = function (e) {
-            var recipeId = sessionStorage.getItem('currentRecipeId');
+            var recipeId = getUrlParameter("id");
             var url = '/recipe/' + recipeId + '/comments';
             var params = {'message': e.target.result, "isImage": true};
             $.ajax({
