@@ -206,8 +206,9 @@ function viewPrevImage() {
     var prev = null;
     var curr = null;
     var images = $(".image_comment");
+    console.log(images);
     for (var i=0; i<images.length; i++) {
-        if (($('#expandImg').attr("src") == NO_MORE_IMG && $('#imdPoster').text() == NO_MORE_LEFT_MSG)
+        if (($('#expandImg').attr("src") == NO_MORE_IMG && $('#imdPoster').text() === NO_MORE_LEFT_MSG)
             || $(images[i]).attr("src") == $('#expandImg').attr("src")) {
             curr = images[i];
             break;
@@ -225,8 +226,9 @@ function viewNextImage() {
     var next = null;
     var curr = null;
     var images = $(".imgComments .image_comment");
+    console.log(images);
     for (var i=images.length-1; i>=0; i--) {
-        if (($('#expandImg').attr("src") == NO_MORE_IMG && $('#imdPoster').text() == NO_MORE_RIGHT_MSG)
+        if (($('#expandImg').attr("src") == NO_MORE_IMG && $('#imdPoster').text() === NO_MORE_RIGHT_MSG)
             || $(images[i]).attr("src") == $('#expandImg').attr("src")) {
             curr = images[i];
             break;
