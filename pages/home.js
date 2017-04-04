@@ -62,9 +62,9 @@ $(function () {
 
 function updateSearchHintMsg(value) {
     if (value == "powerset") {
-        $("#search_hint").text("can be made from");
+        $("#search_hint").text("can be made of");
     } else if (value == 'include') {
-        $("#search_hint").text("require all");
+        $("#search_hint").text("contain");
     } else if (value == 'equal') {
         $("#search_hint").text("are exactly made of");
     } else if (value == 'exclude') {
