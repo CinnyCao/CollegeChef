@@ -185,7 +185,7 @@ function postComment() {
 }
 
 function viewImage(current) {
-    $('#expandImg').attr("src", current.src);
+    $('#expandImg').attr("src", $(current).attr("src"));
     $("#expandImgModal").css("display", "block");
     $('#imdPoster').text($(current).attr("data-username"));
     $('#imgCreatedDate').text($(current).attr("data-date"));
@@ -208,8 +208,8 @@ function viewPrevImage() {
     var images = $(".image_comment");
     console.log(images);
     for (var i=0; i<images.length; i++) {
-        if (($('#expandImg').attr("src") == NO_MORE_IMG && $('#imdPoster').text() === NO_MORE_LEFT_MSG)
-            || $(images[i]).attr("src") == $('#expandImg').attr("src")) {
+        if (($('#expandImg').attr("src") === NO_MORE_IMG && $('#imdPoster').text() === NO_MORE_LEFT_MSG)
+            || $(images[i]).attr("src") === $('#expandImg').attr("src")) {
             curr = images[i];
             break;
         }
@@ -228,8 +228,8 @@ function viewNextImage() {
     var images = $(".imgComments .image_comment");
     console.log(images);
     for (var i=images.length-1; i>=0; i--) {
-        if (($('#expandImg').attr("src") == NO_MORE_IMG && $('#imdPoster').text() === NO_MORE_RIGHT_MSG)
-            || $(images[i]).attr("src") == $('#expandImg').attr("src")) {
+        if (($('#expandImg').attr("src") === NO_MORE_IMG && $('#imdPoster').text() === NO_MORE_RIGHT_MSG)
+            || $(images[i]).attr("src") === $('#expandImg').attr("src")) {
             curr = images[i];
             break;
         }
