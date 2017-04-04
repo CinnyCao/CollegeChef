@@ -37,10 +37,15 @@ $(function () {
         showRecipeListContent('favorite_recipes');
     });
 
+    updateSearchHintMsg($('input[name=ingredient_search_type]:checked').val());
     $('input[type=radio][name=ingredient_search_type]').change(function() {
         updateSearchHintMsg(this.value);
     });
 
+    $("#type_word_powerset").on("click", function () {
+        $("input[name=ingredient_search_type][value=powerset]").prop("checked", true );
+        updateSearchHintMsg("powerset");
+    });
     $("#type_word_include").on("click", function () {
         $("input[name=ingredient_search_type][value=include]").prop("checked", true );
         updateSearchHintMsg("include");
@@ -56,10 +61,12 @@ $(function () {
 });
 
 function updateSearchHintMsg(value) {
-    if (value == 'include') {
-        $("#search_hint").text("contains");
+    if (value == "powerset") {
+        $("#search_hint").text("can be made from");
+    } else if (value == 'include') {
+        $("#search_hint").text("require all");
     } else if (value == 'equal') {
-        $("#search_hint").text("is made of exactly");
+        $("#search_hint").text("are exactly made of");
     } else if (value == 'exclude') {
         $("#search_hint").text("do not contain");
     }

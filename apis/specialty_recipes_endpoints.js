@@ -15,7 +15,7 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
             });
         }
         // check if input query are valid
-        var validValues = ["include", "equal", "exclude"];
+        var validValues = ["powerset", "include", "equal", "exclude"];
         var valueValid = true;
         if (validValues.indexOf(req.query.searchtype) < 0) {
             valueValid = false;
@@ -32,9 +32,14 @@ module.exports = function (app, Recipe, IngredientToRecipe, Ingredient, Rate, Fa
         if (req.query.searchtype == "equal") {
             equalCheck = {"$match": {"ingredientCount": {"$eq": numOfIngredients}}};
         }
+        // ingredient id filter for "equal" and "include"
         var findContainsIngredients = {"$setIsSubset": [req.body.ingredients, "$ingredientIdSet"]};
         if (req.query.searchtype == "exclude") {
+            // ingredient id filter for "exclude"
             findContainsIngredients = {"$not": findContainsIngredients};
+        } else if (req.query.searchtype == "powerset") {
+            // ingredient id filter for "powerset"
+            findContainsIngredients = {"$setIsSubset": ["$ingredientIdSet", req.body.ingredients]};
         }
         IngredientToRecipe.aggregate(
             [
